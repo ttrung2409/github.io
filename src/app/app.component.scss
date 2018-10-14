@@ -1,0 +1,20 @@
+.container {
+  height: 100%;
+  .sidebar {
+    background-color: whitesmoke;
+  }
+
+  .content {
+    padding: 8px;  
+  }
+
+  .sidebar {
+    .item {
+      height: 50px;
+    }
+
+    .icon {
+      font-size: 30px;
+    }
+  }
+}
