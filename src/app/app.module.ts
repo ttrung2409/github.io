@@ -3,18 +3,20 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { SuiModule } from 'ng2-semantic-ui';
 import { appRoutes } from './app.routing'
-import { RouterModule, PreloadAllModules } from '@angular/router'
+import { RouterModule, PreloadAllModules } from '@angular/router';
+import { WidgetModule } from './widgets/widget.module'
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,    
   ],
   imports: [
     RouterModule.forRoot(appRoutes, {      
       preloadingStrategy: PreloadAllModules
     }),
     BrowserModule,
-    SuiModule    
+    SuiModule,
+    WidgetModule
   ],
   providers: [],
   bootstrap: [AppComponent]

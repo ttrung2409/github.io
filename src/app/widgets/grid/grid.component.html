@@ -1,0 +1,14 @@
+<div>
+  <table class="ui selectable celled table">
+    <thead>
+      <tr>
+        <th *ngFor="let column of columns">{{column.caption}}</th>        
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of dataSource" (click)="onRowClick(row)">
+        <td *ngFor="let column of columns" [innerHtml]="column.format(row[column.field])"></td>
+      </tr>      
+    </tbody>
+  </table>
+</div>

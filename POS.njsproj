@@ -24,6 +24,12 @@
     <Content Include="angular.json" />
     <Content Include="package-lock.json" />
     <Content Include="package.json" />
+    <Content Include="src\app\product\components\product-list\product-list.component.html" />
+    <Content Include="src\app\product\components\product-list\product-list.component.scss" />
+    <Content Include="src\app\widgets\flyout\flyout.component.html" />
+    <Content Include="src\app\widgets\flyout\flyout.component.scss" />
+    <Content Include="src\app\widgets\grid\grid.component.html" />
+    <Content Include="src\app\widgets\grid\grid.component.scss" />
     <Content Include="src\app\product\components\product\product.component.scss" />
     <Content Include="src\app\product\components\product\product.component.html" />
     <Content Include="tsconfig.json" />
@@ -36,6 +42,12 @@
     <Content Include="src\tsconfig.app.json" />
     <Content Include="src\tsconfig.spec.json" />
     <Content Include="src\tslint.json" />
+    <TypeScriptCompile Include="src\app\models\product.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\app\product\components\product-list\product-list.component.ts" />
+    <TypeScriptCompile Include="src\app\widgets\flyout\flyout.component.ts" />
+    <TypeScriptCompile Include="src\app\widgets\grid\grid.component.ts" />
     <TypeScriptCompile Include="src\app\product\components\product\product.component.ts" />
     <TypeScriptCompile Include="src\app\product\product.module.ts" />
     <TypeScriptCompile Include="src\app\app.routing.ts">
@@ -44,6 +56,10 @@
     <TypeScriptCompile Include="src\app\product\product.routing.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="src\app\services\productService.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\app\widgets\widget.module.ts" />
     <TypeScriptCompile Include="src\main.ts" />
     <TypeScriptCompile Include="src\polyfills.ts" />
     <TypeScriptCompile Include="src\test.ts" />
@@ -51,7 +67,6 @@
     <TypeScriptCompile Include="e2e\src\app.po.ts" />
     <Content Include="src\app\app.component.html" />
     <Content Include="src\app\app.component.scss" />
-    <TypeScriptCompile Include="src\app\app.component.spec.ts" />
     <TypeScriptCompile Include="src\app\app.component.ts" />
     <TypeScriptCompile Include="src\app\app.module.ts" />
     <TypeScriptCompile Include="src\environments\environment.prod.ts" />
@@ -62,6 +77,12 @@
     <Folder Include="e2e\src" />
     <Folder Include="src" />
     <Folder Include="src\app" />
+    <Folder Include="src\app\models\" />
+    <Folder Include="src\app\product\components\product-list\" />
+    <Folder Include="src\app\widgets\" />
+    <Folder Include="src\app\widgets\flyout\" />
+    <Folder Include="src\app\widgets\grid\" />
+    <Folder Include="src\app\services\" />
     <Folder Include="src\app\product\" />
     <Folder Include="src\app\product\components\" />
     <Folder Include="src\app\product\components\product\" />
