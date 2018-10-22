@@ -52,8 +52,7 @@ export class ProductListComponent implements OnInit {
     });    
   }
 
-  onRowClick(row) {
-    debugger;
+  onRowClick(row) {    
     this.flyout.show();
   }
 }

@@ -1,6 +1,5 @@
 <div>
-  <div class="ui sidebar overlay menu" style="z-index: 100"
-       [class.visible]="visible"
+  <div class="ui vertical sidebar menu"       
        [class.top]="direction == 'top'"
        [class.right]="direction == 'right'"
        [class.bottom]="direction == 'bottom'"
@@ -8,9 +7,6 @@
        [class.very]="size == 'very thin' || size == 'very wide'"
        [class.thin]="size == 'thin' || size =='very thin'"
        [class.wide]="size == 'wide' || size == 'very wide'">
-    <ng-content select="flyout-content"></ng-content>
-  </div>
-  <div class="pusher">
-    <ng-content select="flyout-pusher"></ng-content>
+    <ng-content></ng-content>
   </div>
 </div>

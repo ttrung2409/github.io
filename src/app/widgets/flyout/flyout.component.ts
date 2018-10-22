@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 declare var $: any;
 
 @Component({
@@ -6,21 +6,33 @@ declare var $: any;
   templateUrl: './flyout.component.html',
   styleUrls: ['./flyout.component.scss']
 })
-export class FlyoutComponent implements OnInit {
+export class FlyoutComponent implements OnInit, AfterViewInit {
   constructor(private el: ElementRef) { }
 
   @Input() direction?: string = 'right';
-  @Input() size?: string = 'very wide';
-  visible: boolean;  
+  @Input() size?: string = 'very wide';  
 
   ngOnInit() {
   }
 
+  ngAfterViewInit() {
+    $(this.el.nativeElement).find('.ui.sidebar').sidebar({
+      context: $('#app'),
+      transition: 'overlay',
+      onVisible: function () {
+        $('.pusher').addClass('dimmed');
+      },
+      onHide: function () {
+        $('.pusher').removeClass('dimmed');
+      }
+    });
+  }
+
   show() {
-    $(this.el.nativeElement).find('.ui.sidebar').sidebar('show');
+    $('#app').find('.ui.sidebar.right').sidebar('show');    
   }
 
   hide() {
-    $(this.el.nativeElement).find('.ui.sidebar').sidebar('hide');
+    $('#app').find('.ui.sidebar.right').sidebar('hide');   
   }
 }

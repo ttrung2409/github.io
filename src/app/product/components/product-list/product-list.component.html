@@ -1,10 +1,6 @@
-<div>  
+<div>
+  <grid [columns]="columns" [dataSource]="products" (rowClick)="onRowClick()"></grid>
   <flyout>
-    <flyout-content>
-      Test
-    </flyout-content>
-    <flyout-pusher>
-      <grid [columns]="columns" [dataSource]="products" (rowClick)="onRowClick"></grid>
-    </flyout-pusher>
+    <product></product>      
   </flyout>
 </div>

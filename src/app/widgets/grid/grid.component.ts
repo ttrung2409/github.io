@@ -31,6 +31,5 @@ export class GridColumn {
   public caption: string;
   public field: string;
   public width: string;
-  public format: Function;
-  public onRowClick: Function;
+  public format: Function;  
 }
