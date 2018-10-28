@@ -1,12 +1,47 @@
-<div>
-  <div class="ui form">
-    <div class="field inline">
-      <label>Mã SP</label>
-      <input type="text" />
-    </div>
-    <div class="field inline">
-      <label>Tên SP</label>
-      <input type="text" />
-    </div>
+<div class="ui grid">
+  <div class="sixteen wide column">
+    <mat-form-field>
+      <input matInput placeholder="Mã SP" [(ngModel)]="product.no">
+    </mat-form-field>
   </div>
-</div>
+  <div class="sixteen wide column">
+    <mat-form-field>
+      <input matInput placeholder="Tên SP" [(ngModel)]="product.name">
+    </mat-form-field>
+  </div>  
+  <div class="eight wide column">
+    <dropdown [(model)]="product.categoryId"
+              [options]="categories"
+              [label]="'Loại'"
+              [valueMember]="'id'"
+              [displayMember]="'name'"></dropdown>
+  </div>
+  <div class="eight wide column">
+    <dropdown [options]="uoms" [label]="'ĐVT'" [(model)]="product.uom"></dropdown>
+  </div>
+  <div class="sixteen wide column">
+    <mat-form-field>
+      <input matInput placeholder="Giá nhập" [(ngModel)]="product.cost">
+    </mat-form-field>
+  </div>
+  <div class="eight wide column">
+    <mat-form-field>
+      <input matInput placeholder="Giá lẻ" [(ngModel)]="product.retailPrice">
+    </mat-form-field>
+  </div>
+  <div class="eight wide column">
+    <mat-form-field>
+      <input matInput placeholder="Giá sỉ" [(ngModel)]="product.wholeSalePrice">
+    </mat-form-field>
+  </div>
+  <div class="eight wide column">
+    <mat-form-field>
+      <input matInput placeholder="Giá khuyến mãi" [(ngModel)]="product.discountPrice">
+    </mat-form-field>
+  </div>
+  <div class="eight wide column">
+    <mat-form-field>
+      <input matInput placeholder="Giá khuyến mãi" [(ngModel)]="product.discountPrice">
+    </mat-form-field>
+  </div>
+</div>  

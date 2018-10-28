@@ -6,14 +6,19 @@ import { RouterModule } from '@angular/router';
 import { ProductListComponent } from './components/product-list/product-list.component'
 import ProductService from '../services/productService';
 import { WidgetModule } from '../widgets/widget.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    WidgetModule
+    WidgetModule,
+    FormsModule
   ],
-  declarations: [ProductComponent, ProductListComponent],
+  declarations: [
+    ProductComponent,
+    ProductListComponent
+  ],
   providers: [ProductService],
   schemas: [NO_ERRORS_SCHEMA]
 })

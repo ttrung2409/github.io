@@ -1,6 +1,8 @@
 import Product from "../models/product";
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
+import { map } from 'rxjs/operators'
+import Category from "../models/category";
 
 @Injectable()
 export default class ProductService {
@@ -10,13 +12,13 @@ export default class ProductService {
         id: 1,
         no: '100001',
         name: 'Giấy bạc Diamond ngắn',
-        retailPrice: 27000      
+        retailPrice: 27000
       }),
       new Product({
         id: 2,
         no: '100002',
         name: 'Giấy bạc Diamond dài',
-        retailPrice: 43000 
+        retailPrice: 43000
       }),
       new Product({
         id: 3,
@@ -66,6 +68,34 @@ export default class ProductService {
         name: 'Bánh Gerber phô mai 42g',
         retailPrice: 60000
       }),
+    ]);
+  }
+
+  getProduct(id: number): Observable<Product> {
+    return this.getProducts().pipe(map(products => products.find(x => x.id == id)));
+  }
+
+  getCategories(): Observable<Category[]> {
+    return of([
+      new Category({
+      id: 1,
+      name: 'Bánh kẹo'
+    }),
+    new Category({
+      id: 2,
+      name: 'Cafe'
+    }),
+    new Category({
+      id: 3,
+      name: 'Sữa bột'
+    })]);
+  }
+
+  getUOMs(): Observable<string[]> {
+    return of([
+      'Bịch',
+      'Thùng',      
+      'Cái',      
     ]);
   }
 }

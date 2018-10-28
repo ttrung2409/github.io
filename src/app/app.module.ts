@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { SuiModule } from 'ng2-semantic-ui';
-import { appRoutes } from './app.routing'
+import { appRoutes } from './app.routing';
 import { RouterModule, PreloadAllModules } from '@angular/router';
 import { WidgetModule } from './widgets/widget.module'
 
@@ -15,8 +15,8 @@ import { WidgetModule } from './widgets/widget.module'
       preloadingStrategy: PreloadAllModules
     }),
     BrowserModule,
-    SuiModule,
-    WidgetModule
+    BrowserAnimationsModule,
+    WidgetModule    
   ],
   providers: [],
   bootstrap: [AppComponent]

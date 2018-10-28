@@ -1,14 +1,12 @@
 <div>
-  <table class="ui selectable celled table">
-    <thead>
-      <tr>
-        <th *ngFor="let column of columns">{{column.caption}}</th>        
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let row of dataSource" (click)="onRowClick(row)">
-        <td *ngFor="let column of columns" [innerHtml]="column.format(row[column.field])"></td>
-      </tr>      
-    </tbody>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z1">
+    <ng-container *ngFor="let column of columns" [matColumnDef]="column.field">
+      <th mat-header-cell *matHeaderCellDef> {{column.caption}} </th>
+      <td mat-cell *matCellDef="let row"> {{column.format(row[column.field])}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row)"></tr>
   </table>
 </div>
+

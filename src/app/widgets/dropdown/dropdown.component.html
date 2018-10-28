@@ -1,0 +1,9 @@
+<div class="dropdown-container">
+  <mat-form-field>
+    <mat-label>{{label}}</mat-label>
+    <select matNativeControl class="ui fluid search selection dropdown" [(ngModel)]="model">
+      <option value=""></option>
+      <option *ngFor="let option of bindingOptions" [value]="option[valueMember]">{{option[displayMember]}}</option>
+    </select>
+  </mat-form-field>
+</div>

@@ -15,6 +15,8 @@ export class ProductListComponent implements OnInit {
 
   columns: GridColumn[];
   products: Product[];
+  selectedProduct: Product = new Product();
+  search: any = {};
 
   @ViewChild(FlyoutComponent)
   private flyout: FlyoutComponent;
@@ -32,6 +34,10 @@ export class ProductListComponent implements OnInit {
       new GridColumn({
         caption: 'ĐVT',
         field: 'uom'
+      }),
+      new GridColumn({
+        caption: 'Giá nhập',
+        field: 'cost'
       }),
       new GridColumn({
         caption: 'Giá lẻ',
@@ -53,6 +59,7 @@ export class ProductListComponent implements OnInit {
   }
 
   onRowClick(row) {    
+    this.selectedProduct = row;
     this.flyout.show();
   }
 }

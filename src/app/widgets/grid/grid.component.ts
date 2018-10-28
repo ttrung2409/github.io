@@ -12,6 +12,10 @@ export class GridComponent implements OnInit {
   @Input() dataSource: any[];
   @Output() rowClick = new EventEmitter();
 
+  get displayedColumns() {
+    return this.columns.map(x => x.field);
+  }
+
   ngOnInit() {    
     for (let column of this.columns) {
       column.format = column.format || ((value, item) => value);      
