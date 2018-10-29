@@ -1,13 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import ProductService from '../../../services/productService';
 import { GridColumn } from '../../../widgets/grid/grid.component';
 import Product from '../../../models/product';
 import { FlyoutComponent } from '../../../widgets/flyout/flyout.component';
+import Category from '../../../models/category';
 
 @Component({
   selector: 'product-list',
   templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.scss']
+  styleUrls: ['./product-list.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ProductListComponent implements OnInit {
   constructor(private productService: ProductService) {
@@ -17,6 +19,8 @@ export class ProductListComponent implements OnInit {
   products: Product[];
   selectedProduct: Product = new Product();
   search: any = {};
+  categories: Category[];
+  states: any[] = [{ value: 1, text: 'Hoạt động' }, { value: 0, text: 'Không hoạt động' }]
 
   @ViewChild(FlyoutComponent)
   private flyout: FlyoutComponent;
@@ -55,11 +59,18 @@ export class ProductListComponent implements OnInit {
 
     this.productService.getProducts().subscribe(products => {
       this.products = products;
-    });    
+    });
+
+    this.productService.getCategories().subscribe(categories => this.categories = categories);
   }
 
   onRowClick(row) {    
     this.selectedProduct = row;
+    this.flyout.show();
+  }
+
+  add() {
+    this.selectedProduct = new Product();
     this.flyout.show();
   }
 }

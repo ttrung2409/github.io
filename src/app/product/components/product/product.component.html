@@ -1,14 +1,19 @@
 <div class="ui grid">
-  <div class="sixteen wide column">
+  <div class="eight wide column">
     <mat-form-field>
       <input matInput placeholder="Mã SP" [(ngModel)]="product.no">
+    </mat-form-field>
+  </div>
+  <div class="eight wide column">
+    <mat-form-field>
+      <input matInput placeholder="Mã vạch" [(ngModel)]="product.barcode">
     </mat-form-field>
   </div>
   <div class="sixteen wide column">
     <mat-form-field>
       <input matInput placeholder="Tên SP" [(ngModel)]="product.name">
     </mat-form-field>
-  </div>  
+  </div>
   <div class="eight wide column">
     <dropdown [(model)]="product.categoryId"
               [options]="categories"
@@ -19,7 +24,7 @@
   <div class="eight wide column">
     <dropdown [options]="uoms" [label]="'ĐVT'" [(model)]="product.uom"></dropdown>
   </div>
-  <div class="sixteen wide column">
+  <div class="eight wide column">
     <mat-form-field>
       <input matInput placeholder="Giá nhập" [(ngModel)]="product.cost">
     </mat-form-field>
@@ -39,9 +44,12 @@
       <input matInput placeholder="Giá khuyến mãi" [(ngModel)]="product.discountPrice">
     </mat-form-field>
   </div>
-  <div class="eight wide column">
+  <div class="sixteen wide column">
     <mat-form-field>
-      <input matInput placeholder="Giá khuyến mãi" [(ngModel)]="product.discountPrice">
+      <textarea matInput placeholder="Ghi chú" [(ngModel)]="product.notes"></textarea>
     </mat-form-field>
+  </div>
+  <div class="sixteen wide column">
+    <mat-checkbox [(ngModel)]="product.isActive">Hoạt động</mat-checkbox>
   </div>
 </div>  

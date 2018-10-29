@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChild, AfterViewInit, ViewEncapsulation } from '@angular/core';
 declare var $: any;
 
 @Component({
   selector: 'flyout',
   templateUrl: './flyout.component.html',
-  styleUrls: ['./flyout.component.scss']
+  styleUrls: ['./flyout.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class FlyoutComponent implements OnInit, AfterViewInit {
   constructor(private el: ElementRef) { }

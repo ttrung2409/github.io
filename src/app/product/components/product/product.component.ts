@@ -23,9 +23,12 @@ export class ProductComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     let id = changes['id'].currentValue;
     if (id > 0) {
-      this.productService.getProduct(id).subscribe(x => {        
+      this.productService.getProduct(id).subscribe(x => {
         this.product = x;
       });
+    }
+    else {
+      this.product = new Product();
     }
   }
 }

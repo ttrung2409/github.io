@@ -1,3 +1,19 @@
-.ui.sidebar {
-  padding: 8px;
+.flyout {
+  .ui.sidebar {
+    padding: 8px;
+  }
+
+  .content {
+    display: block;
+    height: calc(100% - 50px);
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+
+    .mat-button, .max-raised-button {
+      margin-left: 8px;
+    }
+  }
 }

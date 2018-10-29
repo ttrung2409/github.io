@@ -1,34 +1,54 @@
-<div>
-  <mat-expansion-panel hideToggle>
-    <mat-expansion-panel-header>
-      <mat-panel-title>Tìm kiếm</mat-panel-title>
-      <mat-panel-description>
-        <mat-icon>filter_list</mat-icon>
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-
-    <div class="ui grid">
-      <div class="four wide column">
-        <mat-form-field>
-          <input matInput placeholder="Mã SP" [(ngModel)]="search.productNo">
-        </mat-form-field>
+<div class="product-list">
+  <div class="toolbar-container">
+    <mat-toolbar class="mat-elevation-z1">
+      <button mat-button (click)="add()">
+        <mat-icon style="color: white">add</mat-icon>
+      </button>
+      <button mat-button (click)="panel.toggle()">
+        <mat-icon style="color: white">filter_list</mat-icon>
+      </button>
+    </mat-toolbar>
+    <mat-expansion-panel hideToggle #panel>
+      <div class="ui grid">
+        <div class="three wide column">
+          <mat-form-field>
+            <input matInput placeholder="Mã SP" [(ngModel)]="search.productNo">
+          </mat-form-field>
+        </div>
+        <div class="three wide column">
+          <mat-form-field>
+            <input matInput placeholder="Tên SP" [(ngModel)]="search.productName">
+          </mat-form-field>
+        </div>
+        <div class="three wide column">
+          <dropdown [options]="categories"
+                    [label]="'Loại'"
+                    [displayMember]="'name'"
+                    [valueMember]="'id'"
+                    [(model)]="search.categoryId">
+          </dropdown>
+        </div>
+        <div class="three wide column">
+          <dropdown [options]="states"
+                    [label]="'Tình trạng'"                    
+                    [(model)]="search.isActive">
+          </dropdown>
+        </div>
       </div>
-      <div class="four wide column">
-        <mat-form-field>
-          <input matInput placeholder="Tên SP" [(ngModel)]="search.productName">
-        </mat-form-field>
-      </div>
-      <!--<div class="four wide column">
-        <dropdown [options]="categories" [label]="'Loại'" [displayMember]="name" [valueMember]="id" [(model)]="search.categoryId"></dropdown>
-      </div>-->
-    </div>
-    <mat-action-row>      
-      <button mat-button color="primary" (click)="search()">Tìm</button>
-    </mat-action-row>
-  </mat-expansion-panel>
+      <mat-action-row>
+        <button mat-button color="primary">Tìm</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </div>  
   <div style="margin-top: 8px"></div>
   <grid [columns]="columns" [dataSource]="products" (rowClick)="onRowClick($event)"></grid>
   <flyout>
-    <product [id]="selectedProduct.id"></product>
+    <content>
+      <product [id]="selectedProduct.id"></product>
+    </content>    
+    <actions>
+      <button mat-raised-button>Cancel</button>
+      <button mat-raised-button color="primary">Save</button>
+    </actions>
   </flyout>
 </div>

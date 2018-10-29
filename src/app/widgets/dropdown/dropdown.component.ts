@@ -1,11 +1,12 @@
-import { Component, OnInit, Input, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, ElementRef, ViewEncapsulation } from '@angular/core';
 import { BindableComponent } from '../bindable.component';
 declare var $: any;
 
 @Component({
   selector: 'dropdown',
   templateUrl: './dropdown.component.html',
-  styleUrls: ['./dropdown.component.scss']
+  styleUrls: ['./dropdown.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class DropdownComponent extends BindableComponent implements OnInit, AfterViewInit {
 

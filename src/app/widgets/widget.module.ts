@@ -5,12 +5,15 @@ import { FlyoutComponent } from './flyout/flyout.component';
 import { DropdownComponent } from './dropdown/dropdown.component'
 import { FormsModule } from '@angular/forms';
 import { BindableComponent } from './bindable.component';
+import { MatRippleModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({  
   imports: [
@@ -21,7 +24,10 @@ import { MatButtonModule } from '@angular/material/button';
     MatTableModule,
     MatExpansionModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatToolbarModule,
+    MatRippleModule,
+    MatCheckboxModule
   ],
   declarations: [
     GridComponent,
@@ -38,7 +44,10 @@ import { MatButtonModule } from '@angular/material/button';
     MatTableModule,
     MatExpansionModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatToolbarModule,
+    MatRippleModule,
+    MatCheckboxModule
   ]
 })
 export class WidgetModule { }

@@ -1,4 +1,4 @@
-<div>
+<div class="flyout">
   <div class="ui vertical sidebar menu"       
        [class.top]="direction == 'top'"
        [class.right]="direction == 'right'"
@@ -7,6 +7,11 @@
        [class.very]="size == 'very thin' || size == 'very wide'"
        [class.thin]="size == 'thin' || size =='very thin'"
        [class.wide]="size == 'wide' || size == 'very wide'">
-    <ng-content></ng-content>
+    <div class="content">
+      <ng-content select="content"></ng-content>
+    </div>
+    <div class="actions">
+      <ng-content select="actions"></ng-content>
+    </div>    
   </div>
 </div>
