@@ -1,7 +1,5 @@
 .flyout {
-  .ui.sidebar {
-    padding: 8px;
-  }
+  padding: 8px;
 
   .content {
     display: block;
@@ -12,7 +10,7 @@
     display: flex;
     justify-content: flex-end;
 
-    .mat-button, .max-raised-button {
+    .mat-button, .mat-raised-button {
       margin-left: 8px;
     }
   }

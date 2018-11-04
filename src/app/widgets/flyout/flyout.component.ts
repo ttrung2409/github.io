@@ -12,6 +12,7 @@ export class FlyoutComponent implements OnInit, AfterViewInit {
 
   @Input() direction?: string = 'right';
   @Input() size?: string = 'very wide';  
+  @Input() closable: boolean = true;
 
   ngOnInit() {
   }
@@ -20,6 +21,7 @@ export class FlyoutComponent implements OnInit, AfterViewInit {
     $(this.el.nativeElement).find('.ui.sidebar').sidebar({
       context: $('#app'),
       transition: 'overlay',
+      closable: this.closable,      
       onVisible: function () {
         $('.pusher').addClass('dimmed');
       },

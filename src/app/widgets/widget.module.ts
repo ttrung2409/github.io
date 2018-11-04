@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GridComponent } from './grid/grid.component';
 import { FlyoutComponent } from './flyout/flyout.component';
@@ -14,6 +14,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { TypeaheadComponent } from './typeahead/typeahead.component';
 
 @NgModule({  
   imports: [
@@ -33,7 +34,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     GridComponent,
     FlyoutComponent,
     DropdownComponent,
-    BindableComponent
+    BindableComponent,
+    TypeaheadComponent
   ],
   exports: [
     GridComponent,
@@ -47,7 +49,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatButtonModule,
     MatToolbarModule,
     MatRippleModule,
-    MatCheckboxModule
-  ]
+    MatCheckboxModule,
+    TypeaheadComponent
+  ],
+  schemas: [NO_ERRORS_SCHEMA]
 })
 export class WidgetModule { }

@@ -34,6 +34,8 @@
     <Content Include="src\app\widgets\grid\grid.component.scss" />
     <Content Include="src\app\product\components\product\product.component.scss" />
     <Content Include="src\app\product\components\product\product.component.html" />
+    <Content Include="src\app\widgets\typeahead\typeahead.component.html" />
+    <Content Include="src\app\widgets\typeahead\typeahead.component.scss" />
     <Content Include="tsconfig.json" />
     <Content Include="tslint.json" />
     <Content Include="README.md" />
@@ -61,9 +63,10 @@
     <TypeScriptCompile Include="src\app\product\product.routing.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\app\services\productService.ts">
+    <TypeScriptCompile Include="src\app\services\product.service.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="src\app\widgets\typeahead\typeahead.component.ts" />
     <TypeScriptCompile Include="src\app\widgets\widget.module.ts" />
     <TypeScriptCompile Include="src\main.ts" />
     <TypeScriptCompile Include="src\polyfills.ts" />
@@ -92,6 +95,7 @@
     <Folder Include="src\app\product\" />
     <Folder Include="src\app\product\components\" />
     <Folder Include="src\app\product\components\product\" />
+    <Folder Include="src\app\widgets\typeahead\" />
     <Folder Include="src\assets" />
     <Folder Include="src\environments" />
   </ItemGroup>

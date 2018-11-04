@@ -1,7 +1,7 @@
 <div class="ui grid">
   <div class="eight wide column">
     <mat-form-field>
-      <input matInput placeholder="Mã SP" [(ngModel)]="product.no">
+      <input matInput placeholder="Mã SP" [(ngModel)]="product.no" required>
     </mat-form-field>
   </div>
   <div class="eight wide column">
@@ -11,7 +11,7 @@
   </div>
   <div class="sixteen wide column">
     <mat-form-field>
-      <input matInput placeholder="Tên SP" [(ngModel)]="product.name">
+      <input matInput placeholder="Tên SP" [(ngModel)]="product.name" required>
     </mat-form-field>
   </div>
   <div class="eight wide column">
@@ -52,4 +52,35 @@
   <div class="sixteen wide column">
     <mat-checkbox [(ngModel)]="product.isActive">Hoạt động</mat-checkbox>
   </div>
+  <div class="sixteen wide column">
+    <mat-checkbox [(ngModel)]="product.isContainer">Có sản phẩm lẻ</mat-checkbox>
+  </div>
+  <div class="row" *ngIf="product.isContainer">
+    <div class="sixteen wide column">
+      <label>1 {{product.name}} có:</label>
+    </div>
+    <div class="four wide column">
+      <mat-form-field [floatLabel]="'never'">
+        <input matInput placeholder="SL" [(ngModel)]="product.itemQty" />
+      </mat-form-field>
+    </div>
+    <div class="twelve wide column">
+      <typeahead [options]="items"
+                 [(model)]="product.itemId"
+                 (search)="onSearchItems($event)"
+                 [isLoading]="isSearchingItems"
+                 [valueMember]="'id'"
+                 [displayMember]="'name'"
+                 [label]="'Nhập mã hoặc tên SP để tìm'"
+                 [floatLabel]="'never'"
+                 [direction]="'upward'">
+        <items>
+          <div class="item" *ngFor="let item of items" [attr.data-value]="item.id">
+            <div style="display: block; font-weight: 600">{{item.name}}</div>
+            <div style="display: block; margin-top: 8px">{{item.no}}</div>            
+          </div>
+        </items>
+      </typeahead>
+    </div>
+  </div>  
 </div>  

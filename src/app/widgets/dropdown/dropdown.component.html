@@ -1,9 +1,16 @@
 <div class="dropdown-container">
-  <mat-form-field>
-    <mat-label>{{label}}</mat-label>
-    <select matNativeControl class="ui fluid search selection dropdown" [(ngModel)]="model">
-      <option value=""></option>
-      <option *ngFor="let option of bindingOptions" [value]="option[valueMember]">{{option[displayMember]}}</option>
-    </select>
+  <mat-form-field [floatLabel]="floatLabel">
+    <mat-label *ngIf="floatLabel != 'never'">{{label}}</mat-label>
+    <div class="ui fluid search selection dropdown">
+      <input style="display: none" matInput [ngModel]="model">      
+      <i class="dropdown icon"></i>
+      <div class="default text">{{floatLabel == 'never' ? label : ''}}</div>
+      <div class="menu">
+        <div #menu><ng-content select="items"></ng-content></div>
+        <div *ngIf="menu.children.length == 0">
+          <div class="item" *ngFor="let option of bindingOptions" [attr.data-value]="option[valueMember]">{{option[displayMember]}}</div>
+        </div>
+      </div>
+    </div>  
   </mat-form-field>
 </div>

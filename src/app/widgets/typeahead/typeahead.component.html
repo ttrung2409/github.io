@@ -1,0 +1,15 @@
+<dropdown [options]="options"
+          [isLoading]="isLoading"
+          [(model)]="model"
+          [valueMember]="valueMember"
+          [displayMember]="displayMember"
+          [label]="label"
+          [floatLabel]="floatLabel"
+          [direction]="direction">  
+  <items>
+    <div #items><ng-content select="items"></ng-content></div>
+    <div *ngIf="items.children.length == 0">
+      <div class="item" *ngFor="let option of bindingOptions" [attr.data-value]="option[valueMember]">{{option[displayMember]}}</div>
+    </div>
+  </items>
+</dropdown>

@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, AfterViewInit, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, ElementRef, ViewEncapsulation, SimpleChanges, OnChanges, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { BindableComponent } from '../bindable.component';
+import { Event } from '@angular/router';
 declare var $: any;
 
 @Component({
@@ -8,35 +9,55 @@ declare var $: any;
   styleUrls: ['./dropdown.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class DropdownComponent extends BindableComponent implements OnInit, AfterViewInit {
+export class DropdownComponent extends BindableComponent implements OnInit, OnChanges, AfterViewInit {
 
-  constructor(private el: ElementRef) {
+  constructor(private el: ElementRef, private changeDetectorRef: ChangeDetectorRef) {
     super();
   }
   
   @Input() options: any[];
   @Input() valueMember: string = 'value';
   @Input() displayMember: string = 'text';
-  @Input() label: string;  
+  @Input() label: string;
+  @Input() isLoading: boolean = false;
+  @Input() floatLabel: string = 'auto';
+  @Input() direction: string = 'auto';
 
-  private bindingOptions: any[];
+  bindingOptions: any[];
 
   ngOnInit() {
-    this.bindingOptions = this.options.map(x => x instanceof Object ? x : {
-      value: x,
-      text: x
-    });
-  }  
+  }
+
+  ngOnChanges(changes: SimpleChanges) {           
+    if (!!changes['options']) {
+      this.bindingOptions = this.options.map(x => x instanceof Object ? x : {
+        value: x,
+        text: x
+      });
+
+      $(this.el.nativeElement).find('.ui.dropdown .menu > .message').css('display', this.bindingOptions.length > 0 ? 'none' : 'block');
+    }
+
+    if (!!changes['isLoading']) {
+      if (this.isLoading) $(this.el.nativeElement).find('.ui.dropdown').addClass('loading');
+      else $(this.el.nativeElement).find('.ui.dropdown').removeClass('loading');
+    }
+    
+    if (!!changes['model']) {      
+      this.setText(this.model);
+    }
+  }
 
   ngAfterViewInit() {
-    let _this = this;
+    let _this = this;    
     $(this.el.nativeElement).find('.ui.dropdown').dropdown({
       forceSelection: false,
       clearable: true,
+      selectOnKeydown: false,
+      direction: this.direction,
       onShow: function () {
         $(_this.el.nativeElement).find('.mat-form-field').addClass('mat-form-field-should-float');
-        $(_this.el.nativeElement).find('.mat-form-field-underline').addClass('highlight');
-        
+        $(_this.el.nativeElement).find('.mat-form-field-underline').addClass('highlight');        
       },
       onHide: function () {
         if (!_this.model) {
@@ -44,7 +65,28 @@ export class DropdownComponent extends BindableComponent implements OnInit, Afte
         }
 
         $(_this.el.nativeElement).find('.mat-form-field-underline').removeClass('highlight');
+      },
+      onChange(value) {
+        _this.model = value || undefined;             
+        let option = _this.bindingOptions.find(x => x[_this.valueMember] == value);
+        if (!!option) {
+          $(_this.el.nativeElement).find('.ui.dropdown').dropdown('set text', option[_this.displayMember]);
+        }
       }
-    });    
-  }  
+    });   
+  } 
+
+  setText(value) {
+    let option = this.bindingOptions.find(x => x[this.valueMember] == value);
+    if (!!option) {
+      $(this.el.nativeElement).find('.ui.dropdown').dropdown('set text', option[this.displayMember]);
+    }
+    else {
+      $(this.el.nativeElement).find('.ui.dropdown').dropdown('clear');
+      if (this.floatLabel == 'never') {
+        $(this.el.nativeElement).find('.ui.dropdown').dropdown('set text', this.label);   
+        $(this.el.nativeElement).find('.ui.dropdown > .text').addClass('default');        
+      }      
+    }
+  }
 }

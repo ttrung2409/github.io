@@ -42,13 +42,13 @@
   </div>  
   <div style="margin-top: 8px"></div>
   <grid [columns]="columns" [dataSource]="products" (rowClick)="onRowClick($event)"></grid>
-  <flyout>
+  <flyout #flyout [closable]="false">
     <content>
-      <product [id]="selectedProduct.id"></product>
+      <product #productComponent [id]="selectedProduct.id"></product>
     </content>    
     <actions>
-      <button mat-raised-button>Cancel</button>
-      <button mat-raised-button color="primary">Save</button>
+      <button mat-raised-button (click)="cancel()">Hủy</button>
+      <button mat-raised-button color="primary" (click)="save()">Lưu</button>
     </actions>
   </flyout>
 </div>
