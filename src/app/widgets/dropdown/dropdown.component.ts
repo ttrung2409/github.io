@@ -1,6 +1,5 @@
-import { Component, OnInit, Input, AfterViewInit, ElementRef, ViewEncapsulation, SimpleChanges, OnChanges, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, ElementRef, ViewEncapsulation, SimpleChanges, OnChanges, OnDestroy, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
 import { BindableComponent } from '../bindable.component';
-import { Event } from '@angular/router';
 declare var $: any;
 
 @Component({
@@ -22,6 +21,9 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
   @Input() isLoading: boolean = false;
   @Input() floatLabel: string = 'auto';
   @Input() direction: string = 'auto';
+  @Input() showOnFocus: boolean = true;
+
+  @Output() keyup = new EventEmitter();
 
   bindingOptions: any[];
 
@@ -55,6 +57,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
       clearable: true,
       selectOnKeydown: false,
       direction: this.direction,
+      showOnFocus: this.showOnFocus,
       onShow: function () {
         $(_this.el.nativeElement).find('.mat-form-field').addClass('mat-form-field-should-float');
         $(_this.el.nativeElement).find('.mat-form-field-underline').addClass('highlight');        
@@ -73,20 +76,33 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
           $(_this.el.nativeElement).find('.ui.dropdown').dropdown('set text', option[_this.displayMember]);
         }
       }
-    });   
+    });
+
+    $(this.el.nativeElement).find('.ui.dropdown > input.search').on('keyup', (event: any) => {
+      if ((event.keyCode == 8 || event.keyCode == 46) && !event.target.value) {
+        this.clear();
+      }
+
+      this.keyup.emit(event);
+    });
   } 
 
-  setText(value) {
+  private setText(value) {
     let option = this.bindingOptions.find(x => x[this.valueMember] == value);
     if (!!option) {
       $(this.el.nativeElement).find('.ui.dropdown').dropdown('set text', option[this.displayMember]);
     }
-    else {
-      $(this.el.nativeElement).find('.ui.dropdown').dropdown('clear');
-      if (this.floatLabel == 'never') {
-        $(this.el.nativeElement).find('.ui.dropdown').dropdown('set text', this.label);   
-        $(this.el.nativeElement).find('.ui.dropdown > .text').addClass('default');        
-      }      
+    else {      
+      this.clear();            
+    }
+  }
+
+  private clear() {
+    this.model = undefined;
+    $(this.el.nativeElement).find('.ui.dropdown').dropdown('clear');
+    if (this.floatLabel == 'never') {
+      $(this.el.nativeElement).find('.ui.dropdown').dropdown('set text', this.label);
+      $(this.el.nativeElement).find('.ui.dropdown > .text').addClass('default');
     }
   }
 }

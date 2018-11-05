@@ -1,8 +1,8 @@
 <div>
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z1">
     <ng-container *ngFor="let column of columns" [matColumnDef]="column.field">
-      <th mat-header-cell *matHeaderCellDef> {{column.caption}} </th>
-      <td mat-cell *matCellDef="let row"> {{column.format(row[column.field])}} </td>
+      <th mat-header-cell *matHeaderCellDef [style.width]="column.width || 'auto'"> {{column.caption}} </th>
+      <td mat-cell *matCellDef="let row"> {{column.format(getCellData(row, column))}} </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

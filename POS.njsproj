@@ -26,6 +26,8 @@
     <Content Include="package.json" />
     <Content Include="src\app\product\components\product-list\product-list.component.html" />
     <Content Include="src\app\product\components\product-list\product-list.component.scss" />
+    <Content Include="src\app\sale-order\components\order\order.component.html" />
+    <Content Include="src\app\sale-order\components\order\order.component.scss" />
     <Content Include="src\app\widgets\dropdown\dropdown.component.html" />
     <Content Include="src\app\widgets\dropdown\dropdown.component.scss" />
     <Content Include="src\app\widgets\flyout\flyout.component.html" />
@@ -34,8 +36,13 @@
     <Content Include="src\app\widgets\grid\grid.component.scss" />
     <Content Include="src\app\product\components\product\product.component.scss" />
     <Content Include="src\app\product\components\product\product.component.html" />
+    <Content Include="src\app\widgets\product-lookup\product-lookup.component.html" />
+    <Content Include="src\app\widgets\product-lookup\product-lookup.component.scss" />
     <Content Include="src\app\widgets\typeahead\typeahead.component.html" />
     <Content Include="src\app\widgets\typeahead\typeahead.component.scss" />
+    <Content Include="src\assets\report.svg" />
+    <Content Include="src\assets\product.svg" />
+    <Content Include="src\assets\shopping-cart.svg" />
     <Content Include="tsconfig.json" />
     <Content Include="tslint.json" />
     <Content Include="README.md" />
@@ -50,7 +57,21 @@
     <TypeScriptCompile Include="src\app\models\product.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="src\app\models\saleOrder.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\app\models\saleOrderItem.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="src\app\product\components\product-list\product-list.component.ts" />
+    <TypeScriptCompile Include="src\app\sale-order\components\order\order.component.ts" />
+    <TypeScriptCompile Include="src\app\sale-order\sale-order.module.ts" />
+    <TypeScriptCompile Include="src\app\sale-order\sale-order.routing.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\app\services\sale-order.service.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="src\app\widgets\bindable.component.ts" />
     <TypeScriptCompile Include="src\app\widgets\dropdown\dropdown.component.ts" />
     <TypeScriptCompile Include="src\app\widgets\flyout\flyout.component.ts" />
@@ -66,6 +87,7 @@
     <TypeScriptCompile Include="src\app\services\product.service.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="src\app\widgets\product-lookup\product-lookup.component.ts" />
     <TypeScriptCompile Include="src\app\widgets\typeahead\typeahead.component.ts" />
     <TypeScriptCompile Include="src\app\widgets\widget.module.ts" />
     <TypeScriptCompile Include="src\main.ts" />
@@ -87,6 +109,9 @@
     <Folder Include="src\app" />
     <Folder Include="src\app\models\" />
     <Folder Include="src\app\product\components\product-list\" />
+    <Folder Include="src\app\sale-order\" />
+    <Folder Include="src\app\sale-order\components\" />
+    <Folder Include="src\app\sale-order\components\order\" />
     <Folder Include="src\app\widgets\" />
     <Folder Include="src\app\widgets\dropdown\" />
     <Folder Include="src\app\widgets\flyout\" />
@@ -95,6 +120,7 @@
     <Folder Include="src\app\product\" />
     <Folder Include="src\app\product\components\" />
     <Folder Include="src\app\product\components\product\" />
+    <Folder Include="src\app\widgets\product-lookup\" />
     <Folder Include="src\app\widgets\typeahead\" />
     <Folder Include="src\assets" />
     <Folder Include="src\environments" />

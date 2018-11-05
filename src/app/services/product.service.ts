@@ -7,70 +7,89 @@ import * as _ from 'lodash'
 
 @Injectable()
 export default class ProductService {
-  _products: Product[] = [
+  private _products: Product[] = [
     new Product({
       id: 1,
       no: '100001',
       name: 'Giấy bạc Diamond ngắn',
-      retailPrice: 27000
+      uom: 'Cuộn',      
+      retailPrice: 27000,
+      isActive: true
     }),
     new Product({
       id: 2,
       no: '100002',
       name: 'Giấy bạc Diamond dài',
-      retailPrice: 43000
+      uom: 'Cuộn',
+      retailPrice: 43000,
+      isActive: true
     }),
     new Product({
       id: 3,
       no: '100003',
       name: 'Bánh Gerber dâu táo 42g',
-      retailPrice: 56000
+      uom: 'Bịch',
+      retailPrice: 56000,
+      isActive: true
     }),
     new Product({
       id: 4,
       no: '100004',
       name: 'Bánh trẻ em cây chuối 42g',
-      retailPrice: 60000
+      uom: 'Bịch',
+      retailPrice: 60000,
+      isActive: true
     }),
     new Product({
       id: 5,
       no: '100005',
       name: 'Kẹo chip Hải Hà 175g',
+      uom: 'Bịch',
       retailPrice: 14000
     }),
     new Product({
       id: 6,
       no: '100006',
       name: 'Kẹo trái cây Lot 100',
-      retailPrice: 29000
+      uom: 'Bịch',
+      retailPrice: 29000,
+      isActive: true
     }),
     new Product({
       id: 7,
       no: '100007',
       name: 'Kẹo xoài lot 100 - 150g',
-      retailPrice: 29000
+      uom: 'Bịch',
+      retailPrice: 29000,
+      isActive: true
     }),
     new Product({
       id: 8,
       no: '100008',
       name: 'NG attack khử mùi 1.4l',
-      retailPrice: 71000
+      uom: 'Bình',
+      retailPrice: 71000,
+      isActive: true
     }),
     new Product({
       id: 9,
       no: '100009',
       name: 'Tã dán Bobby SM L42',
-      retailPrice: 160000
+      uom: 'Cuộn',
+      retailPrice: 160000,
+      isActive: true
     }),
     new Product({
       id: 10,
       no: '100010',
       name: 'Bánh Gerber phô mai 42g',
-      retailPrice: 60000
+      uom: 'Bịch',
+      retailPrice: 60000,
+      isActive: true
     }),
   ]
   
-  public getProducts(params?: any): Observable<Product[]> {
+  getProducts(params?: any): Observable<Product[]> {
     return of(_.cloneDeep(this._products));
   }
 
@@ -103,11 +122,13 @@ export default class ProductService {
       'Bịch',
       'Thùng',      
       'Cái',
-      'Cuộn'
+      'Cuộn',
+      'Bình',
+      'Gói'
     ]);
   }
 
-  lookup(query: string) {
+  lookup(query: string): Observable<Product[]> {
     return this.getProducts()
       .pipe(concatAll())
       .pipe(filter(x => x.no.toLowerCase().includes(query.toLowerCase()) || x.name.toLowerCase().includes(query.toLowerCase())))
@@ -119,5 +140,5 @@ export default class ProductService {
     if (!!p) {
       Object.assign(p, product);
     }
-  }
+  } 
 }

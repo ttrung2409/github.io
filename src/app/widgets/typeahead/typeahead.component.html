@@ -5,7 +5,9 @@
           [displayMember]="displayMember"
           [label]="label"
           [floatLabel]="floatLabel"
-          [direction]="direction">  
+          [direction]="direction"
+          (keyup)="onKeyup($event)"
+          [showOnFocus]="false">  
   <items>
     <div #items><ng-content select="items"></ng-content></div>
     <div *ngIf="items.children.length == 0">

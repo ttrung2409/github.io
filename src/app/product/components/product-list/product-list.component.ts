@@ -85,6 +85,6 @@ export class ProductListComponent implements OnInit {
     this.flyout.hide();
     this.productService.getProducts().subscribe(products => {
       this.products = products;
-    });
+    });    
   }
 }

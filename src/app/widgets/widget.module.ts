@@ -15,6 +15,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TypeaheadComponent } from './typeahead/typeahead.component';
+import { ProductLookupComponent } from './product-lookup/product-lookup.component';
+import ProductService from '../services/product.service';
 
 @NgModule({  
   imports: [
@@ -35,7 +37,8 @@ import { TypeaheadComponent } from './typeahead/typeahead.component';
     FlyoutComponent,
     DropdownComponent,
     BindableComponent,
-    TypeaheadComponent
+    TypeaheadComponent,
+    ProductLookupComponent
   ],
   exports: [
     GridComponent,
@@ -50,8 +53,10 @@ import { TypeaheadComponent } from './typeahead/typeahead.component';
     MatToolbarModule,
     MatRippleModule,
     MatCheckboxModule,
-    TypeaheadComponent
+    TypeaheadComponent,
+    ProductLookupComponent
   ],
-  schemas: [NO_ERRORS_SCHEMA]
+  schemas: [NO_ERRORS_SCHEMA],
+  providers: [ProductService]
 })
 export class WidgetModule { }

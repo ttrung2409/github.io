@@ -25,6 +25,7 @@ export class TypeaheadComponent extends BindableComponent implements OnInit, OnC
   @Input() direction: string = 'auto';
 
   @Output() search = new EventEmitter();
+  @Output() keyup = new EventEmitter();
 
   bindingOptions: any[];
 
@@ -49,5 +50,9 @@ export class TypeaheadComponent extends BindableComponent implements OnInit, OnC
         }      
       }      
     });
-  }  
+  }
+
+  onKeyup(event) {
+    this.keyup.emit(event);
+  }
 }

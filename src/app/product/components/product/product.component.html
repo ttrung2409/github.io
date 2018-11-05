@@ -57,7 +57,7 @@
   </div>
   <div class="row" *ngIf="product.isContainer">
     <div class="sixteen wide column">
-      <label>1 {{product.name}} có:</label>
+      <label>1 {{product.uom}} {{product.name}} có:</label>
     </div>
     <div class="four wide column">
       <mat-form-field [floatLabel]="'never'">
@@ -65,22 +65,7 @@
       </mat-form-field>
     </div>
     <div class="twelve wide column">
-      <typeahead [options]="items"
-                 [(model)]="product.itemId"
-                 (search)="onSearchItems($event)"
-                 [isLoading]="isSearchingItems"
-                 [valueMember]="'id'"
-                 [displayMember]="'name'"
-                 [label]="'Nhập mã hoặc tên SP để tìm'"
-                 [floatLabel]="'never'"
-                 [direction]="'upward'">
-        <items>
-          <div class="item" *ngFor="let item of items" [attr.data-value]="item.id">
-            <div style="display: block; font-weight: 600">{{item.name}}</div>
-            <div style="display: block; margin-top: 8px">{{item.no}}</div>            
-          </div>
-        </items>
-      </typeahead>
+      <product-lookup [(model)]="product.itemId" [direction]="'upward'"></product-lookup>      
     </div>
   </div>  
 </div>  

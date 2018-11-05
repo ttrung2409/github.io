@@ -25,6 +25,16 @@ export class GridComponent implements OnInit {
   onRowClick(row) {    
     this.rowClick.emit(row);
   }
+
+  getCellData(row: any, column: GridColumn) {
+    let paths = column.field.split('.');
+    let data = row;
+    for (let path of paths) {
+      data = data[path];
+    }
+
+    return data;
+  }
 }
 
 export class GridColumn {

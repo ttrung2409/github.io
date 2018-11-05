@@ -1,0 +1,10 @@
+<div>
+  <div class="row">
+    <div class="sixteen wide column">
+      <product-lookup [(model)]="selectedItem.productId" (keyup)="addItem($event)"></product-lookup>      
+    </div>
+    <div class="sixteen wide column">
+      <grid [columns]="columns" [dataSource]="order.items"></grid>
+    </div>
+  </div>  
+</div>

@@ -16,9 +16,7 @@ export class ProductComponent implements OnInit, OnChanges {
   product: Product = new Product();
   categories: any[];
   uoms: any[];
-  isSearchingItems: boolean = false;
-  items: Product[] = [];
-
+  
   ngOnInit() {
     this.productService.getCategories().subscribe(categories => this.categories = categories);
     this.productService.getUOMs().subscribe(uoms => this.uoms = uoms);
@@ -36,16 +34,7 @@ export class ProductComponent implements OnInit, OnChanges {
         this.product = new Product();
       }
     }    
-  }
-
-  onSearchItems(query) {
-    this.isSearchingItems = true;
-    this.items = [];
-    this.productService.lookup(query).subscribe((items: Product[]) => {      
-      this.items = items;
-      this.isSearchingItems = false;
-    });
-  }
+  }  
 
   save() {    
     this.productService.save(this.product);
