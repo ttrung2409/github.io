@@ -2,8 +2,14 @@
   cursor: pointer;
   width: 100%;
 
-  .mat-row:hover {
-    background-color: #F1F1F1 !important;
-    transition: background 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);    
+  .mat-row {
+    &.highlighted {
+      background-color: whitesmoke;
+    }
+
+    &:hover {
+      background-color: #F1F1F1 !important;
+      transition: background 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+    }
   }
 }

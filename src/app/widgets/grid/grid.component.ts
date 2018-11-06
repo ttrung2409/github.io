@@ -1,16 +1,23 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, DoCheck, IterableDiffers } from '@angular/core';
 
 @Component({
   selector: 'grid',
   templateUrl: './grid.component.html',
-  styleUrls: ['./grid.component.scss']
+  styleUrls: ['./grid.component.scss']  
 })
-export class GridComponent implements OnInit {  
-  constructor() { }
+export class GridComponent implements OnInit, DoCheck {  
+  private _differs: any;
+
+  constructor(private differs: IterableDiffers) {
+    this._differs = differs.find([]).create(null);
+  }
 
   @Input() columns: GridColumn[];
   @Input() dataSource: any[];
-  @Output() rowClick = new EventEmitter();
+  @Input() selectedIndex: number = 0;
+  @Output() rowClick = new EventEmitter();  
+
+  bindingDataSource: any[];
 
   get displayedColumns() {
     return this.columns.map(x => x.field);
@@ -22,6 +29,13 @@ export class GridComponent implements OnInit {
     }    
   }
 
+  ngDoCheck() {    
+    if (!!this._differs.diff(this.dataSource)) {
+      debugger;
+      this.bindingDataSource = [...this.dataSource];
+    }
+  }
+  
   onRowClick(row) {    
     this.rowClick.emit(row);
   }
@@ -34,7 +48,7 @@ export class GridComponent implements OnInit {
     }
 
     return data;
-  }
+  }  
 }
 
 export class GridColumn {

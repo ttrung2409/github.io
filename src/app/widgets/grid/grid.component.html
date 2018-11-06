@@ -1,12 +1,12 @@
 <div>
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z1">
+  <table mat-table [dataSource]="bindingDataSource" class="mat-elevation-z1">
     <ng-container *ngFor="let column of columns" [matColumnDef]="column.field">
       <th mat-header-cell *matHeaderCellDef [style.width]="column.width || 'auto'"> {{column.caption}} </th>
       <td mat-cell *matCellDef="let row"> {{column.format(getCellData(row, column))}} </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row)"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" (click)="onRowClick(row)" [class.highlighted]="selectedIndex == i"></tr>
   </table>
 </div>
 

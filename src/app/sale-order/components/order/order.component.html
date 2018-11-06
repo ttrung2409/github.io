@@ -1,10 +1,10 @@
 <div>
   <div class="row">
     <div class="sixteen wide column">
-      <product-lookup [(model)]="selectedItem.productId" (keyup)="addItem($event)"></product-lookup>      
+      <product-lookup (select)="addItem($event)"></product-lookup>      
     </div>
     <div class="sixteen wide column">
-      <grid [columns]="columns" [dataSource]="order.items"></grid>
+      <grid [columns]="columns" [dataSource]="order.items" [selectedIndex]="selectedIndex" (rowClick)="onRowClick($event)"></grid>
     </div>
   </div>  
 </div>
