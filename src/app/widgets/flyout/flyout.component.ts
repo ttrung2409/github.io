@@ -8,22 +8,29 @@ declare var $: any;
   encapsulation: ViewEncapsulation.None
 })
 export class FlyoutComponent implements OnInit, AfterViewInit {
-  constructor(private el: ElementRef) { }
+  private _resolve: any;
 
+  constructor(private el: ElementRef) { }
+  
   @Input() direction?: string = 'right';
   @Input() size?: string = 'very wide';  
   @Input() closable: boolean = true;
+  @Input() containerSelector: string;
 
   ngOnInit() {
   }
 
   ngAfterViewInit() {
+    let _this = this;
     $(this.el.nativeElement).find('.ui.sidebar').sidebar({
-      context: $('#app'),
+      context: $(this.containerSelector),
       transition: 'overlay',
-      closable: this.closable,      
+      closable: this.closable,
       onVisible: function () {
-        $('.pusher').addClass('dimmed');
+        $('.pusher').addClass('dimmed');        
+      },
+      onShow: function () {
+        if (!!_this._resolve) _this._resolve();
       },
       onHide: function () {
         $('.pusher').removeClass('dimmed');
@@ -32,10 +39,13 @@ export class FlyoutComponent implements OnInit, AfterViewInit {
   }
 
   show() {
-    $('#app').find('.ui.sidebar.right').sidebar('show');    
+    $('#app').find('.ui.sidebar.right').sidebar('show');
+    return new Promise((resolve, reject) => {
+      this._resolve = resolve;
+    });      
   }
 
   hide() {
     $('#app').find('.ui.sidebar.right').sidebar('hide');   
-  }
+  }  
 }

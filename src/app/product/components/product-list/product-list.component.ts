@@ -1,10 +1,12 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, OnDestroy, ElementRef } from '@angular/core';
 import ProductService from '../../../services/product.service';
-import { GridColumn } from '../../../widgets/grid/grid.component';
+import { GridColumn, GridComponent } from '../../../widgets/grid/grid.component';
 import Product from '../../../models/product';
 import { FlyoutComponent } from '../../../widgets/flyout/flyout.component';
 import Category from '../../../models/category';
 import { ProductComponent } from '../product/product.component';
+import { fromEvent, Subscription } from 'rxjs';
+import { Key } from 'ts-keycode-enum';
 
 @Component({
   selector: 'product-list',
@@ -12,7 +14,9 @@ import { ProductComponent } from '../product/product.component';
   styleUrls: ['./product-list.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ProductListComponent implements OnInit {
+export class ProductListComponent implements OnInit, OnDestroy {
+  private _subscription: Subscription;
+
   constructor(private productService: ProductService) {
   }
 
@@ -24,7 +28,8 @@ export class ProductListComponent implements OnInit {
   states: any[] = [{ value: 1, text: 'Hoạt động' }, { value: 0, text: 'Không hoạt động' }]
 
   @ViewChild(FlyoutComponent) flyout: FlyoutComponent;
-  @ViewChild('productComponent') productComponent: ProductComponent;
+  @ViewChild('product') productView: ProductComponent;
+  @ViewChild('grid') grid: GridComponent;
 
   ngOnInit() {
     this.columns = [
@@ -34,7 +39,7 @@ export class ProductListComponent implements OnInit {
       }),
       new GridColumn({
         caption: 'Tên SP',
-        field: 'name'
+        field: 'name'        
       }),
       new GridColumn({
         caption: 'ĐVT',
@@ -42,7 +47,7 @@ export class ProductListComponent implements OnInit {
       }),
       new GridColumn({
         caption: 'Giá nhập',
-        field: 'cost'
+        field: 'cost'        
       }),
       new GridColumn({
         caption: 'Giá lẻ',
@@ -62,12 +67,29 @@ export class ProductListComponent implements OnInit {
       this.products = products;
     });
 
-    this.productService.getCategories().subscribe(categories => this.categories = categories);
+    this.productService.getCategories().subscribe(categories => this.categories = categories);    
+
+    this._subscription = fromEvent(document, 'keyup').subscribe((e: KeyboardEvent) => {
+      switch (e.keyCode) {
+        case Key.Escape:
+          this.cancel();
+          break;
+        case Key.F4:
+          this.save();          
+          break;          
+      }
+    });
   }
 
-  onRowClick(row) {    
-    this.selectedProduct = row;
-    this.flyout.show();
+  ngOnDestroy() {
+    this._subscription.unsubscribe();
+  }
+
+  onSelect(row) {    
+    this.selectedProduct = row;    
+    this.flyout.show().then(() => {
+      this.productView.focus();      
+    });    
   }
 
   add() {
@@ -76,12 +98,12 @@ export class ProductListComponent implements OnInit {
   }
 
   cancel() {
-    this.productComponent.cancel();
+    this.productView.cancel();
     this.flyout.hide();
   }
 
   save() {
-    this.productComponent.save();
+    this.productView.save();
     this.flyout.hide();
     this.productService.getProducts().subscribe(products => {
       this.products = products;

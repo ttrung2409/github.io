@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, OnChanges, ElementRef, ViewChild } from '@angular/core';
 import ProductService from '../../../services/product.service';
 import Product from '../../../models/product';
-import { map } from 'rxjs/operators';
+import { ProductLookupComponent } from '../../../widgets/product-lookup/product-lookup.component';
+declare var $: any;
 
 @Component({
   selector: 'product',
@@ -12,19 +13,20 @@ export class ProductComponent implements OnInit, OnChanges {
   constructor(private productService: ProductService) { }
 
   @Input() id: number;
+  @ViewChild('productNoInput') productNoInput: ElementRef; 
 
   product: Product = new Product();
   categories: any[];
   uoms: any[];
-  
+
   ngOnInit() {
     this.productService.getCategories().subscribe(categories => this.categories = categories);
     this.productService.getUOMs().subscribe(uoms => this.uoms = uoms);
-  }
+  }  
 
   ngOnChanges(changes: SimpleChanges) {
-    if (!!changes['id']) {
-      let id = changes['id'].currentValue;
+    if (!!changes.id) {
+      let id = changes.id.currentValue;
       if (id > 0) {
         this.productService.getProduct(id).subscribe(x => {
           this.product = x;
@@ -42,6 +44,10 @@ export class ProductComponent implements OnInit, OnChanges {
 
   cancel() {
     this.productService.getProduct(this.id).subscribe(x => this.product = x);
+  }
+
+  focus() {
+    $(this.productNoInput.nativeElement).focus();    
   }
 }
 

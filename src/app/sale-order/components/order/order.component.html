@@ -1,10 +1,49 @@
-<div>
+<div class="order">
   <div class="row">
     <div class="sixteen wide column">
-      <product-lookup (select)="addItem($event)"></product-lookup>      
+      <product-lookup #productLookup
+                      [(model)]="selectedProductId"
+                      (select)="addItem($event)"
+                      [clearOnSelect]="true"
+                      (onKeydown)="onKeydown($event)">
+      </product-lookup>
     </div>
     <div class="sixteen wide column">
-      <grid [columns]="columns" [dataSource]="order.items" [selectedIndex]="selectedIndex" (rowClick)="onRowClick($event)"></grid>
+      <grid #grid [columns]="columns"
+            [dataSource]="order.items"
+            [(selectedIndex)]="selectedIndex"
+            (rowClick)="onSelect($event)"
+            (select)="onSelect($event)"
+            (delete)="onDelete($event)">
+      </grid>
     </div>
-  </div>  
+  </div>
+  <flyout #qtyEditor [closable]="false" [containerSelector]="'.order'">
+    <content>
+      <div class="ui grid">
+        <div class="sixteen wide column">
+          <mat-form-field>
+            <input #qtyInput matInput placeholder="SL" [(ngModel)]="selectedItem.qty" required number>
+          </mat-form-field>
+        </div>
+        <div class="sixteen wide column">
+          <mat-form-field>
+            <input matInput placeholder="Giá" [(ngModel)]="selectedItem.price" required number>
+            <mat-chip-list matSuffix>
+              <mat-chip [selected]="selectedItem.price == selectedItem.product.retailPrice">Lẻ (L)</mat-chip>
+              <mat-chip [selected]="selectedItem.price == selectedItem.product.wholeSalePrice">Sỉ (S)</mat-chip>
+              <mat-chip [selected]="selectedItem.price == selectedItem.product.discountPrice">Khuyến mãi (K)</mat-chip>
+            </mat-chip-list>
+          </mat-form-field>
+        </div>
+      </div>
+    </content>
+    <actions>
+      <button mat-raised-button (click)="cancel()">Hủy (ESC)</button>
+      <button mat-raised-button color="primary" (click)="ok()">OK (F4)</button>
+    </actions>
+  </flyout>
+  <button mat-fab color="accent">
+    <mat-icon>add</mat-icon>
+  </button>
 </div>

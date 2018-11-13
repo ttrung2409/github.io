@@ -53,6 +53,9 @@
     <Content Include="src\tsconfig.app.json" />
     <Content Include="src\tsconfig.spec.json" />
     <Content Include="src\tslint.json" />
+    <TypeScriptCompile Include="src\app\directives\number.directive.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="src\app\models\category.ts" />
     <TypeScriptCompile Include="src\app\models\product.ts">
       <SubType>Code</SubType>
@@ -108,6 +111,8 @@
     <Folder Include="src" />
     <Folder Include="src\app" />
     <Folder Include="src\app\models\" />
+    <Folder Include="src\app\directives\" />
+    <Folder Include="src\app\pipes\" />
     <Folder Include="src\app\product\components\product-list\" />
     <Folder Include="src\app\sale-order\" />
     <Folder Include="src\app\sale-order\components\" />

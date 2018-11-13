@@ -1,5 +1,5 @@
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { routes } from './sale-order.routing'
 import { RouterModule } from '@angular/router';
 import { WidgetModule } from '../widgets/widget.module';
@@ -14,9 +14,9 @@ import { OrderComponent } from './components/order/order.component';
     FormsModule
   ],
   declarations: [
-    OrderComponent
+    OrderComponent    
   ],
-  providers: [],
+  providers: [DecimalPipe],
   schemas: [NO_ERRORS_SCHEMA]
 })
 export class SaleOrderModule { }

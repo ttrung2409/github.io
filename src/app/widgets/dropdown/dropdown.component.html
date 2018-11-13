@@ -1,14 +1,14 @@
 <div class="dropdown-container">
   <mat-form-field [floatLabel]="floatLabel">
     <mat-label *ngIf="floatLabel != 'never'">{{label}}</mat-label>
-    <div class="ui fluid search selection dropdown">
+    <div class="ui fluid search selection dropdown" [class.loading]="isLoading">
       <input style="display: none" matInput [ngModel]="model">      
       <i class="dropdown icon"></i>
       <div class="default text">{{floatLabel == 'never' ? label : ''}}</div>
       <div class="menu">
-        <div #menu><ng-content select="items"></ng-content></div>
-        <div *ngIf="menu.children.length == 0">
-          <div class="item" *ngFor="let option of bindingOptions" [attr.data-value]="option[valueMember]">{{option[displayMember]}}</div>
+        <div class="item" *ngFor="let option of bindingOptions" [attr.data-value]="option[valueMember]" [attr.data-text]="option[displayMember]">
+          <ng-template #defaultTemplate>{{option[displayMember]}}</ng-template>
+          <ng-container *ngTemplateOutlet="itemTemplate || defaultTemplate; context: {item: option}"></ng-container>          
         </div>
       </div>
     </div>  

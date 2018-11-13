@@ -1,9 +1,6 @@
 <div class="product-list">
   <div class="toolbar-container">
-    <mat-toolbar class="mat-elevation-z1">
-      <button mat-button (click)="add()">
-        <mat-icon style="color: white">add</mat-icon>
-      </button>
+    <mat-toolbar class="mat-elevation-z1">      
       <button mat-button (click)="panel.toggle()">
         <mat-icon style="color: white">filter_list</mat-icon>
       </button>
@@ -41,14 +38,17 @@
     </mat-expansion-panel>
   </div>  
   <div style="margin-top: 8px"></div>
-  <grid [columns]="columns" [dataSource]="products" (rowClick)="onRowClick($event)"></grid>
-  <flyout #flyout [closable]="false">
+  <grid #grid [columns]="columns" [dataSource]="products" (rowClick)="onSelect($event)" (select)="onSelect($event)"></grid>
+  <flyout #flyout [closable]="false" [containerSelector]="'.product-list'">
     <content>
-      <product #productComponent [id]="selectedProduct.id"></product>
+      <product #product [id]="selectedProduct.id"></product>
     </content>    
     <actions>
-      <button mat-raised-button (click)="cancel()">Hủy</button>
-      <button mat-raised-button color="primary" (click)="save()">Lưu</button>
+      <button mat-raised-button (click)="cancel()">Hủy (Esc)</button>
+      <button mat-raised-button color="primary" (click)="save()">Lưu (F4)</button>
     </actions>
   </flyout>
+  <button mat-fab>
+    <mat-icon>add</mat-icon>
+  </button>
 </div>

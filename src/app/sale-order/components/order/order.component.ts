@@ -1,24 +1,38 @@
-import { Component, OnInit, OnDestroy} from '@angular/core';
-import { GridColumn } from '../../../widgets/grid/grid.component';
+import { Component, OnInit, OnDestroy, ViewChild, ViewEncapsulation, ElementRef, ChangeDetectorRef} from '@angular/core';
+import { GridColumn, GridComponent } from '../../../widgets/grid/grid.component';
 import SaleOrder from '../../../models/saleOrder';
 import SaleOrderItem from '../../../models/saleOrderItem';
 import Product from '../../../models/product';
 import { Subscription, fromEvent } from 'rxjs';
+import { FlyoutComponent } from '../../../widgets/flyout/flyout.component';
+import { Key } from 'ts-keycode-enum'
+import { Guid } from 'guid-typescript'
+import { ProductLookupComponent } from '../../../widgets/product-lookup/product-lookup.component';
+declare var _: any;
+declare var $: any;
 
 @Component({
   selector: 'order',
   templateUrl: './order.component.html',
-  styleUrls: ['./order.component.scss']  
+  styleUrls: ['./order.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class OrderComponent implements OnInit, OnDestroy {
   private _subscription: Subscription;
 
-  constructor() {
+  constructor(private changeDetector: ChangeDetectorRef) {
   }
+
+  @ViewChild('qtyEditor') qtyEditor: FlyoutComponent;
+  @ViewChild('productLookup') productLookup: ProductLookupComponent;  
+  @ViewChild('qtyInput') qtyInput: ElementRef;
+  @ViewChild('grid') grid: GridComponent;
 
   columns: GridColumn[];
   order: SaleOrder = new SaleOrder();  
+  selectedProductId: number;
   selectedIndex: number;
+  selectedItem: SaleOrderItem = new SaleOrderItem();
 
   ngOnInit() {
     this.columns = [
@@ -53,13 +67,13 @@ export class OrderComponent implements OnInit, OnDestroy {
       })
     ];
 
-    this._subscription = fromEvent(document, 'keyup').subscribe((e: KeyboardEvent) => {      
+    this._subscription = fromEvent(document, 'keyup').subscribe((e: KeyboardEvent) => {
       switch (e.keyCode) {
-        case 38: // Up
-          this.selectedIndex = Math.max(0, this.selectedIndex - 1);
+        case Key.Escape:
+          this.cancel();
           break;
-        case 40: // Down
-          this.selectedIndex = Math.min(this.order.items.length - 1, this.selectedIndex + 1);
+        case Key.F4:
+          this.ok();
           break;
       }
 
@@ -69,6 +83,24 @@ export class OrderComponent implements OnInit, OnDestroy {
           break;
         case '-':
           this.order.items[this.selectedIndex].qty = Math.max(0, this.order.items[this.selectedIndex].qty - 1);
+          break;
+        case 'l':
+          if (!!this.selectedItem) {
+            this.selectedItem.price = this.selectedItem.product.retailPrice;
+          }
+
+          break;
+        case 's':          
+          if (!!this.selectedItem) {
+            this.selectedItem.price = this.selectedItem.product.wholeSalePrice;
+          }
+
+          break;
+        case 'k':
+          if (!!this.selectedItem) {
+            this.selectedItem.price = this.selectedItem.product.discountPrice;
+          }
+
           break;
       }
     });
@@ -80,19 +112,50 @@ export class OrderComponent implements OnInit, OnDestroy {
 
   addItem(product: Product) {
     if (!!product) {
-      this.order.items.push(new SaleOrderItem({
-        index: this.order.items.length + 1,
+      this.order.items.push(new SaleOrderItem({        
+        id: Guid.create().toString(),
         productId: product.id,
         product: product,
         qty: 1,
-        price: product.retailPrice        
+        price: product.retailPrice,
+        index: this.order.items.length + 1
       }));
 
       this.selectedIndex = this.order.items.length - 1;
     }    
   }
 
-  onRowClick(item) {
-    this.selectedIndex = this.order.items.indexOf(item);
+  onKeydown(event: KeyboardEvent) {    
+    this.grid.handleKeyEvent(event);
+  }
+
+  onSelect(item: SaleOrderItem) {    
+    this.selectedItem = _.cloneDeep(item);
+    this.qtyEditor.show().then(() => {
+      $(this.qtyInput.nativeElement).focus();            
+    });
+  }
+
+  onDelete(item: SaleOrderItem) {
+    this.order.items = this.order.items.filter(x => x.id != item.id);
+    let index = 1;
+    for (let item of this.order.items) {
+      item.index = index++;
+    }
+
+    this.selectedIndex = Math.min(this.order.items.length - 1, this.selectedIndex);    
+  }
+
+  cancel() {
+    this.productLookup.focus();
+    this.productLookup.clear();
+    this.qtyEditor.hide();        
+  }
+
+  ok() {
+    this.productLookup.focus();
+    this.productLookup.clear();
+    this.qtyEditor.hide();
+    this.order.items[this.selectedIndex] = this.selectedItem;    
   }
 }

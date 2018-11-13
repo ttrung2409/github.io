@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, AfterViewInit, ElementRef, ViewEncapsulation, SimpleChanges, OnChanges, OnDestroy, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, ElementRef, ViewEncapsulation, SimpleChanges, OnChanges, OnDestroy, ChangeDetectorRef, EventEmitter, Output, TemplateRef } from '@angular/core';
 import { BindableComponent } from '../bindable.component';
+import { Key } from 'ts-keycode-enum'
 declare var $: any;
 
 @Component({
@@ -9,8 +10,10 @@ declare var $: any;
   encapsulation: ViewEncapsulation.None
 })
 export class DropdownComponent extends BindableComponent implements OnInit, OnChanges, AfterViewInit {
+  private _keyDown: boolean;
+  private _shouldHandleOnChange: boolean = true;
 
-  constructor(private el: ElementRef, private changeDetectorRef: ChangeDetectorRef) {
+  constructor(private el: ElementRef) {
     super();
   }
   
@@ -22,31 +25,31 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
   @Input() floatLabel: string = 'auto';
   @Input() direction: string = 'auto';
   @Input() showOnFocus: boolean = true;
+  @Input() showOnKeyDown: boolean = true;
+  @Input() keysPrevented: string[] = [];
+  @Input() itemTemplate: TemplateRef<any>;
 
-  @Output() keyup = new EventEmitter();
+  @Output() onKeydown = new EventEmitter();
+  @Output() show = new EventEmitter();
+  @Output() hide = new EventEmitter();
 
-  bindingOptions: any[];
+  bindingOptions: any[];  
 
   ngOnInit() {
   }
 
   ngOnChanges(changes: SimpleChanges) {           
-    if (!!changes['options']) {
+    if (!!changes.options) {
       this.bindingOptions = this.options.map(x => x instanceof Object ? x : {
         value: x,
         text: x
       });
 
       $(this.el.nativeElement).find('.ui.dropdown .menu > .message').css('display', this.bindingOptions.length > 0 ? 'none' : 'block');
-    }
-
-    if (!!changes['isLoading']) {
-      if (this.isLoading) $(this.el.nativeElement).find('.ui.dropdown').addClass('loading');
-      else $(this.el.nativeElement).find('.ui.dropdown').removeClass('loading');
-    }
+    }    
     
-    if (!!changes['model']) {      
-      this.setText(this.model);
+    if (!!changes.model) {
+      this.setSelected(this.model);
     }
   }
 
@@ -59,8 +62,14 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
       direction: this.direction,
       showOnFocus: this.showOnFocus,
       onShow: function () {
+        if (!_this.showOnKeyDown && _this._keyDown) {
+          _this._keyDown = false;
+          return false;
+        }
+
         $(_this.el.nativeElement).find('.mat-form-field').addClass('mat-form-field-should-float');
-        $(_this.el.nativeElement).find('.mat-form-field-underline').addClass('highlight');        
+        $(_this.el.nativeElement).find('.mat-form-field-underline').addClass('highlight');
+        _this.show.emit();
       },
       onHide: function () {
         if (!_this.model) {
@@ -68,41 +77,62 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
         }
 
         $(_this.el.nativeElement).find('.mat-form-field-underline').removeClass('highlight');
+        _this.hide.emit();
       },
       onChange(value) {
-        _this.model = value || undefined;             
-        let option = _this.bindingOptions.find(x => x[_this.valueMember] == value);
-        if (!!option) {
-          $(_this.el.nativeElement).find('.ui.dropdown').dropdown('set text', option[_this.displayMember]);
-        }
+        if (!!_this._shouldHandleOnChange) {          
+          _this.model = value || undefined;                     
+        }        
       }
     });
 
-    $(this.el.nativeElement).find('.ui.dropdown > input.search').on('keyup', (event: any) => {
-      if ((event.keyCode == 8 || event.keyCode == 46) && !event.target.value) {
-        this.clear();
+    $(this.el.nativeElement).find('.ui.dropdown > input.search').on('keydown', (event: any) => {
+      switch (event.keyCode) {
+        case Key.Backspace:
+        case Key.Delete:
+          if (!event.target.value) {
+            this.clear();
+          }
+
+          break;
+        case Key.DownArrow:
+          this._keyDown = true;
+          break;
       }
-
-      this.keyup.emit(event);
+      
+      if (this.keysPrevented.some(x => x == event.key)) {
+        event.preventDefault();
+      }
+      
+      this.onKeydown.emit(event);      
     });
-  } 
 
-  private setText(value) {
-    let option = this.bindingOptions.find(x => x[this.valueMember] == value);
-    if (!!option) {
-      $(this.el.nativeElement).find('.ui.dropdown').dropdown('set text', option[this.displayMember]);
-    }
-    else {      
-      this.clear();            
+    this.setSelected(this.model);
+  }
+
+  clear() {    
+    this.model = undefined;
+    $(this.el.nativeElement).find('.ui.dropdown').dropdown('clear');
+    $(this.el.nativeElement).find('.ui.dropdown > input.search').val('');
+    if (this.floatLabel == 'never') {
+      $(this.el.nativeElement).find('.ui.dropdown').dropdown('set text', this.label);
+      $(this.el.nativeElement).find('.ui.dropdown > .text').addClass('default');      
     }
   }
 
-  private clear() {
-    this.model = undefined;
-    $(this.el.nativeElement).find('.ui.dropdown').dropdown('clear');
-    if (this.floatLabel == 'never') {
-      $(this.el.nativeElement).find('.ui.dropdown').dropdown('set text', this.label);
-      $(this.el.nativeElement).find('.ui.dropdown > .text').addClass('default');
+  focus() {
+    $(this.el.nativeElement).find('.ui.dropdown > input.search').focus();
+  }
+
+  private setSelected(value) {
+    this._shouldHandleOnChange = false;
+    if (this.bindingOptions.some(x => x[this.valueMember] == value)) {
+      $(this.el.nativeElement).find('.ui.dropdown').dropdown('set selected', value);
     }
+    else {
+      this.clear();
+    }
+
+    this._shouldHandleOnChange = true;    
   }
 }

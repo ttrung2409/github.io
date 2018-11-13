@@ -1,43 +1,60 @@
-import { Component, OnInit, Input, Output, EventEmitter, DoCheck, IterableDiffers } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, DoCheck, IterableDiffers, OnDestroy } from '@angular/core';
+import { fromEvent, Subscription } from 'rxjs';
+import { Key } from 'ts-keycode-enum';
+import { HotkeysService, Hotkey } from 'angular2-hotkeys';
 
 @Component({
   selector: 'grid',
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.scss']  
 })
-export class GridComponent implements OnInit, DoCheck {  
+export class GridComponent implements OnInit, DoCheck, OnDestroy {  
   private _differs: any;
+  private _hotkey: Hotkey;
 
-  constructor(private differs: IterableDiffers) {
+  constructor(private differs: IterableDiffers, private hotkeyService: HotkeysService) {
     this._differs = differs.find([]).create(null);
   }
 
   @Input() columns: GridColumn[];
   @Input() dataSource: any[];
   @Input() selectedIndex: number = 0;
-  @Output() rowClick = new EventEmitter();  
+  @Output() rowClick = new EventEmitter();
+  @Output() selectedIndexChange = new EventEmitter();
+  @Output() select = new EventEmitter();
+  @Output() delete = new EventEmitter();
 
   bindingDataSource: any[];
 
   get displayedColumns() {
     return this.columns.map(x => x.field);
-  }
+  }  
 
   ngOnInit() {    
     for (let column of this.columns) {
       column.format = column.format || ((value, item) => value);      
-    }    
+    }
+
+    this.hotkeyService.add(this._hotkey = new Hotkey(['up', 'down', 'enter', 'del'], (event: KeyboardEvent) => {     
+      this.handleKeyEvent(event);
+      return false;
+    }));  
   }
 
   ngDoCheck() {    
-    if (!!this._differs.diff(this.dataSource)) {
-      debugger;
-      this.bindingDataSource = [...this.dataSource];
+    if (!!this._differs.diff(this.dataSource)) {      
+      this.bindingDataSource = [...this.dataSource];     
     }
   }
+
+  ngOnDestroy() {
+    this.hotkeyService.remove(this._hotkey);
+  }
   
-  onRowClick(row) {    
-    this.rowClick.emit(row);
+  onRowClick(row, index) {
+    this.selectedIndex = index;
+    this.selectedIndexChange.emit(this.selectedIndex);
+    this.rowClick.emit(row);    
   }
 
   getCellData(row: any, column: GridColumn) {
@@ -48,7 +65,30 @@ export class GridComponent implements OnInit, DoCheck {
     }
 
     return data;
-  }  
+  }
+
+  isNumber(row: any, column: GridColumn) {
+    return typeof this.getCellData(row, column) === 'number';    
+  }
+
+  handleKeyEvent(event: KeyboardEvent) {
+    switch (event.keyCode) {
+      case Key.UpArrow:
+        this.selectedIndex = Math.max(0, this.selectedIndex - 1);
+        this.selectedIndexChange.emit(this.selectedIndex);
+        break;
+      case Key.DownArrow:
+        this.selectedIndex = Math.min(this.dataSource.length - 1, this.selectedIndex + 1);
+        this.selectedIndexChange.emit(this.selectedIndex);
+        break;
+      case Key.Enter:
+        this.select.emit(this.dataSource[this.selectedIndex]);
+        break;
+      case Key.Delete:
+        this.delete.emit(this.dataSource[this.selectedIndex]);
+        break;
+    }
+  }
 }
 
 export class GridColumn {
@@ -59,5 +99,5 @@ export class GridColumn {
   public caption: string;
   public field: string;
   public width: string;
-  public format: Function;  
+  public format: Function; 
 }

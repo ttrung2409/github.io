@@ -5,10 +5,12 @@ import { AppComponent } from './app.component';
 import { appRoutes } from './app.routing';
 import { RouterModule, PreloadAllModules } from '@angular/router';
 import { WidgetModule } from './widgets/widget.module'
+import ProductService from './services/product.service';
+import { HotkeyModule } from 'angular2-hotkeys';
 
 @NgModule({
   declarations: [
-    AppComponent,    
+    AppComponent    
   ],
   imports: [
     RouterModule.forRoot(appRoutes, {      
@@ -16,9 +18,10 @@ import { WidgetModule } from './widgets/widget.module'
     }),
     BrowserModule,
     BrowserAnimationsModule,
-    WidgetModule    
+    WidgetModule,
+    HotkeyModule.forRoot()
   ],
-  providers: [],
+  providers: [ProductService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

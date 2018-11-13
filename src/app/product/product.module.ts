@@ -4,7 +4,6 @@ import { ProductComponent } from './components/product/product.component';
 import { routes } from './product.routing'
 import { RouterModule } from '@angular/router';
 import { ProductListComponent } from './components/product-list/product-list.component'
-import ProductService from '../services/product.service';
 import { WidgetModule } from '../widgets/widget.module';
 import { FormsModule } from '@angular/forms';
 
@@ -13,13 +12,13 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     RouterModule.forChild(routes),
     WidgetModule,
-    FormsModule
+    FormsModule    
   ],
   declarations: [
     ProductComponent,
     ProductListComponent
   ],
-  providers: [ProductService],
+  providers: [],
   schemas: [NO_ERRORS_SCHEMA]
 })
 export class ProductModule { }

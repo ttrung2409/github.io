@@ -1,4 +1,4 @@
-<dropdown [options]="options"
+<dropdown #dropdown [options]="options"
           [isLoading]="isLoading"
           [(model)]="model"
           [valueMember]="valueMember"
@@ -6,12 +6,11 @@
           [label]="label"
           [floatLabel]="floatLabel"
           [direction]="direction"
-          (keyup)="onKeyup($event)"
-          [showOnFocus]="false">  
-  <items>
-    <div #items><ng-content select="items"></ng-content></div>
-    <div *ngIf="items.children.length == 0">
-      <div class="item" *ngFor="let option of bindingOptions" [attr.data-value]="option[valueMember]">{{option[displayMember]}}</div>
-    </div>
-  </items>
+          [showOnFocus]="false"
+          [showOnKeyDown]="false"
+          [keysPrevented]="keysPrevented"
+          (show)="onShow()"
+          (hide)="onHide()"
+          [itemTemplate]="itemTemplate"
+          (onKeydown)="handleKeydown($event)">   
 </dropdown>

@@ -1,4 +1,4 @@
-<typeahead [options]="products"
+<typeahead #typeahead [options]="products"
            [(model)]="model"
            (search)="onSearch($event)"
            [isLoading]="isLoading"
@@ -7,11 +7,14 @@
            [label]="'Nhập mã hoặc tên để tìm sản phẩm'"
            [floatLabel]="'never'"
            [direction]="direction"
-           (keyup)="onKeyup($event)">
-  <items>
-    <div class="item" *ngFor="let product of products" [attr.data-value]="product.id">
-      <div style="display: block; font-weight: 600">{{product.name}}</div>
-      <div style="display: block; margin-top: 8px">{{product.no}} {{product.uom}}</div>
-    </div>
-  </items>
+           (onKeydown)="handleKeydown($event)"
+           [showOnKeyDown]="false"
+           [keysPrevented]="['+', '-']"
+           (show)="onShow()"
+           (hide)="onHide()"
+           [itemTemplate]="itemTemplate">
+  <ng-template #itemTemplate let-item="item">    
+    <div>{{item.name}} ({{item.uom}})</div>
+    <div style="color: grey; margin-top: 8px">{{item.no}}</div>
+  </ng-template>  
 </typeahead>

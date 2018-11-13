@@ -14,6 +14,8 @@ export default class ProductService {
       name: 'Giấy bạc Diamond ngắn',
       uom: 'Cuộn',      
       retailPrice: 27000,
+      wholeSalePrice: 25000,
+      discountPrice: 20000,
       isActive: true
     }),
     new Product({

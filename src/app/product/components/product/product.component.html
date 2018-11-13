@@ -1,7 +1,7 @@
 <div class="ui grid">
   <div class="eight wide column">
     <mat-form-field>
-      <input matInput placeholder="Mã SP" [(ngModel)]="product.no" required>
+      <input #productNoInput matInput placeholder="Mã SP" [(ngModel)]="product.no" required>
     </mat-form-field>
   </div>
   <div class="eight wide column">
@@ -65,7 +65,7 @@
       </mat-form-field>
     </div>
     <div class="twelve wide column">
-      <product-lookup [(model)]="product.itemId" [direction]="'upward'"></product-lookup>      
+      <product-lookup [(model)]="product.itemId" [direction]="'upward'"></product-lookup>
     </div>
   </div>  
 </div>  

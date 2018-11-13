@@ -14,9 +14,11 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
 import { TypeaheadComponent } from './typeahead/typeahead.component';
 import { ProductLookupComponent } from './product-lookup/product-lookup.component';
-import ProductService from '../services/product.service';
+import { NumberDirective } from '../directives/number.directive';
+import { HotkeyModule } from 'angular2-hotkeys';
 
 @NgModule({  
   imports: [
@@ -30,7 +32,9 @@ import ProductService from '../services/product.service';
     MatButtonModule,
     MatToolbarModule,
     MatRippleModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatChipsModule,
+    HotkeyModule
   ],
   declarations: [
     GridComponent,
@@ -38,7 +42,8 @@ import ProductService from '../services/product.service';
     DropdownComponent,
     BindableComponent,
     TypeaheadComponent,
-    ProductLookupComponent
+    ProductLookupComponent,
+    NumberDirective    
   ],
   exports: [
     GridComponent,
@@ -53,10 +58,12 @@ import ProductService from '../services/product.service';
     MatToolbarModule,
     MatRippleModule,
     MatCheckboxModule,
+    MatChipsModule,
     TypeaheadComponent,
-    ProductLookupComponent
+    ProductLookupComponent,
+    NumberDirective
   ],
   schemas: [NO_ERRORS_SCHEMA],
-  providers: [ProductService]
+  providers: []
 })
 export class WidgetModule { }
