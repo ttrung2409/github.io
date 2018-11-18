@@ -8,9 +8,11 @@
           [direction]="direction"
           [showOnFocus]="false"
           [showOnKeyDown]="false"
-          [keysPrevented]="keysPrevented"
+          [preventKeys]="preventKeys"
           (show)="onShow()"
           (hide)="onHide()"
           [itemTemplate]="itemTemplate"
-          (onKeydown)="handleKeydown($event)">   
+          (onKeydown)="handleKeydown($event)"
+          (onSelect)="handleSelect($event)"
+          [requestForOption]="requestForOption">   
 </dropdown>

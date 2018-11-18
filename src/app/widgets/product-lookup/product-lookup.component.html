@@ -9,9 +9,10 @@
            [direction]="direction"
            (onKeydown)="handleKeydown($event)"
            [showOnKeyDown]="false"
-           [keysPrevented]="['+', '-']"
+           [preventKeys]="['+', '-']"
            (show)="onShow()"
            (hide)="onHide()"
+           [requestForOption]="requestForProduct.bind(this)"
            [itemTemplate]="itemTemplate">
   <ng-template #itemTemplate let-item="item">    
     <div>{{item.name}} ({{item.uom}})</div>

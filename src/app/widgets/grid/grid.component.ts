@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, DoCheck, IterableDiffers, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, DoCheck, IterableDiffers, OnDestroy, IterableDiffer } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 import { Key } from 'ts-keycode-enum';
 import { HotkeysService, Hotkey } from 'angular2-hotkeys';
@@ -9,16 +9,17 @@ import { HotkeysService, Hotkey } from 'angular2-hotkeys';
   styleUrls: ['./grid.component.scss']  
 })
 export class GridComponent implements OnInit, DoCheck, OnDestroy {  
-  private _differs: any;
+  private _differ: IterableDiffer<any>;
   private _hotkey: Hotkey;
 
   constructor(private differs: IterableDiffers, private hotkeyService: HotkeysService) {
-    this._differs = differs.find([]).create(null);
+    this._differ = differs.find([]).create(null);
   }
 
   @Input() columns: GridColumn[];
   @Input() dataSource: any[];
   @Input() selectedIndex: number = 0;
+  @Input() showFooter: boolean;
   @Output() rowClick = new EventEmitter();
   @Output() selectedIndexChange = new EventEmitter();
   @Output() select = new EventEmitter();
@@ -42,7 +43,7 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngDoCheck() {    
-    if (!!this._differs.diff(this.dataSource)) {      
+    if (!!this._differ.diff(this.dataSource)) {      
       this.bindingDataSource = [...this.dataSource];     
     }
   }
@@ -82,12 +83,26 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy {
         this.selectedIndexChange.emit(this.selectedIndex);
         break;
       case Key.Enter:
-        this.select.emit(this.dataSource[this.selectedIndex]);
+        if (this.selectedIndex > -1) {
+          this.select.emit(this.dataSource[this.selectedIndex]);
+        }
+        
         break;
       case Key.Delete:
-        this.delete.emit(this.dataSource[this.selectedIndex]);
+        if (this.selectedIndex > -1) {
+          this.delete.emit(this.dataSource[this.selectedIndex]);
+        }
+        
         break;
     }
+  }
+
+  getFooterValue(footer) {
+    if (typeof (footer) === 'function') {
+      return footer();
+    }
+
+    return footer || '';
   }
 }
 
@@ -99,5 +114,6 @@ export class GridColumn {
   public caption: string;
   public field: string;
   public width: string;
-  public format: Function; 
+  public format: Function;
+  public footer: any;
 }

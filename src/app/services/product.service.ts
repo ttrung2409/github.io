@@ -1,18 +1,79 @@
 import Product from "../models/product";
 import { Injectable } from "@angular/core";
-import { Observable, of } from "rxjs";
-import { filter, concatAll, reduce } from 'rxjs/operators'
+import { Observable, of, BehaviorSubject } from "rxjs";
+import { filter, concatAll, reduce, tap, map } from 'rxjs/operators'
 import Category from "../models/category";
 import * as _ from 'lodash'
 
 @Injectable()
 export default class ProductService {
-  private _products: Product[] = [
+  private _products: BehaviorSubject<Product[]> = new BehaviorSubject([]);
+
+  getProducts(params?: any): Observable<Product[]> {
+    setTimeout(() => {
+      of(this._cachedProducts).subscribe(products => this._products.next(products));
+    });
+
+    return this._products.asObservable();
+  }
+
+  getProduct(id: number): Observable<Product> {
+    return of(this._cachedProducts).pipe(concatAll(), filter(x => x.id == id), map(x => _.cloneDeep(x)));
+  }
+
+  getCategories(): Observable<Category[]> {
+    return of([
+      new Category({
+        id: 1,
+        name: 'Bánh kẹo'
+      }),
+      new Category({
+        id: 2,
+        name: 'Cafe'
+      }),
+      new Category({
+        id: 3,
+        name: 'Sữa bột'
+      }),
+      new Category({
+        id: 4,
+        name: 'Văn phòng phẩm'
+      })]);
+  }
+
+  getUOMs(): Observable<string[]> {
+    return of([
+      'Bịch',
+      'Thùng',
+      'Cái',
+      'Cuộn',
+      'Bình',
+      'Gói'
+    ]);
+  }
+
+  lookup(query: string): Observable<Product[]> {
+    return of(this._cachedProducts).pipe(
+      concatAll(),
+      filter(x => x.no.toLowerCase().includes(query.toLowerCase()) || x.name.toLowerCase().includes(query.toLowerCase())),
+      map(x => _.cloneDeep(x)),
+      reduce((acc, value) => acc.concat(value), []));
+  }
+
+  save(product: Product) {
+    let p = this._cachedProducts.find(x => x.id == product.id);
+    if (!!p) {
+      Object.assign(p, product);
+      this._products.next(this._cachedProducts);
+    }
+  }
+
+  private _cachedProducts: Product[] = [
     new Product({
       id: 1,
       no: '100001',
       name: 'Giấy bạc Diamond ngắn',
-      uom: 'Cuộn',      
+      uom: 'Cuộn',
       retailPrice: 27000,
       wholeSalePrice: 25000,
       discountPrice: 20000,
@@ -88,59 +149,6 @@ export default class ProductService {
       uom: 'Bịch',
       retailPrice: 60000,
       isActive: true
-    }),
-  ]
-  
-  getProducts(params?: any): Observable<Product[]> {
-    return of(_.cloneDeep(this._products));
-  }
-
-  getProduct(id: number): Observable<Product> {
-    return this.getProducts().pipe(concatAll(), filter(x => x.id == id));
-  }
-
-  getCategories(): Observable<Category[]> {
-    return of([
-      new Category({
-        id: 1,
-        name: 'Bánh kẹo'
-      }),
-      new Category({
-        id: 2,
-        name: 'Cafe'
-      }),
-      new Category({
-        id: 3,
-        name: 'Sữa bột'
-      }),
-      new Category({
-        id: 4,
-        name: 'Văn phòng phẩm'
-      })]);
-  }
-
-  getUOMs(): Observable<string[]> {
-    return of([
-      'Bịch',
-      'Thùng',      
-      'Cái',
-      'Cuộn',
-      'Bình',
-      'Gói'
-    ]);
-  }
-
-  lookup(query: string): Observable<Product[]> {
-    return this.getProducts()
-      .pipe(concatAll())
-      .pipe(filter(x => x.no.toLowerCase().includes(query.toLowerCase()) || x.name.toLowerCase().includes(query.toLowerCase())))
-      .pipe(reduce((acc, value) => acc.concat(value), []));
-  }
-
-  save(product: Product) {
-    let p = this._products.find(x => x.id == product.id);
-    if (!!p) {
-      Object.assign(p, product);
-    }
-  } 
+    })
+  ];
 }

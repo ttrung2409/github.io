@@ -1,0 +1,45 @@
+<div class="retail">
+  <mat-toolbar class="mat-elevation-z1">
+    <button mat-button style="color: white" (click)="pay()">
+      <mat-icon>attach_money</mat-icon>
+      (F2)
+    </button>
+  </mat-toolbar>
+  <div class="row">
+    <div class="sixteen wide column">
+      <product-lookup #productLookup
+                      [(model)]="selectedProductId"
+                      (onSelect)="addItem($event)"
+                      [clearOnSelect]="true"
+                      (onKeydown)="onKeydown($event)">
+      </product-lookup>
+    </div>
+    <div class="sixteen wide column">
+      <grid #grid [columns]="columns"
+            [dataSource]="invoice.items"
+            [(selectedIndex)]="selectedIndex"
+            (rowClick)="onSelect($event)"
+            (select)="onSelect($event)"
+            (delete)="onDelete($event)"
+            [showFooter]="true">
+      </grid>
+    </div>
+  </div>  
+  <flyout #flyout [closable]="false" [containerSelector]="'.retail'">
+    <content>
+      <qty-editor #qtyEditor *ngIf="flyoutView == 'qtyEditor'"
+                  [item]="selectedItem"
+                  (commit)="onItemChange($event)"
+                  (cancel)="flyout.hide(); productLookup.focus()"
+                  ></qty-editor>
+      <payment #paymentView *ngIf="flyoutView == 'payment'"
+               [invoice]="invoice"
+               (pay)="onPay($event)"
+               (cancel)="flyout.hide(); productLookup.focus()">
+      </payment>
+    </content>
+  </flyout>
+  <button mat-fab color="accent">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>

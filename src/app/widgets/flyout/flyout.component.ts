@@ -26,6 +26,7 @@ export class FlyoutComponent implements OnInit, AfterViewInit {
       context: $(this.containerSelector),
       transition: 'overlay',
       closable: this.closable,
+      exclusive: false,
       onVisible: function () {
         $('.pusher').addClass('dimmed');        
       },

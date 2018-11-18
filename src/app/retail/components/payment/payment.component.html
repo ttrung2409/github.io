@@ -1,0 +1,44 @@
+<div>
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <typeahead #customerLookup [options]="customers"                 
+                 [(model)]="invoice.customerId"
+                 (search)="onSearch($event)"
+                 [isLoading]="isLoading"
+                 [valueMember]="'id'"
+                 [displayMember]="'name'"
+                 [label]="'Nhập tên, số điện thoại hoặc email để tìm khách hàng'"
+                 [floatLabel]="'never'"
+                 [showOnKeyDown]="false"
+                 [requestForOption]="requestForCustomer.bind(this)"
+                 [itemTemplate]="itemTemplate">
+        <ng-template #itemTemplate let-item="item">
+          <div>{{item.name}}</div>
+          <div style="color: grey; margin-top: 8px">{{item.phoneNumber}}</div>
+          <div style="color: grey; margin-top: 8px">{{item.email}}</div>
+        </ng-template>
+      </typeahead>
+    </div>    
+    <div class="sixteen wide column">
+      <mat-form-field>
+        <input matInput placeholder="Tổng" number [model]="invoice.total" [readonly]="true" required>
+      </mat-form-field>
+    </div>
+    <div class="sixteen wide column">
+      <mat-form-field>
+        <input matInput placeholder="Tiền mặt" number [(model)]="payment.amount" required>
+      </mat-form-field>
+    </div>
+    <div class="sixteen wide column">
+      <mat-form-field>
+        <input matInput placeholder="Tiền thừa"
+               number [model]="payment.amount - invoice.total > 0 ? payment.amount - invoice.total : ''"
+               [readonly]="true">
+      </mat-form-field>
+    </div>
+  </div>  
+  <div class="action">
+    <button mat-flat-button (click)="doCancel()">Hủy (Esc)</button>
+    <button mat-flat-button color="primary" (click)="doPay()">Hoàn tất (F4)</button>
+  </div>
+</div>

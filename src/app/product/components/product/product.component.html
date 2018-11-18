@@ -1,71 +1,77 @@
-<div class="ui grid">
-  <div class="eight wide column">
-    <mat-form-field>
-      <input #productNoInput matInput placeholder="Mã SP" [(ngModel)]="product.no" required>
-    </mat-form-field>
-  </div>
-  <div class="eight wide column">
-    <mat-form-field>
-      <input matInput placeholder="Mã vạch" [(ngModel)]="product.barcode">
-    </mat-form-field>
-  </div>
-  <div class="sixteen wide column">
-    <mat-form-field>
-      <input matInput placeholder="Tên SP" [(ngModel)]="product.name" required>
-    </mat-form-field>
-  </div>
-  <div class="eight wide column">
-    <dropdown [(model)]="product.categoryId"
-              [options]="categories"
-              [label]="'Loại'"
-              [valueMember]="'id'"
-              [displayMember]="'name'"></dropdown>
-  </div>
-  <div class="eight wide column">
-    <dropdown [options]="uoms" [label]="'ĐVT'" [(model)]="product.uom"></dropdown>
-  </div>
-  <div class="eight wide column">
-    <mat-form-field>
-      <input matInput placeholder="Giá nhập" [(ngModel)]="product.cost">
-    </mat-form-field>
-  </div>
-  <div class="eight wide column">
-    <mat-form-field>
-      <input matInput placeholder="Giá lẻ" [(ngModel)]="product.retailPrice">
-    </mat-form-field>
-  </div>
-  <div class="eight wide column">
-    <mat-form-field>
-      <input matInput placeholder="Giá sỉ" [(ngModel)]="product.wholeSalePrice">
-    </mat-form-field>
-  </div>
-  <div class="eight wide column">
-    <mat-form-field>
-      <input matInput placeholder="Giá khuyến mãi" [(ngModel)]="product.discountPrice">
-    </mat-form-field>
-  </div>
-  <div class="sixteen wide column">
-    <mat-form-field>
-      <textarea matInput placeholder="Ghi chú" [(ngModel)]="product.notes"></textarea>
-    </mat-form-field>
-  </div>
-  <div class="sixteen wide column">
-    <mat-checkbox [(ngModel)]="product.isActive">Hoạt động</mat-checkbox>
-  </div>
-  <div class="sixteen wide column">
-    <mat-checkbox [(ngModel)]="product.isContainer">Có sản phẩm lẻ</mat-checkbox>
-  </div>
-  <div class="row" *ngIf="product.isContainer">
-    <div class="sixteen wide column">
-      <label>1 {{product.uom}} {{product.name}} có:</label>
-    </div>
-    <div class="four wide column">
-      <mat-form-field [floatLabel]="'never'">
-        <input matInput placeholder="SL" [(ngModel)]="product.itemQty" />
+<div>
+  <div class="ui grid">
+    <div class="eight wide column">
+      <mat-form-field>
+        <input #productNoInput matInput placeholder="Mã SP" [(ngModel)]="product.no" required>
       </mat-form-field>
     </div>
-    <div class="twelve wide column">
-      <product-lookup [(model)]="product.itemId" [direction]="'upward'"></product-lookup>
+    <div class="eight wide column">
+      <mat-form-field>
+        <input matInput placeholder="Mã vạch" [(ngModel)]="product.barcode">
+      </mat-form-field>
     </div>
-  </div>  
-</div>  
+    <div class="sixteen wide column">
+      <mat-form-field>
+        <input matInput placeholder="Tên SP" [(ngModel)]="product.name" required>
+      </mat-form-field>
+    </div>
+    <div class="eight wide column">
+      <dropdown [(model)]="product.categoryId"
+                [options]="categories"
+                [label]="'Loại'"
+                [valueMember]="'id'"
+                [displayMember]="'name'"></dropdown>
+    </div>
+    <div class="eight wide column">
+      <dropdown [options]="uoms" [label]="'ĐVT'" [(model)]="product.uom"></dropdown>
+    </div>
+    <div class="eight wide column">
+      <mat-form-field>
+        <input matInput placeholder="Giá nhập" number [(model)]="product.cost">
+      </mat-form-field>
+    </div>
+    <div class="eight wide column">
+      <mat-form-field>
+        <input matInput placeholder="Giá lẻ" number [(model)]="product.retailPrice">
+      </mat-form-field>
+    </div>
+    <div class="eight wide column">
+      <mat-form-field>
+        <input matInput placeholder="Giá sỉ" number [(model)]="product.wholeSalePrice">
+      </mat-form-field>
+    </div>
+    <div class="eight wide column">
+      <mat-form-field>
+        <input matInput placeholder="Giá khuyến mãi" number [(model)]="product.discountPrice">
+      </mat-form-field>
+    </div>
+    <div class="sixteen wide column">
+      <mat-form-field>
+        <textarea matInput placeholder="Ghi chú" [(ngModel)]="product.notes"></textarea>
+      </mat-form-field>
+    </div>
+    <div class="sixteen wide column">
+      <mat-checkbox [(ngModel)]="product.isActive">Hoạt động</mat-checkbox>
+    </div>
+    <div class="sixteen wide column">
+      <mat-checkbox [(ngModel)]="product.isContainer">Có sản phẩm lẻ</mat-checkbox>
+    </div>
+    <div class="row" *ngIf="product.isContainer">
+      <div class="sixteen wide column">
+        <label>1 {{product.uom}} {{product.name}} có:</label>
+      </div>
+      <div class="four wide column">
+        <mat-form-field [floatLabel]="'never'">
+          <input matInput placeholder="SL" [(ngModel)]="product.itemQty" />
+        </mat-form-field>
+      </div>
+      <div class="twelve wide column">
+        <product-lookup [(model)]="product.itemId" [direction]="'upward'"></product-lookup>
+      </div>
+    </div>
+  </div>
+  <div class="action">
+    <button mat-flat-button (click)="cancel()">Hủy (Esc)</button>
+    <button mat-flat-button color="primary" (click)="save()">Lưu (F4)</button>
+  </div>
+</div>

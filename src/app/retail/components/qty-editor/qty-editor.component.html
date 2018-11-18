@@ -1,0 +1,23 @@
+<div>
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <mat-form-field>
+        <input #qtyInput matInput placeholder="SL" number [(model)]="item.qty" required>
+      </mat-form-field>
+    </div>
+    <div class="sixteen wide column">
+      <mat-form-field>
+        <input matInput placeholder="Giá" number [(model)]="item.price" required>
+        <mat-chip-list matSuffix>
+          <mat-chip [selected]="item.price == item.product.retailPrice">Lẻ (L)</mat-chip>
+          <mat-chip [selected]="item.price == item.product.wholeSalePrice">Sỉ (S)</mat-chip>
+          <mat-chip [selected]="item.price == item.product.discountPrice">Khuyến mãi (K)</mat-chip>
+        </mat-chip-list>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="action">
+    <button mat-flat-button (click)="doCancel()">Hủy (Esc)</button>
+    <button mat-flat-button color="primary" (click)="save()">Lưu (F4)</button>
+  </div>
+</div>

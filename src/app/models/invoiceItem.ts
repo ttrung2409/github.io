@@ -1,7 +1,7 @@
 import Product from "./product";
 
-export default class SaleOrderItem {
-  public constructor(init?: Partial<SaleOrderItem>) {
+export default class InvoiceItem {
+  public constructor(init?: Partial<InvoiceItem>) {
     Object.assign(this, init);
   }
 

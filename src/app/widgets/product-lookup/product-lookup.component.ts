@@ -1,11 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import Product from '../../models/product';
 import ProductService from '../../services/product.service';
 import { BindableComponent } from '../bindable.component';
-import { Subscription, of } from 'rxjs';
+import { Subscription, of, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Key } from 'ts-keycode-enum';
 import { TypeaheadComponent } from '../typeahead/typeahead.component';
+declare var $: any;
 
 @Component({
   selector: 'product-lookup',
@@ -18,13 +19,13 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
   private _subscriptionForScanner: Subscription = new Subscription();
   private _showing: boolean;
 
-  constructor(private productService: ProductService) {
+  constructor(private el: ElementRef, private productService: ProductService) {
     super();
   }
   
   @Input() direction: string = 'auto';
   @Input() clearOnSelect: boolean = false;
-  @Output() select = new EventEmitter();
+  @Output() onSelect = new EventEmitter();
   @Output() onKeydown = new EventEmitter();
 
   @ViewChild('typeahead') typeahead: TypeaheadComponent;
@@ -33,8 +34,8 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
   products: Product[] = [];  
 
   ngOnChanges(changes: SimpleChanges) {    
-    if (!!changes.model && changes.model.currentValue != changes.model.previousValue) {      
-      this.select.emit(this.products.find(x => x.id == this.model));
+    if (!!changes.model && this.products.some(x => x.id == this.model)) {
+      this.onSelect.emit(this.products.find(x => x.id == this.model));
     }
   }
 
@@ -51,7 +52,8 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
     this.products = [];
     if (this._lastKey == Key.Enter) {
       this._subscriptionForScanner.add(this.productService.lookup(query).subscribe((products: Product[]) => {
-        this.select.emit(products.length > 0 ? products[0] : null);        
+        this.isLoading = false;
+        this.onSelect.emit(products.length > 0 ? products[0] : null);        
       }));
     }
     else {
@@ -69,6 +71,11 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
   handleKeydown(event) {
     this._lastKey = event.keyCode;
     if (event.keyCode == Key.Enter && !!this.clearOnSelect) {
+      let $input = $(this.el.nativeElement.querySelector('input.search'));
+      if (!!$input.val()) {
+        this.onSearch($input.val());      
+      }
+      
       setTimeout(() => this.typeahead.clear());     
     }
     
@@ -94,5 +101,9 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
 
   onHide() {
     setTimeout(() => this._showing = false, 500);
-  }  
+  }
+
+  requestForProduct(id): Observable<any> {
+    return this.productService.getProduct(id);
+  }
 }

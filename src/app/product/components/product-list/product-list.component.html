@@ -1,52 +1,19 @@
 <div class="product-list">
   <div class="toolbar-container">
     <mat-toolbar class="mat-elevation-z1">      
-      <button mat-button (click)="panel.toggle()">
-        <mat-icon style="color: white">filter_list</mat-icon>
+      <button mat-button style="color: white" (click)="showSearchView()">
+        <mat-icon>filter_list</mat-icon>
+        (F2)
       </button>
-    </mat-toolbar>
-    <mat-expansion-panel hideToggle #panel>
-      <div class="ui grid">
-        <div class="three wide column">
-          <mat-form-field>
-            <input matInput placeholder="Mã SP" [(ngModel)]="search.productNo">
-          </mat-form-field>
-        </div>
-        <div class="three wide column">
-          <mat-form-field>
-            <input matInput placeholder="Tên SP" [(ngModel)]="search.productName">
-          </mat-form-field>
-        </div>
-        <div class="three wide column">
-          <dropdown [options]="categories"
-                    [label]="'Loại'"
-                    [displayMember]="'name'"
-                    [valueMember]="'id'"
-                    [(model)]="search.categoryId">
-          </dropdown>
-        </div>
-        <div class="three wide column">
-          <dropdown [options]="states"
-                    [label]="'Tình trạng'"                    
-                    [(model)]="search.isActive">
-          </dropdown>
-        </div>
-      </div>
-      <mat-action-row>
-        <button mat-button color="primary">Tìm</button>
-      </mat-action-row>
-    </mat-expansion-panel>
+    </mat-toolbar>    
   </div>  
   <div style="margin-top: 8px"></div>
   <grid #grid [columns]="columns" [dataSource]="products" (rowClick)="onSelect($event)" (select)="onSelect($event)"></grid>
   <flyout #flyout [closable]="false" [containerSelector]="'.product-list'">
     <content>
-      <product #product [id]="selectedProduct.id"></product>
-    </content>    
-    <actions>
-      <button mat-raised-button (click)="cancel()">Hủy (Esc)</button>
-      <button mat-raised-button color="primary" (click)="save()">Lưu (F4)</button>
-    </actions>
+      <product #productView *ngIf="flyoutView == 'product'" [id]="selectedProduct.id" (complete)="flyout.hide()"></product>
+      <product-search #productSearchView *ngIf="flyoutView == 'search'" (search)="onSearch($event)" (cancel)="flyout.hide()"></product-search>
+    </content>        
   </flyout>
   <button mat-fab>
     <mat-icon>add</mat-icon>

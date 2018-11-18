@@ -7,6 +7,9 @@ import { RouterModule, PreloadAllModules } from '@angular/router';
 import { WidgetModule } from './widgets/widget.module'
 import ProductService from './services/product.service';
 import { HotkeyModule } from 'angular2-hotkeys';
+import RetailService from './services/retail.service';
+import CustomerService from './services/customer.service';
+import UtilsService from './services/utils.service';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,7 @@ import { HotkeyModule } from 'angular2-hotkeys';
     WidgetModule,
     HotkeyModule.forRoot()
   ],
-  providers: [ProductService],
+  providers: [ProductService, RetailService, CustomerService, UtilsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

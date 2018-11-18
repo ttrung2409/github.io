@@ -12,4 +12,11 @@
       transition: background 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
     }
   }
+
+  .mat-footer-row {
+    .mat-footer-cell {
+      color: grey;
+      font-weight: bold !important;
+    }
+  }
 }

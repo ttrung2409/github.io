@@ -1,0 +1,32 @@
+<div>
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <mat-form-field>
+        <input #productNoInput matInput placeholder="Mã SP" [(ngModel)]="model.productNo">
+      </mat-form-field>
+    </div>
+    <div class="sixteen wide column">
+      <mat-form-field>
+        <input matInput placeholder="Tên SP" [(ngModel)]="model.productName">
+      </mat-form-field>
+    </div>
+    <div class="sixteen wide column">
+      <dropdown [options]="categories"
+                [label]="'Loại'"
+                [displayMember]="'name'"
+                [valueMember]="'id'"
+                [(model)]="model.categoryId">
+      </dropdown>
+    </div>
+    <div class="sixteen wide column">
+      <dropdown [options]="states"
+                [label]="'Tình trạng'"
+                [(model)]="model.isActive">
+      </dropdown>
+    </div>
+  </div>
+  <div class="action">
+    <button mat-flat-button (click)="doCancel()">Hủy (Esc)</button>
+    <button mat-flat-button color="primary" (click)="doSearch()">Tìm (F4)</button>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, ElementRef, EventEmitter, SimpleChanges, OnChanges, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
 import { BindableComponent } from '../bindable.component';
-import { fromEvent, Subscription } from 'rxjs';
+import { fromEvent, Subscription, Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { Key } from 'ts-keycode-enum'
 import { DropdownComponent } from '../dropdown/dropdown.component';
@@ -27,13 +27,15 @@ export class TypeaheadComponent extends BindableComponent implements OnInit, OnD
   @Input() minChars: number = 3;  
   @Input() direction: string = 'auto';
   @Input() showOnKeyDown: boolean = true;
-  @Input() keysPrevented: string[] = [];
+  @Input() preventKeys: string[] = [];
   @Input() itemTemplate: TemplateRef<any>;
+  @Input() requestForOption: (value) => Observable<any>;
 
   @Output() search = new EventEmitter();
   @Output() onKeydown = new EventEmitter();
   @Output() show = new EventEmitter();
   @Output() hide = new EventEmitter();
+  @Output() onSelect = new EventEmitter();
 
   @ViewChild('dropdown') dropdown: DropdownComponent;
 
@@ -61,6 +63,10 @@ export class TypeaheadComponent extends BindableComponent implements OnInit, OnD
     this.onKeydown.emit(event);
   }
 
+  handleSelect(event) {
+    this.onSelect.emit(event);
+  }
+
   clear() {
     this.dropdown.clear();
   }
@@ -75,5 +81,5 @@ export class TypeaheadComponent extends BindableComponent implements OnInit, OnD
 
   onHide() {
     this.hide.emit();
-  }  
+  }
 }

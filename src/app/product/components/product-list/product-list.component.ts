@@ -7,6 +7,7 @@ import Category from '../../../models/category';
 import { ProductComponent } from '../product/product.component';
 import { fromEvent, Subscription } from 'rxjs';
 import { Key } from 'ts-keycode-enum';
+import { ProductSearchComponent } from '../product-search/product-search.component';
 
 @Component({
   selector: 'product-list',
@@ -23,13 +24,12 @@ export class ProductListComponent implements OnInit, OnDestroy {
   columns: GridColumn[];
   products: Product[];
   selectedProduct: Product = new Product();
-  search: any = {};
-  categories: Category[];
-  states: any[] = [{ value: 1, text: 'Hoạt động' }, { value: 0, text: 'Không hoạt động' }]
-
+  flyoutView: string;
+  
   @ViewChild(FlyoutComponent) flyout: FlyoutComponent;
-  @ViewChild('product') productView: ProductComponent;
+  @ViewChild('productView') productView: ProductComponent;
   @ViewChild('grid') grid: GridComponent;
+  @ViewChild('productSearchView') productSearchView: ProductSearchComponent;
 
   ngOnInit() {
     this.columns = [
@@ -67,16 +67,11 @@ export class ProductListComponent implements OnInit, OnDestroy {
       this.products = products;
     });
 
-    this.productService.getCategories().subscribe(categories => this.categories = categories);    
-
-    this._subscription = fromEvent(document, 'keyup').subscribe((e: KeyboardEvent) => {
-      switch (e.keyCode) {
-        case Key.Escape:
-          this.cancel();
+    this._subscription = fromEvent(document, 'keyup').subscribe((event: KeyboardEvent) => {
+      switch (event.keyCode) {
+        case Key.F2:
+          this.showSearchView();          
           break;
-        case Key.F4:
-          this.save();          
-          break;          
       }
     });
   }
@@ -86,10 +81,15 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   onSelect(row) {    
-    this.selectedProduct = row;    
+    this.selectedProduct = row;
+    this.flyoutView = 'product';
     this.flyout.show().then(() => {
       this.productView.focus();      
     });    
+  }
+
+  onSearch(params) {
+    this.flyout.hide();
   }
 
   add() {
@@ -97,16 +97,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.flyout.show();
   }
 
-  cancel() {
-    this.productView.cancel();
-    this.flyout.hide();
-  }
-
-  save() {
-    this.productView.save();
-    this.flyout.hide();
-    this.productService.getProducts().subscribe(products => {
-      this.products = products;
-    });    
+  showSearchView() {
+    this.flyoutView = 'search';
+    this.flyout.show().then(() => {
+      this.productSearchView.focus();
+    });
   }
 }

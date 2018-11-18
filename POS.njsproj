@@ -26,8 +26,16 @@
     <Content Include="package.json" />
     <Content Include="src\app\product\components\product-list\product-list.component.html" />
     <Content Include="src\app\product\components\product-list\product-list.component.scss" />
-    <Content Include="src\app\sale-order\components\order\order.component.html" />
-    <Content Include="src\app\sale-order\components\order\order.component.scss" />
+    <Content Include="src\app\product\components\product-search\product-search.component.html" />
+    <Content Include="src\app\product\components\product-search\product-search.component.scss" />
+    <Content Include="src\app\retail\components\no-product-found-dialog\no-product-found-dialog.component.html" />
+    <Content Include="src\app\retail\components\no-product-found-dialog\no-product-found-dialog.component.scss" />
+    <Content Include="src\app\retail\components\retail\retail.component.html" />
+    <Content Include="src\app\retail\components\retail\retail.component.scss" />
+    <Content Include="src\app\retail\components\payment\payment.component.html" />
+    <Content Include="src\app\retail\components\payment\payment.component.scss" />
+    <Content Include="src\app\retail\components\qty-editor\qty-editor.component.html" />
+    <Content Include="src\app\retail\components\qty-editor\qty-editor.component.scss" />
     <Content Include="src\app\widgets\dropdown\dropdown.component.html" />
     <Content Include="src\app\widgets\dropdown\dropdown.component.scss" />
     <Content Include="src\app\widgets\flyout\flyout.component.html" />
@@ -57,24 +65,39 @@
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\app\models\category.ts" />
+    <TypeScriptCompile Include="src\app\models\customer.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\app\models\payment.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="src\app\models\product.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\app\models\saleOrder.ts">
+    <TypeScriptCompile Include="src\app\models\invoice.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\app\models\saleOrderItem.ts">
+    <TypeScriptCompile Include="src\app\models\invoiceItem.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="src\app\pipes\number.pipe.ts" />
     <TypeScriptCompile Include="src\app\product\components\product-list\product-list.component.ts" />
-    <TypeScriptCompile Include="src\app\sale-order\components\order\order.component.ts" />
-    <TypeScriptCompile Include="src\app\sale-order\sale-order.module.ts" />
-    <TypeScriptCompile Include="src\app\sale-order\sale-order.routing.ts">
+    <TypeScriptCompile Include="src\app\product\components\product-search\product-search.component.ts" />
+    <TypeScriptCompile Include="src\app\retail\components\no-product-found-dialog\no-product-found-dialog.component.ts" />
+    <TypeScriptCompile Include="src\app\retail\components\retail\retail.component.ts" />
+    <TypeScriptCompile Include="src\app\retail\components\payment\payment.component.ts" />
+    <TypeScriptCompile Include="src\app\retail\components\qty-editor\qty-editor.component.ts" />
+    <TypeScriptCompile Include="src\app\retail\retail.module.ts" />
+    <TypeScriptCompile Include="src\app\retail\retail.routing.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\app\services\sale-order.service.ts">
+    <TypeScriptCompile Include="src\app\services\customer.service.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="src\app\services\retail.service.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\app\services\utils.service.ts" />
     <TypeScriptCompile Include="src\app\widgets\bindable.component.ts" />
     <TypeScriptCompile Include="src\app\widgets\dropdown\dropdown.component.ts" />
     <TypeScriptCompile Include="src\app\widgets\flyout\flyout.component.ts" />
@@ -114,9 +137,13 @@
     <Folder Include="src\app\directives\" />
     <Folder Include="src\app\pipes\" />
     <Folder Include="src\app\product\components\product-list\" />
-    <Folder Include="src\app\sale-order\" />
-    <Folder Include="src\app\sale-order\components\" />
-    <Folder Include="src\app\sale-order\components\order\" />
+    <Folder Include="src\app\product\components\product-search\" />
+    <Folder Include="src\app\retail\" />
+    <Folder Include="src\app\retail\components\" />
+    <Folder Include="src\app\retail\components\no-product-found-dialog\" />
+    <Folder Include="src\app\retail\components\retail\" />
+    <Folder Include="src\app\retail\components\payment\" />
+    <Folder Include="src\app\retail\components\qty-editor\" />
     <Folder Include="src\app\widgets\" />
     <Folder Include="src\app\widgets\dropdown\" />
     <Folder Include="src\app\widgets\flyout\" />

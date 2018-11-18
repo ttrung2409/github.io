@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ProductListComponent } from './components/product-list/product-list.component'
 import { WidgetModule } from '../widgets/widget.module';
 import { FormsModule } from '@angular/forms';
+import { ProductSearchComponent } from './components/product-search/product-search.component';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { FormsModule } from '@angular/forms';
   ],
   declarations: [
     ProductComponent,
-    ProductListComponent
+    ProductListComponent,
+    ProductSearchComponent
   ],
   providers: [],
   schemas: [NO_ERRORS_SCHEMA]

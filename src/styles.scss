@@ -13,27 +13,25 @@
   padding: 8px !important;
 }
 
-.toolbar-container {
-  .mat-toolbar {    
-    margin-left: -8px;
-    height: 40px !important;
-    width: calc(100% + 16px) !important;
-    margin-bottom: 8px;
-    background-color: #c69999;
-    justify-content: flex-end;
+.mat-toolbar {
+  margin-left: -8px;
+  height: 40px !important;
+  width: calc(100% + 16px) !important;
+  margin-bottom: 8px;
+  background-color: #c69999;
+  justify-content: flex-end;
 
-    .mat-button {
-      min-width: 48px;
-      padding: 0 8px;
-    }
+  .mat-button {
+    min-width: 48px;
+    padding: 0 8px;
   }
+}
 
-  .mat-expansion-panel {
-    margin-top: -6px;
-    margin-left: -8px;
-    margin-right: -8px;
-    background-color: whitesmoke;
-  }
+.mat-expansion-panel {
+  margin-top: -6px;
+  margin-left: -8px;
+  margin-right: -8px;
+  background-color: whitesmoke;
 }
 
 .red {
@@ -44,5 +42,15 @@
   position: absolute !important;
   bottom: 8px !important;
   right: 8px !important;
+}
+
+.action {
+  position: absolute;
+  bottom: 8px;
+  right: 0px;
+
+  button {
+    margin-right: 8px;
+  }
 }
 

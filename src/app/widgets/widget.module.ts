@@ -17,8 +17,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { TypeaheadComponent } from './typeahead/typeahead.component';
 import { ProductLookupComponent } from './product-lookup/product-lookup.component';
-import { NumberDirective } from '../directives/number.directive';
 import { HotkeyModule } from 'angular2-hotkeys';
+import { FormatNumberPipe } from '../pipes/number.pipe';
+import { NumberDirective } from '../directives/number.directive';
+import { MatDialogModule } from '@angular/material';
 
 @NgModule({  
   imports: [
@@ -34,7 +36,8 @@ import { HotkeyModule } from 'angular2-hotkeys';
     MatRippleModule,
     MatCheckboxModule,
     MatChipsModule,
-    HotkeyModule
+    HotkeyModule,
+    MatDialogModule
   ],
   declarations: [
     GridComponent,
@@ -43,7 +46,8 @@ import { HotkeyModule } from 'angular2-hotkeys';
     BindableComponent,
     TypeaheadComponent,
     ProductLookupComponent,
-    NumberDirective    
+    NumberDirective,
+    FormatNumberPipe
   ],
   exports: [
     GridComponent,
@@ -61,7 +65,8 @@ import { HotkeyModule } from 'angular2-hotkeys';
     MatChipsModule,
     TypeaheadComponent,
     ProductLookupComponent,
-    NumberDirective
+    NumberDirective,
+    FormatNumberPipe
   ],
   schemas: [NO_ERRORS_SCHEMA],
   providers: []

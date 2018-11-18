@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, AfterViewInit, ElementRef, ViewEncapsulation, SimpleChanges, OnChanges, OnDestroy, ChangeDetectorRef, EventEmitter, Output, TemplateRef } from '@angular/core';
 import { BindableComponent } from '../bindable.component';
 import { Key } from 'ts-keycode-enum'
+import { Observable } from 'rxjs';
 declare var $: any;
 
 @Component({
@@ -26,12 +27,14 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
   @Input() direction: string = 'auto';
   @Input() showOnFocus: boolean = true;
   @Input() showOnKeyDown: boolean = true;
-  @Input() keysPrevented: string[] = [];
+  @Input() preventKeys: string[] = [];
   @Input() itemTemplate: TemplateRef<any>;
+  @Input() requestForOption: (value) => Observable<any>;
 
   @Output() onKeydown = new EventEmitter();
   @Output() show = new EventEmitter();
   @Output() hide = new EventEmitter();
+  @Output() onSelect = new EventEmitter();
 
   bindingOptions: any[];  
 
@@ -81,7 +84,9 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
       },
       onChange(value) {
         if (!!_this._shouldHandleOnChange) {          
-          _this.model = value || undefined;                     
+          _this.model = value || undefined;
+          _this.onSelect.emit(_this.model);
+          $(_this.el.nativeElement).find('.ui.dropdown').dropdown('hide');
         }        
       }
     });
@@ -100,14 +105,14 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
           break;
       }
       
-      if (this.keysPrevented.some(x => x == event.key)) {
+      if (this.preventKeys.some(x => x == event.key)) {
         event.preventDefault();
       }
       
       this.onKeydown.emit(event);      
     });
 
-    this.setSelected(this.model);
+    this.setSelected(this.model);    
   }
 
   clear() {    
@@ -128,6 +133,11 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
     this._shouldHandleOnChange = false;
     if (this.bindingOptions.some(x => x[this.valueMember] == value)) {
       $(this.el.nativeElement).find('.ui.dropdown').dropdown('set selected', value);
+    }
+    else if (value !== undefined && value !== null) {
+      if (typeof this.requestForOption === 'function') {
+        this.requestForOption(value).subscribe(option => this.bindingOptions.push(option));        
+      }      
     }
     else {
       this.clear();
