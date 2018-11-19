@@ -28,6 +28,8 @@
     <Content Include="src\app\product\components\product-list\product-list.component.scss" />
     <Content Include="src\app\product\components\product-search\product-search.component.html" />
     <Content Include="src\app\product\components\product-search\product-search.component.scss" />
+    <Content Include="src\app\retail\components\add-customer-dialog\add-customer-dialog.component.html" />
+    <Content Include="src\app\retail\components\add-customer-dialog\add-customer-dialog.component.scss" />
     <Content Include="src\app\retail\components\no-product-found-dialog\no-product-found-dialog.component.html" />
     <Content Include="src\app\retail\components\no-product-found-dialog\no-product-found-dialog.component.scss" />
     <Content Include="src\app\retail\components\retail\retail.component.html" />
@@ -83,6 +85,7 @@
     <TypeScriptCompile Include="src\app\pipes\number.pipe.ts" />
     <TypeScriptCompile Include="src\app\product\components\product-list\product-list.component.ts" />
     <TypeScriptCompile Include="src\app\product\components\product-search\product-search.component.ts" />
+    <TypeScriptCompile Include="src\app\retail\components\add-customer-dialog\add-customer-dialog.component.ts" />
     <TypeScriptCompile Include="src\app\retail\components\no-product-found-dialog\no-product-found-dialog.component.ts" />
     <TypeScriptCompile Include="src\app\retail\components\retail\retail.component.ts" />
     <TypeScriptCompile Include="src\app\retail\components\payment\payment.component.ts" />
@@ -140,6 +143,7 @@
     <Folder Include="src\app\product\components\product-search\" />
     <Folder Include="src\app\retail\" />
     <Folder Include="src\app\retail\components\" />
+    <Folder Include="src\app\retail\components\add-customer-dialog\" />
     <Folder Include="src\app\retail\components\no-product-found-dialog\" />
     <Folder Include="src\app\retail\components\retail\" />
     <Folder Include="src\app\retail\components\payment\" />

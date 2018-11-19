@@ -1,6 +1,5 @@
-import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { HotkeysService, Hotkey } from 'angular2-hotkeys';
 import { Key } from 'ts-keycode-enum';
 
 @Component({
@@ -8,23 +7,20 @@ import { Key } from 'ts-keycode-enum';
   templateUrl: './no-product-found-dialog.component.html',
   styleUrls: ['./no-product-found-dialog.component.scss']
 })
-export class NoProductFoundDialog implements OnInit, OnDestroy {
-  private _hotkey: Hotkey;
-
+export class NoProductFoundDialog implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<NoProductFoundDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private hotkeyService: HotkeysService) { }
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
 
-  ngOnInit() {
-    this.hotkeyService.add(this._hotkey = new Hotkey(['enter'], (e: KeyboardEvent) => {
-      this.close();
-      return false;
-    }));  
+  @HostListener('keyup', ['$event']) onKeyup(e: KeyboardEvent) {
+    switch (e.keyCode) {
+      case Key.Enter:
+        this.close();
+        break;
+    }
   }
 
-  ngOnDestroy() {
-    this.hotkeyService.remove(this._hotkey);
+  ngOnInit() {    
   }
 
   close() {

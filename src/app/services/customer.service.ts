@@ -31,6 +31,14 @@ export default class CustomerService {
       reduce((acc, value) => acc.concat(value), []));
   }
 
+  getCustomerTypes(): Observable<any[]> {
+    return of([{ id: 1, name: 'Khách lẻ' }, { id: 2, name: 'Khách sỉ' }]);
+  }
+
+  save(customer: Customer) {
+    this._cachedCustomers.push(customer);
+  }
+
   private _cachedCustomers: Customer[] = [
     new Customer({
       id: 1,

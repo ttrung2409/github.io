@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef, ViewChild, AfterViewInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChild, AfterViewInit, ViewEncapsulation, EventEmitter, Output } from '@angular/core';
 declare var $: any;
 
 @Component({
@@ -16,6 +16,7 @@ export class FlyoutComponent implements OnInit, AfterViewInit {
   @Input() size?: string = 'very wide';  
   @Input() closable: boolean = true;
   @Input() containerSelector: string;
+  @Output() onHide = new EventEmitter();
 
   ngOnInit() {
   }
@@ -35,6 +36,7 @@ export class FlyoutComponent implements OnInit, AfterViewInit {
       },
       onHide: function () {
         $('.pusher').removeClass('dimmed');
+        _this.onHide.emit();
       }
     });
   }

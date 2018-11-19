@@ -2,7 +2,11 @@
   <mat-toolbar class="mat-elevation-z1">
     <button mat-button style="color: white" (click)="pay()">
       <mat-icon>attach_money</mat-icon>
-      (F2)
+      (F2)      
+    </button>
+    <button mat-button style="color: white" (click)="addCustomer()">
+      <mat-icon>person_add</mat-icon>
+      (F9)
     </button>
   </mat-toolbar>
   <div class="row">
@@ -25,17 +29,17 @@
       </grid>
     </div>
   </div>  
-  <flyout #flyout [closable]="false" [containerSelector]="'.retail'">
+  <flyout #flyout [closable]="false" [containerSelector]="'.retail'" (onHide)="onFlyoutHide()">
     <content>
       <qty-editor #qtyEditor *ngIf="flyoutView == 'qtyEditor'"
                   [item]="selectedItem"
                   (commit)="onItemChange($event)"
-                  (cancel)="flyout.hide(); productLookup.focus()"
+                  (cancel)="flyout.hide()"
                   ></qty-editor>
       <payment #paymentView *ngIf="flyoutView == 'payment'"
                [invoice]="invoice"
-               (pay)="onPay($event)"
-               (cancel)="flyout.hide(); productLookup.focus()">
+               (complete)="onPaymentComplete($event)"
+               (cancel)="flyout.hide()">
       </payment>
     </content>
   </flyout>

@@ -103,4 +103,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
       this.productSearchView.focus();
     });
   }
+
+  onFlyoutHide() {
+    this.flyoutView = '';
+  }
 }

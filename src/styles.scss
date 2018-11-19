@@ -54,3 +54,15 @@
   }
 }
 
+.mat-dialog-container {
+  h3[mat-dialog-title] {
+    color: #3f3f3f;
+  }
+
+  div[mat-dialog-actions] {
+    margin-top: 16px;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+

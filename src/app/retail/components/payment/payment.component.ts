@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, ViewChild, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, ViewChild, Output, EventEmitter, OnDestroy, HostListener } from '@angular/core';
 import RetailService from '../../../services/retail.service';
 import Customer from '../../../models/customer';
 import CustomerService from '../../../services/customer.service';
@@ -14,41 +14,36 @@ import UtilsService from '../../../services/utils.service';
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.scss']
 })
-export class PaymentComponent implements OnInit, OnChanges, OnDestroy {
+export class PaymentComponent implements OnInit, OnChanges {
   private _customerSubscription: Subscription;
-  private _eventSubscription: Subscription;
 
   constructor(private retailService: RetailService, private customerService: CustomerService) {
   }
 
-  @Input() invoice: Invoice;
+  @Input() invoice: Invoice;  
+  @Output() complete = new EventEmitter();
   @Output() cancel = new EventEmitter();
-  @Output() pay = new EventEmitter();
 
   @ViewChild('customerLookup') customerLookup: TypeaheadComponent;
 
   customers: Customer[] = [];
   payment: Payment = new Payment(); 
 
-  ngOnInit() {
-    this._eventSubscription = fromEvent(document, 'keyup').subscribe((e: KeyboardEvent) => {
-      switch (e.keyCode) {
-        case Key.Escape:
-          this.doCancel();
-          break;
-        case Key.F4:
-          this.doPay();
-          break;
-      }
-    });
+  @HostListener('keyup', ['$event']) onKeyup(e: KeyboardEvent) {
+    switch (e.keyCode) {
+      case Key.Escape:
+        this.doCancel();
+        break;
+      case Key.F4:
+        this.doComplete();
+        break;
+    }
+  };
+  ngOnInit() {    
   }
 
   ngOnChanges(changes: SimpleChanges) {   
-  }  
-
-  ngOnDestroy() {
-    this._eventSubscription.unsubscribe();
-  }
+  }    
 
   onSearch(query) {
     if (!!this._customerSubscription) {
@@ -69,8 +64,8 @@ export class PaymentComponent implements OnInit, OnChanges, OnDestroy {
     this.cancel.emit();
   }
 
-  doPay() {
-    this.pay.emit();
+  doComplete() {
+    this.complete.emit();
   }
 
   requestForCustomer(id): Observable<any> {

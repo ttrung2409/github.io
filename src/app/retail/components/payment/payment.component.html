@@ -1,7 +1,7 @@
 <div>
   <div class="ui grid">
     <div class="sixteen wide column">
-      <typeahead #customerLookup [options]="customers"                 
+      <typeahead #customerLookup [options]="customers"
                  [(model)]="invoice.customerId"
                  (search)="onSearch($event)"
                  [isLoading]="isLoading"
@@ -39,6 +39,6 @@
   </div>  
   <div class="action">
     <button mat-flat-button (click)="doCancel()">Hủy (Esc)</button>
-    <button mat-flat-button color="primary" (click)="doPay()">Hoàn tất (F4)</button>
+    <button mat-flat-button color="primary" (click)="doComplete()">Hoàn tất (F4)</button>
   </div>
 </div>

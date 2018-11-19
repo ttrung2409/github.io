@@ -9,10 +9,15 @@
   </div>  
   <div style="margin-top: 8px"></div>
   <grid #grid [columns]="columns" [dataSource]="products" (rowClick)="onSelect($event)" (select)="onSelect($event)"></grid>
-  <flyout #flyout [closable]="false" [containerSelector]="'.product-list'">
+  <flyout #flyout [closable]="false" [containerSelector]="'.product-list'" (onHide)="onFlyoutHide()">
     <content>
-      <product #productView *ngIf="flyoutView == 'product'" [id]="selectedProduct.id" (complete)="flyout.hide()"></product>
-      <product-search #productSearchView *ngIf="flyoutView == 'search'" (search)="onSearch($event)" (cancel)="flyout.hide()"></product-search>
+      <product #productView *ngIf="flyoutView == 'product'"
+               [id]="selectedProduct.id"
+               (complete)="flyout.hide()">
+      </product>
+      <product-search #productSearchView *ngIf="flyoutView == 'search'"
+                      (search)="onSearch($event)"
+                      (cancel)="flyout.hide()"></product-search>
     </content>        
   </flyout>
   <button mat-fab>

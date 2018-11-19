@@ -1,10 +1,9 @@
-import { Component, OnInit, Input, SimpleChanges, OnChanges, ElementRef, ViewChild, Output, EventEmitter, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, OnChanges, ElementRef, ViewChild, Output, EventEmitter, AfterViewInit, OnDestroy, HostListener } from '@angular/core';
 import ProductService from '../../../services/product.service';
 import Product from '../../../models/product';
 import { Subscription, fromEvent } from 'rxjs';
 import { Key } from 'ts-keycode-enum';
 import UtilsService from '../../../services/utils.service';
-import { HotkeysService, Hotkey } from 'angular2-hotkeys';
 declare var $: any;
 
 @Component({
@@ -12,10 +11,7 @@ declare var $: any;
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss']
 })
-export class ProductComponent implements OnInit, OnChanges, OnDestroy {
-  private _subscription: Subscription;
-  private _hotkey: Hotkey;
-
+export class ProductComponent implements OnInit, OnChanges {
   constructor(private productService: ProductService, public utils: UtilsService) { }
 
   @Input() id: number;
@@ -27,20 +23,20 @@ export class ProductComponent implements OnInit, OnChanges, OnDestroy {
   categories: any[];
   uoms: any[];
 
+  @HostListener('keyup', ['$event']) onKeyup(e: KeyboardEvent) {
+    switch (e.keyCode) {
+      case Key.Escape:
+        this.cancel();
+        break;
+      case Key.F4:
+        this.save();
+        break;
+    }
+  };
+
   ngOnInit() {
     this.productService.getCategories().subscribe(categories => this.categories = categories);
-    this.productService.getUOMs().subscribe(uoms => this.uoms = uoms);
-
-    this._subscription = fromEvent(document, 'keyup').subscribe((e: KeyboardEvent) => {
-      switch (e.keyCode) {
-        case Key.Escape:
-          this.cancel();
-          break;
-        case Key.F4:
-          this.save();
-          break;
-      }
-    });
+    this.productService.getUOMs().subscribe(uoms => this.uoms = uoms);  
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -55,11 +51,7 @@ export class ProductComponent implements OnInit, OnChanges, OnDestroy {
         this.product = new Product();
       }
     }    
-  }
-
-  ngOnDestroy() {
-    this._subscription.unsubscribe();
-  }
+  }  
 
   save() {    
     this.productService.save(this.product);

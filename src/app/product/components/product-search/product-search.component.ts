@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy, ElementRef, ViewChild, HostListener } from '@angular/core';
 import Category from '../../../models/category';
 import ProductService from '../../../services/product.service';
 import { Subscription, fromEvent } from 'rxjs';
@@ -10,9 +10,7 @@ declare var $: any;
   templateUrl: './product-search.component.html',
   styleUrls: ['./product-search.component.scss']
 })
-export class ProductSearchComponent implements OnInit, OnDestroy {
-  private _subscription: Subscription;
-
+export class ProductSearchComponent implements OnInit {
   constructor(private productService: ProductService) { }
 
   @Output() search = new EventEmitter();
@@ -24,22 +22,19 @@ export class ProductSearchComponent implements OnInit, OnDestroy {
 
   @ViewChild('productNoInput') productNoInput: ElementRef;
 
-  ngOnInit() {
-    this.productService.getCategories().subscribe(categories => this.categories = categories);
-    this._subscription = fromEvent(document, 'keyup').subscribe((e: KeyboardEvent) => {
-      switch (e.keyCode) {
-        case Key.Escape:
-          this.doCancel();
-          break;
-        case Key.F4:
-          this.doSearch();
-          break;
-      }
-    });
-  }
+  @HostListener('keyup', ['$event']) onKeyup(e: KeyboardEvent) {
+    switch (e.keyCode) {
+      case Key.Escape:
+        this.doCancel();
+        break;
+      case Key.F4:
+        this.doSearch();
+        break;
+    }
+  };
 
-  ngOnDestroy() {
-    this._subscription.unsubscribe();
+  ngOnInit() {
+    this.productService.getCategories().subscribe(categories => this.categories = categories);   
   }
 
   doSearch() {

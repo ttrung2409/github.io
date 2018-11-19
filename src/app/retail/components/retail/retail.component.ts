@@ -13,6 +13,8 @@ import { PaymentComponent } from '../payment/payment.component';
 import UtilsService from '../../../services/utils.service';
 import { MatDialog } from '@angular/material';
 import { NoProductFoundDialog } from '../no-product-found-dialog/no-product-found-dialog.component';
+import RetailService from '../../../services/retail.service';
+import { AddCustomerDialog } from '../add-customer-dialog/add-customer-dialog.component';
 declare var _: any;
 declare var $: any;
 
@@ -25,7 +27,7 @@ declare var $: any;
 export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
   private _subscription: Subscription;
 
-  constructor(private changeDetector: ChangeDetectorRef, private utils: UtilsService, private dialog: MatDialog) {
+  constructor(private retailService: RetailService, private dialog: MatDialog, private utils: UtilsService) {
   }
 
   @ViewChild('flyout') flyout: FlyoutComponent;
@@ -82,6 +84,9 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
       switch (e.keyCode) {
         case Key.F2:
           this.pay();
+          break;
+        case Key.F9:
+          this.addCustomer();
           break;
       }
 
@@ -153,21 +158,28 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  onItemChange(item) {
-    this.productLookup.focus();
-    this.productLookup.clear();
-    this.flyout.hide();
+  onItemChange(item) {    
+    this.flyout.hide();    
     this.invoice.items = this.invoice.items.map(x => x.id == item.id ? item : x);              
   }
 
-  onPay() {    
+  onPaymentComplete() {    
     this.flyout.hide();
-    this.productLookup.focus();
-    this.productLookup.clear();    
+    this.retailService.save(this.invoice);
     this.new();    
   }
 
   new() {
     this.invoice = new Invoice({ customerId: 1 });
+  }
+
+  onFlyoutHide() {
+    this.flyoutView = '';
+    this.productLookup.focus();
+    this.productLookup.clear();   
+  }
+
+  addCustomer() {
+    this.dialog.open(AddCustomerDialog);
   }
 }

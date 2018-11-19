@@ -33,10 +33,7 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
   isLoading: boolean = false;
   products: Product[] = [];  
 
-  ngOnChanges(changes: SimpleChanges) {    
-    if (!!changes.model && this.products.some(x => x.id == this.model)) {
-      this.onSelect.emit(this.products.find(x => x.id == this.model));
-    }
+  ngOnChanges(changes: SimpleChanges) {   
   }
 
   ngOnInit() {
@@ -68,15 +65,19 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
     }    
   }
   
-  handleKeydown(event) {
+  handleKeydown(event) {        
     this._lastKey = event.keyCode;
-    if (event.keyCode == Key.Enter && !!this.clearOnSelect) {
-      let $input = $(this.el.nativeElement.querySelector('input.search'));
-      if (!!$input.val()) {
-        this.onSearch($input.val());      
-      }
-      
-      setTimeout(() => this.typeahead.clear());     
+    if (event.keyCode == Key.Enter) {
+      setTimeout(() => {      
+        let $input = $(this.el.nativeElement.querySelector('input.search'));
+        if (!!$input.val()) {
+          this.onSearch($input.val());
+        }
+
+        if (!!this.clearOnSelect) {
+          this.clear();
+        }        
+      });      
     }
     
     if (!this._showing && (event.keyCode == Key.UpArrow
@@ -84,6 +85,12 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
       || event.keyCode == Key.Enter
       || event.keyCode == Key.Delete)) {      
       this.onKeydown.emit(event);
+    }
+  }
+
+  handleSelect(value) {
+    if (this.products.some(x => x.id == value)) {
+      this.onSelect.emit(this.products.find(x => x.id == value));
     }
   }
 

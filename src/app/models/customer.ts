@@ -3,11 +3,10 @@ export default class Customer {
     Object.assign(this, init);
   }
 
-  public id: number;
+  public id: number;  
   public name: string;
   public phoneNumber: string;
   public email?: string;
   public address?: string;
-  public dob?: Date;
-  public createNew?: boolean;
+  public dob?: Date;  
 }

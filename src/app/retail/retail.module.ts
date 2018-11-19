@@ -8,6 +8,7 @@ import { RetailComponent } from './components/retail/retail.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { QtyEditorComponent } from './components/qty-editor/qty-editor.component';
 import { NoProductFoundDialog } from './components/no-product-found-dialog/no-product-found-dialog.component';
+import { AddCustomerDialog } from './components/add-customer-dialog/add-customer-dialog.component';
 
 @NgModule({
   imports: [
@@ -20,11 +21,13 @@ import { NoProductFoundDialog } from './components/no-product-found-dialog/no-pr
     RetailComponent,
     PaymentComponent,
     QtyEditorComponent,
-    NoProductFoundDialog
+    NoProductFoundDialog,
+    AddCustomerDialog
   ],
   providers: [DecimalPipe],
   entryComponents: [
-    NoProductFoundDialog
+    NoProductFoundDialog,
+    AddCustomerDialog
   ],
   schemas: [NO_ERRORS_SCHEMA]
 })

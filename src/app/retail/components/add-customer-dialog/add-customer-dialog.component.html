@@ -1,0 +1,29 @@
+<h3 mat-dialog-title>Thông tin khách hàng</h3>
+<div mat-dialog-content>
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <mat-form-field>
+        <input matInput placeholder="Tên khách hàng" [(ngModel)]="customer.name" required/>
+      </mat-form-field>
+    </div>
+    <div class="sixteen wide column">
+      <mat-form-field>
+        <input matInput placeholder="Số điện thoại" [(ngModel)]="customer.phoneNumber" required/>
+      </mat-form-field>
+    </div>
+    <div class="sixteen wide column">
+      <mat-form-field>
+        <input matInput placeholder="Email" [(ngModel)]="customer.email" />
+      </mat-form-field>
+    </div>
+    <div class="sixteen wide column">
+      <mat-form-field>
+        <input matInput placeholder="Địa chỉ" [(ngModel)]="customer.address" />
+      </mat-form-field>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-flat-button cdkInitialFocus (click)="close()">Hủy (Esc)</button>
+  <button mat-flat-button cdkInitialFocus color="primary" (click)="save()">Lưu (F4)</button>
+</div>

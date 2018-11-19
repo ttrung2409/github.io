@@ -62,7 +62,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
       forceSelection: false,
       clearable: true,
       selectOnKeydown: false,
-      direction: this.direction,
+      direction: this.direction,      
       showOnFocus: this.showOnFocus,
       onShow: function () {
         if (!_this.showOnKeyDown && _this._keyDown) {
