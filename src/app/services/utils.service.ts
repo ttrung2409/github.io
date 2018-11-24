@@ -20,4 +20,10 @@ export default class UtilsService {
     result = split[1] != undefined ? result + decimalSeparator + split[1] : result;
     return prefix == undefined ? result : (result ? prefix + result : '');
   };
+
+  random(min: number = 0, max: number = Math.pow(2, 31) - 1) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;    
+  }
 }

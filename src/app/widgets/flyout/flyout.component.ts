@@ -16,6 +16,7 @@ export class FlyoutComponent implements OnInit, AfterViewInit {
   @Input() size?: string = 'very wide';  
   @Input() closable: boolean = true;
   @Input() containerSelector: string;
+  @Output() onShow = new EventEmitter();
   @Output() onHide = new EventEmitter();
 
   ngOnInit() {
@@ -33,6 +34,7 @@ export class FlyoutComponent implements OnInit, AfterViewInit {
       },
       onShow: function () {
         if (!!_this._resolve) _this._resolve();
+        _this.onShow.emit();
       },
       onHide: function () {
         $('.pusher').removeClass('dimmed');

@@ -28,6 +28,8 @@
     <Content Include="src\app\product\components\product-list\product-list.component.scss" />
     <Content Include="src\app\product\components\product-search\product-search.component.html" />
     <Content Include="src\app\product\components\product-search\product-search.component.scss" />
+    <Content Include="src\app\report\components\income\income.component.html" />
+    <Content Include="src\app\report\components\income\income.component.scss" />
     <Content Include="src\app\retail\components\add-customer-dialog\add-customer-dialog.component.html" />
     <Content Include="src\app\retail\components\add-customer-dialog\add-customer-dialog.component.scss" />
     <Content Include="src\app\retail\components\no-product-found-dialog\no-product-found-dialog.component.html" />
@@ -48,6 +50,8 @@
     <Content Include="src\app\product\components\product\product.component.html" />
     <Content Include="src\app\widgets\product-lookup\product-lookup.component.html" />
     <Content Include="src\app\widgets\product-lookup\product-lookup.component.scss" />
+    <Content Include="src\app\widgets\toolbar\toolbar.component.html" />
+    <Content Include="src\app\widgets\toolbar\toolbar.component.scss" />
     <Content Include="src\app\widgets\typeahead\typeahead.component.html" />
     <Content Include="src\app\widgets\typeahead\typeahead.component.scss" />
     <Content Include="src\assets\report.svg" />
@@ -85,6 +89,11 @@
     <TypeScriptCompile Include="src\app\pipes\number.pipe.ts" />
     <TypeScriptCompile Include="src\app\product\components\product-list\product-list.component.ts" />
     <TypeScriptCompile Include="src\app\product\components\product-search\product-search.component.ts" />
+    <TypeScriptCompile Include="src\app\report\components\income\income.component.ts" />
+    <TypeScriptCompile Include="src\app\report\report.module.ts" />
+    <TypeScriptCompile Include="src\app\report\report.routing.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="src\app\retail\components\add-customer-dialog\add-customer-dialog.component.ts" />
     <TypeScriptCompile Include="src\app\retail\components\no-product-found-dialog\no-product-found-dialog.component.ts" />
     <TypeScriptCompile Include="src\app\retail\components\retail\retail.component.ts" />
@@ -95,6 +104,9 @@
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\app\services\customer.service.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\app\services\report.service.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\app\services\retail.service.ts">
@@ -117,6 +129,7 @@
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\app\widgets\product-lookup\product-lookup.component.ts" />
+    <TypeScriptCompile Include="src\app\widgets\toolbar\toolbar.component.ts" />
     <TypeScriptCompile Include="src\app\widgets\typeahead\typeahead.component.ts" />
     <TypeScriptCompile Include="src\app\widgets\widget.module.ts" />
     <TypeScriptCompile Include="src\main.ts" />
@@ -141,6 +154,9 @@
     <Folder Include="src\app\pipes\" />
     <Folder Include="src\app\product\components\product-list\" />
     <Folder Include="src\app\product\components\product-search\" />
+    <Folder Include="src\app\report\" />
+    <Folder Include="src\app\report\components\" />
+    <Folder Include="src\app\report\components\income\" />
     <Folder Include="src\app\retail\" />
     <Folder Include="src\app\retail\components\" />
     <Folder Include="src\app\retail\components\add-customer-dialog\" />
@@ -157,6 +173,7 @@
     <Folder Include="src\app\product\components\" />
     <Folder Include="src\app\product\components\product\" />
     <Folder Include="src\app\widgets\product-lookup\" />
+    <Folder Include="src\app\widgets\toolbar\" />
     <Folder Include="src\app\widgets\typeahead\" />
     <Folder Include="src\assets" />
     <Folder Include="src\environments" />

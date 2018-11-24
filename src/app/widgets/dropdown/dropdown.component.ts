@@ -64,6 +64,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
       selectOnKeydown: false,
       direction: this.direction,      
       showOnFocus: this.showOnFocus,
+      fullTextSearch: 'exact',
       onShow: function () {
         if (!_this.showOnKeyDown && _this._keyDown) {
           _this._keyDown = false;

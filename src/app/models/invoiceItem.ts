@@ -9,14 +9,19 @@ export default class InvoiceItem {
   public orderId: number;
   public productId: number;  
   public qty: number;
-  public price: number;  
+  public price: number;
+  public cost: number;
   public discount?: number;
   public tax?: number;
   public index?: number;  
 
   get total(): number {
     return (this.qty * this.price) - (this.discount || 0) - (this.tax || 0);
-  }  
+  }
+
+  get totalCost(): number {
+    return this.qty * this.cost;
+  }
 
   public product: Product = new Product();
 }

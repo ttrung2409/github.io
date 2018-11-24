@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable, of, BehaviorSubject } from "rxjs";
 import Customer from "../models/customer";
 import { Guid } from "guid-typescript";
-import { concatAll, filter, reduce, map } from "rxjs/operators";
+import { concatAll, filter, reduce, map, toArray, skipWhile } from "rxjs/operators";
 declare var _: any;
 
 @Injectable()
@@ -14,7 +14,7 @@ export default class CustomerService {
       of(this._cachedCustomers).subscribe(customers => this._customers.next(customers));
     });
 
-    return this._customers.asObservable();
+    return this._customers.asObservable().pipe(skipWhile(customers => customers.length == 0));
   }
 
   getCustomer(id: number): Observable<Customer> {
@@ -28,7 +28,7 @@ export default class CustomerService {
         || (!!x.email && x.email.toLowerCase().includes(query.toLowerCase()))
         || (!!x.phoneNumber && x.phoneNumber.toLowerCase().includes(query.toLowerCase()))),
       map(x => _.cloneDeep(x)),
-      reduce((acc, value) => acc.concat(value), []));
+      toArray());      
   }
 
   getCustomerTypes(): Observable<any[]> {

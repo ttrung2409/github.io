@@ -15,10 +15,10 @@
       </ng-container>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: isHeaderSticky"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" (click)="onRowClick(row, i)" [class.highlighted]="selectedIndex == i"></tr>
     <ng-container *ngIf="showFooter">
-      <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+      <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: isFooterSticky"></tr>
     </ng-container>
   </table>
 </div>

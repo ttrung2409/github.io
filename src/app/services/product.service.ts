@@ -1,7 +1,7 @@
 import Product from "../models/product";
 import { Injectable } from "@angular/core";
 import { Observable, of, BehaviorSubject } from "rxjs";
-import { filter, concatAll, reduce, tap, map } from 'rxjs/operators'
+import { filter, concatAll, reduce, tap, map, toArray } from 'rxjs/operators'
 import Category from "../models/category";
 import * as _ from 'lodash'
 
@@ -57,7 +57,7 @@ export default class ProductService {
       concatAll(),
       filter(x => x.no.toLowerCase().includes(query.toLowerCase()) || x.name.toLowerCase().includes(query.toLowerCase())),
       map(x => _.cloneDeep(x)),
-      reduce((acc, value) => acc.concat(value), []));
+      toArray());
   }
 
   save(product: Product) {

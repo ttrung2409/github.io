@@ -5,7 +5,7 @@ import { FlyoutComponent } from './flyout/flyout.component';
 import { DropdownComponent } from './dropdown/dropdown.component'
 import { FormsModule } from '@angular/forms';
 import { BindableComponent } from './bindable.component';
-import { MatRippleModule } from '@angular/material/core';
+import { MatRippleModule, MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
@@ -20,7 +20,8 @@ import { ProductLookupComponent } from './product-lookup/product-lookup.componen
 import { HotkeyModule } from 'angular2-hotkeys';
 import { FormatNumberPipe } from '../pipes/number.pipe';
 import { NumberDirective } from '../directives/number.directive';
-import { MatDialogModule } from '@angular/material';
+import { MatDialogModule, MatDatepickerModule } from '@angular/material';
+import { ToolbarComponent } from './toolbar/toolbar.component';
 
 @NgModule({  
   imports: [
@@ -37,7 +38,9 @@ import { MatDialogModule } from '@angular/material';
     MatCheckboxModule,
     MatChipsModule,
     HotkeyModule,
-    MatDialogModule
+    MatDialogModule,
+    MatNativeDateModule,
+    MatDatepickerModule    
   ],
   declarations: [
     GridComponent,
@@ -47,7 +50,8 @@ import { MatDialogModule } from '@angular/material';
     TypeaheadComponent,
     ProductLookupComponent,
     NumberDirective,
-    FormatNumberPipe
+    FormatNumberPipe,
+    ToolbarComponent
   ],
   exports: [
     GridComponent,
@@ -66,7 +70,11 @@ import { MatDialogModule } from '@angular/material';
     TypeaheadComponent,
     ProductLookupComponent,
     NumberDirective,
-    FormatNumberPipe
+    FormatNumberPipe,
+    ToolbarComponent,
+    MatNativeDateModule,
+    MatDatepickerModule
+    
   ],
   schemas: [NO_ERRORS_SCHEMA],
   providers: []

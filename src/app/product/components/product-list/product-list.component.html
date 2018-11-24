@@ -1,12 +1,12 @@
 <div class="product-list">
-  <div class="toolbar-container">
-    <mat-toolbar class="mat-elevation-z1">      
-      <button mat-button style="color: white" (click)="showSearchView()">
+  <toolbar>
+    <actions>
+      <button mat-button (click)="showSearchView()">
         <mat-icon>filter_list</mat-icon>
         (F2)
       </button>
-    </mat-toolbar>    
-  </div>  
+    </actions>
+  </toolbar>  
   <div style="margin-top: 8px"></div>
   <grid #grid [columns]="columns" [dataSource]="products" (rowClick)="onSelect($event)" (select)="onSelect($event)"></grid>
   <flyout #flyout [closable]="false" [containerSelector]="'.product-list'" (onHide)="onFlyoutHide()">

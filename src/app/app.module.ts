@@ -10,6 +10,7 @@ import { HotkeyModule } from 'angular2-hotkeys';
 import RetailService from './services/retail.service';
 import CustomerService from './services/customer.service';
 import UtilsService from './services/utils.service';
+import ReportService from './services/report.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import UtilsService from './services/utils.service';
     WidgetModule,
     HotkeyModule.forRoot()
   ],
-  providers: [ProductService, RetailService, CustomerService, UtilsService],
+  providers: [ProductService, RetailService, CustomerService, UtilsService, ReportService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,14 +1,17 @@
 <div class="retail">
-  <mat-toolbar class="mat-elevation-z1">
-    <button mat-button style="color: white" (click)="pay()">
-      <mat-icon>attach_money</mat-icon>
-      (F2)      
-    </button>
-    <button mat-button style="color: white" (click)="addCustomer()">
-      <mat-icon>person_add</mat-icon>
-      (F9)
-    </button>
-  </mat-toolbar>
+  <toolbar>
+    <actions>
+      <button mat-button (click)="pay()">
+        <mat-icon>attach_money</mat-icon>
+        (F2)
+      </button>
+      <button mat-button (click)="addCustomer()">
+        <mat-icon>person_add</mat-icon>
+        (F9)
+      </button>
+      <button mat-button><mat-icon>print</mat-icon></button>
+    </actions>
+  </toolbar>  
   <div class="row">
     <div class="sixteen wide column">
       <product-lookup #productLookup
