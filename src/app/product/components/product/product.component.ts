@@ -17,7 +17,8 @@ export class ProductComponent implements OnInit, OnChanges {
   @Input() id: number;
   @ViewChild('productNoInput') productNoInput: ElementRef;
 
-  @Output() complete = new EventEmitter();
+  @Output() cancel = new EventEmitter();
+  @Output() commit = new EventEmitter();
 
   product: Product = new Product();
   categories: any[];
@@ -26,7 +27,7 @@ export class ProductComponent implements OnInit, OnChanges {
   @HostListener('keyup', ['$event']) onKeyup(e: KeyboardEvent) {
     switch (e.keyCode) {
       case Key.Escape:
-        this.cancel();
+        this.doCancel();
         break;
       case Key.F4:
         this.save();
@@ -55,11 +56,11 @@ export class ProductComponent implements OnInit, OnChanges {
 
   save() {    
     this.productService.save(this.product);
-    this.complete.emit();
+    this.commit.emit();
   }
 
-  cancel() {
-    this.complete.emit();
+  doCancel() {
+    this.cancel.emit();
   }
 
   focus() {

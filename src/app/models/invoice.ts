@@ -11,7 +11,7 @@ export default class Invoice {
   public createdDate: Date;
   public updatedDate: Date;
   public invoiceDate: Date;
-  public customerId: number;  
+  public customerId: number | string;
   public discount?: number;
   public tax?: number;
 

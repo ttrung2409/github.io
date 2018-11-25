@@ -3,7 +3,7 @@ import { Observable, of, BehaviorSubject } from "rxjs";
 import Customer from "../models/customer";
 import { Guid } from "guid-typescript";
 import { concatAll, filter, reduce, map, toArray, skipWhile } from "rxjs/operators";
-declare var _: any;
+import * as _ from 'lodash'
 
 @Injectable()
 export default class CustomerService {
@@ -11,7 +11,13 @@ export default class CustomerService {
 
   getCustomers(): Observable<Customer[]> {
     setTimeout(() => {
-      of(this._cachedCustomers).subscribe(customers => this._customers.next(customers));
+      this.getCustomerTypes().subscribe(types => {
+        of(this._cachedCustomers).pipe(
+          concatAll(),
+          map(customer => Object.assign(customer, { type: types.find(x => x.id == customer.typeId) })),
+          toArray()
+        ).subscribe(customers => this._customers.next(customers));
+      });      
     });
 
     return this._customers.asObservable().pipe(skipWhile(customers => customers.length == 0));
@@ -36,39 +42,58 @@ export default class CustomerService {
   }
 
   save(customer: Customer) {
-    this._cachedCustomers.push(customer);
+    this.getCustomerTypes().subscribe(types => {
+      let oldCustomer = this._cachedCustomers.find(x => x.id == customer.id);
+      if (!!oldCustomer) {
+        Object.assign(oldCustomer, customer, { type: types.find(x => x.id == customer.typeId) });
+      }
+      else {
+        this._cachedCustomers.push(Object.assign(customer, {
+          id: Guid.create().toString(),
+          type: types.find(x => x.id == customer.typeId)
+        }));
+      }
+      
+      this._customers.next(this._cachedCustomers);
+    });
   }
 
   private _cachedCustomers: Customer[] = [
     new Customer({
       id: 1,
       name: 'Khách lẻ',
-      phoneNumber: '0933 096 626'
+      phoneNumber: '0933 096 626',
+      typeId: 1
     }),
     new Customer({
       id: 2,
       name: 'Khách hàng 1',
-      phoneNumber: '0933 100 101'
+      phoneNumber: '0933 100 101',
+      typeId: 1
     }),
     new Customer({
       id: 3,
       name: 'Khách hàng 2',
-      phoneNumber: '0933 100 102'
+      phoneNumber: '0933 100 102',
+      typeId: 1
     }),
     new Customer({
       id: 4,
       name: 'Khách hàng 3',
-      phoneNumber: '0933 100 103'
+      phoneNumber: '0933 100 103',
+      typeId: 1
     }),
     new Customer({
       id: 5,
       name: 'Khách hàng 4',
-      phoneNumber: '0933 100 104'
+      phoneNumber: '0933 100 104',
+      typeId: 1
     }),
     new Customer({
       id: 6,
       name: 'Khách hàng 5',
-      phoneNumber: '0933 100 105'
+      phoneNumber: '0933 100 105',
+      typeId: 1
     })
   ];
 }

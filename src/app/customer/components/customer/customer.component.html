@@ -1,0 +1,34 @@
+<div class="ui grid">
+  <div class="sixteen wide column">
+    <mat-form-field>
+      <input #customerNameInput matInput [(ngModel)]="customer.name" placeholder="Tên KH" required/>
+    </mat-form-field>
+  </div>
+  <div class="eight wide column">
+    <dropdown [options]="customerTypes"
+              [valueMember]="'id'"
+              [displayMember]="'name'"
+              [(model)]="customer.typeId"
+              [label]="'Loại KH'">
+    </dropdown>
+  </div>
+  <div class="eight wide column">
+    <mat-form-field>
+      <input matInput [(ngModel)]="customer.phoneNumber" placeholder="Số ĐT" required/>
+    </mat-form-field>
+  </div>
+  <div class="sixteen wide column">
+    <mat-form-field>
+      <input matInput [(ngModel)]="customer.email" placeholder="Email" />
+    </mat-form-field>
+  </div>
+  <div class="sixteen wide column">
+    <mat-form-field>
+      <input matInput [(ngModel)]="customer.address" placeholder="Địa chỉ" />
+    </mat-form-field>
+  </div>
+  <div class="actions">
+    <button mat-flat-button (click)="doCancel()">Hủy (Esc)</button>
+    <button mat-flat-button color="primary" (click)="save()">Lưu (F4)</button>
+  </div>
+</div>

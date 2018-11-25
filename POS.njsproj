@@ -24,6 +24,12 @@
     <Content Include="angular.json" />
     <Content Include="package-lock.json" />
     <Content Include="package.json" />
+    <Content Include="src\app\customer\components\customer-list\customer-list.component.html" />
+    <Content Include="src\app\customer\components\customer-list\customer-list.component.scss" />
+    <Content Include="src\app\customer\components\customer-search\customer-search.component.html" />
+    <Content Include="src\app\customer\components\customer-search\customer-search.component.scss" />
+    <Content Include="src\app\customer\components\customer\customer.component.html" />
+    <Content Include="src\app\customer\components\customer\customer.component.scss" />
     <Content Include="src\app\product\components\product-list\product-list.component.html" />
     <Content Include="src\app\product\components\product-list\product-list.component.scss" />
     <Content Include="src\app\product\components\product-search\product-search.component.html" />
@@ -54,6 +60,7 @@
     <Content Include="src\app\widgets\toolbar\toolbar.component.scss" />
     <Content Include="src\app\widgets\typeahead\typeahead.component.html" />
     <Content Include="src\app\widgets\typeahead\typeahead.component.scss" />
+    <Content Include="src\assets\customer.svg" />
     <Content Include="src\assets\report.svg" />
     <Content Include="src\assets\product.svg" />
     <Content Include="src\assets\shopping-cart.svg" />
@@ -67,6 +74,13 @@
     <Content Include="src\tsconfig.app.json" />
     <Content Include="src\tsconfig.spec.json" />
     <Content Include="src\tslint.json" />
+    <TypeScriptCompile Include="src\app\customer\components\customer-list\customer-list.component.ts" />
+    <TypeScriptCompile Include="src\app\customer\components\customer-search\customer-search.component.ts" />
+    <TypeScriptCompile Include="src\app\customer\components\customer\customer.component.ts" />
+    <TypeScriptCompile Include="src\app\customer\customer.module.ts" />
+    <TypeScriptCompile Include="src\app\customer\customer.routing.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="src\app\directives\number.directive.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -149,6 +163,11 @@
     <Folder Include="e2e\src" />
     <Folder Include="src" />
     <Folder Include="src\app" />
+    <Folder Include="src\app\customer\" />
+    <Folder Include="src\app\customer\components\" />
+    <Folder Include="src\app\customer\components\customer-list\" />
+    <Folder Include="src\app\customer\components\customer-search\" />
+    <Folder Include="src\app\customer\components\customer\" />
     <Folder Include="src\app\models\" />
     <Folder Include="src\app\directives\" />
     <Folder Include="src\app\pipes\" />

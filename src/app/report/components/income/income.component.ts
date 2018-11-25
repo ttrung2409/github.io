@@ -39,8 +39,8 @@ export class IncomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   
-  viewBy: string = 'customer';
-  selectedViewBy: string = 'customer';
+  viewBy: string = 'invoice';
+  selectedViewBy: string = 'invoice';
   incomeByInvoiceColumns: GridColumn[] = [
     new GridColumn({
       caption: 'Số HĐ',
@@ -88,7 +88,7 @@ export class IncomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }),
     new GridColumn({
       caption: 'Loại KH',
-      field: 'type'
+      field: 'type.name'
     }),
     new GridColumn({
       caption: 'Số ĐT',

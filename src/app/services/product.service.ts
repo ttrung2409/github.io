@@ -63,7 +63,7 @@ export default class ProductService {
   save(product: Product) {
     let p = this._cachedProducts.find(x => x.id == product.id);
     if (!!p) {
-      Object.assign(p, product);
+      Object.assign(p, product);      
       this._products.next(this._cachedProducts);
     }
   }

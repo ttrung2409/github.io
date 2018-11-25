@@ -1,5 +1,6 @@
 <div class="product-list">
   <toolbar>
+    <toolbar-title>Quản lý sản phẩm</toolbar-title>
     <actions>
       <button mat-button (click)="showSearchView()">
         <mat-icon>filter_list</mat-icon>
@@ -13,7 +14,8 @@
     <content>
       <product #productView *ngIf="flyoutView == 'product'"
                [id]="selectedProduct.id"
-               (complete)="flyout.hide()">
+               (cancel)="flyout.hide()"
+               (commit)="flyout.hide()">
       </product>
       <product-search #productSearchView *ngIf="flyoutView == 'search'"
                       (search)="onSearch($event)"

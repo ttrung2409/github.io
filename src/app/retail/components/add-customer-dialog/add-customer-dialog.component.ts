@@ -29,7 +29,7 @@ export class AddCustomerDialog implements OnInit {
   }
 
   save() {
-    this.customerService.save(this.customer);
+    this.customerService.save(Object.assign(this.customer, { typeId: 1 }));
     this.close();
   }
 

@@ -16,7 +16,7 @@ import { ProductSearchComponent } from '../product-search/product-search.compone
   encapsulation: ViewEncapsulation.None
 })
 export class ProductListComponent implements OnInit, OnDestroy {
-  private _subscription: Subscription;
+  private _subscription: Subscription = new Subscription();
 
   constructor(private productService: ProductService) {
   }
@@ -63,17 +63,17 @@ export class ProductListComponent implements OnInit, OnDestroy {
       })
     ];
 
-    this.productService.getProducts().subscribe(products => {
+    this._subscription.add(this.productService.getProducts().subscribe(products => {
       this.products = products;
-    });
+    }));
 
-    this._subscription = fromEvent(document, 'keyup').subscribe((event: KeyboardEvent) => {
+    this._subscription.add(fromEvent(document, 'keyup').subscribe((event: KeyboardEvent) => {
       switch (event.keyCode) {
         case Key.F2:
           this.showSearchView();          
           break;
       }
-    });
+    }));
   }
 
   ngOnDestroy() {
