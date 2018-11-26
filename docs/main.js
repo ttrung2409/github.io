@@ -54,7 +54,7 @@ module.exports = webpackAsyncContext;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"ui container fluid\" id=\"app\">\r\n  <div class=\"ui vertical left very thin sidebar menu visible\">\r\n    <a routerLink=\"/retail\" routerLinkActive=\"active\" class=\"item\"><img src=\"../assets/shopping-cart.svg\" /></a>\r\n    <a routerLink=\"/product\" routerLinkActive=\"active\" class=\"item\"><img src=\"../assets/product.svg\" /></a>\r\n    <a routerLink=\"/customer\" routerLinkActive=\"active\" class=\"item\"><img src=\"../assets/customer.svg\" /></a>\r\n    <a routerLink=\"/report\" routerLinkActive=\"active\" class=\"item\"><img src=\"../assets/report.svg\" /></a>\r\n  </div>\r\n  <div class=\"pusher content\">\r\n    <router-outlet></router-outlet>\r\n  </div>  \r\n</div>\r\n\r\n"
+module.exports = "<div class=\"ui container fluid\" id=\"app\">\r\n  <div class=\"ui vertical left very thin sidebar menu visible\">\r\n    <a routerLink=\"/retail\" routerLinkActive=\"active\" class=\"item\"><img src=\"assets/shopping-cart.svg\" /></a>\r\n    <a routerLink=\"/product\" routerLinkActive=\"active\" class=\"item\"><img src=\"assets/product.svg\" /></a>\r\n    <a routerLink=\"/customer\" routerLinkActive=\"active\" class=\"item\"><img src=\"assets/customer.svg\" /></a>\r\n    <a routerLink=\"/report\" routerLinkActive=\"active\" class=\"item\"><img src=\"assets/report.svg\" /></a>\r\n  </div>\r\n  <div class=\"pusher content\">\r\n    <router-outlet></router-outlet>\r\n  </div>  \r\n</div>\r\n\r\n"
 
 /***/ }),
 
