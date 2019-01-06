@@ -19,10 +19,7 @@
       </dropdown>
     </div>
     <div class="sixteen wide column">
-      <dropdown [options]="states"
-                [label]="'Tình trạng'"
-                [(model)]="model.isActive">
-      </dropdown>
+      <mat-checkbox [(ngModel)]="model.includeDeleted">Bao gồm các sản phẩm đã xóa</mat-checkbox>      
     </div>
   </div>
   <div class="actions">

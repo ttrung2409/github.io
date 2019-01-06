@@ -7,4 +7,5 @@
       <ng-content select="actions"></ng-content>
     </div>
   </mat-toolbar>
+  <mat-progress-bar *ngIf="showProgressInternal" mode="indeterminate" [color]="'red'"></mat-progress-bar>
 </div>

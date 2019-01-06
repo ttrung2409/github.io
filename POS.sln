@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "POS", "POS.njsproj", "{9F9E5D21-9ADC-45DA-B087-5FFD51F64188}"
 EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "POS.Api", "POS.Api\POS.Api.njsproj", "{1D5725D8-EC75-4A22-8525-D54643E23AE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{9F9E5D21-9ADC-45DA-B087-5FFD51F64188}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F9E5D21-9ADC-45DA-B087-5FFD51F64188}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F9E5D21-9ADC-45DA-B087-5FFD51F64188}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D5725D8-EC75-4A22-8525-D54643E23AE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D5725D8-EC75-4A22-8525-D54643E23AE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D5725D8-EC75-4A22-8525-D54643E23AE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D5725D8-EC75-4A22-8525-D54643E23AE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

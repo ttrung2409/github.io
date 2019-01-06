@@ -4,21 +4,19 @@ import { Observable, of, BehaviorSubject } from "rxjs";
 import { filter, concatAll, reduce, tap, map, toArray } from 'rxjs/operators'
 import Category from "../models/category";
 import * as _ from 'lodash'
+import HttpService from "./http.service";
+import PagedResult from "../models/pagedResult";
 
 @Injectable()
-export default class ProductService {
+export default class ProductService extends HttpService {
   private _products: BehaviorSubject<Product[]> = new BehaviorSubject([]);
 
-  getProducts(params?: any): Observable<Product[]> {
-    setTimeout(() => {
-      of(this._cachedProducts).subscribe(products => this._products.next(products));
-    });
-
-    return this._products.asObservable();
+  search(params?: any): Observable<PagedResult<Product>> {
+    return this._search('product/search', params);
   }
 
   getProduct(id: number): Observable<Product> {
-    return of(this._cachedProducts).pipe(concatAll(), filter(x => x.id == id), map(x => _.cloneDeep(x)));
+    return this.get<Product>(`product/${id}`);
   }
 
   getCategories(): Observable<Category[]> {
@@ -60,12 +58,8 @@ export default class ProductService {
       toArray());
   }
 
-  save(product: Product) {
-    let p = this._cachedProducts.find(x => x.id == product.id);
-    if (!!p) {
-      Object.assign(p, product);      
-      this._products.next(this._cachedProducts);
-    }
+  save(product: Product): Observable<Product> {
+    return product.id > 0 ? this.put('product', product) : this.post('product', product);    
   }
 
   private _cachedProducts: Product[] = [
@@ -76,32 +70,28 @@ export default class ProductService {
       uom: 'Cuộn',
       retailPrice: 27000,
       wholeSalePrice: 25000,
-      discountPrice: 20000,
-      isActive: true
+      discountPrice: 20000      
     }),
     new Product({
       id: 2,
       no: '100002',
       name: 'Giấy bạc Diamond dài',
       uom: 'Cuộn',
-      retailPrice: 43000,
-      isActive: true
+      retailPrice: 43000      
     }),
     new Product({
       id: 3,
       no: '100003',
       name: 'Bánh Gerber dâu táo 42g',
       uom: 'Bịch',
-      retailPrice: 56000,
-      isActive: true
+      retailPrice: 56000      
     }),
     new Product({
       id: 4,
       no: '100004',
       name: 'Bánh trẻ em cây chuối 42g',
       uom: 'Bịch',
-      retailPrice: 60000,
-      isActive: true
+      retailPrice: 60000     
     }),
     new Product({
       id: 5,
@@ -115,40 +105,35 @@ export default class ProductService {
       no: '100006',
       name: 'Kẹo trái cây Lot 100',
       uom: 'Bịch',
-      retailPrice: 29000,
-      isActive: true
+      retailPrice: 29000      
     }),
     new Product({
       id: 7,
       no: '100007',
       name: 'Kẹo xoài lot 100 - 150g',
       uom: 'Bịch',
-      retailPrice: 29000,
-      isActive: true
+      retailPrice: 29000      
     }),
     new Product({
       id: 8,
       no: '100008',
       name: 'NG attack khử mùi 1.4l',
       uom: 'Bình',
-      retailPrice: 71000,
-      isActive: true
+      retailPrice: 71000      
     }),
     new Product({
       id: 9,
       no: '100009',
       name: 'Tã dán Bobby SM L42',
       uom: 'Cuộn',
-      retailPrice: 160000,
-      isActive: true
+      retailPrice: 160000      
     }),
     new Product({
       id: 10,
       no: '100010',
       name: 'Bánh Gerber phô mai 42g',
       uom: 'Bịch',
-      retailPrice: 60000,
-      isActive: true
+      retailPrice: 60000      
     })
   ];
 }

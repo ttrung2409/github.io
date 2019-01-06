@@ -2,7 +2,10 @@ import { Injectable } from "@angular/core";
 
 @Injectable()
 export default class UtilsService {
-  formatNumber(number, prefix = '') {
+  formatNumber(numberIn, prefix = '') {
+    if (!numberIn) return '';
+
+    let number = numberIn.toString().replace(/\.\d\d$/, '');
     let thousandSeparator = ',';
     let decimalSeparator = '.';
     let regex = new RegExp('[^' + decimalSeparator + '\\d]', 'g');

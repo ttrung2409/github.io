@@ -8,7 +8,7 @@ export class FormatNumberPipe implements PipeTransform {
   constructor(private utils: UtilsService) {  
   }
 
-  transform(val) {
+  transform(val) {    
     return this.utils.formatNumber(val, '');
   }  
 }

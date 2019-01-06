@@ -22,6 +22,44 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
     <Content Include="angular.json" />
+    <Content Include="docs\assets\customer.svg" />
+    <Content Include="docs\assets\product.svg" />
+    <Content Include="docs\assets\report.svg" />
+    <Content Include="docs\assets\shopping-cart.svg" />
+    <Content Include="docs\brand-icons.eot" />
+    <Content Include="docs\brand-icons.svg" />
+    <Content Include="docs\brand-icons.ttf" />
+    <Content Include="docs\brand-icons.woff" />
+    <Content Include="docs\brand-icons.woff2" />
+    <Content Include="docs\customer-customer-module.js.map" />
+    <Content Include="docs\favicon.ico" />
+    <Content Include="docs\flags.png" />
+    <Content Include="docs\fontawesome-webfont.eot" />
+    <Content Include="docs\fontawesome-webfont.svg" />
+    <Content Include="docs\fontawesome-webfont.ttf" />
+    <Content Include="docs\fontawesome-webfont.woff" />
+    <Content Include="docs\fontawesome-webfont.woff2" />
+    <Content Include="docs\icons.eot" />
+    <Content Include="docs\icons.svg" />
+    <Content Include="docs\icons.ttf" />
+    <Content Include="docs\icons.woff" />
+    <Content Include="docs\icons.woff2" />
+    <Content Include="docs\404.html" />
+    <Content Include="docs\index.html" />
+    <Content Include="docs\main.js.map" />
+    <Content Include="docs\outline-icons.eot" />
+    <Content Include="docs\outline-icons.svg" />
+    <Content Include="docs\outline-icons.ttf" />
+    <Content Include="docs\outline-icons.woff" />
+    <Content Include="docs\outline-icons.woff2" />
+    <Content Include="docs\polyfills.js.map" />
+    <Content Include="docs\product-product-module.js.map" />
+    <Content Include="docs\report-report-module.js.map" />
+    <Content Include="docs\retail-retail-module.js.map" />
+    <Content Include="docs\runtime.js.map" />
+    <Content Include="docs\scripts.js.map" />
+    <Content Include="docs\styles.js.map" />
+    <Content Include="docs\vendor.js.map" />
     <Content Include="package-lock.json" />
     <Content Include="package.json" />
     <Content Include="src\app\customer\components\customer-list\customer-list.component.html" />
@@ -159,6 +197,8 @@
     <TypeScriptCompile Include="src\environments\environment.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="docs\" />
+    <Folder Include="docs\assets\" />
     <Folder Include="e2e" />
     <Folder Include="e2e\src" />
     <Folder Include="src" />
@@ -196,6 +236,18 @@
     <Folder Include="src\app\widgets\typeahead\" />
     <Folder Include="src\assets" />
     <Folder Include="src\environments" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="docs\customer-customer-module.js" />
+    <Compile Include="docs\main.js" />
+    <Compile Include="docs\polyfills.js" />
+    <Compile Include="docs\product-product-module.js" />
+    <Compile Include="docs\report-report-module.js" />
+    <Compile Include="docs\retail-retail-module.js" />
+    <Compile Include="docs\runtime.js" />
+    <Compile Include="docs\scripts.js" />
+    <Compile Include="docs\styles.js" />
+    <Compile Include="docs\vendor.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <!--Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them.-->

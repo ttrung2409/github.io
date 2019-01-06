@@ -22,6 +22,10 @@ import { FormatNumberPipe } from '../pipes/number.pipe';
 import { NumberDirective } from '../directives/number.directive';
 import { MatDialogModule, MatDatepickerModule } from '@angular/material';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSortModule } from '@angular/material/sort';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 @NgModule({  
   imports: [
@@ -40,7 +44,10 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     HotkeyModule,
     MatDialogModule,
     MatNativeDateModule,
-    MatDatepickerModule    
+    MatDatepickerModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    MatSortModule
   ],
   declarations: [
     GridComponent,
@@ -51,7 +58,8 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     ProductLookupComponent,
     NumberDirective,
     FormatNumberPipe,
-    ToolbarComponent
+    ToolbarComponent,
+    ConfirmDialogComponent
   ],
   exports: [
     GridComponent,
@@ -73,8 +81,10 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     FormatNumberPipe,
     ToolbarComponent,
     MatNativeDateModule,
-    MatDatepickerModule
-    
+    MatDatepickerModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    MatSortModule
   ],
   schemas: [NO_ERRORS_SCHEMA],
   providers: []

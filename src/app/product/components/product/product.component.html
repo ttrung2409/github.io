@@ -2,12 +2,12 @@
   <div class="ui grid">
     <div class="eight wide column">
       <mat-form-field>
-        <input #productNoInput matInput placeholder="Mã SP" [(ngModel)]="product.no" required>
+        <input matInput placeholder="Mã SP" [(ngModel)]="product.no" required disabled>
       </mat-form-field>
     </div>
     <div class="eight wide column">
       <mat-form-field>
-        <input matInput placeholder="Mã vạch" [(ngModel)]="product.barcode">
+        <input #productBarcodeInput matInput placeholder="Mã vạch" [(ngModel)]="product.barcode">
       </mat-form-field>
     </div>
     <div class="sixteen wide column">
@@ -49,10 +49,7 @@
       <mat-form-field>
         <textarea matInput placeholder="Ghi chú" [(ngModel)]="product.notes"></textarea>
       </mat-form-field>
-    </div>
-    <div class="sixteen wide column">
-      <mat-checkbox [(ngModel)]="product.isActive">Hoạt động</mat-checkbox>
-    </div>
+    </div>    
     <div class="sixteen wide column">
       <mat-checkbox [(ngModel)]="product.isContainer">Có sản phẩm lẻ</mat-checkbox>
     </div>
@@ -62,11 +59,11 @@
       </div>
       <div class="four wide column">
         <mat-form-field [floatLabel]="'never'">
-          <input matInput placeholder="SL" [(ngModel)]="product.itemQty" />
+          <input matInput placeholder="SL" [(ngModel)]="product.childItemQty" />
         </mat-form-field>
       </div>
       <div class="twelve wide column">
-        <product-lookup [(model)]="product.itemId" [direction]="'upward'"></product-lookup>
+        <product-lookup [(model)]="product.childItemId" [direction]="'upward'"></product-lookup>
       </div>
     </div>
   </div>

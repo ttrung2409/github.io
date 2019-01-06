@@ -11,6 +11,7 @@ import RetailService from './services/retail.service';
 import CustomerService from './services/customer.service';
 import UtilsService from './services/utils.service';
 import ReportService from './services/report.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -20,8 +21,9 @@ import ReportService from './services/report.service';
     RouterModule.forRoot(appRoutes, {      
       preloadingStrategy: PreloadAllModules
     }),
-    BrowserModule,
+    BrowserModule,    
     BrowserAnimationsModule,
+    HttpClientModule,
     WidgetModule,
     HotkeyModule.forRoot()
   ],

@@ -1,5 +1,5 @@
 <div class="product-list">
-  <toolbar>
+  <toolbar [showProgress]="isLoading">
     <toolbar-title>Quản lý sản phẩm</toolbar-title>
     <actions>
       <button mat-button (click)="showSearchView()">
@@ -7,22 +7,27 @@
         (F2)
       </button>
     </actions>
-  </toolbar>  
+  </toolbar>
   <div style="margin-top: 8px"></div>
-  <grid #grid [columns]="columns" [dataSource]="products" (rowClick)="onSelect($event)" (select)="onSelect($event)"></grid>
+  <grid #grid [columns]="columns"
+        [dataSource]="products"        
+        (rowClick)="onSelect($event)"
+        (select)="onSelect($event)"
+        (sortChange)="onSortChange($event)"></grid>
+  <mat-paginator [showFirstLastButtons]="true" [length]="total"></mat-paginator>
   <flyout #flyout [closable]="false" [containerSelector]="'.product-list'" (onHide)="onFlyoutHide()">
     <content>
       <product #productView *ngIf="flyoutView == 'product'"
                [id]="selectedProduct.id"
                (cancel)="flyout.hide()"
-               (commit)="flyout.hide()">
+               (commit)="onCommit()">
       </product>
       <product-search #productSearchView *ngIf="flyoutView == 'search'"
                       (search)="onSearch($event)"
                       (cancel)="flyout.hide()"></product-search>
-    </content>        
+    </content>
   </flyout>
-  <button mat-fab>
+  <button mat-fab (click)="add()">
     <mat-icon>add</mat-icon>
   </button>
 </div>

@@ -17,8 +17,7 @@ export class ProductSearchComponent implements OnInit {
   @Output() cancel = new EventEmitter();
 
   model: any = {};
-  categories: Category[];
-  states: any[] = [{ value: 1, text: 'Hoạt động' }, { value: 0, text: 'Không hoạt động' }]
+  categories: Category[];  
 
   @ViewChild('productNoInput') productNoInput: ElementRef;
 

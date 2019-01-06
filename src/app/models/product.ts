@@ -11,9 +11,8 @@ export default class Product {
   public retailPrice?: number;
   public wholeSalePrice?: number;
   public discountPrice?: number;
-  public cost: number;
-  public isActive: boolean;
+  public cost: number;  
   public isContainer: boolean;
-  public itemId?: number;
-  public itemQty?: number;
+  public childItemId?: number;
+  public childItemQty?: number;
 }

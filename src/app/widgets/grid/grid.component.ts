@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, DoCheck, IterableDiffer
 import { fromEvent, Subscription } from 'rxjs';
 import { Key } from 'ts-keycode-enum';
 import { HotkeysService, Hotkey } from 'angular2-hotkeys';
+import { Sort } from '@angular/material';
 
 @Component({
   selector: 'grid',
@@ -26,6 +27,7 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy {
   @Output() selectedIndexChange = new EventEmitter();
   @Output() select = new EventEmitter();
   @Output() delete = new EventEmitter();
+  @Output() sortChange = new EventEmitter();
 
   bindingDataSource: any[];
 
@@ -68,11 +70,7 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy {
     }
 
     return data;
-  }
-
-  isNumber(row: any, column: GridColumn) {
-    return typeof this.getCellData(row, column) === 'number';    
-  }
+  }  
 
   handleKeyEvent(event: KeyboardEvent) {
     switch (event.keyCode) {
@@ -106,6 +104,10 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy {
 
     return footer || '';
   }
+
+  onSortChange(sort: Sort) {
+    this.sortChange.emit({ orderBy: sort.active, isDesc: sort.direction == 'desc' ? true : false });  
+  }
 }
 
 export class GridColumn {
@@ -118,4 +120,6 @@ export class GridColumn {
   public width: string;
   public format: Function;
   public footer: any;
+  public sortable: boolean;
+  public isNumber: boolean;
 }

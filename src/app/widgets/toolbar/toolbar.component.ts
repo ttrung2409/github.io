@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, SimpleChanges, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'toolbar',
@@ -6,11 +6,29 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./toolbar.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ToolbarComponent implements OnInit {
+export class ToolbarComponent implements OnInit, OnChanges {
+  private _timeout: any;  
 
   constructor() { }
+
+  @Input() showProgress: boolean;  
+
+  showProgressInternal: boolean;
 
   ngOnInit() {
   }
 
+  ngOnChanges(change: SimpleChanges) {
+    if (!!change.showProgress) {
+      if (!!this.showProgress) {
+        this._timeout = setTimeout(() => {
+          this.showProgressInternal = true;
+        }, 300);
+      }
+      else {
+        clearTimeout(this._timeout);
+        this.showProgressInternal = false;
+      }
+    }    
+  }
 }

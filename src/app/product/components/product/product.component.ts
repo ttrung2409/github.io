@@ -15,7 +15,7 @@ export class ProductComponent implements OnInit, OnChanges {
   constructor(private productService: ProductService, public utils: UtilsService) { }
 
   @Input() id: number;
-  @ViewChild('productNoInput') productNoInput: ElementRef;
+  @ViewChild('productBarcodeInput') productBarcodeInput: ElementRef;
 
   @Output() cancel = new EventEmitter();
   @Output() commit = new EventEmitter();
@@ -54,9 +54,10 @@ export class ProductComponent implements OnInit, OnChanges {
     }    
   }  
 
-  save() {    
-    this.productService.save(this.product);
-    this.commit.emit();
+  save() {
+    this.productService.save(this.product).subscribe(() => {
+      this.commit.emit();
+    });    
   }
 
   doCancel() {
@@ -64,7 +65,7 @@ export class ProductComponent implements OnInit, OnChanges {
   }
 
   focus() {
-    $(this.productNoInput.nativeElement).focus();    
+    $(this.productBarcodeInput.nativeElement).focus();    
   }  
 }
 
