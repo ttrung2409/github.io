@@ -1,8 +1,7 @@
 import Sequelize from 'sequelize';
-import sequelize from '../sequelize';
-import { modelSettings } from '../sequelize'
+import context from '../dbContext';
 
-export default sequelize.define('Product', {
+export default context.define('Product', {  
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
@@ -15,9 +14,9 @@ export default sequelize.define('Product', {
   categoryId: Sequelize.INTEGER,
   cost: Sequelize.DECIMAL,
   retailPrice: Sequelize.DECIMAL,
-  wholeSalePrice: Sequelize.DECIMAL,
+  wholesalePrice: Sequelize.DECIMAL,
   discountPrice: Sequelize.DECIMAL,  
   isContainer: Sequelize.BOOLEAN,
   childItemId: Sequelize.INTEGER,
   childItemQty: Sequelize.DECIMAL
-}, modelSettings);
+}, { tableName: 'Product', timestamps: true, paranoid: true });

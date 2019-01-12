@@ -33,7 +33,7 @@ export class QtyEditorComponent implements OnInit {
         this.item.price = this.item.product.retailPrice;
         break;
       case 's':
-        this.item.price = this.item.product.wholeSalePrice;
+        this.item.price = this.item.product.wholesalePrice;
         break;
       case 'k':
         this.item.price = this.item.product.discountPrice;

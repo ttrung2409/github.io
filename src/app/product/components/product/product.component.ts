@@ -24,9 +24,9 @@ export class ProductComponent implements OnInit, OnChanges {
   categories: any[];
   uoms: any[];
 
-  @HostListener('keyup', ['$event']) onKeyup(e: KeyboardEvent) {
+  @HostListener('keyup', ['$event']) onKeydown(e: KeyboardEvent) {    
     switch (e.keyCode) {
-      case Key.Escape:
+      case Key.Escape:        
         this.doCancel();
         break;
       case Key.F4:
@@ -37,7 +37,7 @@ export class ProductComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.productService.getCategories().subscribe(categories => this.categories = categories);
-    this.productService.getUOMs().subscribe(uoms => this.uoms = uoms);  
+    this.productService.getUoms().subscribe(uoms => this.uoms = uoms);
   }
 
   ngOnChanges(changes: SimpleChanges) {

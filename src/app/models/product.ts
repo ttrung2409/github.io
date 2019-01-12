@@ -9,7 +9,7 @@ export default class Product {
   public uom?: string;
   public categoryId: number;
   public retailPrice?: number;
-  public wholeSalePrice?: number;
+  public wholesalePrice?: number;
   public discountPrice?: number;
   public cost: number;  
   public isContainer: boolean;

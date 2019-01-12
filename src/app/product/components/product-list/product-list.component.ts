@@ -66,7 +66,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
       }),
       new GridColumn({
         caption: 'Giá sỉ',
-        field: 'wholeSalePrice',
+        field: 'wholesalePrice',
         isNumber: true,
         sortable: true
       }),

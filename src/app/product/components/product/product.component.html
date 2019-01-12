@@ -23,7 +23,12 @@
                 [displayMember]="'name'"></dropdown>
     </div>
     <div class="eight wide column">
-      <dropdown [options]="uoms" [label]="'ĐVT'" [(model)]="product.uom"></dropdown>
+      <dropdown [options]="uoms"
+                [label]="'ĐVT'"
+                [(model)]="product.uom"
+                [valueMember]="'id'"
+                [displayMember]="'name'">
+      </dropdown>
     </div>
     <div class="eight wide column">
       <mat-form-field>
@@ -37,7 +42,7 @@
     </div>
     <div class="eight wide column">
       <mat-form-field>
-        <input matInput placeholder="Giá sỉ" number [(model)]="product.wholeSalePrice">
+        <input matInput placeholder="Giá sỉ" number [(model)]="product.wholesalePrice">
       </mat-form-field>
     </div>
     <div class="eight wide column">

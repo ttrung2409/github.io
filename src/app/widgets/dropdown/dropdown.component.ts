@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit, ElementRef, ViewEncapsulation, SimpleChanges, OnChanges, OnDestroy, ChangeDetectorRef, EventEmitter, Output, TemplateRef } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, ElementRef, ViewEncapsulation, SimpleChanges, OnChanges, EventEmitter, Output, TemplateRef } from '@angular/core';
 import { BindableComponent } from '../bindable.component';
 import { Key } from 'ts-keycode-enum'
 import { Observable } from 'rxjs';
@@ -13,6 +13,7 @@ declare var $: any;
 export class DropdownComponent extends BindableComponent implements OnInit, OnChanges, AfterViewInit {
   private _keyDown: boolean;
   private _shouldHandleOnChange: boolean = true;
+  private $dropdown: any;
 
   constructor(private el: ElementRef) {
     super();
@@ -36,29 +37,30 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
   @Output() hide = new EventEmitter();
   @Output() onSelect = new EventEmitter();
 
-  bindingOptions: any[];  
+  bindingOptions = [];   
 
   ngOnInit() {
   }
 
-  ngOnChanges(changes: SimpleChanges) {           
-    if (!!changes.options) {
+  ngOnChanges(changes: SimpleChanges) {
+    if (!!changes.options && !!this.options) {      
       this.bindingOptions = this.options.map(x => x instanceof Object ? x : {
         value: x,
         text: x
       });
 
-      $(this.el.nativeElement).find('.ui.dropdown .menu > .message').css('display', this.bindingOptions.length > 0 ? 'none' : 'block');
+      this.$dropdown.find('.menu > .message').css('display', this.bindingOptions.length > 0 ? 'none' : 'block');
     }    
-    
+
     if (!!changes.model) {
       this.setSelected(this.model);
     }
   }
 
   ngAfterViewInit() {
-    let _this = this;    
-    $(this.el.nativeElement).find('.ui.dropdown').dropdown({
+    let _this = this;
+    this.$dropdown = $(this.el.nativeElement).find('.ui.dropdown');
+    this.$dropdown.dropdown({
       forceSelection: false,
       clearable: true,
       selectOnKeydown: false,
@@ -87,12 +89,12 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
         if (!!_this._shouldHandleOnChange) {          
           _this.model = value || undefined;
           _this.onSelect.emit(_this.model);
-          $(_this.el.nativeElement).find('.ui.dropdown').dropdown('hide');
+          _this.close();          
         }        
       }
     });
 
-    $(this.el.nativeElement).find('.ui.dropdown > input.search').on('keydown', (event: any) => {
+    this.$dropdown.find('input.search').on('keydown', (event: any) => {
       switch (event.keyCode) {
         case Key.Backspace:
         case Key.Delete:
@@ -103,7 +105,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
           break;
         case Key.DownArrow:
           this._keyDown = true;
-          break;
+          break;        
       }
       
       if (this.preventKeys.some(x => x == event.key)) {
@@ -118,22 +120,28 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
 
   clear() {    
     this.model = undefined;
-    $(this.el.nativeElement).find('.ui.dropdown').dropdown('clear');
-    $(this.el.nativeElement).find('.ui.dropdown > input.search').val('');
-    if (this.floatLabel == 'never') {
-      $(this.el.nativeElement).find('.ui.dropdown').dropdown('set text', this.label);
-      $(this.el.nativeElement).find('.ui.dropdown > .text').addClass('default');      
+    if (!!this.$dropdown) {
+      this.$dropdown.dropdown('clear');
+      this.$dropdown.find('input.search').val('');
+      if (this.floatLabel == 'never') {
+        this.$dropdown.dropdown('set text', this.label);
+        this.$dropdown.find('.text').addClass('default');
+      }
     }
   }
 
   focus() {
-    $(this.el.nativeElement).find('.ui.dropdown > input.search').focus();
+    this.$dropdown.find('input.search').focus();
+  }
+
+  close() {
+    this.$dropdown.dropdown('hide');
   }
 
   private setSelected(value) {
     this._shouldHandleOnChange = false;
     if (this.bindingOptions.some(x => x[this.valueMember] == value)) {
-      $(this.el.nativeElement).find('.ui.dropdown').dropdown('set selected', value);
+      this.$dropdown.dropdown('set selected', value);
     }
     else if (value !== undefined && value !== null) {
       if (typeof this.requestForOption === 'function') {

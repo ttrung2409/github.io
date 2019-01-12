@@ -20,34 +20,11 @@ export default class ProductService extends HttpService {
   }
 
   getCategories(): Observable<Category[]> {
-    return of([
-      new Category({
-        id: 1,
-        name: 'Bánh kẹo'
-      }),
-      new Category({
-        id: 2,
-        name: 'Cafe'
-      }),
-      new Category({
-        id: 3,
-        name: 'Sữa bột'
-      }),
-      new Category({
-        id: 4,
-        name: 'Văn phòng phẩm'
-      })]);
+    return this.get<Category[]>('product/category');    
   }
 
-  getUOMs(): Observable<string[]> {
-    return of([
-      'Bịch',
-      'Thùng',
-      'Cái',
-      'Cuộn',
-      'Bình',
-      'Gói'
-    ]);
+  getUoms(): Observable<string[]> {
+    return this.get<string[]>('product/uom');    
   }
 
   lookup(query: string): Observable<Product[]> {
@@ -69,7 +46,7 @@ export default class ProductService extends HttpService {
       name: 'Giấy bạc Diamond ngắn',
       uom: 'Cuộn',
       retailPrice: 27000,
-      wholeSalePrice: 25000,
+      wholesalePrice: 25000,
       discountPrice: 20000      
     }),
     new Product({

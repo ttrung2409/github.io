@@ -10,7 +10,7 @@
         <input matInput placeholder="Giá" number [(model)]="item.price" required>
         <mat-chip-list matSuffix>
           <mat-chip [selected]="item.price == item.product.retailPrice">Lẻ (L)</mat-chip>
-          <mat-chip [selected]="item.price == item.product.wholeSalePrice">Sỉ (S)</mat-chip>
+          <mat-chip [selected]="item.price == item.product.wholesalePrice">Sỉ (S)</mat-chip>
           <mat-chip [selected]="item.price == item.product.discountPrice">Khuyến mãi (K)</mat-chip>
         </mat-chip-list>
       </mat-form-field>
