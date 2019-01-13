@@ -15,6 +15,9 @@ router.get('/uom', function (req, res) {
   productService.getAllUoms().then(uoms => res.send(uoms));;
 });
 
+router.get('/lookup', function (req, res) {
+  productService.lookup(req.query.query).then(products => res.send(products));
+});
 
 router.get('/:id', function (req, res) {
   productService.get(req.params.id).then(product => {

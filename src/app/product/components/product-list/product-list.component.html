@@ -10,10 +10,12 @@
   </toolbar>
   <div style="margin-top: 8px"></div>
   <grid #grid [columns]="columns"
-        [dataSource]="products"        
+        [dataSource]="products"
+        [defaultSort]="defaultSort"
         (rowClick)="onSelect($event)"
         (select)="onSelect($event)"
-        (sortChange)="onSortChange($event)"></grid>
+        (sortChange)="onSortChange($event)">
+  </grid>
   <mat-paginator [showFirstLastButtons]="true" [length]="total"></mat-paginator>
   <flyout #flyout [closable]="false" [containerSelector]="'.product-list'" (onHide)="onFlyoutHide()">
     <content>
@@ -23,6 +25,7 @@
                (commit)="onCommit()">
       </product>
       <product-search #productSearchView *ngIf="flyoutView == 'search'"
+                      [model]="searchModel"
                       (search)="onSearch($event)"
                       (cancel)="flyout.hide()"></product-search>
     </content>

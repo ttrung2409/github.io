@@ -2,12 +2,17 @@
   <div class="ui grid">
     <div class="sixteen wide column">
       <mat-form-field>
-        <input #productNoInput matInput placeholder="Mã SP" [(ngModel)]="model.productNo">
+        <input #productNoInput matInput placeholder="Mã SP" [(ngModel)]="model.no">
       </mat-form-field>
     </div>
     <div class="sixteen wide column">
       <mat-form-field>
-        <input matInput placeholder="Tên SP" [(ngModel)]="model.productName">
+        <input matInput placeholder="Mã vạch" [(ngModel)]="model.barcode">
+      </mat-form-field>
+    </div>
+    <div class="sixteen wide column">
+      <mat-form-field>
+        <input matInput placeholder="Tên SP" [(ngModel)]="model.name">
       </mat-form-field>
     </div>
     <div class="sixteen wide column">
@@ -19,7 +24,7 @@
       </dropdown>
     </div>
     <div class="sixteen wide column">
-      <mat-checkbox [(ngModel)]="model.includeDeleted">Bao gồm các sản phẩm đã xóa</mat-checkbox>      
+      <mat-checkbox [(ngModel)]="model.includeDeleted">Bao gồm các sản phẩm đã xóa</mat-checkbox>
     </div>
   </div>
   <div class="actions">

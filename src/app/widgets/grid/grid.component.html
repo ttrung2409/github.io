@@ -1,7 +1,17 @@
 <div>
-  <table mat-table [dataSource]="bindingDataSource" matSort [matSortDisableClear]="true" (matSortChange)="onSortChange($event)" class="mat-elevation-z1">
+  <table mat-table [dataSource]="bindingDataSource" matSort
+         [matSortDisableClear]="true"
+         [matSortActive]="defaultSort.orderBy"
+         [matSortDirection]="defaultSort.isDesc ? 'desc' : 'asc'"
+         (matSortChange)="onSortChange($event)"
+         class="mat-elevation-z1">
     <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.field">
-      <th mat-header-cell *matHeaderCellDef  mat-sort-header [disable]="!column.sortable" [style.width]="column.width || 'auto'">{{column.caption}}</th>
+      <th mat-header-cell *matHeaderCellDef
+          [mat-sort-header]="column.field"          
+          [disabled]="!column.sortable"
+          [style.width]="column.width || 'auto'">
+        {{column.caption}}
+      </th>
       <td mat-cell *matCellDef="let row">
         <ng-template [ngIf]="!!column.isNumber" [ngIfElse]="elseBlock">
           {{column.format(getCellData(row, column)) | number}}

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit, ElementRef, ViewEncapsulation, SimpleChanges, OnChanges, EventEmitter, Output, TemplateRef } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, ElementRef, ViewEncapsulation, SimpleChanges, OnChanges, EventEmitter, Output, TemplateRef, HostListener } from '@angular/core';
 import { BindableComponent } from '../bindable.component';
 import { Key } from 'ts-keycode-enum'
 import { Observable } from 'rxjs';
@@ -39,6 +39,27 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
 
   bindingOptions = [];   
 
+  @HostListener('keydown', ['$event']) keydown(event) {
+    switch (event.keyCode) {
+      case Key.Backspace:
+      case Key.Delete:
+        if (!event.target.value) {
+          this.clear();
+        }
+
+        break;
+      case Key.DownArrow:
+        this._keyDown = true;
+        break;
+    }
+
+    if (this.preventKeys.some(x => x == event.key)) {
+      event.preventDefault();
+    }
+
+    this.onKeydown.emit(event);    
+  }
+
   ngOnInit() {
   }
 
@@ -48,8 +69,11 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
         value: x,
         text: x
       });
-
-      this.$dropdown.find('.menu > .message').css('display', this.bindingOptions.length > 0 ? 'none' : 'block');
+         
+      setTimeout(() => {
+        this.$dropdown.find('.menu > .message').css('display', this.bindingOptions.length > 0 ? 'none' : 'block');
+        this.setSelected(this.model);
+      });
     }    
 
     if (!!changes.model) {
@@ -93,28 +117,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
         }        
       }
     });
-
-    this.$dropdown.find('input.search').on('keydown', (event: any) => {
-      switch (event.keyCode) {
-        case Key.Backspace:
-        case Key.Delete:
-          if (!event.target.value) {
-            this.clear();
-          }
-
-          break;
-        case Key.DownArrow:
-          this._keyDown = true;
-          break;        
-      }
-      
-      if (this.preventKeys.some(x => x == event.key)) {
-        event.preventDefault();
-      }
-      
-      this.onKeydown.emit(event);      
-    });
-
+   
     this.setSelected(this.model);    
   }
 
@@ -140,17 +143,17 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
 
   private setSelected(value) {
     this._shouldHandleOnChange = false;
-    if (this.bindingOptions.some(x => x[this.valueMember] == value)) {
+    if (this.bindingOptions.some(x => x[this.valueMember] == value)) {      
       this.$dropdown.dropdown('set selected', value);
     }
     else if (value !== undefined && value !== null) {
       if (typeof this.requestForOption === 'function') {
-        this.requestForOption(value).subscribe(option => this.bindingOptions.push(option));        
+        this.requestForOption(value).subscribe(option => {
+          this.bindingOptions.push(option);
+          this.$dropdown.dropdown('set selected', value);
+        });
       }      
-    }
-    else {
-      this.clear();
-    }
+    }    
 
     this._shouldHandleOnChange = true;    
   }

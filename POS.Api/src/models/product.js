@@ -18,5 +18,6 @@ export default context.define('Product', {
   discountPrice: Sequelize.DECIMAL,  
   isContainer: Sequelize.BOOLEAN,
   childItemId: Sequelize.INTEGER,
-  childItemQty: Sequelize.DECIMAL
+  childItemQty: Sequelize.DECIMAL,
+  notes: Sequelize.TEXT
 }, { tableName: 'Product', timestamps: true, paranoid: true });

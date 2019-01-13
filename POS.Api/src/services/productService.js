@@ -31,4 +31,8 @@ export default class ProductService {
   getAllUoms() {
     return uomRepository.all();
   }
+
+  lookup(query) {
+    return productRepository.lookup(query);
+  }
 }

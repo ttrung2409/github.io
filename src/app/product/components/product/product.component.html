@@ -12,7 +12,10 @@
     </div>
     <div class="sixteen wide column">
       <mat-form-field>
-        <input matInput placeholder="Tên SP" [(ngModel)]="product.name" required>
+        <input matInput placeholder="Tên SP" [(ngModel)]="product.name" required name="name">
+        <mat-error *ngIf="hasError('name')">
+          Vui lòng nhập tên sản phẩm
+        </mat-error>
       </mat-form-field>
     </div>
     <div class="eight wide column">
@@ -26,7 +29,7 @@
       <dropdown [options]="uoms"
                 [label]="'ĐVT'"
                 [(model)]="product.uom"
-                [valueMember]="'id'"
+                [valueMember]="'name'"
                 [displayMember]="'name'">
       </dropdown>
     </div>
@@ -64,7 +67,7 @@
       </div>
       <div class="four wide column">
         <mat-form-field [floatLabel]="'never'">
-          <input matInput placeholder="SL" [(ngModel)]="product.childItemQty" />
+          <input matInput placeholder="SL" [(model)]="product.childItemQty" number/>
         </mat-form-field>
       </div>
       <div class="twelve wide column">

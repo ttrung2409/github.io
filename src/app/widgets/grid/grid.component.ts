@@ -23,6 +23,8 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy {
   @Input() showFooter: boolean;
   @Input() isHeaderSticky: boolean;
   @Input() isFooterSticky: boolean;
+  @Input() defaultSort: any;
+
   @Output() rowClick = new EventEmitter();
   @Output() selectedIndexChange = new EventEmitter();
   @Output() select = new EventEmitter();

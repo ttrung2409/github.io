@@ -6,6 +6,6 @@ export default new Sequelize('POS', 'postgres', 'admin', {
   dialect: 'postgres',
   define: {
     timestamps: false,
-    paranoid: false
+    paranoid: false    
   }
 });

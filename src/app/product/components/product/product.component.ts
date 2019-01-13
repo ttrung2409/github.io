@@ -54,7 +54,7 @@ export class ProductComponent implements OnInit, OnChanges {
     }    
   }  
 
-  save() {
+  save() {    
     this.productService.save(this.product).subscribe(() => {
       this.commit.emit();
     });    

@@ -17,8 +17,7 @@ import SearchModel from '../../../models/search';
   encapsulation: ViewEncapsulation.None
 })
 export class ProductListComponent implements OnInit, OnDestroy {
-  private _subscription: Subscription = new Subscription();
-  private _searchModel: SearchModel = new SearchModel({ orderBy: 'no' });
+  private _subscription: Subscription = new Subscription();  
 
   constructor(private productService: ProductService) {
   }
@@ -29,6 +28,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
   flyoutView: string;
   total: number;
   isLoading: boolean;
+  defaultSort = { orderBy: 'no', isDesc: true, currentPage: 1 };
+  searchModel: SearchModel = new SearchModel(this.defaultSort);
   
   @ViewChild(FlyoutComponent) flyout: FlyoutComponent;
   @ViewChild('productView') productView: ProductComponent;
@@ -102,14 +103,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   onSearch(params?: any) {
-    this._searchModel.currentPage = 1;
-    this.isLoading = true;
-    this._subscription.add(this.productService.search(Object.assign(this._searchModel, params)).subscribe(result => {
-      this.isLoading = false;
-      this.total = result.total;
-      this.products = result.items;
-    }));
-
+    this.defaultSort = Object.assign({}, this.defaultSort);
+    this.search(Object.assign(this.searchModel, params, this.defaultSort));
     this.flyout.hide();
   }
 
@@ -132,12 +127,20 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
 
   onCommit() {
-    this.onSearch(this._searchModel);
+    this.search(this.searchModel);
     this.flyout.hide();
   }
 
   onSortChange({ orderBy, isDesc }) {
-    this._searchModel = Object.assign(this._searchModel, { orderBy, isDesc });
-    this.onSearch();
+    this.search(Object.assign(this.searchModel, { orderBy, isDesc }));
+  }
+
+  search(searchModel) {
+    this.isLoading = true;
+    this._subscription.add(this.productService.search(searchModel).subscribe(result => {
+      this.isLoading = false;
+      this.total = result.total;
+      this.products = result.items;
+    }));
   }
 }
