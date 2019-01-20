@@ -1,19 +1,18 @@
-import { Component, OnInit, Input, Output, EventEmitter, DoCheck, IterableDiffers, OnDestroy, IterableDiffer } from '@angular/core';
-import { fromEvent, Subscription } from 'rxjs';
+import { Component, OnInit, Input, Output, EventEmitter, DoCheck, IterableDiffers, OnDestroy, IterableDiffer, SimpleChanges, OnChanges, ViewChild, HostListener, ElementRef } from '@angular/core';
+import { Subscription, fromEvent } from 'rxjs';
 import { Key } from 'ts-keycode-enum';
-import { HotkeysService, Hotkey } from 'angular2-hotkeys';
-import { Sort } from '@angular/material';
+import { Sort, MatSort } from '@angular/material';
 
 @Component({
   selector: 'grid',
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.scss']  
 })
-export class GridComponent implements OnInit, DoCheck, OnDestroy {  
+export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {  
   private _differ: IterableDiffer<any>;
-  private _hotkey: Hotkey;
+  private _subscription: Subscription;
 
-  constructor(private differs: IterableDiffers, private hotkeyService: HotkeysService) {
+  constructor(private differs: IterableDiffers) {
     this._differ = differs.find([]).create(null);
   }
 
@@ -21,9 +20,9 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy {
   @Input() dataSource: any[];
   @Input() selectedIndex: number = 0;
   @Input() showFooter: boolean;
-  @Input() isHeaderSticky: boolean;
+  @Input() isHeaderSticky: boolean = true;
   @Input() isFooterSticky: boolean;
-  @Input() defaultSort: any;
+  @Input() defaultSearch: any = {};
 
   @Output() rowClick = new EventEmitter();
   @Output() selectedIndexChange = new EventEmitter();
@@ -31,31 +30,33 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy {
   @Output() delete = new EventEmitter();
   @Output() sortChange = new EventEmitter();
 
+  @ViewChild(MatSort) matSort: MatSort;
+
   bindingDataSource: any[];
 
   get displayedColumns() {
     return this.columns.map(x => x.field);
-  }  
+  }
 
   ngOnInit() {    
     for (let column of this.columns) {
       column.format = column.format || ((value, item) => value);      
     }
 
-    this.hotkeyService.add(this._hotkey = new Hotkey(['up', 'down', 'enter', 'del'], (event: KeyboardEvent) => {     
-      this.handleKeyEvent(event);
-      return false;
-    }));  
+    this.registerHotkeys();  
   }
 
   ngDoCheck() {    
     if (!!this._differ.diff(this.dataSource)) {      
       this.bindingDataSource = [...this.dataSource];     
-    }
+    }    
+  }
+
+  ngOnChanges(changes: SimpleChanges) {    
   }
 
   ngOnDestroy() {
-    this.hotkeyService.remove(this._hotkey);
+    this.unregisterHotkeys();
   }
   
   onRowClick(row, index) {
@@ -109,6 +110,17 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy {
 
   onSortChange(sort: Sort) {
     this.sortChange.emit({ orderBy: sort.active, isDesc: sort.direction == 'desc' ? true : false });  
+  }
+
+  registerHotkeys() {
+    this._subscription = new Subscription();
+    this._subscription.add(fromEvent(document, 'keydown').subscribe((event: KeyboardEvent) => {
+      this.handleKeyEvent(event);
+    }));
+  }
+
+  unregisterHotkeys() {
+    this._subscription.unsubscribe();
   }
 }
 

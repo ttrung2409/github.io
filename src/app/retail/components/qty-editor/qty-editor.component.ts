@@ -18,12 +18,12 @@ export class QtyEditorComponent implements OnInit {
 
   @ViewChild('qtyInput') qtyInput: ElementRef;
 
-  @HostListener('keyup', ['$event']) onKeyup(e: KeyboardEvent) {
+  @HostListener('keydown', ['$event']) onKeydown(e: KeyboardEvent) {
     switch (e.keyCode) {
       case Key.Escape:
         this.doCancel();
         break;
-      case Key.F4:
+      case Key.F9:
         this.save();
         break;
     }

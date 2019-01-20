@@ -4,6 +4,8 @@ import Product from '../../../models/product';
 import { Subscription, fromEvent } from 'rxjs';
 import { Key } from 'ts-keycode-enum';
 import UtilsService from '../../../services/utils.service';
+import v8n from "v8n";
+
 declare var $: any;
 
 @Component({
@@ -23,13 +25,14 @@ export class ProductComponent implements OnInit, OnChanges {
   product: Product = new Product();
   categories: any[];
   uoms: any[];
+  errors: Map<string, boolean> = new Map();
 
-  @HostListener('keyup', ['$event']) onKeydown(e: KeyboardEvent) {    
+  @HostListener('keydown', ['$event']) onKeydown(e: KeyboardEvent) {    
     switch (e.keyCode) {
       case Key.Escape:        
         this.doCancel();
         break;
-      case Key.F4:
+      case Key.F9:
         this.save();
         break;
     }
@@ -54,10 +57,21 @@ export class ProductComponent implements OnInit, OnChanges {
     }    
   }  
 
-  save() {    
-    this.productService.save(this.product).subscribe(() => {
-      this.commit.emit();
-    });    
+  save() {
+    if (this.validate()) {
+      this.productService.save(this.product).subscribe(() => {
+        this.commit.emit();
+      });
+    }              
+  }
+
+  validate(): boolean {
+    this.errors.clear();    
+    if (v8n().empty().test(this.product.name)) {
+      this.errors.set('name', true);
+    }
+
+    return this.errors.size == 0;
   }
 
   doCancel() {
@@ -65,7 +79,7 @@ export class ProductComponent implements OnInit, OnChanges {
   }
 
   focus() {
-    $(this.productBarcodeInput.nativeElement).focus();    
-  }  
+    $(this.productBarcodeInput.nativeElement).focus();
+  } 
 }
 

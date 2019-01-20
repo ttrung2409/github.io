@@ -1,3 +1,7 @@
-<p>
-  confirm-dialog works!
-</p>
+<div mat-dialog-content>
+  <p>{{data.msg}}</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-flat-button mat-dialog-close cdkInitialFocus color="primary" (click)="close()">Hủy</button>
+  <button mat-flat-button mat-dialog-close cdkInitialFocus (click)="ok()">OK</button>
+</div>

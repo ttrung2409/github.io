@@ -12,14 +12,6 @@ export class NoProductFoundDialog implements OnInit {
     private dialogRef: MatDialogRef<NoProductFoundDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
-  @HostListener('keyup', ['$event']) onKeyup(e: KeyboardEvent) {
-    switch (e.keyCode) {
-      case Key.Enter:
-        this.close();
-        break;
-    }
-  }
-
   ngOnInit() {    
   }
 

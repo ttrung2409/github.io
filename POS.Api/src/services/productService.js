@@ -35,4 +35,8 @@ export default class ProductService {
   lookup(query) {
     return productRepository.lookup(query);
   }
+
+  delete(id) {
+    return productRepository.delete(id);
+  }
 }

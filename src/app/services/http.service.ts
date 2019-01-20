@@ -26,7 +26,7 @@ export default class HttpService {
     return this.http.put<T>(`${baseUrl}/${url}`, model, { headers });
   }
 
-  delete(url: string): Observable<{}> {
+  _delete(url: string): Observable<{}> {    
     return this.http.delete(`${baseUrl}/${url}`, { headers });
   }
 

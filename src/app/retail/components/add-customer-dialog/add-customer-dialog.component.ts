@@ -17,9 +17,9 @@ export class AddCustomerDialog implements OnInit {
 
   customer: Customer = new Customer();
 
-  @HostListener('keyup', ['$event']) onKeyup(e: KeyboardEvent) {
+  @HostListener('keydown', ['$event']) onKeydown(e: KeyboardEvent) {
     switch (e.keyCode) {
-      case Key.F4:
+      case Key.F9:
         this.save();
         break;
     }

@@ -37,7 +37,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
   @Output() hide = new EventEmitter();
   @Output() onSelect = new EventEmitter();
 
-  bindingOptions = [];   
+  bindingOptions = [];
 
   @HostListener('keydown', ['$event']) keydown(event) {
     switch (event.keyCode) {
@@ -57,7 +57,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
       event.preventDefault();
     }
 
-    this.onKeydown.emit(event);    
+    this.onKeydown.emit(event);
   }
 
   ngOnInit() {
@@ -72,13 +72,15 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
          
       setTimeout(() => {
         this.$dropdown.find('.menu > .message').css('display', this.bindingOptions.length > 0 ? 'none' : 'block');
-        this.setSelected(this.model);
+        if (!this.$dropdown.find('input.search').val()) {
+          this.setSelected(this.model);
+        }        
       });
     }    
 
     if (!!changes.model) {
       this.setSelected(this.model);
-    }
+    }    
   }
 
   ngAfterViewInit() {
@@ -143,7 +145,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
 
   private setSelected(value) {
     this._shouldHandleOnChange = false;
-    if (this.bindingOptions.some(x => x[this.valueMember] == value)) {      
+    if (this.bindingOptions.some(x => x[this.valueMember] == value)) {
       this.$dropdown.dropdown('set selected', value);
     }
     else if (value !== undefined && value !== null) {
@@ -152,8 +154,11 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
           this.bindingOptions.push(option);
           this.$dropdown.dropdown('set selected', value);
         });
-      }      
-    }    
+      }
+    }
+    else {
+      this.clear();
+    }
 
     this._shouldHandleOnChange = true;    
   }

@@ -49,4 +49,9 @@ router.put('/', function (req, res) {
   });
 });
 
+router.delete('/:id', function (req, res) {
+  productService.delete(req.params.id);
+  res.end();
+});
+
 module.exports = router;

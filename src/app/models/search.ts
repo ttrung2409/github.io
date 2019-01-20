@@ -5,6 +5,6 @@ export default class SearchModel {
 
   public orderBy: string;
   public isDesc: boolean;
-  public currentPage: number = 1;
-  public pageSize: number = 50;
+  public currentPage: number;
+  public pageSize: number;
 }

@@ -80,7 +80,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
       })
     ];
 
-    this._subscription = fromEvent(document, 'keyup').subscribe((e: KeyboardEvent) => {
+    this._subscription = fromEvent(document, 'keydown').subscribe((e: KeyboardEvent) => {
       switch (e.keyCode) {
         case Key.F2:
           this.pay();

@@ -29,6 +29,7 @@
     "jquery": "^3.3.1",
     "rxjs": "~6.2.0",
     "semantic-ui": "^2.4.1",
+    "v8n": "^1.2.3",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {

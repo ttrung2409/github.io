@@ -54,7 +54,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
       this.customers = customers;
     }));
 
-    this._subscription.add(fromEvent(document, 'keyup').subscribe((event: KeyboardEvent) => {
+    this._subscription.add(fromEvent(document, 'keydown').subscribe((event: KeyboardEvent) => {
       switch (event.keyCode) {
         case Key.F2:
           this.showSearchView();

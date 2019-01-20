@@ -1,8 +1,8 @@
 <div>
   <table mat-table [dataSource]="bindingDataSource" matSort
          [matSortDisableClear]="true"
-         [matSortActive]="defaultSort.orderBy"
-         [matSortDirection]="defaultSort.isDesc ? 'desc' : 'asc'"
+         [matSortActive]="defaultSearch.orderBy"
+         [matSortDirection]="defaultSearch.isDesc ? 'desc' : 'asc'"
          (matSortChange)="onSortChange($event)"
          class="mat-elevation-z1">
     <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.field">

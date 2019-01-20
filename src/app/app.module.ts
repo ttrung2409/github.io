@@ -12,22 +12,30 @@ import CustomerService from './services/customer.service';
 import UtilsService from './services/utils.service';
 import ReportService from './services/report.service';
 import { HttpClientModule } from '@angular/common/http';
+import { APP_CONFIG, AppConfig } from './app.config';
 
 @NgModule({
   declarations: [
-    AppComponent    
+    AppComponent
   ],
   imports: [
-    RouterModule.forRoot(appRoutes, {      
+    RouterModule.forRoot(appRoutes, {
       preloadingStrategy: PreloadAllModules
     }),
-    BrowserModule,    
+    BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     WidgetModule,
     HotkeyModule.forRoot()
   ],
-  providers: [ProductService, RetailService, CustomerService, UtilsService, ReportService],
+  providers: [
+    ProductService,
+    RetailService,
+    CustomerService,
+    UtilsService,
+    ReportService,
+    { provide: APP_CONFIG, useValue: AppConfig }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

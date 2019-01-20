@@ -2,22 +2,31 @@
   <toolbar [showProgress]="isLoading">
     <toolbar-title>Quản lý sản phẩm</toolbar-title>
     <actions>
-      <button mat-button (click)="showSearchView()">
-        <mat-icon>filter_list</mat-icon>
+      <button mat-button (click)="add()">
+        <mat-icon>add</mat-icon>
         (F2)
+      </button>
+      <button mat-button (click)="showSearchView()">
+        <mat-icon>filter_list</mat-icon>        
       </button>
     </actions>
   </toolbar>
-  <div style="margin-top: 8px"></div>
-  <grid #grid [columns]="columns"
-        [dataSource]="products"
-        [defaultSort]="defaultSort"
-        (rowClick)="onSelect($event)"
-        (select)="onSelect($event)"
-        (sortChange)="onSortChange($event)">
-  </grid>
-  <mat-paginator [showFirstLastButtons]="true" [length]="total"></mat-paginator>
-  <flyout #flyout [closable]="false" [containerSelector]="'.product-list'" (onHide)="onFlyoutHide()">
+  <div class="autoflow">
+    <grid #grid [columns]="columns"
+          [dataSource]="products"
+          [defaultSearch]="defaultSearch"
+          (rowClick)="onSelect($event)"
+          (select)="onSelect($event)"
+          (delete)="onDelete($event)"
+          (sortChange)="onSortChange($event)">
+    </grid>
+  </div>
+  
+  <mat-paginator [showFirstLastButtons]="true" [length]="total" [pageSize]="config.pageSize" (page)="onPageChanged($event)"></mat-paginator>
+  <flyout #flyout [closable]="false"
+          [containerSelector]="'.product-list'"
+          (onHide)="onFlyoutHide()"
+          (onShow)="onFlyoutShow()">
     <content>
       <product #productView *ngIf="flyoutView == 'product'"
                [id]="selectedProduct.id"
@@ -29,8 +38,5 @@
                       (search)="onSearch($event)"
                       (cancel)="flyout.hide()"></product-search>
     </content>
-  </flyout>
-  <button mat-fab (click)="add()">
-    <mat-icon>add</mat-icon>
-  </button>
+  </flyout>  
 </div>

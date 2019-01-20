@@ -33,5 +33,9 @@ export default class ProductService extends HttpService {
 
   save(product: Product): Observable<Product> {
     return product.id > 0 ? this.put('product', product) : this.post('product', product);    
-  }  
+  }
+
+  delete(id: number): Observable<{}> {
+    return super._delete(`product/${id}`);
+  }
 }

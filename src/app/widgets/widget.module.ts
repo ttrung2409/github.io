@@ -59,7 +59,7 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     NumberDirective,
     FormatNumberPipe,
     ToolbarComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
   ],
   exports: [
     GridComponent,
@@ -84,7 +84,8 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     MatDatepickerModule,
     MatPaginatorModule,
     MatProgressBarModule,
-    MatSortModule
+    MatSortModule,
+    ConfirmDialogComponent
   ],
   schemas: [NO_ERRORS_SCHEMA],
   providers: []

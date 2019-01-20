@@ -21,12 +21,12 @@ export class ProductSearchComponent implements OnInit {
 
   @ViewChild('productNoInput') productNoInput: ElementRef;
 
-  @HostListener('keyup', ['$event']) onKeyup(e: KeyboardEvent) {
+  @HostListener('keydown', ['$event']) onKeydown(e: KeyboardEvent) {
     switch (e.keyCode) {
       case Key.Escape:
         this.doCancel();
         break;
-      case Key.F4:
+      case Key.F9:
         this.doSearch();
         break;
     }
@@ -46,5 +46,9 @@ export class ProductSearchComponent implements OnInit {
 
   focus() {
     $(this.productNoInput.nativeElement).focus();
+  }
+
+  clear() {
+    this.model = {};
   }
 }

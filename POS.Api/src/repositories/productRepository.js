@@ -73,4 +73,10 @@ export default class ProductRepository extends RepositoryBase {
       limit: 10
     }).then(products => products.map(x => x.get({ plain: true })));
   }
+
+  delete(id) {
+    return this.modelDef.destroy({
+      where: { id }
+    });
+  }
 }

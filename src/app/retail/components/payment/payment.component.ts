@@ -29,12 +29,12 @@ export class PaymentComponent implements OnInit, OnChanges {
   customers: Customer[] = [];
   payment: Payment = new Payment(); 
 
-  @HostListener('keyup', ['$event']) onKeyup(e: KeyboardEvent) {
+  @HostListener('keydown', ['$event']) onKeydown(e: KeyboardEvent) {
     switch (e.keyCode) {
       case Key.Escape:
         this.doCancel();
         break;
-      case Key.F4:
+      case Key.F9:
         this.doComplete();
         break;
     }

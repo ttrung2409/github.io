@@ -7,6 +7,7 @@ import { ProductListComponent } from './components/product-list/product-list.com
 import { WidgetModule } from '../widgets/widget.module';
 import { FormsModule } from '@angular/forms';
 import { ProductSearchComponent } from './components/product-search/product-search.component';
+import { ConfirmDialogComponent } from '../widgets/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { ProductSearchComponent } from './components/product-search/product-sear
     ProductSearchComponent
   ],
   providers: [],
-  schemas: [NO_ERRORS_SCHEMA]
+  schemas: [NO_ERRORS_SCHEMA],
+  entryComponents: [ConfirmDialogComponent]
 })
 export class ProductModule { }

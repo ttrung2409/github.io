@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, OnDestroy, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, OnDestroy, ElementRef, Inject, AfterViewInit } from '@angular/core';
 import ProductService from '../../../services/product.service';
 import { GridColumn, GridComponent } from '../../../widgets/grid/grid.component';
 import Product from '../../../models/product';
@@ -9,6 +9,12 @@ import { fromEvent, Subscription } from 'rxjs';
 import { Key } from 'ts-keycode-enum';
 import { ProductSearchComponent } from '../product-search/product-search.component';
 import SearchModel from '../../../models/search';
+import { PageEvent, MatDialog } from '@angular/material';
+import { APP_CONFIG } from 'src/app/app.config';
+import { ConfirmDialogComponent } from 'src/app/widgets/confirm-dialog/confirm-dialog.component';
+import DialogResult from 'src/app/valueObjects/DialogResult';
+
+declare var $: any;
 
 @Component({
   selector: 'product-list',
@@ -16,10 +22,23 @@ import SearchModel from '../../../models/search';
   styleUrls: ['./product-list.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ProductListComponent implements OnInit, OnDestroy {
+export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
   private _subscription: Subscription = new Subscription();  
 
-  constructor(private productService: ProductService) {
+  constructor(
+    private productService: ProductService,
+    @Inject(APP_CONFIG) config,
+    private el: ElementRef,
+    private dialog: MatDialog) {
+    this.config = config;
+    this.defaultSearch = new SearchModel({
+      orderBy: 'no',
+      isDesc: true,
+      currentPage: 1,
+      pageSize: config.pageSize
+    });
+
+    this.searchModel = new SearchModel(this.defaultSearch);
   }
 
   columns: GridColumn[];
@@ -28,8 +47,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
   flyoutView: string;
   total: number;
   isLoading: boolean;
-  defaultSort = { orderBy: 'no', isDesc: true, currentPage: 1 };
-  searchModel: SearchModel = new SearchModel(this.defaultSort);
+  defaultSearch: SearchModel = new SearchModel();
+  searchModel: SearchModel = new SearchModel();
+  config: any;
   
   @ViewChild(FlyoutComponent) flyout: FlyoutComponent;
   @ViewChild('productView') productView: ProductComponent;
@@ -81,13 +101,25 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
     this.onSearch();
 
-    this._subscription.add(fromEvent(document, 'keyup').subscribe((event: KeyboardEvent) => {
+    this._subscription.add(fromEvent(document, 'keydown').subscribe((event: KeyboardEvent) => {
       switch (event.keyCode) {
         case Key.F2:
-          this.showSearchView();          
-          break;
+          this.add();          
+          break;        
       }
     }));
+
+    this._subscription.add(fromEvent(window, 'resize').subscribe(e => {
+      $(this.el.nativeElement).find('.autoflow').height($(window).height()
+        - $(this.el.nativeElement).find('.toolbar').outerHeight(true)
+        - $(this.el.nativeElement).find('.mat-paginator-container').outerHeight(true));
+    }));
+  }
+
+  ngAfterViewInit() {
+    $(this.el.nativeElement).find('.autoflow').height($(window).height()
+      - $(this.el.nativeElement).find('.toolbar').outerHeight(true)
+      - $(this.el.nativeElement).find('.mat-paginator-container').outerHeight(true));
   }
 
   ngOnDestroy() {
@@ -102,9 +134,23 @@ export class ProductListComponent implements OnInit, OnDestroy {
     });    
   }
 
-  onSearch(params?: any) {
-    this.defaultSort = Object.assign({}, this.defaultSort);
-    this.search(Object.assign(this.searchModel, params, this.defaultSort));
+  onDelete(product: Product) {
+    this.grid.unregisterHotkeys();
+    this.dialog.open(ConfirmDialogComponent,
+      { data: { msg: 'Bạn có chắc chắn xóa sản phẩm này?' } })
+      .afterClosed()
+      .subscribe(result => {
+        this.grid.registerHotkeys();
+        if (result == DialogResult.OK) {
+          this.productService.delete(product.id).subscribe(() => {            
+            this.search(this.searchModel);            
+          });
+        }
+      });    
+  }
+
+  onSearch(params?: any) {    
+    this.search(Object.assign(this.searchModel, params, { currentPage: 1 }));
     this.flyout.hide();
   }
 
@@ -121,10 +167,14 @@ export class ProductListComponent implements OnInit, OnDestroy {
     });
   }
 
-  onFlyoutHide() {
-    this.flyoutView = '';
+  onFlyoutShow() {
+    this.grid.unregisterHotkeys();
   }
 
+  onFlyoutHide() {
+    this.flyoutView = '';
+    this.grid.registerHotkeys();
+  }
 
   onCommit() {
     this.search(this.searchModel);
@@ -143,4 +193,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
       this.products = result.items;
     }));
   }
+
+  onPageChanged(event: PageEvent) {
+    this.search(Object.assign(this.searchModel, { currentPage: event.pageIndex + 1 }));
+  } 
 }
