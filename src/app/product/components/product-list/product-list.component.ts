@@ -34,8 +34,8 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.defaultSearch = new SearchModel({
       orderBy: 'no',
       isDesc: true,
-      currentPage: 1,
-      pageSize: config.pageSize
+      index: 1,
+      size: config.size
     });
 
     this.searchModel = new SearchModel(this.defaultSearch);
@@ -135,12 +135,12 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onDelete(product: Product) {
-    this.grid.unregisterHotkeys();
+    this.grid.disableHotkeys();
     this.dialog.open(ConfirmDialogComponent,
       { data: { msg: 'Bạn có chắc chắn xóa sản phẩm này?' } })
       .afterClosed()
       .subscribe(result => {
-        this.grid.registerHotkeys();
+        this.grid.enableHotkeys();
         if (result == DialogResult.OK) {
           this.productService.delete(product.id).subscribe(() => {            
             this.search(this.searchModel);            
@@ -150,7 +150,7 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onSearch(params?: any) {    
-    this.search(Object.assign(this.searchModel, params, { currentPage: 1 }));
+    this.search(Object.assign(this.searchModel, params, { index: 1 }));
     this.flyout.hide();
   }
 
@@ -168,12 +168,12 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onFlyoutShow() {
-    this.grid.unregisterHotkeys();
+    this.grid.disableHotkeys();
   }
 
   onFlyoutHide() {
     this.flyoutView = '';
-    this.grid.registerHotkeys();
+    this.grid.enableHotkeys();
   }
 
   onCommit() {
@@ -195,6 +195,6 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onPageChanged(event: PageEvent) {
-    this.search(Object.assign(this.searchModel, { currentPage: event.pageIndex + 1 }));
+    this.search(Object.assign(this.searchModel, { index: event.pageIndex + 1 }));
   } 
 }

@@ -54,3 +54,21 @@
   overflow: auto;
 }
 
+.icon.close {
+  color: #bc2f2f;
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.mat-dialog-container h3[mat-dialog-title] {
+  position: relative;
+
+  .icon.close {
+    right: -16px;
+    top: -16px;
+  }
+}
+

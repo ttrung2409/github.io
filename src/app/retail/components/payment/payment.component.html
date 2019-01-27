@@ -14,7 +14,7 @@
                  [itemTemplate]="itemTemplate">
         <ng-template #itemTemplate let-item="item">
           <div>{{item.name}}</div>
-          <div style="color: grey; margin-top: 8px">{{item.phoneNumber}}</div>
+          <div style="color: grey; margin-top: 8px">{{item.phone}}</div>
           <div style="color: grey; margin-top: 8px">{{item.email}}</div>
         </ng-template>
       </typeahead>
@@ -38,7 +38,6 @@
     </div>
   </div>  
   <div class="actions">
-    <button mat-flat-button (click)="doCancel()">Hủy (Esc)</button>
     <button mat-flat-button color="primary" (click)="doComplete()">Hoàn tất (F9)</button>
   </div>
 </div>

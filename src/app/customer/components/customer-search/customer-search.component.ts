@@ -15,7 +15,7 @@ export class CustomerSearchComponent implements OnInit {
   @Output() cancel = new EventEmitter();
   @Output() search = new EventEmitter();
 
-  @ViewChild('customerNameInput') customerNameInput: ElementRef;
+  @ViewChild('customerNoInput') customerNoInput: ElementRef;
 
   @HostListener('keydown', ['$event']) onKeydown(e: KeyboardEvent) {
     switch (e.keyCode) {
@@ -32,11 +32,11 @@ export class CustomerSearchComponent implements OnInit {
   customerTypes: any[];
 
   ngOnInit() {
-    this.customerService.getCustomerTypes().subscribe(types => this.customerTypes = types);
+    this.customerService.allTypes().subscribe(types => this.customerTypes = types);
   }
 
   focus() {
-    $(this.customerNameInput.nativeElement).focus();
+    $(this.customerNoInput.nativeElement).focus();
   }
 
   doCancel() {

@@ -1,7 +1,15 @@
 <div class="ui grid">
   <div class="sixteen wide column">
     <mat-form-field>
+      <input matInput placeholder="Mã KH" [(ngModel)]="customer.no" required disabled>
+    </mat-form-field>
+  </div>
+  <div class="sixteen wide column">
+    <mat-form-field>
       <input #customerNameInput matInput [(ngModel)]="customer.name" placeholder="Tên KH" required />
+      <mat-error>
+        Vui lòng nhập tên khách hàng
+      </mat-error>
     </mat-form-field>
   </div>
   <div class="eight wide column">
@@ -14,7 +22,7 @@
   </div>
   <div class="eight wide column">
     <mat-form-field>
-      <input matInput [(ngModel)]="customer.phoneNumber" placeholder="Số ĐT" required />
+      <input matInput [(ngModel)]="customer.phone" placeholder="Số ĐT" />
     </mat-form-field>
   </div>
   <div class="sixteen wide column">
@@ -27,11 +35,7 @@
       <input matInput [(ngModel)]="customer.address" placeholder="Địa chỉ" />
     </mat-form-field>
   </div>
-  <div class="sixteen wide column">
-    <mat-checkbox [(ngModel)]="customer.isActive">Hoạt động</mat-checkbox>
-  </div>
   <div class="actions">
-    <button mat-flat-button (click)="doCancel()">Hủy (Esc)</button>
     <button mat-flat-button color="primary" (click)="save()">Lưu (F9)</button>
   </div>
 </div>

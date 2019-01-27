@@ -3,6 +3,8 @@ import Category from '../../../models/category';
 import ProductService from '../../../services/product.service';
 import { Subscription, fromEvent } from 'rxjs';
 import { Key } from 'ts-keycode-enum';
+import UtilsService from 'src/app/services/utils.service';
+import * as _ from 'lodash'
 declare var $: any;
 
 @Component({
@@ -11,7 +13,7 @@ declare var $: any;
   styleUrls: ['./product-search.component.scss']
 })
 export class ProductSearchComponent implements OnInit {
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService, private utils: UtilsService) { }
 
   @Input() model: any = {};
   @Output() search = new EventEmitter();
@@ -33,7 +35,7 @@ export class ProductSearchComponent implements OnInit {
   };
 
   ngOnInit() {
-    this.productService.getCategories().subscribe(categories => this.categories = categories);    
+    this.productService.allCategories().subscribe(categories => this.categories = categories);    
   }
 
   doSearch() {
@@ -49,6 +51,7 @@ export class ProductSearchComponent implements OnInit {
   }
 
   clear() {
-    this.model = {};
+    let { index, orderBy, isDesc } = this.model;
+    this.model = Object.assign(this.utils.empty(this.model), _.pickBy({ index, orderBy, isDesc }, value => value !== undefined));
   }
 }

@@ -6,13 +6,13 @@ import { appRoutes } from './app.routing';
 import { RouterModule, PreloadAllModules } from '@angular/router';
 import { WidgetModule } from './widgets/widget.module'
 import ProductService from './services/product.service';
-import { HotkeyModule } from 'angular2-hotkeys';
 import RetailService from './services/retail.service';
 import CustomerService from './services/customer.service';
 import UtilsService from './services/utils.service';
 import ReportService from './services/report.service';
 import { HttpClientModule } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from './app.config';
+import { APP_GLOBAL, AppGlobal } from './app.global'
 
 @NgModule({
   declarations: [
@@ -25,8 +25,7 @@ import { APP_CONFIG, AppConfig } from './app.config';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    WidgetModule,
-    HotkeyModule.forRoot()
+    WidgetModule,    
   ],
   providers: [
     ProductService,
@@ -34,7 +33,8 @@ import { APP_CONFIG, AppConfig } from './app.config';
     CustomerService,
     UtilsService,
     ReportService,
-    { provide: APP_CONFIG, useValue: AppConfig }
+    { provide: APP_CONFIG, useValue: AppConfig },
+    { provide: APP_GLOBAL, useValue: AppGlobal }
   ],
   bootstrap: [AppComponent]
 })

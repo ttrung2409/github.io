@@ -1,29 +1,10 @@
-import { Product } from '../models'
-import Sequelize from 'sequelize'
 import RepositoryBase from './repositoryBase';
-import * as _ from 'lodash'
 import context from '../dbContext';
+import { Customer, CustomerType } from '../models';
 
-const Op = Sequelize.Op;
-
-export default class ProductRepository extends RepositoryBase {
+export default class CustomerRepository extends RepositoryBase {
   constructor() {
-    super(Product);
-  }
-
-  create(product) {
-    let $super = { create: super.create.bind(this) };
-    return context.transaction(function (t) {
-      return Product.findOne({
-        attributes: ['no'],
-        order: [['no', 'desc']],
-        limit: 1,
-        paranoid: false,
-      }, { transaction: t }).then(model => {
-        product.no = !!model ? `SP${parseFloat(model.no.replace(/^SP/, '')) + 1}` : 'SP10000';
-        return $super.create(product, { transaction: t });
-      });
-    });
+    super(Customer);
   }
 
   search(params) {
@@ -34,24 +15,38 @@ export default class ProductRepository extends RepositoryBase {
       }
     }
 
-    if (!!params.barcode) {
-      where.barcode = {
-        [Op.iLike]: `%${params.barcode}%`
-      }
-    }
-
     if (!!params.name) {
       where.name = Sequelize.where(Sequelize.fn('unaccent', Sequelize.col('name')), {
         [Op.iLike]: `%${params.name}%`
       });
     }
-       
+
+    if (!!params.phone) {
+      where.phone = {
+        [Op.iLike]: `%${params.phone}%`
+      }
+    }
+
+    if (params.typeId > 0) {
+      where.typeId = params.typeId;
+    }
+
+    if (!!params.email) {
+      where.email = {
+        [Op.iLike]: `%${params.email}%`
+      }
+    }
+
     return this.modelDef.findAndCountAll({
       where,
       order: [[params.orderBy, !!params.isDesc ? 'desc' : 'asc']],
       offset: (params.index - 1) * params.size,
       limit: params.size,
       paranoid: params.includeDeleted ? false : true,
+      include: [{
+        model: CustomerType,
+        as: 'type'
+      }]
     }).then(result => {
       result.rows = result.rows.map(x => x.get({ plain: true }));
       return result;
@@ -65,24 +60,39 @@ export default class ProductRepository extends RepositoryBase {
           no: {
             [Op.iLike]: `%${query}%`
           }
-        },        
+        },
         {
           name: Sequelize.where(Sequelize.fn('unaccent', Sequelize.col('name')), {
             [Op.iLike]: `%${query}%`
           })
         },
         {
-          barcode: {
+          phone: {
             [Op.iLike]: `%${query}%`
           }
-        }
+        }        
       ]
     };
 
     return this.modelDef.findAll({
       where,
       limit: 10
-    }).then(products => products.map(x => x.get({ plain: true })));
+    }).then(customers => customers.map(x => x.get({ plain: true })));
+  }
+
+  create(customer) {
+    let $super = { create: super.create.bind(this) };
+    return context.transaction(function (t) {
+      return Customer.findOne({
+        attributes: ['no'],
+        order: [['no', 'desc']],
+        limit: 1,
+        paranoid: false,
+      }, { transaction: t }).then(model => {
+        customer.no = !!model ? `KN${parseFloat(model.no.replace(/^KN/, '')) + 1}` : 'KN1000';
+        return $super.create(customer, { transaction: t });
+      });
+    });    
   }
 
   delete(id) {

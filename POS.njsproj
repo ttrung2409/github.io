@@ -87,6 +87,7 @@
     <TypeScriptCompile Include="src\app\directives\number.directive.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="src\app\app.global.ts" />
     <TypeScriptCompile Include="src\app\models\category.ts" />
     <TypeScriptCompile Include="src\app\models\customer.ts">
       <SubType>Code</SubType>

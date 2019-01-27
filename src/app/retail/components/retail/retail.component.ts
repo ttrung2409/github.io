@@ -68,12 +68,14 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
         caption: 'Giá',
         field: 'price',
         width: '180px',
+        isNumber: true,
         footer: 'Tổng'
       }),
       new GridColumn({
         caption: 'Thành tiền',
         field: 'total',
         width: '200px',
+        isNumber: true,
         footer: function () {
           return this.utils.formatNumber(this.invoice.items.reduce((acc, item) => acc += item.total, 0));
         }.bind(this)
@@ -83,11 +85,11 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this._subscription = fromEvent(document, 'keydown').subscribe((e: KeyboardEvent) => {
       switch (e.keyCode) {
         case Key.F2:
+          this.new();
+          break;
+        case Key.F4:
           this.pay();
-          break;
-        case Key.F9:
-          this.addCustomer();
-          break;
+          break;      
       }
 
       switch (e.key) {
@@ -123,7 +125,10 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
       this.selectedIndex = this.invoice.items.length - 1;
     }
     else {
-      this.dialog.open(NoProductFoundDialog);              
+      this.grid.disableHotkeys();
+      this.dialog.open(NoProductFoundDialog).afterClosed().subscribe(() => {
+        this.grid.enableHotkeys();
+      });              
     }
   }
 
@@ -173,10 +178,15 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.invoice = new Invoice({ customerId: 1 });
   }
 
+  onFlyoutShow() {
+    this.grid.disableHotkeys();
+  }
+
   onFlyoutHide() {
     this.flyoutView = '';
     this.productLookup.focus();
-    this.productLookup.clear();   
+    this.productLookup.clear();
+    this.grid.enableHotkeys();
   }
 
   addCustomer() {

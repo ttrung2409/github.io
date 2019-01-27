@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, AfterViewInit, ElementRef, ViewEncapsulation, SimpleChanges, OnChanges, EventEmitter, Output, TemplateRef, HostListener } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, ElementRef, ViewEncapsulation, SimpleChanges, OnChanges, EventEmitter, Output, TemplateRef, HostListener, Inject } from '@angular/core';
 import { BindableComponent } from '../bindable.component';
 import { Key } from 'ts-keycode-enum'
 import { Observable } from 'rxjs';
+import { APP_GLOBAL } from 'src/app/app.global';
 declare var $: any;
 
 @Component({
@@ -14,9 +15,11 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
   private _keyDown: boolean;
   private _shouldHandleOnChange: boolean = true;
   private $dropdown: any;
+  private _global: any;
 
-  constructor(private el: ElementRef) {
+  constructor(private el: ElementRef, @Inject(APP_GLOBAL) global) {
     super();
+    this._global = global;
   }
   
   @Input() options: any[];
@@ -94,6 +97,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
       showOnFocus: this.showOnFocus,
       fullTextSearch: 'exact',
       onShow: function () {
+        _this._global.lockHotkeys = true;
         if (!_this.showOnKeyDown && _this._keyDown) {
           _this._keyDown = false;
           return false;
@@ -103,13 +107,14 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
         $(_this.el.nativeElement).find('.mat-form-field-underline').addClass('highlight');
         _this.show.emit();
       },
-      onHide: function () {
+      onHide: function () {        
         if (!_this.model) {
           $(_this.el.nativeElement).find('.mat-form-field').removeClass('mat-form-field-should-float');
         }
 
         $(_this.el.nativeElement).find('.mat-form-field-underline').removeClass('highlight');
         _this.hide.emit();
+        setTimeout(() => _this._global.lockHotkeys = false);
       },
       onChange(value) {
         if (!!_this._shouldHandleOnChange) {          

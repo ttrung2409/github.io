@@ -3,6 +3,7 @@ import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
+import { } from './models'
 
 var app = express();
 
@@ -19,6 +20,7 @@ app.use(function (req, res, next) {
 });
 
 app.use('/api/product', require('./controllers/product'));
+app.use('/api/customer', require('./controllers/customer'));
 
 app.set('port', process.env.PORT || 3000);
 

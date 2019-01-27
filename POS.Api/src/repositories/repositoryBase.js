@@ -29,17 +29,5 @@ export default class RepositoryBase {
 
   delete(id) {
     return this.modelDef.findById(id).then(model => model.destroy());
-  }
-
-  search(params, where) {
-    return this.modelDef.findAndCountAll({
-      where,
-      order: [[params.orderBy, !!params.isDesc ? 'desc' : 'asc']],
-      offset: (params.currentPage - 1) * params.pageSize,
-      limit: params.pageSize
-    }).then(result => {
-      result.rows = result.rows.map(x => x.get({ plain: true }));
-      return result;
-    });;
-  }
+  }  
 }

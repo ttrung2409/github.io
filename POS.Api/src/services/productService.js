@@ -24,11 +24,11 @@ export default class ProductService {
     return productRepository.get(id);
   }
 
-  getAllCategories() {
+  allCategories() {
     return categoryRepository.all();
   }
 
-  getAllUoms() {
+  allUoms() {
     return uomRepository.all();
   }
 

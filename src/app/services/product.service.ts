@@ -9,30 +9,28 @@ import PagedResult from "../models/pagedResult";
 
 @Injectable()
 export default class ProductService extends HttpService {
-  private _products: BehaviorSubject<Product[]> = new BehaviorSubject([]);
-
   search(params?: any): Observable<PagedResult<Product>> {
     return this._search('product/search', params);
   }
 
-  getProduct(id: number): Observable<Product> {
-    return this.get<Product>(`product/${id}`);
+  get(id: number): Observable<Product> {
+    return super._get<Product>(`product/${id}`);
   }
 
-  getCategories(): Observable<Category[]> {
-    return this.get<Category[]>('product/category');    
+  allCategories(): Observable<Category[]> {
+    return super._get<Category[]>('product/allCategories');    
   }
 
-  getUoms(): Observable<string[]> {
-    return this.get<string[]>('product/uom');    
+  allUoms(): Observable<string[]> {
+    return super._get<string[]>('product/allUoms');    
   }
 
   lookup(query: string): Observable<Product[]> {
-    return this.get<Product[]>('product/lookup', { query });   
+    return super._get<Product[]>('product/lookup', { query });   
   }
 
   save(product: Product): Observable<Product> {
-    return product.id > 0 ? this.put('product', product) : this.post('product', product);    
+    return product.id > 0 ? super._put('product', product) : super._post('product', product);    
   }
 
   delete(id: number): Observable<{}> {

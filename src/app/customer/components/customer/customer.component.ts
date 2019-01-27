@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, EventEmitter, HostListener, Output } from '@angular/core';
-import Customer from '../../../models/customer';
+import Customer, { CustomerType } from '../../../models/customer';
 import CustomerService from '../../../services/customer.service';
 import { Key } from 'ts-keycode-enum';
+import v8n from 'v8n'
+
 declare var $: any;
 
 @Component({
@@ -30,11 +32,12 @@ export class CustomerComponent implements OnInit {
   }
 
   customer: Customer = new Customer();
-  customerTypes: any[];
+  customerTypes: CustomerType[];
+  errors: Map<string, boolean> = new Map();
 
   ngOnInit() {
-    this.customerService.getCustomer(this.id).subscribe(customer => this.customer = customer);
-    this.customerService.getCustomerTypes().subscribe(types => this.customerTypes = types);
+    this.customerService.get(this.id).subscribe(customer => this.customer = customer);
+    this.customerService.allTypes().subscribe(types => this.customerTypes = types);
   }
 
   focus() {
@@ -46,7 +49,18 @@ export class CustomerComponent implements OnInit {
   }
 
   save() {
-    this.customerService.save(this.customer);
-    this.commit.emit();
+    if (this.validate()) {
+      this.customerService.save(this.customer).subscribe(customer => {
+        this.commit.emit();
+      });
+    }    
+  }
+  validate(): boolean {
+    this.errors.clear();
+    if (v8n().empty().test(this.customer.name)) {
+      this.errors.set('name', true);
+    }
+
+    return this.errors.size == 0;
   }
 }

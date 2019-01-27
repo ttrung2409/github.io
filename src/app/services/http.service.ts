@@ -14,15 +14,15 @@ export default class HttpService {
   constructor(private http: HttpClient) {
   }
 
-  get<T>(url: string, params?: any): Observable<T> {
+  _get<T>(url: string, params?: any): Observable<T> {
     return this.http.get<T>(`${baseUrl}/${url}`, { headers, params });
   }
 
-  post<T>(url: string, model: T): Observable<T> {    
+  _post<T>(url: string, model: T): Observable<T> {
     return this.http.post<T>(`${baseUrl}/${url}`, model, { headers });
   }  
 
-  put<T>(url: string, model: T): Observable<T> {
+  _put<T>(url: string, model: T): Observable<T> {
     return this.http.put<T>(`${baseUrl}/${url}`, model, { headers });
   }
 

@@ -92,7 +92,7 @@ export class IncomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }),
     new GridColumn({
       caption: 'Số ĐT',
-      field: 'phoneNumber',
+      field: 'phone',
       footer: 'Tổng'
     }),
     new GridColumn({

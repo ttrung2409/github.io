@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter, DoCheck, IterableDiffers, OnDestroy, IterableDiffer, SimpleChanges, OnChanges, ViewChild, HostListener, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, DoCheck, IterableDiffers, OnDestroy, IterableDiffer, SimpleChanges, OnChanges, ViewChild, HostListener, ElementRef, Inject } from '@angular/core';
 import { Subscription, fromEvent } from 'rxjs';
 import { Key } from 'ts-keycode-enum';
 import { Sort, MatSort } from '@angular/material';
+import { APP_GLOBAL } from 'src/app/app.global';
 
 @Component({
   selector: 'grid',
@@ -11,9 +12,11 @@ import { Sort, MatSort } from '@angular/material';
 export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {  
   private _differ: IterableDiffer<any>;
   private _subscription: Subscription;
+  private _global: any;
 
-  constructor(private differs: IterableDiffers) {
+  constructor(private differs: IterableDiffers, @Inject(APP_GLOBAL) global) {
     this._differ = differs.find([]).create(null);
+    this._global = global;
   }
 
   @Input() columns: GridColumn[];
@@ -43,7 +46,7 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
       column.format = column.format || ((value, item) => value);      
     }
 
-    this.registerHotkeys();  
+    this.enableHotkeys();  
   }
 
   ngDoCheck() {    
@@ -56,7 +59,7 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
-    this.unregisterHotkeys();
+    this.disableHotkeys();
   }
   
   onRowClick(row, index) {
@@ -91,7 +94,7 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
         }
         
         break;
-      case Key.Delete:
+      case Key.Delete:        
         if (this.selectedIndex > -1) {
           this.delete.emit(this.dataSource[this.selectedIndex]);
         }
@@ -112,14 +115,16 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
     this.sortChange.emit({ orderBy: sort.active, isDesc: sort.direction == 'desc' ? true : false });  
   }
 
-  registerHotkeys() {
+  enableHotkeys() {
     this._subscription = new Subscription();
     this._subscription.add(fromEvent(document, 'keydown').subscribe((event: KeyboardEvent) => {
-      this.handleKeyEvent(event);
+      if (!this._global.lockHotkeys) {
+        this.handleKeyEvent(event);
+      }      
     }));
   }
 
-  unregisterHotkeys() {
+  disableHotkeys() {
     this._subscription.unsubscribe();
   }
 }

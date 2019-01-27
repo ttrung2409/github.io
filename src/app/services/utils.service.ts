@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import * as _ from 'lodash'
 
 @Injectable()
 export default class UtilsService {
@@ -29,4 +30,34 @@ export default class UtilsService {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;    
   }
+
+  empty(obj) {
+    if (_.isArray(obj)) {
+      return [];
+    }
+
+    for (let prop of Object.keys(obj)) {
+      if (_.isDate(obj[prop])) {
+        obj[prop] = null;
+      }
+      else if (_.isArray(obj[prop])) {
+        obj[prop] = [];
+      }
+      else if (_.isString(obj[prop])) {
+        obj[prop] = '';
+      }
+      else if (_.isBoolean(obj[prop])) {
+        obj[prop] = false;
+      }
+      else if (_.isObject(obj[prop])) {
+        obj[prop] = this.empty(obj[prop]);
+      }
+      else {
+        obj[prop] = null;
+      }
+    }
+
+    return obj;
+  }
 }
+

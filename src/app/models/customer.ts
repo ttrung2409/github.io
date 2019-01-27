@@ -5,7 +5,7 @@ export default class Customer {
 
   public id: number | string;
   public name: string;
-  public phoneNumber: string;
+  public phone: string;
   public email?: string;
   public address?: string;
   public dob?: Date;

@@ -111,6 +111,6 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
   }
 
   requestForProduct(id): Observable<any> {
-    return this.productService.getProduct(id);
+    return this.productService.get(id);
   }
 }

@@ -1,15 +1,27 @@
 <div class="customer-list">
-  <toolbar>
+  <toolbar [showProgress]="isLoading">
     <toolbar-title>Quản lý khách hàng</toolbar-title>
     <actions>
+      <button mat-button (click)="add()">
+        <mat-icon>add</mat-icon>
+        (F2)
+      </button>
       <button mat-button (click)="showSearchView()">
         <mat-icon>filter_list</mat-icon>
-        (F2)
       </button>
     </actions>
   </toolbar>
-  <grid [columns]="columns" [dataSource]="customers" (rowClick)="onSelect($event)" (select)="onSelect($event)"></grid>
-  <flyout #flyout [containerSelector]="'.customer-list'" (onHide)="flyoutView = ''">
+  <grid #grid [columns]="columns"
+        [dataSource]="customers"
+        (rowClick)="onSelect($event)"
+        (select)="onSelect($event)"
+        (delete)="onDelete($event)"
+        (sortChange)="onSortChange($event)">
+  </grid>
+  <mat-paginator [showFirstLastButtons]="true" [length]="total" [size]="config.size" (page)="onPageChanged($event)"></mat-paginator>
+  <flyout #flyout [containerSelector]="'.customer-list'"
+          (onHide)="onFlyoutHide()"
+          (onShow)="onFlyoutShow()">
     <content>
       <customer-search #searchView
                        *ngIf="flyoutView == 'search'"
@@ -20,10 +32,7 @@
                 *ngIf="flyoutView == 'customer'"
                 [id]="selectedCustomer.id"
                 (cancel)="flyout.hide()"
-                (commit)="flyout.hide()"></customer>
+                (commit)="onCommit()"></customer>
     </content>
-  </flyout>
-  <button mat-fab>
-    <mat-icon>add</mat-icon>
-  </button>
+  </flyout>  
 </div>

@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { WidgetModule } from '../widgets/widget.module';
 import { RouterModule } from '@angular/router';
 import { routes } from './customer.routing'
+import { ConfirmDialogComponent } from '../widgets/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { routes } from './customer.routing'
     CustomerComponent,
     CustomerSearchComponent
   ],
-  schemas: [NO_ERRORS_SCHEMA]
+  schemas: [NO_ERRORS_SCHEMA],
+  entryComponents: [ConfirmDialogComponent]
 })
 export class CustomerModule { }

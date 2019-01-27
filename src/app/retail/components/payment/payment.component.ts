@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, ViewChild, Output, EventEmitter, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, ViewChild, Output, EventEmitter, OnDestroy, HostListener, Inject } from '@angular/core';
 import RetailService from '../../../services/retail.service';
 import Customer from '../../../models/customer';
 import CustomerService from '../../../services/customer.service';
@@ -8,6 +8,7 @@ import { TypeaheadComponent } from '../../../widgets/typeahead/typeahead.compone
 import { Key } from 'ts-keycode-enum';
 import Payment from '../../../models/payment';
 import UtilsService from '../../../services/utils.service';
+import { APP_GLOBAL } from 'src/app/app.global';
 
 @Component({
   selector: 'payment',
@@ -16,8 +17,13 @@ import UtilsService from '../../../services/utils.service';
 })
 export class PaymentComponent implements OnInit, OnChanges {
   private _customerSubscription: Subscription;
+  private _global;
 
-  constructor(private retailService: RetailService, private customerService: CustomerService) {
+  constructor(
+    private retailService: RetailService,
+    private customerService: CustomerService,
+    @Inject(APP_GLOBAL) global) {
+    this._global = global;
   }
 
   @Input() invoice: Invoice;  
@@ -30,14 +36,16 @@ export class PaymentComponent implements OnInit, OnChanges {
   payment: Payment = new Payment(); 
 
   @HostListener('keydown', ['$event']) onKeydown(e: KeyboardEvent) {
-    switch (e.keyCode) {
-      case Key.Escape:
-        this.doCancel();
-        break;
-      case Key.F9:
-        this.doComplete();
-        break;
-    }
+    if (!this._global.lockHotkeys) {
+      switch (e.keyCode) {
+        case Key.Escape:
+          this.doCancel();
+          break;
+        case Key.F9:
+          this.doComplete();
+          break;
+      }
+    }    
   };
   ngOnInit() {    
   }
@@ -69,6 +77,6 @@ export class PaymentComponent implements OnInit, OnChanges {
   }
 
   requestForCustomer(id): Observable<any> {
-    return this.customerService.getCustomer(id);
+    return this.customerService.get(id);
   }
 }

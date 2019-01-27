@@ -5,14 +5,14 @@ var router = express.Router();
 
 let productService = new ProductService();
 
-router.get('/category', function (req, res) {
-  productService.getAllCategories().then(categories => {
+router.get('/allCategories', function (req, res) {
+  productService.allCategories().then(categories => {
     res.send(categories);
   });
 });
 
-router.get('/uom', function (req, res) {
-  productService.getAllUoms().then(uoms => res.send(uoms));;
+router.get('/allUoms', function (req, res) {
+  productService.allUoms().then(uoms => res.send(uoms));
 });
 
 router.get('/lookup', function (req, res) {
@@ -31,7 +31,7 @@ router.get('/:id', function (req, res) {
   });
 });
 
-router.post('/search', function (req, res) {  
+router.post('/search', function (req, res) {
   productService.search(req.body).then(result => {
     res.send({ total: result.count, items: result.rows });
   });

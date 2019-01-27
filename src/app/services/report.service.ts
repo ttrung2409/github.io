@@ -14,7 +14,7 @@ export default class ReportService {
   }
 
   getIncomeByInvoice(): Observable<Invoice[]> {
-    return this.customerService.getCustomers().pipe(      
+    return this.customerService.search().pipe(      
       map(customers => {
         let invoices = [];
         for (let i = 0; i < 50; i++) {
