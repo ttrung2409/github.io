@@ -6,10 +6,12 @@
       <i class="dropdown icon"></i>
       <div class="default text">{{floatLabel == 'never' ? label : ''}}</div>
       <div class="menu">
-        <div class="item" *ngFor="let option of bindingOptions" [attr.data-value]="option[valueMember]" [attr.data-text]="option[displayMember]">
-          <ng-template #defaultTemplate>{{option[displayMember]}}</ng-template>
-          <ng-container *ngTemplateOutlet="itemTemplate || defaultTemplate; context: {item: option}"></ng-container>          
-        </div>
+        <ng-container *ngFor="let option of bindingOptions">
+          <div class="item" *ngIf="!!option" [attr.data-value]="option[valueMember]" [attr.data-text]="option[displayMember]">
+            <ng-template #defaultTemplate>{{option[displayMember]}}</ng-template>
+            <ng-container *ngTemplateOutlet="itemTemplate || defaultTemplate; context: {item: option}"></ng-container>
+          </div>
+        </ng-container>        
       </div>
     </div>  
   </mat-form-field>

@@ -22,7 +22,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
     this._global = global;
   }
   
-  @Input() options: any[];
+  @Input() options: any[] = [];
   @Input() valueMember: string = 'value';
   @Input() displayMember: string = 'text';
   @Input() label: string;
@@ -67,7 +67,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (!!changes.options && !!this.options) {      
+    if (!!changes.options && !!this.options) {
       this.bindingOptions = this.options.map(x => x instanceof Object ? x : {
         value: x,
         text: x
@@ -113,8 +113,11 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
         }
 
         $(_this.el.nativeElement).find('.mat-form-field-underline').removeClass('highlight');
-        _this.hide.emit();
-        setTimeout(() => _this._global.lockHotkeys = false);
+        
+        setTimeout(() => {
+          _this._global.lockHotkeys = false
+          _this.hide.emit();
+        });
       },
       onChange(value) {
         if (!!_this._shouldHandleOnChange) {          

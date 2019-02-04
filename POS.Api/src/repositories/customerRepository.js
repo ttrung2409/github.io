@@ -1,6 +1,9 @@
 import RepositoryBase from './repositoryBase';
 import context from '../dbContext';
 import { Customer, CustomerType } from '../models';
+import Sequelize from 'sequelize'
+
+const Op = Sequelize.Op;
 
 export default class CustomerRepository extends RepositoryBase {
   constructor() {

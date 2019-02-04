@@ -4,16 +4,18 @@
       <mat-form-field>
         <input #qtyInput matInput placeholder="SL" number [(model)]="item.qty" required>
       </mat-form-field>
+      <div class="error" *ngIf="errors.has('qty')">{{errors.get('qty')}}</div>
     </div>
     <div class="sixteen wide column">
       <mat-form-field>
         <input matInput placeholder="Giá" number [(model)]="item.price" required>
         <mat-chip-list matSuffix>
-          <mat-chip [selected]="item.price == item.product.retailPrice">Lẻ (L)</mat-chip>
-          <mat-chip [selected]="item.price == item.product.wholesalePrice">Sỉ (S)</mat-chip>
-          <mat-chip [selected]="item.price == item.product.discountPrice">Khuyến mãi (K)</mat-chip>
+          <mat-chip (click)="onPriceTagClick('retail')" [selected]="item.price == item.product.retailPrice">Lẻ (L)</mat-chip>
+          <mat-chip (click)="onPriceTagClick('wholesale')" [selected]="item.price == item.product.wholesalePrice">Sỉ (S)</mat-chip>
+          <mat-chip (click)="onPriceTagClick('discount')" [selected]="item.price == item.product.discountPrice">Khuyến mãi (K)</mat-chip>
         </mat-chip-list>
       </mat-form-field>
+      <div class="error" *ngIf="errors.has('price')">{{errors.get('price')}}</div>
     </div>
   </div>
   <div class="actions">

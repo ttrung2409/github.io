@@ -1,6 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef, HostListener, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, HostListener, EventEmitter, Output, Input } from '@angular/core';
 import CustomerService from '../../../services/customer.service';
 import { Key } from 'ts-keycode-enum';
+import UtilsService from 'src/app/services/utils.service';
+import * as _ from 'lodash'
 declare var $: any;
 
 @Component({
@@ -10,8 +12,9 @@ declare var $: any;
 })
 export class CustomerSearchComponent implements OnInit {
 
-  constructor(private customerService: CustomerService) { }
+  constructor(private customerService: CustomerService, private utils: UtilsService) { }
 
+  @Input() model: any = {};
   @Output() cancel = new EventEmitter();
   @Output() search = new EventEmitter();
 
@@ -28,7 +31,6 @@ export class CustomerSearchComponent implements OnInit {
     }
   }
 
-  model: any = {};
   customerTypes: any[];
 
   ngOnInit() {
@@ -44,6 +46,11 @@ export class CustomerSearchComponent implements OnInit {
   }
 
   doSearch() {
-    this.search.emit();
+    this.search.emit(this.model);
+  }
+
+  clear() {
+    let { index, orderBy, isDesc } = this.model;
+    this.model = Object.assign(this.utils.empty(this.model), _.pickBy({ index, orderBy, isDesc }, value => value !== undefined));
   }
 }

@@ -30,7 +30,7 @@ export class ProductComponent implements OnInit, OnChanges {
   product: Product = new Product();
   categories: any[];
   uoms: any[];
-  errors: Map<string, boolean> = new Map();
+  errors: Map<string, string> = new Map();
 
   @HostListener('keydown', ['$event']) onKeydown(e: KeyboardEvent) {
     if (!this._global.lockHotkeys) {
@@ -73,9 +73,9 @@ export class ProductComponent implements OnInit, OnChanges {
   }
 
   validate(): boolean {
-    this.errors.clear();    
-    if (v8n().empty().test(this.product.name)) {
-      this.errors.set('name', true);
+    this.errors.clear();
+    if (v8n().empty().test(this.product.name || '')) {
+      this.errors.set('name', 'Vui lòng nhập tên sản phẩm');
     }
 
     return this.errors.size == 0;

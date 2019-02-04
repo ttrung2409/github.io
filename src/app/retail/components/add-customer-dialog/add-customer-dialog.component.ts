@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import CustomerService from '../../../services/customer.service';
 import Customer from '../../../models/customer';
 import { Key } from 'ts-keycode-enum';
+import v8n from 'v8n'
 
 @Component({
   selector: 'app-add-customer-dialog',
@@ -16,6 +17,7 @@ export class AddCustomerDialog implements OnInit {
     private customerService: CustomerService) { }
 
   customer: Customer = new Customer();
+  errors: Map<string, string> = new Map();
 
   @HostListener('keydown', ['$event']) onKeydown(e: KeyboardEvent) {
     switch (e.keyCode) {
@@ -25,15 +27,26 @@ export class AddCustomerDialog implements OnInit {
     }
   };
 
-  ngOnInit() {  
+  ngOnInit() {
   }
 
   save() {
-    this.customerService.save(Object.assign(this.customer, { typeId: 1 }));
-    this.close();
+    if (this.validate()) {
+      this.customerService.save(Object.assign(this.customer, { typeId: 1 })).subscribe();
+      this.close();
+    }
   }
 
   close() {
     this.dialogRef.close();
+  }
+
+  validate(): boolean {
+    this.errors.clear();
+    if (v8n().empty().test(this.customer.name || '')) {
+      this.errors.set('name', 'Vui lòng nhập tên khách hàng');
+    }
+
+    return this.errors.size == 0;
   }
 }

@@ -7,10 +7,8 @@
   <div class="sixteen wide column">
     <mat-form-field>
       <input #customerNameInput matInput [(ngModel)]="customer.name" placeholder="Tên KH" required />
-      <mat-error>
-        Vui lòng nhập tên khách hàng
-      </mat-error>
     </mat-form-field>
+    <div class="error" *ngIf="errors.has('name')">{{errors.get('name')}}</div>
   </div>
   <div class="eight wide column">
     <dropdown [options]="customerTypes"

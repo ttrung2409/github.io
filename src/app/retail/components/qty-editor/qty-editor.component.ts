@@ -2,6 +2,9 @@ import { Component, OnInit, Input, OnDestroy, Output, EventEmitter, ElementRef, 
 import { Subscription, fromEvent } from 'rxjs';
 import { Key } from 'ts-keycode-enum';
 import InvoiceItem from '../../../models/invoiceItem';
+import { MatChipSelectionChange } from '@angular/material';
+import v8n from 'v8n'
+
 declare var $: any;
 
 @Component({
@@ -17,6 +20,8 @@ export class QtyEditorComponent implements OnInit {
   @Output() cancel = new EventEmitter();
 
   @ViewChild('qtyInput') qtyInput: ElementRef;
+
+  errors: Map<string, string> = new Map();
 
   @HostListener('keydown', ['$event']) onKeydown(e: KeyboardEvent) {
     switch (e.keyCode) {
@@ -41,18 +46,47 @@ export class QtyEditorComponent implements OnInit {
     }
   };
 
-  ngOnInit() {   
-  }  
+  ngOnInit() {
+  }
 
   doCancel() {
     this.cancel.emit();
   }
 
   save() {
-    this.commit.emit(this.item);    
+    if (this.validate()) {
+      this.commit.emit(this.item);
+    }
   }
 
   focus() {
     $(this.qtyInput.nativeElement).focus();
+  }
+
+  onPriceTagClick(type) {
+    switch (type) {
+      case 'retail':
+        this.item.price = this.item.product.retailPrice;
+        break;
+      case 'wholesale':
+        this.item.price = this.item.product.wholesalePrice;
+        break;
+      case 'discount':
+        this.item.price = this.item.product.discountPrice;
+        break;
+    }
+  }
+
+  validate() {
+    this.errors.clear();
+    if (v8n().empty().test(this.item.qty || '')) {
+      this.errors.set('qty', 'Vui lòng nhập số lượng');
+    }
+
+    if (v8n().empty().test(this.item.price || '')) {
+      this.errors.set('price', 'Vui lòng nhập giá');
+    }
+
+    return this.errors.size == 0;
   }
 }

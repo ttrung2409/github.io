@@ -6,6 +6,8 @@ import { Subscription, of, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Key } from 'ts-keycode-enum';
 import { TypeaheadComponent } from '../typeahead/typeahead.component';
+import * as _ from 'lodash'
+
 declare var $: any;
 
 @Component({
@@ -79,13 +81,13 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
         }        
       });      
     }
-    
+
     if (!this._showing && (event.keyCode == Key.UpArrow
       || event.keyCode == Key.DownArrow
       || event.keyCode == Key.Enter
-      || event.keyCode == Key.Delete)) {      
-      this.onKeydown.emit(event);
-    }
+      || event.keyCode == Key.Delete)) {
+      this.onKeydown.emit(event); 
+    }    
   }
 
   handleSelect(value) {
@@ -107,7 +109,7 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
   }
 
   onHide() {
-    setTimeout(() => this._showing = false, 500);
+    this._showing = false;
   }
 
   requestForProduct(id): Observable<any> {

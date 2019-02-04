@@ -72,7 +72,7 @@
     <Content Include="README.md" />
     <Content Include="e2e\tsconfig.e2e.json" />
     <Content Include="src\index.html" />
-    <Content Include="src\styles.scss" />
+    <Content Include="src\site.scss" />
     <Content Include="src\favicon.ico" />
     <Content Include="src\tsconfig.app.json" />
     <Content Include="src\tsconfig.spec.json" />

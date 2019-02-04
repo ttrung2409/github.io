@@ -1,11 +1,17 @@
 <div class="toolbar">
   <mat-toolbar class="mat-elevation-z1">
-    <div class="title">
-      <ng-content select="toolbar-title"></ng-content>
+    <div class="left">
+      <div class="title">
+        <ng-content select="toolbar-title"></ng-content>
+      </div>      
+      <ng-content select="left"></ng-content>
     </div>
-    <div class="actions">
-      <ng-content select="actions"></ng-content>
-    </div>
+    <div class="right">
+      <ng-content select="right"></ng-content>
+      <div class="actions">
+        <ng-content select="actions"></ng-content>
+      </div>
+    </div>    
   </mat-toolbar>
   <mat-progress-bar *ngIf="showProgressInternal" mode="indeterminate" [color]="'red'"></mat-progress-bar>
 </div>

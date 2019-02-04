@@ -2,4 +2,29 @@
   .mat-form-field-suffix {
     padding-bottom: 4px !important;
   }
+
+  .toolbar-search {
+    color: white;
+    font-size: 12px;
+
+    .dropdown-container {
+      width: 0px;
+
+      .icon {
+        display: none;
+      }
+
+      .default.text {
+        color: white !important;
+      }
+
+      input.search {
+        color: white !important;
+      }
+
+      .mat-form-field-underline.highlight {
+        border-bottom: initial;
+      }      
+    }
+  }
 }

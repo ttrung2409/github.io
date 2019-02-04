@@ -70,12 +70,7 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
 
   getCellData(row: any, column: GridColumn) {
     let paths = column.field.split('.');
-    let data = row;
-    for (let path of paths) {
-      data = data[path];
-    }
-
-    return data;
+    return paths.reduce((acc, value) => !!acc ? acc[value] : null, row);     
   }  
 
   handleKeyEvent(event: KeyboardEvent) {

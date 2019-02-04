@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material';
 import { NoProductFoundDialog } from '../no-product-found-dialog/no-product-found-dialog.component';
 import RetailService from '../../../services/retail.service';
 import { AddCustomerDialog } from '../add-customer-dialog/add-customer-dialog.component';
+import { TypeaheadComponent } from 'src/app/widgets/typeahead/typeahead.component';
 declare var _: any;
 declare var $: any;
 
@@ -27,7 +28,11 @@ declare var $: any;
 export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
   private _subscription: Subscription;
 
-  constructor(private retailService: RetailService, private dialog: MatDialog, private utils: UtilsService) {
+  constructor(
+    private retailService: RetailService,
+    private dialog: MatDialog,
+    private utils: UtilsService,
+    private el: ElementRef) {
   }
 
   @ViewChild('flyout') flyout: FlyoutComponent;
@@ -35,6 +40,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('qtyEditor') qtyEditor: QtyEditorComponent;
   @ViewChild('grid') grid: GridComponent;
   @ViewChild('paymentView') paymentView: PaymentComponent;
+  @ViewChild('searchInput') searchInput: TypeaheadComponent;
 
   columns: GridColumn[];
   invoice: Invoice = new Invoice({ customerId: 1 });  
@@ -42,6 +48,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
   selectedIndex: number;
   selectedItem: InvoiceItem = new InvoiceItem();
   flyoutView: string;
+  searching: boolean = false;
 
   ngOnInit() {
     this.columns = [
@@ -89,7 +96,10 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
           break;
         case Key.F4:
           this.pay();
-          break;      
+          break;
+        case Key.F7:
+          this.addCustomer();
+          break;
       }
 
       switch (e.key) {
@@ -191,5 +201,28 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   addCustomer() {
     this.dialog.open(AddCustomerDialog);
+  }
+
+  showSearch() {
+    let _this = this;
+    $(this.el.nativeElement).find('.actions').fadeOut(100, function () {
+      _this.searching = true;
+      setTimeout(() => {
+        $(_this.el.nativeElement).find('.toolbar-search .dropdown-container').animate({ width: 400 }, 100, function () {
+          _this.searchInput.focus();
+        });
+      });          
+    });    
+  }
+
+  hideSearch() {
+    this.searching = false;
+    $(this.el.nativeElement).find('.actions').fadeIn(100);
+  }
+
+  onSearchKeydown(event: KeyboardEvent) {
+    if (event.keyCode == Key.Escape) {
+      this.hideSearch();
+    }
   }
 }

@@ -33,7 +33,7 @@ export class CustomerComponent implements OnInit {
 
   customer: Customer = new Customer();
   customerTypes: CustomerType[];
-  errors: Map<string, boolean> = new Map();
+  errors: Map<string, string> = new Map();
 
   ngOnInit() {
     this.customerService.get(this.id).subscribe(customer => this.customer = customer);
@@ -57,8 +57,8 @@ export class CustomerComponent implements OnInit {
   }
   validate(): boolean {
     this.errors.clear();
-    if (v8n().empty().test(this.customer.name)) {
-      this.errors.set('name', true);
+    if (v8n().empty().test(this.customer.name || '')) {
+      this.errors.set('name', 'Vui lòng nhập tên khách hàng');
     }
 
     return this.errors.size == 0;

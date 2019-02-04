@@ -6,12 +6,13 @@
   <div class="ui grid">
     <div class="sixteen wide column">
       <mat-form-field>
-        <input matInput placeholder="Tên khách hàng" [(ngModel)]="customer.name" required />
+        <input matInput placeholder="Tên khách hàng" [(ngModel)]="customer.name" required />        
       </mat-form-field>
+      <div class="error" *ngIf="errors.has('name')">{{errors.get('name')}}</div>
     </div>
     <div class="sixteen wide column">
       <mat-form-field>
-        <input matInput placeholder="Số điện thoại" [(ngModel)]="customer.phone" required />
+        <input matInput placeholder="Số điện thoại" [(ngModel)]="customer.phone" />        
       </mat-form-field>
     </div>
     <div class="sixteen wide column">

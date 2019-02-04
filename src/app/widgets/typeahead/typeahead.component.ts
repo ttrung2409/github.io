@@ -23,7 +23,7 @@ export class TypeaheadComponent extends BindableComponent implements OnInit, OnD
   @Input() valueMember: string = 'value';
   @Input() displayMember: string = 'text';
   @Input() label: string;
-  @Input() floatLabel: string = 'auto';
+  @Input() floatLabel: string = 'never';
   @Input() minChars: number = 3;  
   @Input() direction: string = 'auto';
   @Input() showOnKeyDown: boolean = true;
