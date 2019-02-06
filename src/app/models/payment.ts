@@ -11,5 +11,5 @@ export default class Payment {
 }
 
 export enum PaymentMethod {
-  Cash = 'cash'
+  Cash = 'Cash'
 }

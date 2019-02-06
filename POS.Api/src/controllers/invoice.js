@@ -12,7 +12,7 @@ router.get('/lookup', function (req, res) {
 });
 
 router.get('/:id', function (req, res) {
-  invoiceService.get(req.params.id).then(customer => res.send(customer));
+  invoiceService.getFull(req.params.id).then(customer => res.send(customer));
 });
 
 router.post('/', function (req, res) {
@@ -30,6 +30,12 @@ router.put('/', function (req, res) {
 router.delete('/:id', function (req, res) {
   invoiceService.delete(req.params.id);
   res.end();
+});
+
+router.post('/:id/pay', function (req, res) {
+  invoiceService.pay(req.body).then(() => {
+    res.end();
+  });
 });
 
 module.exports = router;

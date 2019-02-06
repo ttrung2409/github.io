@@ -57,6 +57,7 @@
     <Compile Include="src\services\customerService.js" />
     <Compile Include="src\services\invoiceService.js" />
     <Compile Include="src\services\productService.js" />
+    <Compile Include="src\transaction.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
     <Content Include="src\repositories\customerRepository.js" />

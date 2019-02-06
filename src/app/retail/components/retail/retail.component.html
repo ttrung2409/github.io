@@ -71,7 +71,7 @@
                   ></qty-editor>
       <payment #paymentView *ngIf="flyoutView == 'payment'"
                [invoice]="invoice"
-               (complete)="onPaymentComplete($event)"
+               (commit)="onPaymentCommit($event)"
                (cancel)="flyout.hide()">
       </payment>
     </content>

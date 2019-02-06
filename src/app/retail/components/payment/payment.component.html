@@ -2,7 +2,7 @@
   <div class="ui grid">
     <div class="sixteen wide column">
       <typeahead #customerLookup [options]="customers"
-                 [(model)]="invoice.customerId"
+                 [(model)]="payment.customerId"
                  (search)="onSearch($event)"
                  [isLoading]="isLoading"
                  [valueMember]="'id'"
@@ -38,6 +38,6 @@
     </div>
   </div>  
   <div class="actions">
-    <button mat-flat-button color="primary" (click)="doComplete()">Hoàn tất (F9)</button>
+    <button mat-flat-button color="primary" (click)="doCommit()">Thanh toán (F9)</button>
   </div>
 </div>

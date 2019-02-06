@@ -6,7 +6,7 @@ export default class InvoiceItem {
   }
 
   public id: number | string;
-  public invoiceId: number | string;
+  public invoiceId: number;
   public productId: number;  
   public qty: number;
   public price: number;

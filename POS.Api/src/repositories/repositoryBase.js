@@ -13,21 +13,22 @@ export default class RepositoryBase {
     return this.modelDef.findAll().then(models => models.map(x => x.get({ plain: true })));
   }
 
-  create(plainModel) {
-    return this.modelDef.create(plainModel).then(model => {
+  create(plainModel, { transaction }) {
+    return this.modelDef.create(plainModel, { transaction }).then(model => {
       return model.get({ plain: true });
     });
+  } 
+
+  update(plainModel, where, { transaction }) {
+    return this.modelDef.update(plainModel, {
+      where,
+      transaction
+    }); 
   }
 
-  update(id, plainModel) {
-    return this.modelDef.findById(id).then(model => {
-      if (!!model) {
-        return model.update(plainModel).then(() => plainModel);
-      }      
-    });    
-  }
-
-  delete(id) {
-    return this.modelDef.findById(id).then(model => model.destroy());
+  delete(where, { transaction }) {
+    return this.modelDef.destroy(where, {
+      transaction
+    }); 
   }  
 }

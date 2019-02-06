@@ -3,7 +3,7 @@ export default class Customer {
     Object.assign(this, init);
   }
 
-  public id: number | string;
+  public id: number;
   public name: string;
   public phone: string;
   public email?: string;

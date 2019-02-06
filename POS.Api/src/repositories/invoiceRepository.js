@@ -11,7 +11,7 @@ export default class InvoiceRepository extends RepositoryBase {
     super(Invoice);
   } 
 
-  get(id) {
+  getFull(id) {
     return this.modelDef.findOne({
       where: {
         id
@@ -21,6 +21,7 @@ export default class InvoiceRepository extends RepositoryBase {
           association: 'items',
           include: [{ association: 'product' }],          
         },
+        { association: 'payments' },
         { association: 'customer' }
       ],
       order: [[{ model: InvoiceItem, as: 'items' }, 'id', 'asc']]
@@ -74,7 +75,7 @@ export default class InvoiceRepository extends RepositoryBase {
     });    
   }
 
-  update(id, invoice) {
+  updateAll(id, invoice) {
     return this.modelDef.findOne({
       where: {
         id
@@ -96,7 +97,7 @@ export default class InvoiceRepository extends RepositoryBase {
           promises.push(InvoiceItem.bulkCreate(itemsToCreate, { transaction: t }));
         }
 
-        for (let item of itemsToUpdate) {
+        for (let item of itemsToUpdate) {        
           let itemModel = oldItems.find(x => x.id == item.id);
           if (!!itemModel) {
             promises.push(itemModel.update(item, { transaction: t }));
@@ -118,6 +119,7 @@ export default class InvoiceRepository extends RepositoryBase {
           .catch(err => {
             console.log(err);
             t.rollback();
+            throw err;
           });
       });   
     });    

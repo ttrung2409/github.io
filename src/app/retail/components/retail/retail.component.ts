@@ -22,7 +22,7 @@ import * as moment from 'moment'
 import * as _ from 'lodash'
 import * as $ from 'jquery'
 import { NotifierService } from 'angular-notifier';
-import Payment from 'src/app/models/payment';
+import Payment, { PaymentMethod } from 'src/app/models/payment';
 
 @Component({
   selector: 'retail',
@@ -57,7 +57,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
   selectedItem: InvoiceItem = new InvoiceItem();
   flyoutView: string;
   searching: boolean = false;
-  lockHotkeys: boolean = false;
+  lockHotkeys: boolean = false;  
 
   get desc() {
     return this.invoice.status == InvoiceStatus.Paid ? `${this.invoice.no} - Đã thanh toán` : (this.invoice.no || '');
@@ -212,9 +212,12 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.invoice.items = this.invoice.items.map(x => x.id == item.id ? item : x);              
   }
 
-  onPaymentComplete() {    
-    this.flyout.hide();    
-    this.new();    
+  onPaymentCommit(payment: Payment) {    
+    this.flyout.hide();        
+    this.invoiceService.pay(payment).subscribe(() => {
+      this.invoice.status = InvoiceStatus.Paid;
+      this.invoice.customerId = payment.customerId;
+    });
   }
 
   new() {

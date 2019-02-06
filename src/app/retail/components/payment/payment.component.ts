@@ -6,7 +6,7 @@ import { Subscription, fromEvent, Observable } from 'rxjs';
 import Invoice from '../../../models/invoice';
 import { TypeaheadComponent } from '../../../widgets/typeahead/typeahead.component';
 import { Key } from 'ts-keycode-enum';
-import Payment from '../../../models/payment';
+import Payment, { PaymentMethod } from '../../../models/payment';
 import UtilsService from '../../../services/utils.service';
 import { APP_GLOBAL } from 'src/app/app.global';
 
@@ -26,14 +26,14 @@ export class PaymentComponent implements OnInit, OnChanges {
     this._global = global;
   }
 
-  @Input() invoice: Invoice;  
-  @Output() complete = new EventEmitter();
+  @Input() invoice: Invoice;
+  @Output() commit = new EventEmitter();
   @Output() cancel = new EventEmitter();
 
   @ViewChild('customerLookup') customerLookup: TypeaheadComponent;
 
   customers: Customer[] = [];
-  payment: Payment = new Payment(); 
+  payment: Payment = new Payment();
 
   @HostListener('keydown', ['$event']) onKeydown(e: KeyboardEvent) {
     if (!this._global.lockHotkeys) {
@@ -42,15 +42,23 @@ export class PaymentComponent implements OnInit, OnChanges {
           this.doCancel();
           break;
         case Key.F9:
-          this.doComplete();
+          this.doCommit();
           break;
       }
     }    
-  };
-  ngOnInit() {    
   }
 
-  ngOnChanges(changes: SimpleChanges) {   
+  ngOnInit() {
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (!!changes.invoice) {
+      this.payment = this.invoice.payments.length > 0 ? this.invoice.payments[0] : new Payment({
+        invoiceId: this.invoice.id,
+        customerId: this.invoice.customerId,
+        method: PaymentMethod.Cash
+      });      
+    }
   }    
 
   onSearch(query) {
@@ -69,13 +77,11 @@ export class PaymentComponent implements OnInit, OnChanges {
   }
 
   doCancel() {
-    this.cancel.emit();
+    this.cancel.emit();    
   }
 
-  doComplete() {
-    this.invoiceService.pay(this.payment).subscribe(() => {
-      this.complete.emit();
-    });    
+  doCommit() {
+    this.commit.emit(this.payment);    
   }
 
   requestForCustomer(id): Observable<any> {

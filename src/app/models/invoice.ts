@@ -1,5 +1,6 @@
 import InvoiceItem from "./invoiceItem";
 import Customer from "./customer";
+import Payment from "./payment";
 
 export default class Invoice {
   public constructor(init?: Partial<Invoice>) {
@@ -12,11 +13,11 @@ export default class Invoice {
   public createdAt: string;
   public updatedAt: string;
   public invoiceDate: string;
-  public customerId: number | string;
+  public customerId: number;
   public discount?: number;
   public tax?: number;
 
-  public customer: Customer;
+  public customer: Customer;  
 
   get subTotal(): number {
     return this.items.reduce((acc, item) => acc + item.total, 0);
@@ -35,6 +36,7 @@ export default class Invoice {
   }
 
   public items: InvoiceItem[] = [];
+  public payments: Payment[] = [];
 
   static from(src: Invoice) {
     let target = new Invoice(src);
@@ -43,7 +45,7 @@ export default class Invoice {
     for (let item of src.items) {
       item.index = index++;
       target.items.push(new InvoiceItem(item));
-    }
+    }    
 
     return target;
   }

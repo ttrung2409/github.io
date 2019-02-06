@@ -9,7 +9,7 @@ let uomRepository = new UomRepository();
 export default class ProductService {
   save(product) {
     if (product.id > 0) {
-      return productRepository.update(product.id, product);
+      return productRepository.update(product, { id: product.id });
     }
     else {
       return productRepository.create(product);

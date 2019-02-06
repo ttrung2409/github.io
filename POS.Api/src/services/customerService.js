@@ -23,7 +23,7 @@ export default class CustomerService {
 
   save(customer) {
     if (customer.id > 0) {
-      return customerRepository.update(customer.id, customer);
+      return customerRepository.update(customer, { id: customer.id });
     }
     else {      
       return customerRepository.create(customer);

@@ -10,11 +10,12 @@ let Payment = context.define('Payment', {
   invoiceId: Sequelize.INTEGER,
   customerId: Sequelize.INTEGER,
   amount: Sequelize.DECIMAL,
-  method: Sequelize.STRING,
-  createdAt: Sequelize.DATE,
-  updatedAt: Sequelize.DATE,
-  deletedAt: Sequelize.DATE
+  method: Sequelize.STRING 
 }, { tableName: 'Payment', timestamps: true, paranoid: true });
+
+Payment.associate = function (models) {
+  Payment.belongsTo(models.Invoice, { foreignKey: 'invoiceId' });
+}
 
 export default Payment
 
