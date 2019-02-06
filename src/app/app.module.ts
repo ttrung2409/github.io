@@ -5,8 +5,9 @@ import { AppComponent } from './app.component';
 import { appRoutes } from './app.routing';
 import { RouterModule, PreloadAllModules } from '@angular/router';
 import { WidgetModule } from './widgets/widget.module'
+import { NotifierModule } from 'angular-notifier';
 import ProductService from './services/product.service';
-import RetailService from './services/retail.service';
+import InvoiceService from './services/invoice.service';
 import CustomerService from './services/customer.service';
 import UtilsService from './services/utils.service';
 import ReportService from './services/report.service';
@@ -25,11 +26,24 @@ import { APP_GLOBAL, AppGlobal } from './app.global'
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    WidgetModule,    
+    WidgetModule,
+    NotifierModule.withConfig({
+      position: {
+        horizontal: {
+          position: 'right'          
+        },
+        vertical: {
+          position: 'bottom',          
+        },        
+      },
+      behaviour: {
+        autoHide: 2000,
+      }
+    })
   ],
   providers: [
     ProductService,
-    RetailService,
+    InvoiceService,
     CustomerService,
     UtilsService,
     ReportService,

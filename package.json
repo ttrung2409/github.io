@@ -24,6 +24,7 @@
     "@angular/router": "^6.1.0",
     "@types/jquery": "^3.3.21",
     "@types/semantic-ui": "^2.2.6",
+    "angular-notifier": "^4.1.1",
     "core-js": "^2.5.4",
     "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",

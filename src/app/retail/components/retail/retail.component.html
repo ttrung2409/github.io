@@ -1,6 +1,6 @@
 <div class="retail">
   <toolbar>
-    <toolbar-title>Bán lẻ</toolbar-title>
+    <toolbar-title>Bán lẻ {{desc}}</toolbar-title>
     <right>
       <div class="toolbar-search">
         <typeahead #searchInput [options]="invoices" *ngIf="searching"                 
@@ -11,7 +11,8 @@
                    [label]="'Nhập mã hóa đơn, hoặc mã KH, tên KH, SĐT, email để tìm'"                   
                    [itemTemplate]="itemTemplate"
                    (onSelect)="onSearchSelect($event)"
-                   (onKeydown)="onSearchKeydown($event)">
+                   (onKeydown)="onSearchKeydown($event)"
+                   (blur)="hideSearch()">
           <ng-template #itemTemplate let-item="item">
            
           </ng-template>
@@ -31,6 +32,10 @@
         <mat-icon>person_add</mat-icon>
         (F7)
       </button>
+      <button mat-button (click)="save()">
+        <mat-icon>save</mat-icon>
+        (F9)
+      </button>
       <button mat-button><mat-icon>print</mat-icon></button>
       <button mat-button (click)="showSearch()">
         <mat-icon>search</mat-icon>
@@ -42,8 +47,7 @@
       <product-lookup #productLookup
                       [(model)]="selectedProductId"
                       (onSelect)="addItem($event)"
-                      [clearOnSelect]="true"
-                      (onKeydown)="onKeydown($event)">
+                      [clearOnSelect]="true">
       </product-lookup>
     </div>
     <div class="sixteen wide column">

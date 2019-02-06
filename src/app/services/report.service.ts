@@ -23,7 +23,7 @@ export default class ReportService {
             id: i + 1,
             no: (i + 100001).toString(),
             customerId: customer.id,            
-            invoiceDate: new Date(),
+            invoiceDate: moment().format(),
             items: this.generateInvoiceItems(),
             customer: customer
           }));

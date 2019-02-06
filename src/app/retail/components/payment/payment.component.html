@@ -7,9 +7,9 @@
                  [isLoading]="isLoading"
                  [valueMember]="'id'"
                  [displayMember]="'name'"
-                 [label]="'Nhập tên, số điện thoại hoặc email để tìm khách hàng'"
+                 [label]="'Nhập mã, tên, SĐT hoặc email để tìm khách hàng'"
                  [floatLabel]="'never'"
-                 [showOnKeyDown]="false"
+                 [showOnDown]="false"
                  [requestForOption]="requestForCustomer.bind(this)"
                  [itemTemplate]="itemTemplate">
         <ng-template #itemTemplate let-item="item">

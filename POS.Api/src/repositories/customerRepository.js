@@ -40,9 +40,14 @@ export default class CustomerRepository extends RepositoryBase {
       }
     }
 
+    let order = [params.orderBy, !!params.isDesc ? 'desc' : 'asc'];
+    if (params.orderBy == 'type.name') {
+      order = [{ model: CustomerType, as: 'type' }, 'name', !!params.isDesc ? 'desc' : 'asc'];
+    }
+
     return this.modelDef.findAndCountAll({
       where,
-      order: [[params.orderBy, !!params.isDesc ? 'desc' : 'asc']],
+      order: [order],
       offset: (params.index - 1) * params.size,
       limit: params.size,
       paranoid: params.includeDeleted ? false : true,
@@ -84,7 +89,7 @@ export default class CustomerRepository extends RepositoryBase {
   }
 
   create(customer) {
-    let $super = { create: super.create.bind(this) };
+    let _this = this;
     return context.transaction(function (t) {
       return Customer.findOne({
         attributes: ['no'],
@@ -93,7 +98,9 @@ export default class CustomerRepository extends RepositoryBase {
         paranoid: false,
       }, { transaction: t }).then(model => {
         customer.no = !!model ? `KN${parseFloat(model.no.replace(/^KN/, '')) + 1}` : 'KN1000';
-        return $super.create(customer, { transaction: t });
+        return _this.modelDef.create(customer, { transaction: t }).then(model => {
+          return model.get({ plain: true });
+        });     
       });
     });    
   }

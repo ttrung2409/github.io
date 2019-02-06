@@ -32,11 +32,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="src\app.js" />
+    <Compile Include="src\controllers\invoice.js" />
     <Compile Include="src\controllers\customer.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\controllers\product.js" />
     <Compile Include="src\dbContext.js" />
+    <Compile Include="src\models\payment.js" />
+    <Compile Include="src\models\invoiceItem.js" />
+    <Compile Include="src\models\invoice.js" />
     <Compile Include="src\models\category.js" />
     <Compile Include="src\models\customer.js" />
     <Compile Include="src\models\customerType.js" />
@@ -44,11 +48,14 @@
     <Compile Include="src\models\product.js" />
     <Compile Include="src\models\uom.js" />
     <Compile Include="src\repositories\categoryRepository.js" />
+    <Compile Include="src\repositories\paymentRepository.js" />
+    <Compile Include="src\repositories\invoiceRepository.js" />
     <Compile Include="src\repositories\customerTypeRepository.js" />
     <Compile Include="src\repositories\productRepository.js" />
     <Compile Include="src\repositories\repositoryBase.js" />
     <Compile Include="src\repositories\uomRepository.js" />
     <Compile Include="src\services\customerService.js" />
+    <Compile Include="src\services\invoiceService.js" />
     <Compile Include="src\services\productService.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />

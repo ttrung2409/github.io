@@ -130,7 +130,7 @@
     <TypeScriptCompile Include="src\app\services\report.service.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\app\services\retail.service.ts">
+    <TypeScriptCompile Include="src\app\services\invoice.service.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\app\services\utils.service.ts" />

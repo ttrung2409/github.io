@@ -26,7 +26,7 @@ export class TypeaheadComponent extends BindableComponent implements OnInit, OnD
   @Input() floatLabel: string = 'never';
   @Input() minChars: number = 3;  
   @Input() direction: string = 'auto';
-  @Input() showOnKeyDown: boolean = true;
+  @Input() showOnDown: boolean = false;
   @Input() preventKeys: string[] = [];
   @Input() itemTemplate: TemplateRef<any>;
   @Input() requestForOption: (value) => Observable<any>;
@@ -36,6 +36,8 @@ export class TypeaheadComponent extends BindableComponent implements OnInit, OnD
   @Output() show = new EventEmitter();
   @Output() hide = new EventEmitter();
   @Output() onSelect = new EventEmitter();
+  @Output('focus') focusEvent = new EventEmitter();
+  @Output() blur = new EventEmitter();
 
   @ViewChild('dropdown') dropdown: DropdownComponent;
 
@@ -81,5 +83,13 @@ export class TypeaheadComponent extends BindableComponent implements OnInit, OnD
 
   onHide() {
     this.hide.emit();
+  }
+
+  onFocus() {
+    this.focusEvent.emit();
+  }
+
+  onBlur() {
+    this.blur.emit();
   }
 }

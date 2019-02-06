@@ -8,7 +8,7 @@ export default class Customer {
   public phone: string;
   public email?: string;
   public address?: string;
-  public dob?: Date;
+  public dob?: string;
   public typeId: number;  
   public income: number;
   public cost: number;

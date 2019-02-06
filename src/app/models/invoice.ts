@@ -3,14 +3,15 @@ import Customer from "./customer";
 
 export default class Invoice {
   public constructor(init?: Partial<Invoice>) {
-    Object.assign(this, init);    
+    Object.assign(this, init);        
   }
 
   public id: number;
   public no: string;
-  public createdDate: Date;
-  public updatedDate: Date;
-  public invoiceDate: Date;
+  public status: string;
+  public createdAt: string;
+  public updatedAt: string;
+  public invoiceDate: string;
   public customerId: number | string;
   public discount?: number;
   public tax?: number;
@@ -34,4 +35,22 @@ export default class Invoice {
   }
 
   public items: InvoiceItem[] = [];
+
+  static from(src: Invoice) {
+    let target = new Invoice(src);
+    target.items = [];
+    let index = 1;
+    for (let item of src.items) {
+      item.index = index++;
+      target.items.push(new InvoiceItem(item));
+    }
+
+    return target;
+  }
+}
+
+
+export enum InvoiceStatus {
+  New = "New",
+  Paid = "Paid"
 }

@@ -14,10 +14,10 @@
       </th>
       <td mat-cell *matCellDef="let row">
         <ng-template [ngIf]="!!column.isNumber" [ngIfElse]="elseBlock">
-          {{column.format(getCellData(row, column)) | number}}
+          {{column.format(getCellData(row, column), row) | number}}
         </ng-template>
         <ng-template #elseBlock>
-          {{column.format(getCellData(row, column))}}
+          {{column.format(getCellData(row, column), row)}}
         </ng-template>
       </td>
       <ng-container *ngIf="showFooter">

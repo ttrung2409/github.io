@@ -7,5 +7,6 @@ export default new Sequelize('POS', 'postgres', 'admin', {
   define: {
     timestamps: false,
     paranoid: false    
-  }
+  },
+  isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.REPEATABLE_READ
 });

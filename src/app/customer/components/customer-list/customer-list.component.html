@@ -11,13 +11,16 @@
       </button>
     </actions>
   </toolbar>
-  <grid #grid [columns]="columns"
-        [dataSource]="customers"
-        (rowClick)="onSelect($event)"
-        (select)="onSelect($event)"
-        (delete)="onDelete($event)"
-        (sortChange)="onSortChange($event)">
-  </grid>
+  <div class="autoflow">
+    <grid #grid [columns]="columns"
+          [dataSource]="customers"
+          [defaultSearch]="defaultSearch"
+          (rowClick)="onSelect($event)"
+          (select)="onSelect($event)"
+          (delete)="onDelete($event)"
+          (sortChange)="onSortChange($event)">
+    </grid>
+  </div>  
   <mat-paginator [showFirstLastButtons]="true" [length]="total" [size]="config.size" (page)="onPageChanged($event)"></mat-paginator>
   <flyout #flyout [containerSelector]="'.customer-list'"
           (onHide)="onFlyoutHide()"

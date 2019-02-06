@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, HostListener, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, HostListener, Inject, ElementRef } from '@angular/core';
 import Customer from '../../../models/customer';
 import { GridColumn, GridComponent } from '../../../widgets/grid/grid.component';
 import CustomerService from '../../../services/customer.service';
@@ -13,18 +13,21 @@ import DialogResult from 'src/app/valueObjects/DialogResult';
 import { APP_CONFIG } from 'src/app/app.config';
 import SearchModel from 'src/app/models/search';
 
+declare var $: any;
+
 @Component({
   selector: 'app-customer-list',
   templateUrl: './customer-list.component.html',
   styleUrls: ['./customer-list.component.scss']
 })
-export class CustomerListComponent implements OnInit, OnDestroy {
+export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   private _subscription = new Subscription();
 
   constructor(
     private customerService: CustomerService,
     private dialog: MatDialog,
-    @Inject(APP_CONFIG) config) {
+    @Inject(APP_CONFIG) config,
+    private el: ElementRef) {
     this.defaultSearch = new SearchModel({
       orderBy: 'no',
       isDesc: true,
@@ -53,23 +56,28 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   columns: GridColumn[] = [
     new GridColumn({
       caption: 'Mã KH',
-      field: 'no'
+      field: 'no',
+      sortable: true
     }),
     new GridColumn({
       caption: 'Tên KH',
-      field: 'name'
+      field: 'name',
+      sortable: true
     }),
     new GridColumn({
       caption: 'Loại KH',
       field: 'type.name',
+      sortable: true
     }),
     new GridColumn({
       caption: 'Số ĐT',
-      field: 'phone'
+      field: 'phone',
+      sortable: true
     }),
     new GridColumn({
       caption: 'Email',
-      field: 'email'
+      field: 'email',
+      sortable: true
     })    
   ];
 
@@ -82,6 +90,18 @@ export class CustomerListComponent implements OnInit, OnDestroy {
           break;
       }
     }));
+
+    this._subscription.add(fromEvent(window, 'resize').subscribe(e => {
+      $(this.el.nativeElement).find('.autoflow').height($(window).height()
+        - $(this.el.nativeElement).find('.toolbar').outerHeight(true)
+        - $(this.el.nativeElement).find('.mat-paginator-container').outerHeight(true));
+    }));
+  }
+
+  ngAfterViewInit() {
+    $(this.el.nativeElement).find('.autoflow').height($(window).height()
+      - $(this.el.nativeElement).find('.toolbar').outerHeight(true)
+      - $(this.el.nativeElement).find('.mat-paginator-container').outerHeight(true));
   }
 
   ngOnDestroy() {

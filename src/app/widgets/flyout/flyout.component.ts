@@ -38,7 +38,7 @@ export class FlyoutComponent implements OnInit, AfterViewInit {
       },
       onHide: function () {
         $('.pusher').removeClass('dimmed');
-        _this.onHide.emit();
+        setTimeout(() => _this.onHide.emit());
       }
     });
   }

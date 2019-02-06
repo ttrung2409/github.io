@@ -7,12 +7,14 @@
           [floatLabel]="floatLabel"
           [direction]="direction"
           [showOnFocus]="false"
-          [showOnKeyDown]="false"
+          [showOnDown]="showOnDown"
           [preventKeys]="preventKeys"
           (show)="onShow()"
           (hide)="onHide()"
           [itemTemplate]="itemTemplate"
           (onKeydown)="handleKeydown($event)"
           (onSelect)="handleSelect($event)"
-          [requestForOption]="requestForOption">   
+          [requestForOption]="requestForOption"
+          (focus)="onFocus()"
+          (blur)="onBlur()">   
 </dropdown>

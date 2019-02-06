@@ -12,7 +12,7 @@ export default class ProductRepository extends RepositoryBase {
   }
 
   create(product) {
-    let $super = { create: super.create.bind(this) };
+    let _this = this;
     return context.transaction(function (t) {
       return Product.findOne({
         attributes: ['no'],
@@ -21,7 +21,9 @@ export default class ProductRepository extends RepositoryBase {
         paranoid: false,
       }, { transaction: t }).then(model => {
         product.no = !!model ? `SP${parseFloat(model.no.replace(/^SP/, '')) + 1}` : 'SP10000';
-        return $super.create(product, { transaction: t });
+        return _this.modelDef.create(product, { transaction: t }).then(model => {
+          return model.get({ plain: true });
+        });    
       });
     });
   }

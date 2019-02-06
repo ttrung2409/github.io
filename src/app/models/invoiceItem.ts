@@ -6,15 +6,16 @@ export default class InvoiceItem {
   }
 
   public id: number | string;
-  public orderId: number;
+  public invoiceId: number | string;
   public productId: number;  
   public qty: number;
   public price: number;
   public cost: number;
   public discount?: number;
   public tax?: number;
-  public index?: number;  
-
+  public index?: number;
+  public isNew: boolean;
+  
   get total(): number {
     return (this.qty * this.price) - (this.discount || 0) - (this.tax || 0);
   }
@@ -24,4 +25,8 @@ export default class InvoiceItem {
   }
 
   public product: Product = new Product();
+
+  static from(src: InvoiceItem) {
+    return new InvoiceItem(src);
+  }
 }

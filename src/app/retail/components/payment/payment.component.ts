@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, ViewChild, Output, EventEmitter, OnDestroy, HostListener, Inject } from '@angular/core';
-import RetailService from '../../../services/retail.service';
+import InvoiceService from '../../../services/invoice.service';
 import Customer from '../../../models/customer';
 import CustomerService from '../../../services/customer.service';
 import { Subscription, fromEvent, Observable } from 'rxjs';
@@ -20,7 +20,7 @@ export class PaymentComponent implements OnInit, OnChanges {
   private _global;
 
   constructor(
-    private retailService: RetailService,
+    private invoiceService: InvoiceService,
     private customerService: CustomerService,
     @Inject(APP_GLOBAL) global) {
     this._global = global;
@@ -73,7 +73,9 @@ export class PaymentComponent implements OnInit, OnChanges {
   }
 
   doComplete() {
-    this.complete.emit();
+    this.invoiceService.pay(this.payment).subscribe(() => {
+      this.complete.emit();
+    });    
   }
 
   requestForCustomer(id): Observable<any> {
