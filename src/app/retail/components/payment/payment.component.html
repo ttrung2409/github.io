@@ -13,9 +13,16 @@
                  [requestForOption]="requestForCustomer.bind(this)"
                  [itemTemplate]="itemTemplate">
         <ng-template #itemTemplate let-item="item">
-          <div>{{item.name}}</div>
-          <div style="color: grey; margin-top: 8px">{{item.phone}}</div>
-          <div style="color: grey; margin-top: 8px">{{item.email}}</div>
+          <div class="customer-dropdown-item">
+            <div class="flex">
+              <label>{{item.name}}</label>
+              <label>{{item.no}}</label>
+            </div>
+            <div class="flex" *ngIf="!!item.phone || !!item.email">
+              <label>{{item.phone}}</label>
+              <label>{{item.email}}</label>
+            </div>            
+          </div>          
         </ng-template>
       </typeahead>
     </div>    

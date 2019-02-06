@@ -32,6 +32,7 @@ import Payment, { PaymentMethod } from 'src/app/models/payment';
 })
 export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
   private _subscription: Subscription;
+  private _searchSubscription: Subscription;
 
   constructor(
     private invoiceService: InvoiceService,
@@ -57,13 +58,47 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
   selectedItem: InvoiceItem = new InvoiceItem();
   flyoutView: string;
   searching: boolean = false;
-  lockHotkeys: boolean = false;  
+  lockHotkeys: boolean = false;
+  isLoading: boolean = false;
+  invoices: Invoice[] = [];
 
   get desc() {
     return this.invoice.status == InvoiceStatus.Paid ? `${this.invoice.no} - Đã thanh toán` : (this.invoice.no || '');
   }
 
   ngOnInit() {
+    this.initColumns();
+    this._subscription = fromEvent(document, 'keydown').subscribe((e: KeyboardEvent) => {
+      if (!this.lockHotkeys) {
+        this.handleHotkey(e);  
+      }
+    });
+    
+    this.route.params
+      .pipe(switchMap((params: Params) => {
+        return params.id > 0 ? this.invoiceService.get(params.id) : of(new Invoice({
+          customerId: 1,
+          status: InvoiceStatus.New,
+          date: moment().format()
+        }));
+      }))
+      .subscribe(invoice => {
+        this.invoice = Invoice.from(invoice);
+        if (this.invoice.items.length > 0) {
+          this.selectedIndex = 0;
+        }
+      });
+  }
+
+  ngAfterViewInit() {
+    this.productLookup.focus();    
+  }
+
+  ngOnDestroy() {
+    this._subscription.unsubscribe();
+  }
+
+  initColumns() {
     this.columns = [
       new GridColumn({
         caption: 'STT',
@@ -72,7 +107,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
       }),
       new GridColumn({
         caption: 'Tên sản phẩm',
-        field: 'product.name'        
+        field: 'product.name'
       }),
       new GridColumn({
         caption: 'ĐVT',
@@ -96,63 +131,38 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
         caption: 'Thành tiền',
         field: 'total',
         width: '200px',
-        isNumber: true,        
+        isNumber: true,
         footer: function () {
           return this.utils.formatNumber(this.invoice.items.reduce((acc, item) => acc += item.total, 0));
         }.bind(this)
       })
     ];
-
-    this._subscription = fromEvent(document, 'keydown').subscribe((e: KeyboardEvent) => {
-      if (!this.lockHotkeys) {
-        switch (e.keyCode) {
-          case Key.F2:
-            this.new();
-            break;
-          case Key.F4:
-            this.pay();
-            break;
-          case Key.F7:
-            this.addCustomer();
-            break;
-          case Key.F9:
-            this.save();
-            break;
-        }
-
-        switch (e.key) {
-          case '+':
-            this.invoice.items[this.selectedIndex].qty++;
-            break;
-          case '-':
-            this.invoice.items[this.selectedIndex].qty = Math.max(0, this.invoice.items[this.selectedIndex].qty - 1);
-            break;
-        }
-      }
-    });
-    
-    this.route.params
-      .pipe(switchMap((params: Params) => {
-        return params.id > 0 ? this.invoiceService.get(params.id) : of(new Invoice({
-          customerId: 1,
-          status: InvoiceStatus.New,
-          invoiceDate: moment().format()
-        }));
-      }))
-      .subscribe(invoice => {
-        this.invoice = Invoice.from(invoice);
-        if (this.invoice.items.length > 0) {
-          this.selectedIndex = 0;
-        }
-      });
   }
 
-  ngAfterViewInit() {
-    this.productLookup.focus();    
-  }
+  handleHotkey(e: KeyboardEvent) {
+    switch (e.keyCode) {
+      case Key.F2:
+        this.new();
+        break;
+      case Key.F4:
+        this.pay();
+        break;
+      case Key.F7:
+        this.addCustomer();
+        break;
+      case Key.F9:
+        this.save();
+        break;
+    }
 
-  ngOnDestroy() {
-    this._subscription.unsubscribe();
+    switch (e.key) {
+      case '+':
+        this.invoice.items[this.selectedIndex].qty++;
+        break;
+      case '-':
+        this.invoice.items[this.selectedIndex].qty = Math.max(0, this.invoice.items[this.selectedIndex].qty - 1);
+        break;
+    }
   }
 
   addItem(product: Product) {    
@@ -224,7 +234,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.invoice = new Invoice({
       customerId: 1,
       status: InvoiceStatus.New,
-      invoiceDate: moment().format()
+      date: moment().format()
     });
 
     this.router.navigateByUrl('/retail');
@@ -269,10 +279,29 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
     $(this.el.nativeElement).find('.actions').fadeIn(100);
   }
 
+  onSearch(query) {
+    this.isLoading = true;
+    if (!!this._searchSubscription) {
+      this._searchSubscription.unsubscribe();
+    }
+
+    this._searchSubscription = this.invoiceService.lookup(query).subscribe((invoices: Invoice[]) => {
+      this.invoices = invoices;
+      this.isLoading = false;
+    });
+  }
+
   onSearchKeydown(event: KeyboardEvent) {
     if (event.keyCode == Key.Escape) {
       this.hideSearch();
     }
+  }
+
+  onSearchSelect(invoiceId) {
+    this.invoiceService.get(invoiceId).subscribe(invoice => {
+      this.invoice = Invoice.from(invoice);
+      this.selectedIndex = this.invoice.items.length > 0 ? 0 : -1;
+    });
   }
 
   save() {
@@ -293,5 +322,10 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this.invoice = Invoice.from(result);
       }
     });
-  }  
+  }
+
+  showOverview() {
+    this.flyoutView = 'overview';
+    this.flyout.show();
+  }
 }

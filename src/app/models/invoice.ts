@@ -10,14 +10,14 @@ export default class Invoice {
   public id: number;
   public no: string;
   public status: string;
+  public date: string;
   public createdAt: string;
-  public updatedAt: string;
-  public invoiceDate: string;
+  public updatedAt: string;  
   public customerId: number;
   public discount?: number;
   public tax?: number;
 
-  public customer: Customer;  
+  public customer: Customer = new Customer();
 
   get subTotal(): number {
     return this.items.reduce((acc, item) => acc + item.total, 0);

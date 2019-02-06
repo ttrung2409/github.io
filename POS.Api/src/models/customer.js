@@ -17,7 +17,10 @@ let Customer = context.define('Customer', {
 }, { tableName: 'Customer', timestamps: true, paranoid: true });
 
 Customer.associate = function (models) {
-  Customer.belongsTo(models.CustomerType, { foreignKey: 'typeId', as: 'type'});
+  Customer.belongsTo(models.CustomerType, { foreignKey: 'typeId', as: 'type' });
+  Customer.hasMany(models.Invoice, {
+    foreignKey: 'customerId'
+  });
 }
 
 export default Customer

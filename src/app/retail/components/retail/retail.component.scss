@@ -14,7 +14,7 @@
         display: none;
       }
 
-      .default.text {
+      .text {
         color: white !important;
       }
 
@@ -24,7 +24,18 @@
 
       .mat-form-field-underline.highlight {
         border-bottom: initial;
-      }      
+      }
     }
+  }
+
+  .search-item {
+    div:not(:first-child) {
+      margin-top: 16px;
+    }
+  }
+
+  .flex {
+    display: flex;
+    justify-content: space-between;
   }
 }

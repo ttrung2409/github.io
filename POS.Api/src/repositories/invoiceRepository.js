@@ -32,28 +32,30 @@ export default class InvoiceRepository extends RepositoryBase {
 
   lookup(query) {
     let where = {
-      [Op.or]: [
-        {
-          no: {
-            [Op.iLike]: `%${query}%`
-          }
+      [Op.or]: {
+        no: {
+          [Op.iLike]: `%${query}%`
         },
-        {
-          name: Sequelize.where(Sequelize.fn('unaccent', Sequelize.col('name')), {
-            [Op.iLike]: `%${query}%`
-          })
+        '$customer.no$': {
+          [Op.iLike]: `%${query}%`
         },
-        {
-          phone: {
-            [Op.iLike]: `%${query}%`
-          }
-        }        
-      ]
+        '$customer.name$': Sequelize.where(Sequelize.fn('unaccent', Sequelize.col('customer.name')), {
+          [Op.iLike]: `%${query}%`
+        }),
+        '$customer.phone$': {
+          [Op.iLike]: `%${query}%`
+        },
+        '$customer.email$': {
+          [Op.iLike]: `%${query}%`
+        }
+      }
     };
 
     return this.modelDef.findAll({
       where,
-      limit: 10
+      limit: 10,
+      include: [{ association: 'customer' }],
+      order: [['date', 'desc']],     
     }).then(invoices => invoices.map(x => x.get({ plain: true })));
   }
 

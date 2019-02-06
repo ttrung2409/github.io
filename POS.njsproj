@@ -41,6 +41,8 @@
     <Content Include="src\app\retail\components\add-customer-dialog\add-customer-dialog.component.scss" />
     <Content Include="src\app\retail\components\no-product-found-dialog\no-product-found-dialog.component.html" />
     <Content Include="src\app\retail\components\no-product-found-dialog\no-product-found-dialog.component.scss" />
+    <Content Include="src\app\retail\components\overview\overview.component.html" />
+    <Content Include="src\app\retail\components\overview\overview.component.scss" />
     <Content Include="src\app\retail\components\retail\retail.component.html" />
     <Content Include="src\app\retail\components\retail\retail.component.scss" />
     <Content Include="src\app\retail\components\payment\payment.component.html" />
@@ -116,6 +118,7 @@
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\app\retail\components\add-customer-dialog\add-customer-dialog.component.ts" />
     <TypeScriptCompile Include="src\app\retail\components\no-product-found-dialog\no-product-found-dialog.component.ts" />
+    <TypeScriptCompile Include="src\app\retail\components\overview\overview.component.ts" />
     <TypeScriptCompile Include="src\app\retail\components\retail\retail.component.ts" />
     <TypeScriptCompile Include="src\app\retail\components\payment\payment.component.ts" />
     <TypeScriptCompile Include="src\app\retail\components\qty-editor\qty-editor.component.ts" />
@@ -182,6 +185,7 @@
     <Folder Include="src\app\customer\components\customer\" />
     <Folder Include="src\app\models\" />
     <Folder Include="src\app\directives\" />
+    <Folder Include="src\app\retail\components\overview\" />
     <Folder Include="src\app\valueObjects\" />
     <Folder Include="src\app\pipes\" />
     <Folder Include="src\app\product\components\product-list\" />

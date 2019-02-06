@@ -14,7 +14,17 @@
                    (onKeydown)="onSearchKeydown($event)"
                    (blur)="hideSearch()">
           <ng-template #itemTemplate let-item="item">
-           
+            <div class="search-item">
+              <div class="flex">
+                <label>{{item.no}}</label>
+                <label>{{item.date | date:'dd/MM/yyyy'}}</label>
+              </div>
+              <div class="flex">
+                <label>{{item.customer.name}}</label>
+                <label *ngIf="!!item.customer.phone">{{item.customer.phone}}</label>
+                <label>{{item.customer.no}}</label>
+              </div>
+            </div>            
           </ng-template>
         </typeahead>
       </div>      
@@ -35,6 +45,9 @@
       <button mat-button (click)="save()">
         <mat-icon>save</mat-icon>
         (F9)
+      </button>
+      <button mat-button (click)="showOverview()">
+        <mat-icon>details</mat-icon>
       </button>
       <button mat-button><mat-icon>print</mat-icon></button>
       <button mat-button (click)="showSearch()">
@@ -74,6 +87,7 @@
                (commit)="onPaymentCommit($event)"
                (cancel)="flyout.hide()">
       </payment>
+      <overview *ngIf="flyoutView == 'overview'" [invoice]="invoice"></overview>
     </content>
   </flyout>  
 </div>

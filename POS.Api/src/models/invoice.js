@@ -9,7 +9,7 @@ let Invoice = context.define('Invoice', {
   },
   no: Sequelize.STRING,
   status: Sequelize.STRING,
-  invoiceDate: Sequelize.DATE,
+  date: Sequelize.DATE,
   customerId: Sequelize.INTEGER,
   discount: Sequelize.DECIMAL,
   tax: Sequelize.DECIMAL,

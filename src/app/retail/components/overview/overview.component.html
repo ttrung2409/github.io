@@ -1,0 +1,32 @@
+<div class="overview">
+  <div class="section">
+    <div class="sub-title">Hóa đơn</div>
+    <div class="flex">
+      <label>{{invoice.no}}</label>
+      <label>{{invoice.date | date:'dd/MM/yyyy'}}</label>      
+    </div>   
+  </div>
+  <div class="section">
+    <div class="sub-title">Khách hàng</div>
+    <div class="flex">
+      <label>{{invoice.customer.name}}</label>
+      <label>{{invoice.customer.no}}</label>
+    </div>
+    <div class="flex" *ngIf="!!invoice.customer.phone || !!invoice.customer.email">
+      <label>{{invoice.customer.phone}}</label>
+      <label>{{invoice.customer.email}}</label>
+    </div>
+    <div *ngIf="!!invoice.customer.address">{{invoice.customer.address}}</div>
+  </div>  
+  <div class="section">
+    <div class="sub-title">Thanh toán</div>
+    <div class="flex">
+      <label>Tổng hóa đơn:</label>
+      <label>{{invoice.total | number }}</label>
+    </div>
+    <div class="flex" *ngIf="invoice.payments.length > 0">
+      <label>Tiền mặt:</label>
+      <label>{{invoice.payments[0].amount | number}}</label>
+    </div>
+  </div>
+</div>

@@ -78,7 +78,12 @@ export default class CustomerRepository extends RepositoryBase {
           phone: {
             [Op.iLike]: `%${query}%`
           }
-        }        
+        },
+        {
+          email: {
+            [Op.iLike]: `%${query}%`
+          }
+        }
       ]
     };
 

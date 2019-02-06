@@ -4,6 +4,9 @@ import { fromEvent, Subscription, Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { Key } from 'ts-keycode-enum'
 import { DropdownComponent } from '../dropdown/dropdown.component';
+import * as _ from 'lodash'
+import UtilsService from 'src/app/services/utils.service';
+
 declare var $: any;
 
 @Component({
@@ -14,7 +17,7 @@ declare var $: any;
 export class TypeaheadComponent extends BindableComponent implements OnInit, OnDestroy {
   private _subscription: Subscription = new Subscription();
 
-  constructor(private el: ElementRef) {
+  constructor(private el: ElementRef, private utils: UtilsService) {
       super();
   }
 
@@ -51,7 +54,7 @@ export class TypeaheadComponent extends BindableComponent implements OnInit, OnD
     this._subscription.add(fromEvent($input, 'keyup').pipe(debounceTime(300)).subscribe((event: any) => {
       if (event.keyCode != Key.UpArrow && event.keyCode != Key.DownArrow && event.keyCode != Key.Enter) {        
         if (!!$input.val() && $input.val().length >= this.minChars) {
-          this.search.emit($input.val());
+          this.search.emit(this.utils.unaccent($input.val()));
         }      
       }      
     }));

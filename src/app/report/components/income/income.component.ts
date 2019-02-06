@@ -48,7 +48,7 @@ export class IncomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }),
     new GridColumn({
       caption: 'Ngày',
-      field: 'invoiceDate',
+      field: 'date',
       format: (value) => {
         return moment(value).format('DD/MM/YYYY');
       }

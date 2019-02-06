@@ -9,6 +9,7 @@ import { PaymentComponent } from './components/payment/payment.component';
 import { QtyEditorComponent } from './components/qty-editor/qty-editor.component';
 import { NoProductFoundDialog } from './components/no-product-found-dialog/no-product-found-dialog.component';
 import { AddCustomerDialog } from './components/add-customer-dialog/add-customer-dialog.component';
+import { OverviewComponent } from './components/overview/overview.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { AddCustomerDialog } from './components/add-customer-dialog/add-customer
     PaymentComponent,
     QtyEditorComponent,
     NoProductFoundDialog,
-    AddCustomerDialog
+    AddCustomerDialog,
+    OverviewComponent
   ],
   providers: [DecimalPipe],
   entryComponents: [

@@ -1,0 +1,10 @@
+.customer-dropdown-item {
+  .flex {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  div:not(:first-child) {
+    margin-top: 16px;
+  }
+}
