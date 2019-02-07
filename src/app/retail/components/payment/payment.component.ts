@@ -9,6 +9,7 @@ import { Key } from 'ts-keycode-enum';
 import Payment, { PaymentMethod } from '../../../models/payment';
 import UtilsService from '../../../services/utils.service';
 import { APP_GLOBAL } from 'src/app/app.global';
+import { CustomerLookupComponent } from 'src/app/widgets/customer-lookup/customer-lookup.component';
 
 @Component({
   selector: 'payment',
@@ -16,12 +17,10 @@ import { APP_GLOBAL } from 'src/app/app.global';
   styleUrls: ['./payment.component.scss']
 })
 export class PaymentComponent implements OnInit, OnChanges {
-  private _customerSubscription: Subscription;
   private _global;
 
   constructor(
     private invoiceService: InvoiceService,
-    private customerService: CustomerService,
     @Inject(APP_GLOBAL) global) {
     this._global = global;
   }
@@ -30,9 +29,8 @@ export class PaymentComponent implements OnInit, OnChanges {
   @Output() commit = new EventEmitter();
   @Output() cancel = new EventEmitter();
 
-  @ViewChild('customerLookup') customerLookup: TypeaheadComponent;
+  @ViewChild(CustomerLookupComponent) customerLookup: CustomerLookupComponent;
 
-  customers: Customer[] = [];
   payment: Payment = new Payment();
 
   @HostListener('keydown', ['$event']) onKeydown(e: KeyboardEvent) {
@@ -61,17 +59,6 @@ export class PaymentComponent implements OnInit, OnChanges {
     }
   }    
 
-  onSearch(query) {
-    if (!!this._customerSubscription) {
-      this._customerSubscription.unsubscribe();
-      this._customerSubscription = null;
-    }
-
-    this._customerSubscription = this.customerService.lookup(query).subscribe(customers => {
-      this.customers = customers;
-    });
-  }
-
   focus() {
     this.customerLookup.focus();
   }
@@ -82,9 +69,5 @@ export class PaymentComponent implements OnInit, OnChanges {
 
   doCommit() {
     this.commit.emit(this.payment);    
-  }
-
-  requestForCustomer(id): Observable<any> {
-    return this.customerService.get(id);
   }
 }

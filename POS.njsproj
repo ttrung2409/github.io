@@ -51,6 +51,8 @@
     <Content Include="src\app\retail\components\qty-editor\qty-editor.component.scss" />
     <Content Include="src\app\widgets\confirm-dialog\confirm-dialog.component.html" />
     <Content Include="src\app\widgets\confirm-dialog\confirm-dialog.component.scss" />
+    <Content Include="src\app\widgets\customer-lookup\customer-lookup.component.html" />
+    <Content Include="src\app\widgets\customer-lookup\customer-lookup.component.scss" />
     <Content Include="src\app\widgets\dropdown\dropdown.component.html" />
     <Content Include="src\app\widgets\dropdown\dropdown.component.scss" />
     <Content Include="src\app\widgets\flyout\flyout.component.html" />
@@ -143,6 +145,7 @@
     <TypeScriptCompile Include="src\app\valueObjects\DialogResult.ts" />
     <TypeScriptCompile Include="src\app\widgets\bindable.component.ts" />
     <TypeScriptCompile Include="src\app\widgets\confirm-dialog\confirm-dialog.component.ts" />
+    <TypeScriptCompile Include="src\app\widgets\customer-lookup\customer-lookup.component.ts" />
     <TypeScriptCompile Include="src\app\widgets\dropdown\dropdown.component.ts" />
     <TypeScriptCompile Include="src\app\widgets\flyout\flyout.component.ts" />
     <TypeScriptCompile Include="src\app\widgets\grid\grid.component.ts" />
@@ -202,6 +205,7 @@
     <Folder Include="src\app\retail\components\qty-editor\" />
     <Folder Include="src\app\widgets\" />
     <Folder Include="src\app\widgets\confirm-dialog\" />
+    <Folder Include="src\app\widgets\customer-lookup\" />
     <Folder Include="src\app\widgets\dropdown\" />
     <Folder Include="src\app\widgets\flyout\" />
     <Folder Include="src\app\widgets\grid\" />

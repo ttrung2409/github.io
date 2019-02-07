@@ -23,6 +23,7 @@ import * as _ from 'lodash'
 import * as $ from 'jquery'
 import { NotifierService } from 'angular-notifier';
 import Payment, { PaymentMethod } from 'src/app/models/payment';
+import CustomerService from 'src/app/services/customer.service';
 
 @Component({
   selector: 'retail',
@@ -36,6 +37,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private invoiceService: InvoiceService,
+    private customerService: CustomerService,
     private dialog: MatDialog,
     private utils: UtilsService,
     private el: ElementRef,
@@ -64,6 +66,22 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   get desc() {
     return this.invoice.status == InvoiceStatus.Paid ? `${this.invoice.no} - Đã thanh toán` : (this.invoice.no || '');
+  }
+
+  get canSave() {
+    return this.invoice.items.length > 0;
+  }
+
+  get canView() {
+    return this.invoice.id > 0;
+  }
+
+  get canPrint() {
+    return this.invoice.id > 0;
+  }
+
+  get canPay() {
+    return this.invoice.items.length > 0;
   }
 
   ngOnInit() {
@@ -148,10 +166,13 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this.pay();
         break;
       case Key.F7:
-        this.addCustomer();
+        this.beginSearch();
         break;
       case Key.F9:
-        this.save();
+        if (this.canSave) {
+          this.save();
+        }
+        
         break;
     }
 
@@ -226,7 +247,10 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.flyout.hide();        
     this.invoiceService.pay(payment).subscribe(() => {
       this.invoice.status = InvoiceStatus.Paid;
-      this.invoice.customerId = payment.customerId;
+      if (this.invoice.customerId != payment.customerId) {
+        this.invoice.customerId = payment.customerId;
+        this.customerService.get(this.invoice.customerId).subscribe(customer => this.invoice.customer = customer);
+      }
     });
   }
 
@@ -262,7 +286,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  showSearch() {
+  beginSearch() {
     let _this = this;
     $(this.el.nativeElement).find('.actions').fadeOut(100, function () {
       _this.searching = true;
@@ -274,7 +298,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
     });    
   }
 
-  hideSearch() {
+  endSearch() {
     this.searching = false;
     $(this.el.nativeElement).find('.actions').fadeIn(100);
   }
@@ -293,7 +317,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onSearchKeydown(event: KeyboardEvent) {
     if (event.keyCode == Key.Escape) {
-      this.hideSearch();
+      this.endSearch();
     }
   }
 
@@ -324,7 +348,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  showOverview() {
+  view() {
     this.flyoutView = 'overview';
     this.flyout.show();
   }

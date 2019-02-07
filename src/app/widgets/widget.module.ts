@@ -26,6 +26,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { CustomerLookupComponent } from './customer-lookup/customer-lookup.component';
 
 @NgModule({  
   imports: [
@@ -60,6 +61,7 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     FormatNumberPipe,
     ToolbarComponent,
     ConfirmDialogComponent,
+    CustomerLookupComponent,
   ],
   exports: [
     GridComponent,
@@ -85,7 +87,8 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     MatPaginatorModule,
     MatProgressBarModule,
     MatSortModule,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    CustomerLookupComponent
   ],
   schemas: [NO_ERRORS_SCHEMA],
   providers: []

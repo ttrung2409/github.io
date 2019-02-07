@@ -12,7 +12,7 @@
                    [itemTemplate]="itemTemplate"
                    (onSelect)="onSearchSelect($event)"
                    (onKeydown)="onSearchKeydown($event)"
-                   (blur)="hideSearch()">
+                   (blur)="endSearch()">
           <ng-template #itemTemplate let-item="item">
             <div class="search-item">
               <div class="flex">
@@ -34,24 +34,26 @@
         <mat-icon>add</mat-icon>
         (F2)
       </button>
-      <button mat-button (click)="pay()">
+      <button mat-button (click)="pay()" [disabled]="!canPay">
         <mat-icon>attach_money</mat-icon>
         (F4)
       </button>
-      <button mat-button (click)="addCustomer()">
-        <mat-icon>person_add</mat-icon>
-        (F7)
-      </button>
-      <button mat-button (click)="save()">
+      <button mat-button (click)="save()" [disabled]="!canSave">
         <mat-icon>save</mat-icon>
         (F9)
       </button>
-      <button mat-button (click)="showOverview()">
-        <mat-icon>details</mat-icon>
+      <button mat-button (click)="view()" [disabled]="!canView">
+        <mat-icon>info</mat-icon>
       </button>
-      <button mat-button><mat-icon>print</mat-icon></button>
-      <button mat-button (click)="showSearch()">
+      <button mat-button [disabled]="!canPrint">
+        <mat-icon>print</mat-icon>
+      </button>
+      <button mat-button (click)="addCustomer()">
+        <mat-icon>person_add</mat-icon>        
+      </button>
+      <button mat-button (click)="beginSearch()">
         <mat-icon>search</mat-icon>
+        (F7)
       </button>
     </actions>
   </toolbar>  

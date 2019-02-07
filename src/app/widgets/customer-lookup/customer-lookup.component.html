@@ -1,0 +1,24 @@
+<typeahead #customerLookup [options]="customers"
+           [(model)]="model"
+           (search)="onSearch($event)"
+           [isLoading]="isLoading"
+           [valueMember]="'id'"
+           [displayMember]="'name'"
+           [label]="'Nhập mã, tên, SĐT hoặc email để tìm khách hàng'"
+           [floatLabel]="'never'"
+           [showOnDown]="false"
+           [requestForOption]="requestForCustomer.bind(this)"
+           [itemTemplate]="itemTemplate">
+  <ng-template #itemTemplate let-item="item">
+    <div class="dropdown-item">
+      <div class="flex">
+        <label>{{item.name}}</label>
+        <label>{{item.no}}</label>
+      </div>
+      <div class="flex" *ngIf="!!item.phone || !!item.email">
+        <label>{{item.phone}}</label>
+        <label>{{item.email}}</label>
+      </div>
+    </div>
+  </ng-template>
+</typeahead>
