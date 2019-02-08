@@ -6,13 +6,37 @@ let invoiceRepository = new InvoiceRepository();
 let paymentRepository = new PaymentRepository();
 
 export default class InvoiceService {
-  save(invoice) {    
-    if (invoice.id > 0) {
-      return invoiceRepository.updateAll(invoice.id, invoice).then(() => this.getFull(invoice.id));
-    }
-    else {
-      return invoiceRepository.create(invoice);
-    }
+  save(invoice) {
+    let payment = !!invoice.payments && invoice.payments.length > 0 ? invoice.payments[0] : null;
+    return Transaction.begin().then(t => {
+      let promise = null;
+      if (invoice.id > 0) {
+        promise = invoiceRepository.updateWithItems(invoice.id, invoice, { transaction: t.value });
+      }
+      else {
+        promise = invoiceRepository.create(invoice, { transaction: t.value });
+      }
+
+      return promise.then(invoice => {
+
+        if (!payment) {
+          return t.commit().then(() => invoice);
+        }
+
+        if (payment.id > 0) {
+          return paymentRepository.update(payment, { id: payment.id }, { transaction: t.value }).then(() => {
+            return t.commit().then(() => invoice);
+          });
+        }
+        else {
+          return t.commit().then(() => invoice);
+        }
+      }).then(invoice => this.getFull(invoice.id)).catch(err => {
+        console.log(err);
+        t.rollback();
+        throw err;
+      });            
+    });
   }  
 
   getFull(id) {
@@ -25,30 +49,5 @@ export default class InvoiceService {
 
   delete(id) {
     return invoiceRepository.delete(id);
-  }
-
-  pay(payment) {
-    return Transaction.begin().then(t => {
-      let promises = [];
-      promises.push(invoiceRepository.update({
-        status: 'Paid',
-        customerId: payment.customerId
-      }, { id: payment.invoiceId }, { transaction: t.value }));
-
-      if (payment.id > 0) {
-        promises.push(paymentRepository.update(payment, { id: payment.id }, { transaction: t.value }));
-      }
-      else {
-        promises.push(paymentRepository.create(payment, { transaction: t.value }));
-      }
-
-      return Promise.all(promises)
-        .then(() => t.commit())
-        .catch(err => {
-          console.log(err);
-          t.rollback();
-          throw err;
-        });
-    });    
-  }
+  }  
 }

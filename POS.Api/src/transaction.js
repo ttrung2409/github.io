@@ -15,13 +15,13 @@ export default class Transaction {
 
   commit() {
     if (!!this._transaction) {
-      this._transaction.commit();
+      return this._transaction.commit();
     }
   }
 
   rollback() {
     if (!!this._transaction) {
-      this._transaction.rollback();
+      return this._transaction.rollback();
     }
   }
 

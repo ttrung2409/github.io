@@ -195,6 +195,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
         product: product,
         qty: 1,
         price: product.retailPrice,
+        cost: product.cost,
         index: this.invoice.items.length + 1,
         isNew: true
       }));
@@ -244,14 +245,8 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onPaymentCommit(payment: Payment) {    
-    this.flyout.hide();        
-    this.invoiceService.pay(payment).subscribe(() => {
-      this.invoice.status = InvoiceStatus.Paid;
-      if (this.invoice.customerId != payment.customerId) {
-        this.invoice.customerId = payment.customerId;
-        this.customerService.get(this.invoice.customerId).subscribe(customer => this.invoice.customer = customer);
-      }
-    });
+    this.flyout.hide();
+    this.save(payment);    
   }
 
   new() {
@@ -262,6 +257,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     this.router.navigateByUrl('/retail');
+    this.productLookup.focus();
   }
 
   onFlyoutShow() {
@@ -328,15 +324,23 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  save() {
-    let invoice = _.cloneDeep(this.invoice);
+  save(payment?: Payment) {
+    let invoice = Object.assign(_.cloneDeep(this.invoice), {
+      subTotal: this.invoice.computedSubTotal,
+      total: this.invoice.computedTotal,
+      totalCost: this.invoice.computedTotalCost,
+      status: !!payment ? InvoiceStatus.Paid : this.invoice.status,
+      customerId: !!payment ? payment.customerId : this.invoice.customerId,
+      payments: !!payment ? [payment] : undefined
+    });
+
     for (let item of invoice.items) {
       if (item.isNew) {
         delete item.id;
       }
     }
 
-    this.invoiceService.save(invoice).subscribe((result: Invoice) => {
+    this.invoiceService.save(invoice).subscribe((result: Invoice) => {      
       this.notifier.notify('success', 'Lưu thành công');
 
       if (!invoice.id) {

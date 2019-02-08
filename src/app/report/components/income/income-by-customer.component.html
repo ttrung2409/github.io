@@ -1,0 +1,8 @@
+<grid [columns]="columns"
+      [dataSource]="customers"
+      [showFooter]="true"
+      [isHeaderSticky]="true"
+      [isFooterSticky]="true"
+      [defaultSearch]="{orderBy: 'income', isDesc: true}"
+      (sortChange)="onSortChange($event)">
+</grid>

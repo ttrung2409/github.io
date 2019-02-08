@@ -22,6 +22,7 @@ app.use(function (req, res, next) {
 app.use('/api/product', require('./controllers/product'));
 app.use('/api/customer', require('./controllers/customer'));
 app.use('/api/invoice', require('./controllers/invoice'));
+app.use('/api/report', require('./controllers/report'));
 
 app.set('port', process.env.PORT || 3000);
 

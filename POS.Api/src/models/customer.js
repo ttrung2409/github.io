@@ -12,7 +12,7 @@ let Customer = context.define('Customer', {
   phone: Sequelize.STRING,
   email: Sequelize.STRING,
   address: Sequelize.STRING,
-  dob: Sequelize.DATE,
+  dob: Sequelize.DATEONLY,
   typeId: Sequelize.INTEGER  
 }, { tableName: 'Customer', timestamps: true, paranoid: true });
 

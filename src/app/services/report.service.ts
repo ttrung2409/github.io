@@ -1,22 +1,17 @@
 import { Injectable } from "@angular/core";
 import Invoice from "../models/invoice";
 import * as moment from 'moment';
-import UtilsService from "./utils.service";
-import InvoiceItem from "../models/invoiceItem";
-import { Observable, of, throwError } from "rxjs";
-import CustomerService from "./customer.service";
-import { map, groupBy, concatAll, mergeMap, toArray, skipWhile, first } from "rxjs/operators";
+import { Observable} from "rxjs";
+import HttpService from "./http.service";
 import Customer from "../models/customer";
 
 @Injectable()
-export default class ReportService {
-  constructor(private utils: UtilsService, private customerService: CustomerService) {
+export default class ReportService extends HttpService {
+  getIncomeByInvoice(params): Observable<Invoice[]> {
+    return super._post('report/incomeByInvoice', params);
   }
 
-  getIncomeByInvoice(): Observable<Invoice[]> {    
-  }
-
-  getIncomeByCustomer(): Observable<Customer[]> {
-     
+  getIncomeByCustomer(params): Observable<Customer[]> {
+    return super._post('report/incomeByCustomer', params);
   }  
 }

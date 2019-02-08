@@ -35,6 +35,8 @@
     <Content Include="src\app\product\components\product-list\product-list.component.scss" />
     <Content Include="src\app\product\components\product-search\product-search.component.html" />
     <Content Include="src\app\product\components\product-search\product-search.component.scss" />
+    <Content Include="src\app\report\components\income\income-by-customer.component.html" />
+    <Content Include="src\app\report\components\income\income-by-invoice.component.html" />
     <Content Include="src\app\report\components\income\income.component.html" />
     <Content Include="src\app\report\components\income\income.component.scss" />
     <Content Include="src\app\retail\components\add-customer-dialog\add-customer-dialog.component.html" />
@@ -113,6 +115,8 @@
     <TypeScriptCompile Include="src\app\pipes\number.pipe.ts" />
     <TypeScriptCompile Include="src\app\product\components\product-list\product-list.component.ts" />
     <TypeScriptCompile Include="src\app\product\components\product-search\product-search.component.ts" />
+    <TypeScriptCompile Include="src\app\report\components\income\income-by-customer.component.ts" />
+    <TypeScriptCompile Include="src\app\report\components\income\income-by-invoice.component.ts" />
     <TypeScriptCompile Include="src\app\report\components\income\income.component.ts" />
     <TypeScriptCompile Include="src\app\report\report.module.ts" />
     <TypeScriptCompile Include="src\app\report\report.routing.ts">

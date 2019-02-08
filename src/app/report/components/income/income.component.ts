@@ -10,6 +10,9 @@ import { Key } from 'ts-keycode-enum';
 import { FlyoutComponent } from '../../../widgets/flyout/flyout.component';
 import CustomerService from '../../../services/customer.service';
 import * as _ from 'lodash'
+import SearchModel from 'src/app/models/search';
+import { IncomeByInvoiceComponent } from './income-by-invoice.component';
+import { IncomeByCustomerComponent } from './income-by-customer.component';
 declare var $: any;
 
 @Component({
@@ -22,107 +25,22 @@ export class IncomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(private el: ElementRef,
     private reportService: ReportService,
-    private utils: UtilsService,
-    private customerService: CustomerService) { }
+    private utils: UtilsService) { }
 
   @ViewChild('flyout') flyout: FlyoutComponent;
-
-  @HostListener('keydown', ['$event']) onKeydown(e: KeyboardEvent) {
-    switch (e.keyCode) {
-      case Key.Escape:
-        this.flyout.hide();
-        break;
-      case Key.F9:
-        this.flyout.hide();
-        this.generateReport();
-        break;
-    }
-  }
+  @ViewChild(IncomeByInvoiceComponent) incomeByInvoice;
+  @ViewChild(IncomeByCustomerComponent) incomeByCustomer;
   
   viewBy: string = 'invoice';
-  selectedViewBy: string = 'invoice';
-  incomeByInvoiceColumns: GridColumn[] = [
-    new GridColumn({
-      caption: 'Số HĐ',
-      field: 'no'      
-    }),
-    new GridColumn({
-      caption: 'Ngày',
-      field: 'date',
-      format: (value) => {
-        return moment(value).format('DD/MM/YYYY');
-      }
-    }),
-    new GridColumn({
-      caption: 'Khách hàng',
-      field: 'customer.name',
-      footer: 'Tổng'
-    }),
-    new GridColumn({
-      caption: 'Doanh thu',
-      field: 'total',
-      footer: function () {
-        return this.utils.formatNumber(this.invoices.reduce((acc, invoice) => acc + invoice.total, 0));
-      }.bind(this)      
-    }),
-    new GridColumn({
-      caption: 'Giá vốn',
-      field: 'totalCost',
-      footer: function () {
-        return this.utils.formatNumber(this.invoices.reduce((acc, invoice) => acc + invoice.totalCost, 0));
-      }.bind(this) 
-    }),
-    new GridColumn({
-      caption: 'Lợi nhuận',
-      field: 'profit',
-      footer: function () {
-        return this.utils.formatNumber(this.invoices.reduce((acc, invoice) => acc + invoice.profit, 0));
-      }.bind(this) 
-    })
-  ];
+  customerId: number;
+  fromDate: string = moment().format();
+  toDate: string = moment().format();
 
-  incomeByCustomerColumns: GridColumn[] = [
-    new GridColumn({
-      caption: 'Tên KH',
-      field: 'name',
-    }),
-    new GridColumn({
-      caption: 'Loại KH',
-      field: 'type.name'
-    }),
-    new GridColumn({
-      caption: 'Số ĐT',
-      field: 'phone',
-      footer: 'Tổng'
-    }),
-    new GridColumn({
-      caption: 'Doanh thu',
-      field: 'income',
-      footer: function () {
-        return this.utils.formatNumber(this.customers.reduce((acc, customer) => acc + customer.income, 0));
-      }.bind(this)
-    }),
-    new GridColumn({
-      caption: 'Giá vốn',
-      field: 'cost',
-      footer: function () {
-        return this.utils.formatNumber(this.customers.reduce((acc, customer) => acc + customer.cost, 0));
-      }.bind(this)
-    }),
-    new GridColumn({
-      caption: 'Lợi nhuận',
-      field: 'profit',
-      footer: function () {
-        return this.utils.formatNumber(this.customers.reduce((acc, customer) => acc + customer.profit, 0));
-      }.bind(this)
-    })
-  ];
+  ngOnInit() {    
+    this._subscription.add(fromEvent(document, 'keydown').subscribe((e: KeyboardEvent) => {
+      this.handleKeydown(e);
+    }));
 
-  invoices: Invoice[] = [];
-  customers: Customer[] = [];
-
-  ngOnInit() {
-    this.generateReport();
     this._subscription.add(fromEvent(window, 'resize').subscribe(e => {
       $(this.el.nativeElement).find('.content').height($(window).height() - 50); 
     }));
@@ -136,15 +54,32 @@ export class IncomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this._subscription.unsubscribe();
   }
 
+  handleKeydown(e: KeyboardEvent) {
+    switch (e.keyCode) {
+      case Key.Escape:
+        this.flyout.hide();
+        break;
+      case Key.F2:
+        this.flyout.show();
+        break;
+    }    
+  }
+  
   generateReport() {    
-    this.selectedViewBy = this.viewBy || 'invoice';
-    switch (this.selectedViewBy) {
+    switch (this.viewBy) {
       case 'invoice':
-        this.reportService.getIncomeByInvoice().subscribe(invoices => this.invoices = invoices);
+        this.incomeByInvoice.generateReport({
+          customerId: this.customerId,
+          fromDate: this.utils.toDbDate(this.fromDate),
+          toDate: this.utils.toDbDate(this.toDate),
+        });
+
         break;
       case 'customer':
-        this.reportService.getIncomeByCustomer().subscribe(customers => {
-          this.customers = _.orderBy(customers, 'name');
+        this.incomeByCustomer.generateReport({
+          customerId: this.customerId,
+          fromDate: this.utils.toDbDate(this.fromDate),
+          toDate: this.utils.toDbDate(this.toDate),
         });
 
         break;

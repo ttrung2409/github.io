@@ -55,6 +55,7 @@ export class CustomerComponent implements OnInit {
       });
     }    
   }
+
   validate(): boolean {
     this.errors.clear();
     if (v8n().empty().test(this.customer.name || '')) {

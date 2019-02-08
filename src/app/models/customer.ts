@@ -10,13 +10,7 @@ export default class Customer {
   public address?: string;
   public dob?: string;
   public typeId: number;  
-  public income: number;
-  public cost: number;
   public isActive: boolean = true;
-
-  get profit(): number {
-    return this.income - this.cost;
-  }
 
   public type: CustomerType;
 }

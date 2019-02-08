@@ -16,9 +16,5 @@ export default class InvoiceService extends HttpService {
 
   lookup(query: string): Observable<Invoice[]> {
     return super._get<Invoice[]>('invoice/lookup', { query });
-  }
-
-  pay(payment: Payment): Observable<Payment> {
-    return super._post(`invoice/${payment.invoiceId}/pay`, payment);
-  }
+  }  
 }

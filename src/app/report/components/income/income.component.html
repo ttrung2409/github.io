@@ -3,7 +3,8 @@
     <toolbar-title>Báo cáo doanh thu</toolbar-title>
     <actions>
       <button mat-button (click)="flyout.show()">
-        <mat-icon>filter_list</mat-icon>        
+        <mat-icon>filter_list</mat-icon>
+        (F2)
       </button>
       <button mat-button>
         <mat-icon>view_module</mat-icon>
@@ -11,20 +12,8 @@
     </actions>    
   </toolbar>
   <div class="content">
-    <grid *ngIf="selectedViewBy == 'invoice'"
-          [columns]="incomeByInvoiceColumns"
-          [dataSource]="invoices"
-          [showFooter]="true"
-          [isHeaderSticky]="true"
-          [isFooterSticky]="true">
-    </grid>
-    <grid *ngIf="selectedViewBy == 'customer'"
-          [columns]="incomeByCustomerColumns"
-          [dataSource]="customers"
-          [showFooter]="true"
-          [isHeaderSticky]="true"
-          [isFooterSticky]="true">
-    </grid>
+    <income-by-invoice *ngIf="viewBy == 'invoice'"></income-by-invoice>    
+    <income-by-customer *ngIf="viewBy == 'customer'"></income-by-customer>
   </div>
   
   <flyout #flyout [containerSelector]="'.income-report'" (onShow)="viewByDropdown.focus()">
@@ -39,22 +28,24 @@
         </div>
         <div class="sixteen wide column">
           <mat-form-field>
-            <input matInput [matDatepicker]="fromDatePicker" placeholder="Từ ngày">
+            <input matInput [matDatepicker]="fromDatePicker" placeholder="Từ ngày" [(ngModel)]="fromDate">
             <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
             <mat-datepicker #fromDatePicker></mat-datepicker>
           </mat-form-field>
         </div>
         <div class="sixteen wide column">
           <mat-form-field>
-            <input matInput [matDatepicker]="toDatePicker" placeholder="Đến ngày">
+            <input matInput [matDatepicker]="toDatePicker" placeholder="Đến ngày" [(ngModel)]="toDate">
             <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
             <mat-datepicker #toDatePicker></mat-datepicker>
           </mat-form-field>
         </div>
+        <div class="sixteen wide column">
+          <customer-lookup [(model)]="customerId"></customer-lookup>
+        </div>
       </div>
       <div class="actions">
-        <button mat-flat-button (click)="flyout.hide()">Hủy (Esc)</button>
-        <button mat-flat-button color="primary" (click)="flyout.hide(); generateReport()">Xem báo cáo (F9)</button>
+        <button mat-flat-button color="primary" (click)="flyout.hide(); generateReport()">Xem báo cáo</button>
       </div>
     </content>
     <actions>

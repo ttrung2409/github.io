@@ -19,7 +19,7 @@ export default class CustomerRepository extends RepositoryBase {
     }
 
     if (!!params.name) {
-      where.name = Sequelize.where(Sequelize.fn('unaccent', Sequelize.col('name')), {
+      where.name = Sequelize.where(Sequelize.fn('unaccent', Sequelize.col('Customer.name')), {
         [Op.iLike]: `%${params.name}%`
       });
     }

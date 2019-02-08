@@ -5,7 +5,7 @@
     </div>    
     <div class="sixteen wide column">
       <mat-form-field>
-        <input matInput placeholder="Tổng" number [model]="invoice.total" [readonly]="true" required>
+        <input matInput placeholder="Tổng" number [model]="invoice.computedTotal" [readonly]="true" required>
       </mat-form-field>
     </div>
     <div class="sixteen wide column">
@@ -16,7 +16,7 @@
     <div class="sixteen wide column">
       <mat-form-field>
         <input matInput placeholder="Tiền thừa"
-               number [model]="payment.amount - invoice.total > 0 ? payment.amount - invoice.total : ''"
+               number [model]="payment.amount - invoice.computedTotal > 0 ? payment.amount - invoice.computedTotal: ''"
                [readonly]="true">
       </mat-form-field>
     </div>

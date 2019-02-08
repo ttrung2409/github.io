@@ -5,6 +5,8 @@ import { RouterModule } from '@angular/router';
 import { routes } from './report.routing';
 import { WidgetModule } from '../widgets/widget.module';
 import { FormsModule } from '@angular/forms';
+import { IncomeByInvoiceComponent } from './components/income/income-by-invoice.component';
+import { IncomeByCustomerComponent } from './components/income/income-by-customer.component';
 
 @NgModule({
   imports: [
@@ -13,7 +15,11 @@ import { FormsModule } from '@angular/forms';
     WidgetModule,
     FormsModule    
   ],
-  declarations: [IncomeComponent],
+  declarations: [
+    IncomeComponent,
+    IncomeByInvoiceComponent,
+    IncomeByCustomerComponent
+  ],
   schemas: [NO_ERRORS_SCHEMA]
 })
 export class ReportModule { }

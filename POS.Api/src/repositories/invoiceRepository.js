@@ -59,9 +59,11 @@ export default class InvoiceRepository extends RepositoryBase {
     }).then(invoices => invoices.map(x => x.get({ plain: true })));
   }
 
-  create(invoice) {
+  create(invoice, { transaction } = {}) {
     let _this = this;
-    return context.transaction(function (t) {
+    return !!transaction ? create(transaction) : context.transaction(create);
+
+    function create(t) {
       return Invoice.findOne({
         attributes: ['no'],
         order: [['no', 'desc']],
@@ -71,22 +73,25 @@ export default class InvoiceRepository extends RepositoryBase {
         invoice.no = !!model ? `${parseFloat(model.no) + 1}` : '100000';
         return _this.modelDef.create(invoice, {
           transaction: t,
-          include: [{ association: 'items' }]
+          include: [{ association: 'items' }, { association: 'payments' }]
         }).then(model => model.get({ plain: true }));
       });
-    });    
+    }    
   }
 
-  updateAll(id, invoice) {
-    return this.modelDef.findOne({
-      where: {
-        id
-      },
-      include: [{ association: 'items' }]
-    }).then(model => {
-      if (!model) return;
-      
-      return context.transaction().then(t => {
+  updateWithItems(id, invoice, { transaction } = {}) {
+    let _this = this;
+    return !!transaction ? updateWithItems(transaction) : context.transaction(updateWithItems);
+
+    function updateWithItems(t) {
+      return _this.modelDef.findOne({
+        where: {
+          id
+        },
+        include: [{ association: 'items' }]
+      }, { transaction: t }).then(model => {
+        if (!model) return;
+
         let oldItems = model.items;
         let itemsToCreate = invoice.items.filter(x => !x.id);
         let itemsToUpdate = invoice.items.filter(x => x.id > 0);
@@ -99,7 +104,7 @@ export default class InvoiceRepository extends RepositoryBase {
           promises.push(InvoiceItem.bulkCreate(itemsToCreate, { transaction: t }));
         }
 
-        for (let item of itemsToUpdate) {        
+        for (let item of itemsToUpdate) {
           let itemModel = oldItems.find(x => x.id == item.id);
           if (!!itemModel) {
             promises.push(itemModel.update(item, { transaction: t }));
@@ -116,15 +121,9 @@ export default class InvoiceRepository extends RepositoryBase {
           }, { transaction: t }));
         }
 
-        return Promise.all(promises)
-          .then(() => t.commit())
-          .catch(err => {
-            console.log(err);
-            t.rollback();
-            throw err;
-          });
-      });   
-    });    
+        return Promise.all(promises).then(() => invoice);
+      });  
+    }      
   }
 
   delete(id) {

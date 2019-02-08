@@ -83,7 +83,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
       });
     }    
 
-    if (!!changes.model) {
+    if (!!changes.model && !!this.$dropdown) {
       this.setSelected(this.model);
     }    
   }

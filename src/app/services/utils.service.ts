@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import * as _ from 'lodash'
+import * as moment from 'moment'
 
 @Injectable()
 export default class UtilsService {
@@ -153,6 +154,10 @@ export default class UtilsService {
     }
 
     return str;
+  }
+
+  toDbDate(date) {
+    return moment(date).format('YYYY-MM-DD');
   }
 }
 
