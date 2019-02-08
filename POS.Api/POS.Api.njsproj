@@ -37,6 +37,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\controllers\product.js" />
+    <Compile Include="src\controllers\report.js" />
     <Compile Include="src\dbContext.js" />
     <Compile Include="src\models\payment.js" />
     <Compile Include="src\models\invoiceItem.js" />
@@ -57,10 +58,12 @@
     <Compile Include="src\services\customerService.js" />
     <Compile Include="src\services\invoiceService.js" />
     <Compile Include="src\services\productService.js" />
+    <Compile Include="src\services\reportService.js" />
     <Compile Include="src\transaction.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
     <Content Include="src\repositories\customerRepository.js" />
+    <Content Include="src\repositories\reportRepository.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />
