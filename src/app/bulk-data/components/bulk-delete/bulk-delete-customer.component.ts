@@ -44,6 +44,6 @@ export class BulkDeleteCustomerComponent implements OnInit {
   }
 
   height() {
-    return $(window).height() - $('.mat-toolbar').outerHeight(true);
+    return $(window).height() - $('.toolbar').outerHeight(true);
   }
 }
