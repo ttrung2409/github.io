@@ -4,6 +4,8 @@
     width: 100%;
 
     .mat-row {
+      height: 40px !important;
+
       &.highlighted {
         background-color: whitesmoke;
       }

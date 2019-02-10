@@ -57,16 +57,19 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
     new GridColumn({
       caption: 'Mã KH',
       field: 'no',
+      width: '15%',
       sortable: true
     }),
     new GridColumn({
       caption: 'Tên KH',
       field: 'name',
+      width: '25%',
       sortable: true
     }),
     new GridColumn({
       caption: 'Loại KH',
       field: 'type.name',
+      width: '10%',
       sortable: true
     }),
     new GridColumn({

@@ -31,7 +31,9 @@ export class IncomeByCustomerComponent implements OnInit {
       new GridColumn({
         caption: 'Tên KH',
         field: 'name',
-        sortable: true
+        width: '25%',
+        sortable: true,
+        footer: 'Tổng'
       }),
       new GridColumn({
         caption: 'Doanh thu',

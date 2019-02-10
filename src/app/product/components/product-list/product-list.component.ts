@@ -61,16 +61,19 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
       new GridColumn({
         caption: 'Mã SP',
         field: 'no',
+        width: '15%',
         sortable: true
       }),
       new GridColumn({
         caption: 'Tên SP',
         field: 'name',
+        width: '30%',
         sortable: true
       }),
       new GridColumn({
         caption: 'ĐVT',
         field: 'uom',
+        width: '10%',
         sortable: true
       }),
       new GridColumn({

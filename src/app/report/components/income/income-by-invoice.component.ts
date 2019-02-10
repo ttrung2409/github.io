@@ -40,7 +40,7 @@ export class IncomeByInvoiceComponent implements OnInit {
       new GridColumn({
         caption: 'Khách hàng',
         field: 'customer.name',
-        width: '25%'
+        width: '25%',
         footer: 'Tổng',
         sortable: true
       }),
