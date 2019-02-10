@@ -25,7 +25,7 @@ export default class CustomerService extends HttpService {
     return customer.id > 0 ? super._put('customer', customer) : super._post('customer', customer);
   }
 
-  delete(id: number): Observable<{}> {
+  delete(id: number): Observable<void> {
     return super._delete(`customer/${id}`);
   }
 

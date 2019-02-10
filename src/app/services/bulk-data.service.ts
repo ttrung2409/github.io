@@ -1,21 +1,24 @@
 import { Injectable } from "@angular/core";
 import HttpService from "./http.service";
+import { Observable } from "rxjs";
+import Product from "../models/product";
+import Customer from "../models/customer";
 
 @Injectable()
 export default class BulkDataService extends HttpService {
-  findProductsWithIncomeBetween(from, to) {
-    return super._get('bulk-data/get/products-with-income-between', { from, to });
+  findProductsWithIncomeBetween(params): Observable<Product[]> {
+    return super._post('bulk-data/get/products-with-income-between', params);
   }
 
-  findCustomersWithIncomeBetween(from, to) {
-    return super._get('bulk-data/get/customers-with-income-between', { from, to });
+  findCustomersWithIncomeBetween(params): Observable<Customer[]> {
+    return super._post('bulk-data/get/customers-with-income-between', params);
   }
 
-  deleteProductsWithIncomeBetween(from, to) {
-    return super._delete('bulk-data/delete/products-with-income-between', { from, to });
+  deleteProductsWithIncomeBetween(params): Observable<void> {
+    return super._delete('bulk-data/delete/products-with-income-between', params);
   }
 
-  deleteCustomersWithIncomeBetween(from, to) {
-    return super._delete('bulk-data/delete/customers-with-income-between', { from, to });
+  deleteCustomersWithIncomeBetween(params): Observable<void> {
+    return super._delete('bulk-data/delete/customers-with-income-between', params);
   }
 }

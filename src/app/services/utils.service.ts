@@ -156,7 +156,7 @@ export default class UtilsService {
     return str;
   }
 
-  toDbDate(date) {
+  toDbDate(date) {    
     return moment(date).format('YYYY-MM-DD');
   }
 }

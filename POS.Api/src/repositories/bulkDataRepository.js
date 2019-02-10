@@ -2,16 +2,16 @@ import context from '../dbContext'
 import Sequelize from 'sequelize'
 
 export default class BulkDataRepository {
-  getCustomersWithIncomeBetween(from, to) {
-    return context.query('select * from getCustomersWithIncomeBetween(:from, :to)', {
-      replacements: { from, to },
+  getCustomersWithIncomeBetween(params) {
+    return context.query('select * from "getCustomersWithIncomeBetween"(:fromDate, :toDate, :fromAmount, :toAmount)', {
+      replacements: params,
       type: Sequelize.QueryTypes.SELECT
     });    
   }
 
-  getProductsWithIncomeBetween(from, to) {
-    return context.query('select * from getProductsWithIncomeBetween(:from, :to)', {
-      replacements: { from, to },
+  getProductsWithIncomeBetween(params) {
+    return context.query('select * from "getProductsWithIncomeBetween"(:fromDate, :toDate, :fromAmount, :toAmount)', {
+      replacements: params,
       type: Sequelize.QueryTypes.SELECT
     });    
   } 

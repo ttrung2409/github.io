@@ -3,11 +3,11 @@ import BulkDataRepository from "../repositories/bulkDataRepository";
 let repo = new BulkDataRepository();
 
 export default class BulkDataService {
-  getCustomersWithIncomeBetween(from, to) {
-    return repo.getCustomersWithIncomeBetween(from, to);
+  getCustomersWithIncomeBetween(params) {
+    return repo.getCustomersWithIncomeBetween(params);
   }
 
-  getProductsWithIncomeBetween(from, to) {
-    return repo.getProductsWithIncomeBetween(from, to);
+  getProductsWithIncomeBetween(params) {
+    return repo.getProductsWithIncomeBetween(params);
   } 
 }

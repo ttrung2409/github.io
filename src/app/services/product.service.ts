@@ -33,7 +33,7 @@ export default class ProductService extends HttpService {
     return product.id > 0 ? super._put('product', product) : super._post('product', product);    
   }
 
-  delete(id: number): Observable<{}> {
+  delete(id: number): Observable<void> {
     return super._delete(`product/${id}`);
   }
 }

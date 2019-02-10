@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http'; 
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { Injectable } from '@angular/core';
 import PagedResult from '../models/pagedResult';
+import { switchMap } from 'rxjs/operators';
 
 const headers = new HttpHeaders({
   'Content-Type': 'application/json'
@@ -26,7 +27,7 @@ export default class HttpService {
     return this.http.put<T>(`${baseUrl}/${url}`, model, { headers });
   }
 
-  _delete(url: string, params?: any): Observable<{}> {    
+  _delete(url: string, params?: any): Observable<any> {
     return this.http.delete(`${baseUrl}/${url}`, { headers, params });
   }
 

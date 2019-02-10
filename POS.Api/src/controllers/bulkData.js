@@ -5,14 +5,14 @@ var router = express.Router();
 
 let service = new BulkDataService();
 
-router.get('/get/customers-with-income-between', function (req, res) {
-  service.getCustomersWithIncomeBetween(req.query.from, req.query.to).then(customers => {
+router.post('/get/customers-with-income-between', function (req, res) {
+  service.getCustomersWithIncomeBetween(req.body).then(customers => {
     res.send(customers);
   });
 });
 
-router.get('/get/products-with-income-between', function (req, res) {
-  service.getCustomersWithIncomeBetween(req.query.from, req.query.to).then(products => {
+router.post('/get/products-with-income-between', function (req, res) {
+  service.getProductsWithIncomeBetween(req.body).then(products => {
     res.send(products);
   });
 });
