@@ -25,6 +25,7 @@
     <Content Include="angular.json" />
     <Content Include="package-lock.json" />
     <Content Include="package.json" />
+    <Content Include="src\app\bulk-data\components\bulk-delete\bulk-delete-customer.component.html" />
     <Content Include="src\app\bulk-data\components\bulk-delete\bulk-delete.component.html" />
     <Content Include="src\app\bulk-data\components\bulk-delete\bulk-delete.component.scss" />
     <Content Include="src\app\customer\components\customer-list\customer-list.component.html" />
@@ -88,6 +89,7 @@
     <Content Include="src\tslint.json" />
     <TypeScriptCompile Include="src\app\bulk-data\bulk-data.module.ts" />
     <TypeScriptCompile Include="src\app\bulk-data\bulk-data.routing.ts" />
+    <TypeScriptCompile Include="src\app\bulk-data\components\bulk-delete\bulk-delete-customer.component.ts" />
     <TypeScriptCompile Include="src\app\bulk-data\components\bulk-delete\bulk-delete-product.component.html" />
     <TypeScriptCompile Include="src\app\bulk-data\components\bulk-delete\bulk-delete-product.component.ts" />
     <TypeScriptCompile Include="src\app\bulk-data\components\bulk-delete\bulk-delete.component.ts" />

@@ -17,4 +17,22 @@ router.post('/get/products-with-income-between', function (req, res) {
   });
 });
 
+router.delete('/products-with-income-between', function (req, res) {
+  service.deleteProductsWithIncomeBetween({
+    fromDate: req.query.fromDate || null,
+    toDate: req.query.toDate || null,
+    fromAmount: req.query.fromAmount !== undefined ? parseFloat(req.query.fromAmount) : null,
+    toAmount: req.query.toAmount !== undefined ? parseFloat(req.query.toAmount) : null
+  }).then(() => res.end());
+});
+
+router.delete('/customers-with-income-between', function (req, res) {
+  service.deleteCustomersWithIncomeBetween({
+    fromDate: req.query.fromDate || null,
+    toDate: req.query.toDate || null,
+    fromAmount: req.query.fromAmount !== undefined ? parseFloat(req.query.fromAmount) : null,
+    toAmount: req.query.toAmount !== undefined ? parseFloat(req.query.toAmount) : null
+  }).then(() => res.end());
+});
+
 module.exports = router;

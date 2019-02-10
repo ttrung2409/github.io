@@ -14,5 +14,17 @@ export default class BulkDataRepository {
       replacements: params,
       type: Sequelize.QueryTypes.SELECT
     });    
-  } 
+  }
+
+  deleteProductsWithIncomeBetween(params) {
+    return context.query('call "deleteProductsWithIncomeBetween"(:fromDate, :toDate, :fromAmount, :toAmount)', {
+      replacements: params
+    });
+  }
+
+  deleteCustomersWithIncomeBetween(params) {
+    return context.query('call "deleteCustomersWithIncomeBetween"(:fromDate, :toDate, :fromAmount, :toAmount)', {
+      replacements: params
+    });
+  }
 }

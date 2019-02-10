@@ -9,5 +9,13 @@ export default class BulkDataService {
 
   getProductsWithIncomeBetween(params) {
     return repo.getProductsWithIncomeBetween(params);
-  } 
+  }
+
+  deleteProductsWithIncomeBetween(params) {
+    return repo.deleteProductsWithIncomeBetween(params);
+  }
+
+  deleteCustomersWithIncomeBetween(params) {
+    return repo.deleteCustomersWithIncomeBetween(params);
+  }
 }

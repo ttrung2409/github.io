@@ -2,14 +2,17 @@
   <toolbar>
     <toolbar-title>Xóa dữ liệu</toolbar-title>
     <actions>
+      <button mat-button (click)="delete()" [disabled]="!canDelete">
+        <mat-icon>delete_outline</mat-icon>
+      </button>
       <button mat-button (click)="flyout.show()">
-        <mat-icon>filter_list</mat-icon>        
-      </button>      
+        <mat-icon>filter_list</mat-icon>
+      </button>
     </actions>
   </toolbar>
   <div class="content">
-    <bulk-delete-product *ngIf="viewBy == 'product'"></bulk-delete-product>
-    <!--<bulk-delete-customer *ngIf="viewBy == 'customer'"></bulk-delete-customer>-->
+    <bulk-delete-product *ngIf="viewBy == 'product'" [products]="products"></bulk-delete-product>
+    <bulk-delete-customer *ngIf="viewBy == 'customer'" [customers]="customers"></bulk-delete-customer>
   </div>
 
   <flyout #flyout [containerSelector]="'.bulk-delete'" (onShow)="viewByDropdown.focus()">

@@ -1,17 +1,17 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { GridColumn } from 'src/app/widgets/grid/grid.component';
 import BulkDataService from 'src/app/services/bulk-data.service';
-import Product from 'src/app/models/product';
+import Customer from 'src/app/models/customer';
 
 @Component({
-  selector: 'bulk-delete-product',
-  templateUrl: './bulk-delete-product.component.html'
+  selector: 'bulk-delete-customer',
+  templateUrl: './bulk-delete-customer.component.html'
 })
-export class BulkDeleteProductComponent implements OnInit {
+export class BulkDeleteCustomerComponent implements OnInit {
 
   constructor(private bulkDataService: BulkDataService) { }
 
-  @Input() products: Product[] = [];
+  @Input() customers: Customer[] = [];
 
   columns: GridColumn[] = [];
 
@@ -22,35 +22,24 @@ export class BulkDeleteProductComponent implements OnInit {
   initGridColumn() {
     this.columns = [
       new GridColumn({
-        caption: 'Mã SP',
+        caption: 'Mã KH',
         field: 'no',
         width: '15%',
       }),
       new GridColumn({
-        caption: 'Tên SP',
+        caption: 'Tên KH',
         field: 'name',
         width: '30%',
       }),
       new GridColumn({
-        caption: 'ĐVT',
-        field: 'uom',
-        width: '10%',
-      }),
-      new GridColumn({
-        caption: 'SL',
-        field: 'qty',
-        isNumber: true
-      }),
-      new GridColumn({
-        caption: 'Giá lẻ',
-        field: 'retailPrice',
-        isNumber: true
+        caption: 'SĐT',
+        field: 'phone',
       }),
       new GridColumn({
         caption: 'Doanh thu',
         field: 'income',
-        isNumber: true,
-      }),      
+        isNumber: true
+      }),
     ];
   }
 
