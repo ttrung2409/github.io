@@ -34,6 +34,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
   @Input() preventKeys: string[] = [];
   @Input() itemTemplate: TemplateRef<any>;
   @Input() requestForOption: (value) => Observable<any>;
+  @Input() clearable: boolean = true;
 
   @Output() onKeydown = new EventEmitter();
   @Output() show = new EventEmitter();
@@ -48,7 +49,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
     switch (event.keyCode) {
       case Key.Backspace:
       case Key.Delete:
-        if (!event.target.value) {
+        if (this.clearable && !event.target.value) {
           this.clear();
         }
 
@@ -98,7 +99,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
     this.$dropdown = $(this.el.nativeElement).find('.ui.dropdown');
     this.$dropdown.dropdown({
       forceSelection: false,
-      clearable: true,
+      clearable: this.clearable,
       selectOnKeydown: false,
       direction: this.direction,
       showOnFocus: this.showOnFocus,

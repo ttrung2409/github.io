@@ -1,0 +1,62 @@
+<div class="bulk-delete">
+  <toolbar>
+    <toolbar-title>Xóa dữ liệu</toolbar-title>
+    <actions>
+      <button mat-button (click)="flyout.show()">
+        <mat-icon>filter_list</mat-icon>        
+      </button>      
+    </actions>
+  </toolbar>
+  <div class="content">
+    <!--<bulk-delete-product *ngIf="viewBy == 'product'"></bulk-delete-product>
+    <bulk-delete-customer *ngIf="viewBy == 'customer'"></bulk-delete-customer>-->
+  </div>
+
+  <flyout #flyout [containerSelector]="'.bulk-delete'" (onShow)="viewByDropdown.focus()">
+    <content>
+      <div class="ui grid">
+        <div class="sixteen wide column">
+          <dropdown #viewByDropdown
+                    [options]="[{value: 'product', text: 'Sản phẩm'}, {value: 'customer', text: 'Khách hàng'}]"
+                    [label]="'Tìm theo'"
+                    [(model)]="viewBy"
+                    [clearable]="false">
+          </dropdown>
+        </div>
+        <div class="eight wide column">
+          <mat-form-field>
+            <input matInput [matDatepicker]="fromDatePicker" placeholder="Từ ngày" [(ngModel)]="fromDate" required>
+            <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #fromDatePicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="eight wide column">
+          <mat-form-field>
+            <input matInput [matDatepicker]="toDatePicker" placeholder="Đến ngày" [(ngModel)]="toDate" required>
+            <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #toDatePicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="sixteen wide column">
+          <mat-radio-group [(ngModel)]="income.by">
+            <mat-radio-button value="no">Không doanh thu</mat-radio-button>
+            <mat-radio-button value="in-range">Doanh thu trong khoảng</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="eight wide column" *ngIf="search.by == 'in-range'">
+          <mat-form-field>
+            <input matInput [(ngModel)]="search.from" placeholder="Từ" number required/>
+          </mat-form-field>       
+        </div>
+        <div class="eight wide column" *ngIf="search.by == 'in-range'">         
+          <mat-form-field>
+            <input matInput [(ngModel)]="search.to" placeholder="Đến" number required/>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="actions">
+        <button mat-flat-button color="primary" (click)="flyout.hide(); search()">Tìm</button>
+      </div>
+    </content>    
+  </flyout>
+</div>

@@ -89,19 +89,10 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
           this.add();
           break;
       }
-    }));
-
-    this._subscription.add(fromEvent(window, 'resize').subscribe(e => {
-      $(this.el.nativeElement).find('.autoflow').height($(window).height()
-        - $(this.el.nativeElement).find('.toolbar').outerHeight(true)
-        - $(this.el.nativeElement).find('.mat-paginator-container').outerHeight(true));
-    }));
+    }));  
   }
 
-  ngAfterViewInit() {
-    $(this.el.nativeElement).find('.autoflow').height($(window).height()
-      - $(this.el.nativeElement).find('.toolbar').outerHeight(true)
-      - $(this.el.nativeElement).find('.mat-paginator-container').outerHeight(true));
+  ngAfterViewInit() {    
   }
 
   ngOnDestroy() {
@@ -178,5 +169,9 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
           });
         }
       });    
+  }
+
+  height() {
+    return $(window).height() - $('.toolbar').outerHeight(true) - $('.mat-paginator-container').outerHeight(true);
   }
 }

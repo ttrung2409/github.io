@@ -23,29 +23,32 @@
           <dropdown #viewByDropdown
                     [options]="[{value: 'invoice', text: 'Hóa đơn'}, {value: 'customer', text: 'Khách hàng'}]"
                     [label]="'Xem theo'"
-                    [(model)]="viewBy">
+                    [(model)]="viewBy"
+                    [clearable]="false">
           </dropdown>
         </div>
-        <div class="sixteen wide column">
+        <div class="eight wide column">
           <mat-form-field>
-            <input matInput [matDatepicker]="fromDatePicker" placeholder="Từ ngày" [(ngModel)]="fromDate">
+            <input matInput [matDatepicker]="fromDatePicker" placeholder="Từ ngày" [(ngModel)]="fromDate" required>
             <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
             <mat-datepicker #fromDatePicker></mat-datepicker>
           </mat-form-field>
+          <div class="error" *ngIf="errors.has('fromDate')">{{errors.get('fromDate')}}</div>
         </div>
-        <div class="sixteen wide column">
+        <div class="eight wide column">
           <mat-form-field>
-            <input matInput [matDatepicker]="toDatePicker" placeholder="Đến ngày" [(ngModel)]="toDate">
+            <input matInput [matDatepicker]="toDatePicker" placeholder="Đến ngày" [(ngModel)]="toDate" required>
             <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
             <mat-datepicker #toDatePicker></mat-datepicker>
           </mat-form-field>
+          <div class="error" *ngIf="errors.has('toDate')">{{errors.get('toDate')}}</div>
         </div>
         <div class="sixteen wide column">
           <customer-lookup [(model)]="customerId"></customer-lookup>
         </div>
       </div>
       <div class="actions">
-        <button mat-flat-button color="primary" (click)="flyout.hide(); generateReport()">Xem báo cáo</button>
+        <button mat-flat-button color="primary" (click)="generateReport()">Xem báo cáo</button>
       </div>
     </content>
     <actions>

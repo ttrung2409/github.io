@@ -13,6 +13,8 @@ import * as _ from 'lodash'
 import SearchModel from 'src/app/models/search';
 import { IncomeByInvoiceComponent } from './income-by-invoice.component';
 import { IncomeByCustomerComponent } from './income-by-customer.component';
+import v8n from 'v8n'
+
 declare var $: any;
 
 @Component({
@@ -35,19 +37,15 @@ export class IncomeComponent implements OnInit, AfterViewInit, OnDestroy {
   customerId: number;
   fromDate: string = moment().format();
   toDate: string = moment().format();
+  errors: Map<string, string> = new Map();
 
   ngOnInit() {    
     this._subscription.add(fromEvent(document, 'keydown').subscribe((e: KeyboardEvent) => {
       this.handleKeydown(e);
     }));
-
-    this._subscription.add(fromEvent(window, 'resize').subscribe(e => {
-      $(this.el.nativeElement).find('.content').height($(window).height() - 50); 
-    }));
   }
 
   ngAfterViewInit() {
-    $(this.el.nativeElement).find('.content').height($(window).height() - 50); 
   }
 
   ngOnDestroy() {
@@ -65,7 +63,10 @@ export class IncomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }    
   }
   
-  generateReport() {    
+  generateReport() {
+    if (!this.validate()) return;
+
+    this.flyout.hide();
     switch (this.viewBy) {
       case 'invoice':
         this.incomeByInvoice.generateReport({
@@ -84,5 +85,18 @@ export class IncomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
         break;
     }
+  }
+
+  validate() {
+    this.errors.clear();
+    if (v8n().empty().test(this.fromDate || '')) {
+      this.errors.set('fromDate', 'Vui lòng nhập ngày');
+    }
+
+    if (v8n().empty().test(this.toDate || '')) {
+      this.errors.set('toDate', 'Vui lòng nhập ngày');
+    }
+
+    return this.errors.size == 0;
   }
 }

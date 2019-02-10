@@ -72,4 +72,8 @@ export class IncomeByCustomerComponent implements OnInit {
   onSortChange({ orderBy, isDesc }) {
     this.customers = _.orderBy(this.customers, orderBy, isDesc ? 'desc' : 'asc');
   }
+
+  height() {
+    return $(window).height() - $('.toolbar').outerHeight(true);
+  }
 }

@@ -1,10 +1,11 @@
-<div>
+<div #container class="grid-container autoflow">
   <table mat-table [dataSource]="bindingDataSource" matSort
          [matSortDisableClear]="true"
          [matSortActive]="defaultSearch.orderBy"
          [matSortDirection]="defaultSearch.isDesc ? 'desc' : 'asc'"
          (matSortChange)="onSortChange($event)"
-         class="mat-elevation-z1">
+         class="mat-elevation-z1"
+         *ngIf="!virtualScroll">
     <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.field">
       <th mat-header-cell *matHeaderCellDef
           [mat-sort-header]="column.field"          
@@ -31,5 +32,46 @@
       <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: isFooterSticky"></tr>
     </ng-container>
   </table>
+  <div *ngIf="virtualScroll">
+    <table mat-table [dataSource]="[]" matSort
+         [matSortDisableClear]="true"
+         [matSortActive]="defaultSearch.orderBy"
+         [matSortDirection]="defaultSearch.isDesc ? 'desc' : 'asc'"
+         (matSortChange)="onSortChange($event)">
+    <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.field">
+      <th mat-header-cell *matHeaderCellDef
+          [mat-sort-header]="column.field"
+          [disabled]="!column.sortable"
+          [style.width]="column.width || 'auto'">
+        {{column.caption}}
+      </th>
+      <ng-container *ngIf="showFooter">
+        <td mat-footer-cell *matFooterCellDef>{{getFooterValue(column.footer)}}</td>
+      </ng-container>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: isHeaderSticky"></tr>  
+  </table>
+  <cdk-virtual-scroll-viewport [itemSize]="rowHeight" class="virtual-scroll-viewport">
+    <table class="mat-table">
+      <tr *cdkVirtualFor="let row of bindingDataSource" [style.height]="rowHeight + 'px'" class="mat-row">
+        <td *ngFor="let column of columns" [style.width]="column.width || 'auto'">
+          <ng-template [ngIf]="!!column.isNumber" [ngIfElse]="elseBlock">
+            {{column.format(getCellData(row, column), row) | number}}
+          </ng-template>
+          <ng-template #elseBlock>
+            {{column.format(getCellData(row, column), row)}}
+          </ng-template>
+        </td>
+      </tr>
+    </table>
+  </cdk-virtual-scroll-viewport>
+  <table *ngIf="showFooter" class="mat-table mat-elevation-z1 footer">
+    <tr class="mat-footer-row">
+      <td class="mat-footer-cell" *ngFor="let column of columns" [style.width]="column.width || 'auto'">
+        {{getFooterValue(column.footer)}}
+      </td>
+    </tr>
+  </table>
+  </div>
 </div>
 

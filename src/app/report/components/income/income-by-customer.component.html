@@ -4,5 +4,7 @@
       [isHeaderSticky]="true"
       [isFooterSticky]="true"
       [defaultSearch]="{orderBy: 'income', isDesc: true}"
-      (sortChange)="onSortChange($event)">
+      (sortChange)="onSortChange($event)"
+      [height]="height"
+      [virtualScroll]="true">
 </grid>

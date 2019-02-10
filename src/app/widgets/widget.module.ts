@@ -20,13 +20,17 @@ import { ProductLookupComponent } from './product-lookup/product-lookup.componen
 import { HotkeyModule } from 'angular2-hotkeys';
 import { FormatNumberPipe } from '../pipes/number.pipe';
 import { NumberDirective } from '../directives/number.directive';
-import { MatDialogModule, MatDatepickerModule } from '@angular/material';
+import { MatDialogModule, MatDatepickerModule, MatRadioModule } from '@angular/material';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { CustomerLookupComponent } from './customer-lookup/customer-lookup.component';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DATE_FORMATS } from '../app.config';
+import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 
 @NgModule({  
   imports: [
@@ -48,7 +52,9 @@ import { CustomerLookupComponent } from './customer-lookup/customer-lookup.compo
     MatDatepickerModule,
     MatPaginatorModule,
     MatProgressBarModule,
-    MatSortModule
+    MatSortModule,
+    MatRadioModule,
+    ScrollDispatchModule
   ],
   declarations: [
     GridComponent,
@@ -88,9 +94,14 @@ import { CustomerLookupComponent } from './customer-lookup/customer-lookup.compo
     MatProgressBarModule,
     MatSortModule,
     ConfirmDialogComponent,
-    CustomerLookupComponent
+    CustomerLookupComponent,
+    ScrollDispatchModule,
+    MatRadioModule,
   ],
   schemas: [NO_ERRORS_SCHEMA],
-  providers: []
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS }
+  ]
 })
 export class WidgetModule { }

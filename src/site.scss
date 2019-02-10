@@ -81,3 +81,20 @@
   color: lightgrey !important;
 }
 
+.mat-radio-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .mat-radio-button {
+    margin-bottom: 16px;
+  }
+}
+
+.flex-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+

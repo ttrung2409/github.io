@@ -26,8 +26,8 @@ export default class HttpService {
     return this.http.put<T>(`${baseUrl}/${url}`, model, { headers });
   }
 
-  _delete(url: string): Observable<{}> {    
-    return this.http.delete(`${baseUrl}/${url}`, { headers });
+  _delete(url: string, params?: any): Observable<{}> {    
+    return this.http.delete(`${baseUrl}/${url}`, { headers, params });
   }
 
   _search<T>(url: string, data: any): Observable<PagedResult<T>> {

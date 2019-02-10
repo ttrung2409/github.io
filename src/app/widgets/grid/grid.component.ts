@@ -3,6 +3,7 @@ import { Subscription, fromEvent } from 'rxjs';
 import { Key } from 'ts-keycode-enum';
 import { Sort, MatSort } from '@angular/material';
 import { APP_GLOBAL } from 'src/app/app.global';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'grid',
@@ -11,10 +12,13 @@ import { APP_GLOBAL } from 'src/app/app.global';
 })
 export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {  
   private _differ: IterableDiffer<any>;
-  private _subscription: Subscription;
+  private _hotkeySubscription: Subscription;
+  private _subscription: Subscription = new Subscription();
   private _global: any;
 
-  constructor(private differs: IterableDiffers, @Inject(APP_GLOBAL) global) {
+  constructor(private differs: IterableDiffers,
+    @Inject(APP_GLOBAL) global,
+    private el: ElementRef) {
     this._differ = differs.find([]).create(null);
     this._global = global;
   }
@@ -26,6 +30,9 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
   @Input() isHeaderSticky: boolean = true;
   @Input() isFooterSticky: boolean;
   @Input() defaultSearch: any = {};
+  @Input() height: string | Function;
+  @Input() virtualScroll: boolean;
+  @Input() rowHeight: number = 40;
 
   @Output() rowClick = new EventEmitter();
   @Output() selectedIndexChange = new EventEmitter();
@@ -34,6 +41,8 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
   @Output() sortChange = new EventEmitter();
 
   @ViewChild(MatSort) matSort: MatSort;
+  @ViewChild(CdkVirtualScrollViewport) viewport;
+  @ViewChild('container') container: ElementRef;
 
   bindingDataSource: any[];
 
@@ -46,7 +55,43 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
       column.format = column.format || ((value, item) => value);      
     }
 
-    this.enableHotkeys();  
+    this.enableHotkeys();
+   
+    if (!!this.height) {
+      this._subscription.add(fromEvent(window, 'resize').subscribe(e => {
+        let height = typeof (this.height) === 'function' ? this.height() : this.height
+        $(this.container.nativeElement).height(height);
+        if (this.virtualScroll) {
+          let viewportHeight = height - $(this.el.nativeElement).find('.mat-header-row').outerHeight(true);
+          if (this.showFooter) {
+            viewportHeight -= $(this.el.nativeElement).find('.footer').outerHeight(true);
+          }
+
+          $(this.el.nativeElement).find('.virtual-scroll-viewport').height(viewportHeight);
+          this.viewport.checkViewportSize(); 
+        }
+      }));
+    }  
+  } 
+
+  ngAfterViewInit() {
+    if (!!this.height) {      
+      setTimeout(() => {
+        let height = typeof (this.height) === 'function' ? this.height() : this.height
+        $(this.container.nativeElement).height(height);
+        if (this.virtualScroll) {
+          let viewportHeight = height - $(this.el.nativeElement).find('.mat-header-row').outerHeight(true);
+          if (this.showFooter) {
+            viewportHeight -= $(this.el.nativeElement).find('.footer').outerHeight(true);
+          }
+
+          $(this.el.nativeElement).find('.virtual-scroll-viewport').height(viewportHeight);
+          this.viewport.checkViewportSize();
+        }
+      });       
+    }
+
+    this.setColumnWidth();
   }
 
   ngDoCheck() {    
@@ -60,8 +105,33 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
 
   ngOnDestroy() {
     this.disableHotkeys();
+    this._subscription.unsubscribe();
   }
-  
+
+  setColumnWidth() {
+    let widthInPercent = 100;
+    let widthInPx = $(this.container.nativeElement).width();
+    let count = this.columns.length;
+    for (let column of this.columns) {
+      if (!!column.width) {
+        if (column.width.endsWith('%')) {
+          widthInPercent -= parseFloat(column.width.match(/(\d)+%/)[0]);
+        }
+        else if (column.width.endsWith('px')) {
+          widthInPercent -= parseFloat(column.width.match(/(\d)+px/)[0]) / widthInPx * 100;
+        }
+
+        count--;
+      }
+    }
+
+    if (count > 0) {      
+      this.columns = this.columns.map(x => Object.assign(x, {
+        width: !x.width ? `${widthInPercent / count}%` : x.width 
+      }));      
+    }
+  }
+
   onRowClick(row, index) {
     this.selectedIndex = index;
     this.selectedIndexChange.emit(this.selectedIndex);
@@ -111,8 +181,8 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
   }
 
   enableHotkeys() {
-    this._subscription = new Subscription();
-    this._subscription.add(fromEvent(document, 'keydown').subscribe((event: KeyboardEvent) => {
+    this._hotkeySubscription = new Subscription();
+    this._hotkeySubscription.add(fromEvent(document, 'keydown').subscribe((event: KeyboardEvent) => {
       if (!this._global.lockHotkeys) {
         this.handleKeyEvent(event);
       }      
@@ -120,7 +190,7 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
   }
 
   disableHotkeys() {
-    this._subscription.unsubscribe();
+    this._hotkeySubscription.unsubscribe();
   }
 }
 

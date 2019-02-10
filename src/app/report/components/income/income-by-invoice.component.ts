@@ -5,6 +5,7 @@ import { GridColumn } from "src/app/widgets/grid/grid.component";
 import * as moment from 'moment'
 import Invoice from "src/app/models/invoice";
 import * as _ from 'lodash'
+import * as $ from 'jquery'
 
 @Component({
   selector: 'income-by-invoice',
@@ -26,7 +27,7 @@ export class IncomeByInvoiceComponent implements OnInit {
       new GridColumn({
         caption: 'Mã HĐ',
         field: 'no',
-        sortable: true
+        sortable: true,        
       }),
       new GridColumn({
         caption: 'Ngày',
@@ -39,6 +40,7 @@ export class IncomeByInvoiceComponent implements OnInit {
       new GridColumn({
         caption: 'Khách hàng',
         field: 'customer.name',
+        width: '25%'
         footer: 'Tổng',
         sortable: true
       }),
@@ -83,11 +85,15 @@ export class IncomeByInvoiceComponent implements OnInit {
         });
       });
 
-      this.invoices = _.orderBy(this.invoices, 'no', 'desc');
+      this.invoices = _.orderBy(this.invoices, 'no', 'desc');      
     });
   }
 
   onSortChange({ orderBy, isDesc }) {
     this.invoices = _.orderBy(this.invoices, orderBy, isDesc ? 'desc' : 'asc');
+  }
+
+  height() {    
+    return $(window).height() - $('.toolbar').outerHeight(true);
   }
 }

@@ -121,7 +121,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
       new GridColumn({
         caption: 'STT',
         field: 'index',
-        width: '100px'
+        width: '10%'
       }),
       new GridColumn({
         caption: 'Tên sản phẩm',
@@ -130,25 +130,25 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
       new GridColumn({
         caption: 'ĐVT',
         field: 'product.uom',
-        width: '100px'
+        width: '10%'
       }),
       new GridColumn({
         caption: 'SL',
         field: 'qty',
-        width: '100px',
+        width: '10%',
         isNumber: true
       }),
       new GridColumn({
         caption: 'Giá',
         field: 'price',
-        width: '180px',
+        width: '20%',
         isNumber: true,
         footer: 'Tổng'
       }),
       new GridColumn({
         caption: 'Thành tiền',
         field: 'total',
-        width: '200px',
+        width: '20%',
         isNumber: true,
         footer: function () {
           return this.utils.formatNumber(this.invoice.items.reduce((acc, item) => acc += item.total, 0));
@@ -355,5 +355,9 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
   view() {
     this.flyoutView = 'overview';
     this.flyout.show();
+  }
+
+  height() {
+    return $(window).height() - $('.mat-toolbar').outerHeight(true) - $('.dropdown-container').outerHeight();
   }
 }
