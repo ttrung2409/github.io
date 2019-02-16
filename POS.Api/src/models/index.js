@@ -5,7 +5,10 @@ import Product from './product'
 import Uom from './uom'
 import Invoice from './invoice'
 import InvoiceItem from './invoiceItem'
-import Payment from './Payment'
+import Payment from './payment'
+import User from './user'
+import Permission from './permission'
+import UserPermission from './userPermission'
 
 const models = {
   Category,
@@ -15,7 +18,10 @@ const models = {
   Uom,
   Invoice,
   InvoiceItem,
-  Payment
+  Payment,
+  User,
+  Permission,
+  UserPermission
 }
 
 for (let key of Object.keys(models)) {

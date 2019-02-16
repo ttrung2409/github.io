@@ -38,4 +38,15 @@
     display: flex;
     justify-content: space-between;
   }
+
+  .mat-footer-cell div {
+    &.balance {
+      border-top: 1px solid lightgrey;
+      padding-top: 8px;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 8px;
+    }
+  }
 }

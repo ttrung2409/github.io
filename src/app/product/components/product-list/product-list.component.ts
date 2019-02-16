@@ -13,6 +13,7 @@ import { PageEvent, MatDialog } from '@angular/material';
 import { APP_CONFIG } from 'src/app/app.config';
 import { ConfirmDialogComponent } from 'src/app/widgets/confirm-dialog/confirm-dialog.component';
 import DialogResult from 'src/app/valueObjects/DialogResult';
+import { NotifierService } from 'angular-notifier';
 
 declare var $: any;
 
@@ -29,7 +30,8 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
     private productService: ProductService,
     @Inject(APP_CONFIG) config,
     private el: ElementRef,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,
+    private notifier: NotifierService) {
     this.config = config;
     this.defaultSearch = new SearchModel({
       orderBy: 'no',
@@ -136,7 +138,8 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe(result => {
         this.grid.enableHotkeys();
         if (result == DialogResult.OK) {
-          this.productService.delete(product.id).subscribe(() => {            
+          this.productService.delete(product.id).subscribe(() => {
+            this.notifier.notify('success', 'Xóa thành công');
             this.search(this.searchModel);            
           });
         }

@@ -6,5 +6,6 @@ export const appRoutes: Routes = [
   { path: 'retail', loadChildren: './retail/retail.module#RetailModule' },
   { path: 'report', loadChildren: './report/report.module#ReportModule' },
   { path: 'customer', loadChildren: './customer/customer.module#CustomerModule' },
-  { path: 'bulk-data', loadChildren: './bulk-data/bulk-data.module#BulkDataModule' }  
+  { path: 'bulk-data', loadChildren: './bulk-data/bulk-data.module#BulkDataModule' },
+  { path: 'user', loadChildren: './user/user.module#UserModule' }  
 ];

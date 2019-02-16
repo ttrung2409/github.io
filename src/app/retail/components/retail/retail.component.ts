@@ -62,11 +62,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
   searching: boolean = false;
   lockHotkeys: boolean = false;
   isLoading: boolean = false;
-  invoices: Invoice[] = [];
-
-  get desc() {
-    return this.invoice.status == InvoiceStatus.Paid ? `${this.invoice.no} - Đã thanh toán` : (this.invoice.no || '');
-  }
+  invoices: Invoice[] = [];  
 
   get canSave() {
     return this.invoice.items.length > 0;
@@ -143,7 +139,12 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
         field: 'price',
         width: '20%',
         isNumber: true,
-        footer: 'Tổng'
+        footer: function () {
+          return this.invoice.status == InvoiceStatus.New ? `<div>Tổng</div>`
+            : `<div>Tổng</div>
+              <div>Thanh toán</div>
+              <div class="balance">Còn lại</div>`
+        }.bind(this)
       }),
       new GridColumn({
         caption: 'Thành tiền',
@@ -151,7 +152,10 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
         width: '20%',
         isNumber: true,
         footer: function () {
-          return this.utils.formatNumber(this.invoice.items.reduce((acc, item) => acc += item.total, 0));
+          return this.invoice.status == InvoiceStatus.New ? `<div>${ this.utils.formatNumber(this.invoice.computedTotal)}</div>`
+            : `<div>${this.utils.formatNumber(this.invoice.computedTotal)}</div>                  
+                <div>${this.utils.formatNumber(Math.min(this.invoice.computedTotal, this.invoice.computedAmountPaid))}</div>
+                <div class="balance">${this.utils.formatNumber(Math.max(this.invoice.computedTotal - this.invoice.computedAmountPaid, 0))}</div>`
         }.bind(this)
       })
     ];
@@ -329,6 +333,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
       subTotal: this.invoice.computedSubTotal,
       total: this.invoice.computedTotal,
       totalCost: this.invoice.computedTotalCost,
+      amountPaid: !!payment ? Math.min(payment.amount, this.invoice.computedTotal) : 0,
       status: !!payment ? InvoiceStatus.Paid : this.invoice.status,
       customerId: !!payment ? payment.customerId : this.invoice.customerId,
       payments: !!payment ? [payment] : undefined

@@ -20,7 +20,7 @@ import { ProductLookupComponent } from './product-lookup/product-lookup.componen
 import { HotkeyModule } from 'angular2-hotkeys';
 import { FormatNumberPipe } from '../pipes/number.pipe';
 import { NumberDirective } from '../directives/number.directive';
-import { MatDialogModule, MatDatepickerModule, MatRadioModule } from '@angular/material';
+import { MatDialogModule, MatDatepickerModule, MatRadioModule, MatListModule } from '@angular/material';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -54,7 +54,8 @@ import { ScrollDispatchModule } from '@angular/cdk/scrolling';
     MatProgressBarModule,
     MatSortModule,
     MatRadioModule,
-    ScrollDispatchModule
+    ScrollDispatchModule,
+    MatListModule    
   ],
   declarations: [
     GridComponent,
@@ -97,6 +98,7 @@ import { ScrollDispatchModule } from '@angular/cdk/scrolling';
     CustomerLookupComponent,
     ScrollDispatchModule,
     MatRadioModule,
+    MatListModule
   ],
   schemas: [NO_ERRORS_SCHEMA],
   providers: [

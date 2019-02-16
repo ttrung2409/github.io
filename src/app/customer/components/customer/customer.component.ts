@@ -3,6 +3,7 @@ import Customer, { CustomerType } from '../../../models/customer';
 import CustomerService from '../../../services/customer.service';
 import { Key } from 'ts-keycode-enum';
 import v8n from 'v8n'
+import { NotifierService } from 'angular-notifier';
 
 declare var $: any;
 
@@ -12,7 +13,7 @@ declare var $: any;
   styleUrls: ['./customer.component.scss']
 })
 export class CustomerComponent implements OnInit {
-  constructor(private customerService: CustomerService) { }
+  constructor(private customerService: CustomerService, private notifier: NotifierService) { }
 
   @Input() id: number;
   @Output() cancel = new EventEmitter();
@@ -51,6 +52,7 @@ export class CustomerComponent implements OnInit {
   save() {
     if (this.validate()) {
       this.customerService.save(this.customer).subscribe(customer => {
+        this.notifier.notify('success', 'Lưu thành công');
         this.commit.emit();
       });
     }    

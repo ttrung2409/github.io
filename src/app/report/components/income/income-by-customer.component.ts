@@ -41,8 +41,26 @@ export class IncomeByCustomerComponent implements OnInit {
         isNumber: true,
         sortable: true,
         footer: function () {
-          return this.utils.formatNumber(this.customers.reduce((acc, customer) => acc + parseFloat(customer.income || 0), 0));
+          return this.utils.formatNumber(this.customers.reduce((acc, customer) => acc + customer.income, 0));
         }.bind(this)
+      }),
+      new GridColumn({
+        caption: 'Thanh toán',
+        field: 'amountPaid',
+        isNumber: true,
+        footer: function () {
+          return this.utils.formatNumber(this.customers.reduce((acc, customer) => acc + customer.amountPaid, 0));
+        }.bind(this),
+        sortable: true
+      }),
+      new GridColumn({
+        caption: 'Nợ',
+        field: 'balance',
+        isNumber: true,
+        footer: function () {
+          return this.utils.formatNumber(this.customers.reduce((acc, customer) => acc + customer.balance, 0));
+        }.bind(this),
+        sortable: true
       }),
       new GridColumn({
         caption: 'Giá vốn',
@@ -50,7 +68,7 @@ export class IncomeByCustomerComponent implements OnInit {
         isNumber: true,
         sortable: true,
         footer: function () {
-          return this.utils.formatNumber(this.customers.reduce((acc, customer) => acc + parseFloat(customer.cost || 0), 0));
+          return this.utils.formatNumber(this.customers.reduce((acc, customer) => acc + customer.cost, 0));
         }.bind(this)
       }),
       new GridColumn({
@@ -59,14 +77,22 @@ export class IncomeByCustomerComponent implements OnInit {
         isNumber: true,
         sortable: true,
         footer: function () {
-          return this.utils.formatNumber(this.customers.reduce((acc, customer) => acc + parseFloat(customer.profit || 0), 0));
+          return this.utils.formatNumber(this.customers.reduce((acc, customer) => acc + customer.profit, 0));
         }.bind(this)
       })
     ];
   }
 
   generateReport({ customerId, fromDate, toDate }) {
-    this.reportService.getIncomeByCustomer({ customerId, fromDate, toDate }).subscribe(customers => {      
+    this.reportService.getIncomeByCustomer({ customerId, fromDate, toDate }).subscribe(customers => {
+      customers = customers.map(x => Object.assign(x, {
+        income: parseFloat(x.income || 0),
+        cost: parseFloat(x.cost || 0),
+        profit: parseFloat(x.profit || 0),
+        amountPaid: parseFloat(x.amountPaid || 0),
+        balance: parseFloat(x.balance || 0)
+      }));
+
       this.customers = _.orderBy(customers, 'income', 'desc');
     });
   }

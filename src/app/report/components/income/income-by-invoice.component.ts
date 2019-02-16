@@ -54,11 +54,29 @@ export class IncomeByInvoiceComponent implements OnInit {
         sortable: true
       }),
       new GridColumn({
+        caption: 'Thanh toán',
+        field: 'amountPaid',
+        isNumber: true,
+        footer: function () {
+          return this.utils.formatNumber(this.invoices.reduce((acc, invoice) => acc + invoice.amountPaid, 0));
+        }.bind(this),
+        sortable: true
+      }),
+      new GridColumn({
+        caption: 'Nợ',
+        field: 'balance',
+        isNumber: true,
+        footer: function () {
+          return this.utils.formatNumber(this.invoices.reduce((acc, invoice) => acc + invoice.balance, 0));
+        }.bind(this),
+        sortable: true
+      }),
+      new GridColumn({
         caption: 'Giá vốn',
         field: 'totalCost',
         isNumber: true,
         footer: function () {          
-          return this.utils.formatNumber(this.invoices.reduce((acc, invoice) => acc + parseFloat(invoice.totalCost || 0), 0));
+          return this.utils.formatNumber(this.invoices.reduce((acc, invoice) => acc + invoice.totalCost, 0));
         }.bind(this),
         sortable: true
       }),
@@ -67,21 +85,22 @@ export class IncomeByInvoiceComponent implements OnInit {
         field: 'profit',
         isNumber: true,
         footer: function () {
-          return this.utils.formatNumber(this.invoices.reduce((acc, invoice) => acc + invoice.total - invoice.totalCost, 0));
+          return this.utils.formatNumber(this.invoices.reduce((acc, invoice) => acc + invoice.profit, 0));
         }.bind(this),
         sortable: true
-      })
+      })      
     ];
   }
 
   generateReport({ customerId, fromDate, toDate }) {
     this.reportService.getIncomeByInvoice({ customerId, fromDate, toDate }).subscribe(invoices => {
       this.invoices = invoices.map(x => {
-        let total = x.subTotal - (x.discount || 0) + (x.tax || 0) + (x.freight || 0) + (x.fee || 0);
         return Object.assign(x, {
-          total,
-          totalCost: x.totalCost || 0,
-          profit: total - x.totalCost
+          total: parseFloat(x.total || 0),
+          totalCost: parseFloat(x.total || 0),
+          profit: x.total - x.totalCost,
+          amountPaid: parseFloat(x.amountPaid || 0),
+          balance: x.total - x.amountPaid
         });
       });
 

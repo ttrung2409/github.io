@@ -39,6 +39,7 @@
     </Compile>
     <Compile Include="src\controllers\product.js" />
     <Compile Include="src\controllers\report.js" />
+    <Compile Include="src\controllers\user.js" />
     <Compile Include="src\dbContext.js" />
     <Compile Include="src\models\payment.js" />
     <Compile Include="src\models\invoiceItem.js" />
@@ -47,8 +48,11 @@
     <Compile Include="src\models\customer.js" />
     <Compile Include="src\models\customerType.js" />
     <Compile Include="src\models\index.js" />
+    <Compile Include="src\models\permission.js" />
     <Compile Include="src\models\product.js" />
     <Compile Include="src\models\uom.js" />
+    <Compile Include="src\models\user.js" />
+    <Compile Include="src\models\userPermission.js" />
     <Compile Include="src\repositories\bulkDataRepository.js" />
     <Compile Include="src\repositories\categoryRepository.js" />
     <Compile Include="src\repositories\paymentRepository.js" />
@@ -57,11 +61,13 @@
     <Compile Include="src\repositories\productRepository.js" />
     <Compile Include="src\repositories\repositoryBase.js" />
     <Compile Include="src\repositories\uomRepository.js" />
+    <Compile Include="src\repositories\userRepository.js" />
     <Compile Include="src\services\bulkDataService.js" />
     <Compile Include="src\services\customerService.js" />
     <Compile Include="src\services\invoiceService.js" />
     <Compile Include="src\services\productService.js" />
     <Compile Include="src\services\reportService.js" />
+    <Compile Include="src\services\userService.js" />
     <Compile Include="src\transaction.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />

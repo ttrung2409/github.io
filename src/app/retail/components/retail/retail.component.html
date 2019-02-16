@@ -1,6 +1,6 @@
 <div class="retail">
   <toolbar>
-    <toolbar-title>Bán lẻ {{desc}}</toolbar-title>
+    <toolbar-title>Bán lẻ {{invoice.no}} - {{invoice.date | date:'dd/MM/yyyy'}}</toolbar-title>
     <right>
       <div class="toolbar-search">
         <typeahead #searchInput [options]="invoices" *ngIf="searching"                 

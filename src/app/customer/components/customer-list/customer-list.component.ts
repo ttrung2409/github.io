@@ -12,6 +12,7 @@ import { ConfirmDialogComponent } from 'src/app/widgets/confirm-dialog/confirm-d
 import DialogResult from 'src/app/valueObjects/DialogResult';
 import { APP_CONFIG } from 'src/app/app.config';
 import SearchModel from 'src/app/models/search';
+import { NotifierService } from 'angular-notifier';
 
 declare var $: any;
 
@@ -27,7 +28,8 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
     private customerService: CustomerService,
     private dialog: MatDialog,
     @Inject(APP_CONFIG) config,
-    private el: ElementRef) {
+    private el: ElementRef,
+    private notifier: NotifierService) {
     this.defaultSearch = new SearchModel({
       orderBy: 'no',
       isDesc: true,
@@ -168,6 +170,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
         this.grid.enableHotkeys();
         if (result == DialogResult.OK) {
           this.customerService.delete(customer.id).subscribe(() => {
+            this.notifier.notify('success', 'Xóa thành công');
             this.search(this.searchModel);
           });
         }

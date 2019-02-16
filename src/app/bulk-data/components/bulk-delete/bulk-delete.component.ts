@@ -10,6 +10,7 @@ import DialogResult from 'src/app/valueObjects/DialogResult';
 import Product from 'src/app/models/product';
 import * as _ from 'lodash'
 import Customer from 'src/app/models/customer';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'bulk-delete',
@@ -20,7 +21,8 @@ export class BulkDeleteComponent implements OnInit {
 
   constructor(private bulkDataService: BulkDataService,
     private utils: UtilsService,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private notifier: NotifierService) { }
 
   @ViewChild(FlyoutComponent) flyout;
   
@@ -68,12 +70,14 @@ export class BulkDeleteComponent implements OnInit {
           switch (this.viewBy) {
             case 'product':
               this.bulkDataService.deleteProductsWithIncomeBetween(_.pickBy(this.params, x => x !== null)).subscribe(() => {
+                this.notifier.notify('success', 'Xóa thành công');
                 this.products = [];
               });
 
               break;
             case 'customer':
               this.bulkDataService.deleteCustomersWithIncomeBetween(_.pickBy(this.params, x => x !== null)).subscribe(() => {
+                this.notifier.notify('success', 'Xóa thành công');
                 this.customers = [];
               });
 

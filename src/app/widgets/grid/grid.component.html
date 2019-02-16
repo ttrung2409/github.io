@@ -22,7 +22,7 @@
         </ng-template>
       </td>
       <ng-container *ngIf="showFooter">
-        <td mat-footer-cell *matFooterCellDef>{{getFooterValue(column.footer)}}</td>
+        <td mat-footer-cell *matFooterCellDef [innerHtml]="getFooterValue(column.footer)"></td>
       </ng-container>
     </ng-container>
 
@@ -67,8 +67,9 @@
   </cdk-virtual-scroll-viewport>
   <table *ngIf="showFooter" class="mat-table mat-elevation-z1 footer">
     <tr class="mat-footer-row">
-      <td class="mat-footer-cell" *ngFor="let column of columns" [style.width]="column.width || 'auto'">
-        {{getFooterValue(column.footer)}}
+      <td class="mat-footer-cell" *ngFor="let column of columns"
+          [style.width]="column.width || 'auto'"
+          [innerHtml]="getFooterValue(column.footer)">        
       </td>
     </tr>
   </table>

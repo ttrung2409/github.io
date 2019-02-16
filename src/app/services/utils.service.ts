@@ -4,8 +4,8 @@ import * as moment from 'moment'
 
 @Injectable()
 export default class UtilsService {
-  formatNumber(numberIn, prefix = '') {
-    if (!numberIn) return '';
+  formatNumber(numberIn, prefix = '') {    
+    if (numberIn === undefined || numberIn === null || numberIn === '') return '';
 
     let number = numberIn.toString().replace(/\.\d\d$/, '');
     let thousandSeparator = ',';

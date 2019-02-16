@@ -6,6 +6,7 @@ import { Key } from 'ts-keycode-enum';
 import UtilsService from '../../../services/utils.service';
 import v8n from "v8n";
 import { APP_GLOBAL } from 'src/app/app.global';
+import { NotifierService } from 'angular-notifier';
 
 declare var $: any;
 
@@ -17,7 +18,11 @@ declare var $: any;
 export class ProductComponent implements OnInit, OnChanges {
   private _global: any;
 
-  constructor(private productService: ProductService, public utils: UtilsService, @Inject(APP_GLOBAL) global) {
+  constructor(
+    private productService: ProductService,
+    private utils: UtilsService,
+    @Inject(APP_GLOBAL) global,
+    private notifier: NotifierService) {
     this._global = global;
   }
 
@@ -67,6 +72,7 @@ export class ProductComponent implements OnInit, OnChanges {
   save() {
     if (this.validate()) {
       this.productService.save(this.product).subscribe(() => {
+        this.notifier.notify('success', 'Lưu thành công');
         this.commit.emit();
       });
     }              

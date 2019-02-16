@@ -21,13 +21,14 @@ export default class Invoice {
   public subTotal: number;
   public totalCost: number;
   public total: number;
+  public amountPaid: number;
 
   public customer: Customer = new Customer();
   public items: InvoiceItem[] = [];
   public payments: Payment[] = [];
 
   get computedSubTotal(): number {
-    return this.items.length > 0 ? this.items.reduce((acc, item) => acc + item.total, 0) : this.subTotal;
+    return this.items.reduce((acc, item) => acc + item.total, 0);
   }  
 
   get computedTotal(): number {
@@ -35,7 +36,11 @@ export default class Invoice {
   }
 
   get computedTotalCost(): number {
-    return this.items.length > 0 ? this.items.reduce((acc, item) => acc + item.totalCost, 0) : this.totalCost;
+    return this.items.reduce((acc, item) => acc + item.totalCost, 0);
+  }
+
+  get computedAmountPaid(): number {
+    return this.payments.reduce((acc, payment) => acc += payment.amount, 0);
   }
   
   static from(src: Invoice) {
