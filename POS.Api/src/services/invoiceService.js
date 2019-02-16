@@ -17,19 +17,21 @@ export default class InvoiceService {
         promise = invoiceRepository.create(invoice, { transaction: t.value });
       }
 
-      return promise.then(invoice => {
-
+      return promise.then(invoice => {        
         if (!payment) {
           return t.commit().then(() => invoice);
         }
-
+        
         if (payment.id > 0) {
           return paymentRepository.update(payment, { id: payment.id }, { transaction: t.value }).then(() => {
             return t.commit().then(() => invoice);
           });
         }
         else {
-          return t.commit().then(() => invoice);
+          payment.invoiceId = invoice.id;
+          return paymentRepository.create(payment, { transaction: t.value }).then(() => {
+            return t.commit().then(() => invoice);
+          });
         }
       }).then(invoice => this.getFull(invoice.id)).catch(err => {
         console.log(err);

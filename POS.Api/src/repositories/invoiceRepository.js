@@ -73,7 +73,7 @@ export default class InvoiceRepository extends RepositoryBase {
         invoice.no = !!model ? `${parseFloat(model.no) + 1}` : '100000';
         return _this.modelDef.create(invoice, {
           transaction: t,
-          include: [{ association: 'items' }, { association: 'payments' }]
+          include: [{ association: 'items' }]
         }).then(model => model.get({ plain: true }));
       });
     }    
