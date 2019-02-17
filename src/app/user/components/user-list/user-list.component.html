@@ -2,15 +2,21 @@
   <toolbar [showProgress]="isLoading">
     <toolbar-title>Quản lý người dùng</toolbar-title>
     <actions>
-      <button mat-button (click)="add()">
+      <button mat-button (click)="new()">
         <mat-icon>add</mat-icon>
         (F2)
       </button>
+      <button mat-button (click)="save()">
+        <mat-icon>save</mat-icon>
+        (F9)
+      </button>
     </actions>
   </toolbar>
-  <mat-list class="list mat-elevation-z1">
-    <mat-list-item mat-ripple> Pepper </mat-list-item>
-    <mat-list-item mat-ripple> Salt </mat-list-item>
-    <mat-list-item mat-ripple> Paprika </mat-list-item>
-  </mat-list>
+  <div class="content">
+    <mat-list class="list mat-elevation-z1">
+      <mat-list-item mat-ripple *ngFor="let user of users" (click)="select($event, user)">{{user.name}}</mat-list-item>
+    </mat-list>
+    <user></user>
+  </div>
+  
 </div>

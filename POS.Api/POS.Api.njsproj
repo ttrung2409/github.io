@@ -58,6 +58,7 @@
     <Compile Include="src\repositories\paymentRepository.js" />
     <Compile Include="src\repositories\invoiceRepository.js" />
     <Compile Include="src\repositories\customerTypeRepository.js" />
+    <Compile Include="src\repositories\permissionRepository.js" />
     <Compile Include="src\repositories\productRepository.js" />
     <Compile Include="src\repositories\repositoryBase.js" />
     <Compile Include="src\repositories\uomRepository.js" />

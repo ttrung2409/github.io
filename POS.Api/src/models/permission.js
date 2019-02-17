@@ -11,9 +11,6 @@ let Permission = context.define('Permission', {
 }, { tableName: 'Permission', timestamps: false });
 
 Permission.associate = function (models) {
-  Permission.hasMany(models.UserPermission, {
-    foreignKey: 'permissionId'
-  });
 }
 
 export default Permission

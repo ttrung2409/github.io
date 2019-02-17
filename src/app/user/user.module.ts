@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { routes } from './user.routing'
 import { WidgetModule } from '../widgets/widget.module';
 import { FormsModule } from '@angular/forms';
+import { UserComponent } from './components/user/user.component';
 
 @NgModule({
   imports: [
@@ -13,7 +14,7 @@ import { FormsModule } from '@angular/forms';
     WidgetModule,
     FormsModule
   ],
-  declarations: [UserListComponent],
+  declarations: [UserListComponent, UserComponent],
   schemas: [NO_ERRORS_SCHEMA]
 })
 export class UserModule { }

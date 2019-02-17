@@ -1,10 +1,17 @@
 .user-list {
   height: 100%;
 
+  .content {
+    display: flex;
+    justify-content: space-between;
+    height: calc(100% - 56px);
+  }
+
   .list {
     cursor: pointer;
-    width: 300px;
-    height: calc(100% - 56px);
+    width: 30%;
     background-color: whitesmoke;
+    margin-right: 8px;
+    overflow-y: auto;    
   }
 }

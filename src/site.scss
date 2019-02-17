@@ -96,5 +96,11 @@
   justify-content: space-between;
 }
 
+.mat-pseudo-checkbox-checked::after {
+  top: 0.4px !important;
+  left: 0px !important;
+  width: 12px !important;
+  height: 8px !important;
+}
 
 

@@ -333,7 +333,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
       subTotal: this.invoice.computedSubTotal,
       total: this.invoice.computedTotal,
       totalCost: this.invoice.computedTotalCost,
-      amountPaid: !!payment ? Math.min(payment.amount, this.invoice.computedTotal) : 0,
+      amountPaid: Math.min(!!payment ? payment.amount : (this.invoice.amountPaid || 0), this.invoice.computedTotal),
       status: !!payment ? InvoiceStatus.Paid : this.invoice.status,
       customerId: !!payment ? payment.customerId : this.invoice.customerId,
       payments: !!payment ? [payment] : undefined

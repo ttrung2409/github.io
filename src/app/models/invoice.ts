@@ -40,7 +40,7 @@ export default class Invoice {
   }
 
   get computedAmountPaid(): number {
-    return this.payments.reduce((acc, payment) => acc += payment.amount, 0);
+    return this.amountPaid > 0 ? this.amountPaid : Math.min(this.payments.reduce((acc, payment) => acc += payment.amount, 0), this.computedTotal);
   }
   
   static from(src: Invoice) {

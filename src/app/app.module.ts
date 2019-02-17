@@ -15,6 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from './app.config';
 import { APP_GLOBAL, AppGlobal } from './app.global'
 import BulkDataService from './services/bulk-data.service';
+import UserService from './services/user.service';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import BulkDataService from './services/bulk-data.service';
     UtilsService,
     ReportService,
     BulkDataService,
+    UserService,
     { provide: APP_CONFIG, useValue: AppConfig },
     { provide: APP_GLOBAL, useValue: AppGlobal }
   ],

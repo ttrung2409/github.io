@@ -79,14 +79,14 @@ export default class InvoiceRepository extends RepositoryBase {
     }    
   }
 
-  updateWithItems(id, invoice, { transaction } = {}) {
+  update(invoice, { transaction } = {}) {
     let _this = this;
-    return !!transaction ? updateWithItems(transaction) : context.transaction(updateWithItems);
+    return !!transaction ? update(transaction) : context.transaction(update);
 
-    function updateWithItems(t) {
+    function update(t) {
       return _this.modelDef.findOne({
         where: {
-          id
+          id: invoice.id
         },
         include: [{ association: 'items' }]
       }, { transaction: t }).then(model => {

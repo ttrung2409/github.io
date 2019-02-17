@@ -11,7 +11,7 @@ export default class InvoiceService {
     return Transaction.begin().then(t => {
       let promise = null;
       if (invoice.id > 0) {
-        promise = invoiceRepository.updateWithItems(invoice.id, invoice, { transaction: t.value });
+        promise = invoiceRepository.update(invoice, { transaction: t.value });
       }
       else {
         promise = invoiceRepository.create(invoice, { transaction: t.value });

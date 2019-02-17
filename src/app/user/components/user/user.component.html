@@ -1,0 +1,41 @@
+<div class="user">
+  <div class="subtitle mat-elevation-z1">Thông tin</div>
+  <form #form="ngForm">
+    <div class="ui grid">
+      <div class="eight wide column">
+        <mat-form-field>
+          <input matInput name="name" [(ngModel)]="user.name" placeholder="Họ tên" required />
+        </mat-form-field>
+        <div class="error" *ngIf="errors.has('name')">{{errors.get('name')}}</div>
+      </div>
+      <div class="eight wide column">
+        <mat-form-field>
+          <input matInput name="phone" [(ngModel)]="user.phone" placeholder="SĐT" />
+        </mat-form-field>
+      </div>
+      <div class="sixteen wide column">
+        <mat-form-field>
+          <input matInput name="username" [(ngModel)]="user.username" placeholder="Tên đăng nhập" required />
+        </mat-form-field>
+        <div class="error" *ngIf="errors.has('username')">{{errors.get('username')}}</div>
+      </div>
+      <div class="eight wide column">
+        <mat-form-field>
+          <input matInput type="password" name="password" [(ngModel)]="user.password" placeholder="Mật khẩu" [required]="!user.id" />
+        </mat-form-field>
+        <div class="error" *ngIf="errors.has('password')">{{errors.get('password')}}</div>
+      </div>
+      <div class="eight wide column">
+        <mat-form-field>
+          <input matInput type="password" name="confirmPassword" [(ngModel)]="user.confirmPassword" placeholder="Nhập lại mật khẩu" [required]="!user.id" />
+        </mat-form-field>
+        <div class="error" *ngIf="errors.has('confirmPassword')">{{errors.get('confirmPassword')}}</div>
+      </div>
+    </div>
+  </form>
+  <div class="subtitle mat-elevation-z1">Quyền truy cập</div>
+ <mat-selection-list [disableRipple]="true">
+   <mat-list-option *ngFor="let permission of allPermissions"
+                    [checkboxPosition]="'before'" [value]="permission.id" [selected]="hasPermission(permission.id)">{{permission.name}}</mat-list-option>
+ </mat-selection-list>
+</div>
