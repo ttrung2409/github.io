@@ -54,7 +54,7 @@ export class UserListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   select(event, user: User) {
     $(this.el.nativeElement).find('.list .mat-list-item-content').css('background-color', 'transparent');
-    $(event.target).addClass('background-color', '#b5d1ff');
+    $(event.target).css('background-color', '#b5d1ff');
     this.userComponent.load(user.id);
   }
 
@@ -66,7 +66,7 @@ export class UserListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.userComponent.save().then(user => {
       let index = this.users.findIndex(x => x.id == user.id);
       if (index == -1) this.users.push(user);
-      else this.users[index] = user;
+      else this.users[index] = user;      
     });
   }
 }

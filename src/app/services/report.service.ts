@@ -5,7 +5,9 @@ import { Observable} from "rxjs";
 import HttpService from "./http.service";
 import Customer from "../models/customer";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export default class ReportService extends HttpService {
   getIncomeByInvoice(params): Observable<Invoice[]> {
     return super._post('report/incomeByInvoice', params);

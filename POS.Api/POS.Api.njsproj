@@ -31,7 +31,9 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="src\config.js" />
     <Compile Include="src\app.js" />
+    <Compile Include="src\controllers\auth.js" />
     <Compile Include="src\controllers\bulkData.js" />
     <Compile Include="src\controllers\invoice.js" />
     <Compile Include="src\controllers\customer.js">
@@ -63,6 +65,7 @@
     <Compile Include="src\repositories\repositoryBase.js" />
     <Compile Include="src\repositories\uomRepository.js" />
     <Compile Include="src\repositories\userRepository.js" />
+    <Compile Include="src\services\authService.js" />
     <Compile Include="src\services\bulkDataService.js" />
     <Compile Include="src\services\customerService.js" />
     <Compile Include="src\services\invoiceService.js" />

@@ -4,7 +4,9 @@ import { Observable } from "rxjs";
 import Product from "../models/product";
 import Customer from "../models/customer";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export default class BulkDataService extends HttpService {
   findProductsWithIncomeBetween(params): Observable<Product[]> {
     return super._post('bulk-data/get/products-with-income-between', params);

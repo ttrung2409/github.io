@@ -23,7 +23,8 @@ export default class UserRepository extends RepositoryBase {
     return this.modelDef.findOne({
       where: {
         username
-      }
+      },
+      include: [{ association: 'permissions' }]
     }).then(model => !!model ? model.get({ plain: true }) : null);
   }
 

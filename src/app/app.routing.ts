@@ -1,7 +1,8 @@
 import { Routes } from '@angular/router'
 
 export const appRoutes: Routes = [
-  { path: '', loadChildren: './retail/retail.module#RetailModule' },
+  { path: '', loadChildren: './login/login.module#LoginModule' },
+  { path: 'login', loadChildren: './login/login.module#LoginModule' },
   { path: 'product', loadChildren: './product/product.module#ProductModule' },
   { path: 'retail', loadChildren: './retail/retail.module#RetailModule' },
   { path: 'report', loadChildren: './report/report.module#ReportModule' },

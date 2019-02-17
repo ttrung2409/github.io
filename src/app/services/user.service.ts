@@ -4,7 +4,9 @@ import { Observable } from "rxjs";
 import User from "../models/user";
 import Permission from "../models/permission";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export default class UserService extends HttpService {
   all(): Observable<User[]> {
     return super._get('user/all');
@@ -20,5 +22,5 @@ export default class UserService extends HttpService {
 
   allPermissions(): Observable<Permission[]> {
     return super._get('user/allPermissions');
-  }
+  }  
 }

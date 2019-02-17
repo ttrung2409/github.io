@@ -33,10 +33,7 @@ export class UserComponent implements OnInit, OnChanges {
     this.userService.allPermissions().subscribe(permissions => this.allPermissions = permissions);
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (!!changes.id && this.id > 0) {      
-      
-    }
+  ngOnChanges(changes: SimpleChanges) {    
   }
 
   new() {
@@ -63,6 +60,7 @@ export class UserComponent implements OnInit, OnChanges {
       this.userService.save(user).subscribe(user => {
         this.notifier.notify('success', 'Lưu thành công');
         this.user = user;
+        this.user.confirmPassword = '';
         resolve(_.cloneDeep(user));
       }, err => this.notifier.notify('error', err.error));
     });

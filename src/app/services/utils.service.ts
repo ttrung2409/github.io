@@ -2,7 +2,9 @@ import { Injectable } from "@angular/core";
 import * as _ from 'lodash'
 import * as moment from 'moment'
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export default class UtilsService {
   formatNumber(numberIn, prefix = '') {    
     if (numberIn === undefined || numberIn === null || numberIn === '') return '';

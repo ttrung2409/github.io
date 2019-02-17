@@ -6,16 +6,9 @@ import { appRoutes } from './app.routing';
 import { RouterModule, PreloadAllModules } from '@angular/router';
 import { WidgetModule } from './widgets/widget.module'
 import { NotifierModule } from 'angular-notifier';
-import ProductService from './services/product.service';
-import InvoiceService from './services/invoice.service';
-import CustomerService from './services/customer.service';
-import UtilsService from './services/utils.service';
-import ReportService from './services/report.service';
 import { HttpClientModule } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from './app.config';
 import { APP_GLOBAL, AppGlobal } from './app.global'
-import BulkDataService from './services/bulk-data.service';
-import UserService from './services/user.service';
 
 @NgModule({
   declarations: [
@@ -43,14 +36,7 @@ import UserService from './services/user.service';
       }
     })
   ],
-  providers: [
-    ProductService,
-    InvoiceService,
-    CustomerService,
-    UtilsService,
-    ReportService,
-    BulkDataService,
-    UserService,
+  providers: [    
     { provide: APP_CONFIG, useValue: AppConfig },
     { provide: APP_GLOBAL, useValue: AppGlobal }
   ],

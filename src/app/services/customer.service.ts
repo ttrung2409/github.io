@@ -7,7 +7,9 @@ import * as _ from 'lodash'
 import HttpService from "./http.service";
 import PagedResult from "../models/pagedResult";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export default class CustomerService extends HttpService {
   search(params?: any): Observable<PagedResult<Customer>> {
     return this._search('customer/search', params);

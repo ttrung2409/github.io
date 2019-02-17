@@ -4,7 +4,9 @@ import HttpService from "./http.service";
 import { Observable } from "rxjs";
 import Payment from "../models/payment";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export default class InvoiceService extends HttpService {
   get(id): Observable<Invoice> {
     return super._get(`invoice/${id}`);

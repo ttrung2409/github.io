@@ -4,6 +4,13 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import { } from './models'
+import Promise from 'bluebird'
+
+// Configure
+Promise.config({
+  longStackTraces: true,
+  warnings: true // note, run node with --trace-warnings to see full stack traces for warnings
+})
 
 var app = express();
 
@@ -25,6 +32,7 @@ app.use('/api/invoice', require('./controllers/invoice'));
 app.use('/api/report', require('./controllers/report'));
 app.use('/api/bulk-data', require('./controllers/bulkData'));
 app.use('/api/user', require('./controllers/user'));
+app.use('/api/auth', require('./controllers/auth'));
 
 app.set('port', process.env.PORT || 3000);
 
