@@ -349,12 +349,13 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.invoiceService.save(invoice).subscribe((result: Invoice) => {      
       this.notifier.notify('success', 'Lưu thành công');
 
-      if (!invoice.id) {
-        this.router.navigateByUrl(`/retail/${result.id}`);
-      }
-      else {
-        this.invoice = Invoice.from(result);
-      }
+      this.invoice = Invoice.from(result);
+      //if (!invoice.id) {
+      //  this.router.navigateByUrl(`/retail/${result.id}`);
+      //}
+      //else {
+      //  this.invoice = Invoice.from(result);
+      //}
     });
   }
 
