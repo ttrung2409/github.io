@@ -6,12 +6,13 @@ var router = express.Router();
 
 let authService = new AuthService();
 
-router.get('/', function (req, res) {
-  authService.authorise(req.query.token).then(user => res.send(user));
-});
-
 router.post('/', function (req, res) {
-  authService.authenticate(req.body).then(result => res.send(result));
+  if (!!req.body.token) {
+    authService.authenticateByToken(req.body.token).then(result => res.send(result));
+  }
+  else {
+    authService.authenticate(req.body).then(result => res.send(result));
+  }
 });
 
 

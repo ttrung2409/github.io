@@ -85,7 +85,7 @@ export class IncomeByCustomerComponent implements OnInit {
 
   generateReport({ customerId, fromDate, toDate }) {
     this.reportService.getIncomeByCustomer({ customerId, fromDate, toDate }).subscribe(customers => {
-      customers = customers.map(x => Object.assign(x, {
+      customers = customers.map((x: any) => Object.assign(x, {
         income: parseFloat(x.income || 0),
         cost: parseFloat(x.cost || 0),
         profit: parseFloat(x.profit || 0),

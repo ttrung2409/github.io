@@ -32,8 +32,8 @@ import CustomerService from 'src/app/services/customer.service';
   encapsulation: ViewEncapsulation.None
 })
 export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
-  private _subscription: Subscription;
-  private _searchSubscription: Subscription;
+  private _subscription: Subscription = new Subscription();
+  private _searchSubscription: Subscription = new Subscription();
 
   constructor(
     private invoiceService: InvoiceService,
@@ -109,6 +109,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
+    this._searchSubscription.unsubscribe();
     this._subscription.unsubscribe();
   }
 

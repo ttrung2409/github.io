@@ -13,13 +13,23 @@ export default class AuthService {
         return bcrypt.compare(password, user.password).then(valid => {
           if (!valid) return { valid: false };
 
-          return jwt.signAsync({ userId: user.id, permissions: user.permissions.map(x => x.permissionId) }, config.jwt.privateKey,
+          return jwt.signAsync({
+            user: { id: user.id, name: user.name },
+            permissions: user.permissions.map(x => x.permission.code) },
+            config.jwt.privateKey,
             {
               expiresIn: '24h',
               issuer: config.jwt.issuer,
               audience: config.jwt.audience
             }).then(token => {
-              return { valid: true, token };
+              return {
+                valid: true, token,
+                user: {
+                  id: user.id,
+                  name: user.name,                  
+                },
+                permissions: user.permissions.map(x => x.permission.code)
+              };
             });
         });
       }
@@ -28,7 +38,11 @@ export default class AuthService {
     });
   }
 
-  authorise(token) {
-    return jwt.verifyAsync(token, config.jwt.privateKey);
+  authenticateByToken(token) {
+    return jwt.verifyAsync(token, config.jwt.privateKey, {
+      issuer: config.jwt.issuer,
+      audience: config.jwt.audience
+    }).then(result => Object.assign(result, { valid: true }))
+      .catch(err => { valid: false });
   }
 }

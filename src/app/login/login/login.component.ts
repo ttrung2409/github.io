@@ -7,7 +7,7 @@ import ProductService from 'src/app/services/product.service';
 import CustomerService from 'src/app/services/customer.service';
 
 @Component({
-  selector: 'app-login',
+  selector: 'login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
@@ -28,17 +28,11 @@ export class LoginComponent implements OnInit {
 
   login() {
     if (!this.validate()) return;
-    this.authService.authenticate(this.username, this.password).subscribe(result => {
-      if (!result.valid) {
+    this.authService.authenticate(this.username, this.password).subscribe(authenticated => {
+      if (!authenticated) {
         this.notifier.notify('error', 'Tên đăng nhập hoặc mật khẩu không hợp lệ');
         return;
-      }
-
-      sessionStorage.setItem('auth-token', result.token);
-      this.authService.authorise().subscribe(user => {
-        console.log(user);
-        this.router.navigateByUrl('/retail');
-      });
+      }      
     });
   }
 

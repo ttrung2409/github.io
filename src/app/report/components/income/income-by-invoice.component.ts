@@ -94,7 +94,7 @@ export class IncomeByInvoiceComponent implements OnInit {
 
   generateReport({ customerId, fromDate, toDate }) {
     this.reportService.getIncomeByInvoice({ customerId, fromDate, toDate }).subscribe(invoices => {
-      this.invoices = invoices.map(x => {
+      this.invoices = invoices.map((x: any) => {
         return Object.assign(x, {
           total: parseFloat(x.total || 0),
           totalCost: parseFloat(x.total || 0),

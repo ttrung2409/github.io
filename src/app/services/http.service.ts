@@ -13,7 +13,6 @@ const baseUrl = 'http://localhost:3000/api';
 @Injectable()
 export default class HttpService {  
   constructor(private http: HttpClient) {
-    console.log(this.constructor.name);
   }
 
   _get<T>(url: string, params?: any): Observable<T> {

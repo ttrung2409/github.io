@@ -7,10 +7,12 @@ let Permission = context.define('Permission', {
     primaryKey: true,
     autoIncrement: true
   },
-  name: Sequelize.STRING,
+  code: Sequelize.STRING,
+  name: Sequelize.STRING
 }, { tableName: 'Permission', timestamps: false });
 
 Permission.associate = function (models) {
+  Permission.hasMany(models.UserPermission, { foreignKey: 'permissionId' });
 }
 
 export default Permission

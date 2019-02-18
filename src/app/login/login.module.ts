@@ -13,6 +13,9 @@ import { FormsModule } from '@angular/forms';
     WidgetModule,
     FormsModule
   ],
+  exports: [
+    LoginComponent,
+  ],
   declarations: [LoginComponent],
   schemas: [NO_ERRORS_SCHEMA]
 })

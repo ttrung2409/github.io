@@ -4,6 +4,7 @@ export default class Permission {
   }
 
   public id: number;
+  public code: string;
   public name: string;
   public parentId: number;
 }

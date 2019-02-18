@@ -9,6 +9,8 @@ import { NotifierModule } from 'angular-notifier';
 import { HttpClientModule } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from './app.config';
 import { APP_GLOBAL, AppGlobal } from './app.global'
+import { LoginModule } from './login/login.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { APP_GLOBAL, AppGlobal } from './app.global'
     BrowserAnimationsModule,
     HttpClientModule,
     WidgetModule,
+    FormsModule,
+    LoginModule,
     NotifierModule.withConfig({
       position: {
         horizontal: {

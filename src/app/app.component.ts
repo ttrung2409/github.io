@@ -1,17 +1,50 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import AuthService from './services/auth.service';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  constructor(private authService: AuthService)
+export class AppComponent implements OnInit, OnDestroy {
+  private _subscription: Subscription = new Subscription();
 
-  title = 'POS';
+  constructor(private authService: AuthService, private router: Router) {
+  }
+
+  isAuthenticated: boolean;
+
+  ngOnInit() {
+    this._subscription.add(this.authService.isAuthenticated$.subscribe(authenticated => {
+      if (!authenticated) {
+        let token = sessionStorage.getItem('auth-token');
+        if (!token) {
+          this.isAuthenticated = false;
+          this.router.navigateByUrl('/login');
+          return;
+        }
+
+        this.authService.authenticateByToken(token).subscribe();
+      }
+      else {
+        this.isAuthenticated = true;        
+        this.router.navigateByUrl('/retail');
+      }
+    }));
+  }
+
+  ngOnDestroy() {
+    this._subscription.unsubscribe();
+  }
 
   authorise(permission) {
-    return true;
+    return this.authService.authorise(permission);
+  }
+
+  signout() {
+    this.authService.signout();
+    this.router.navigateByUrl('/login');
   }
 }

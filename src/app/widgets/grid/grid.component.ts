@@ -12,7 +12,7 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 })
 export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {  
   private _differ: IterableDiffer<any>;
-  private _hotkeySubscription: Subscription;
+  private _hotkeySubscription: Subscription = new Subscription();
   private _subscription: Subscription = new Subscription();
   private _global: any;
 
@@ -190,7 +190,7 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
   }
 
   disableHotkeys() {
-    this._hotkeySubscription.unsubscribe();
+    this._hotkeySubscription.unsubscribe();    
   }
 }
 

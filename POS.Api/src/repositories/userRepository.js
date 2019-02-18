@@ -24,7 +24,9 @@ export default class UserRepository extends RepositoryBase {
       where: {
         username
       },
-      include: [{ association: 'permissions' }]
+      include: [{
+        association: 'permissions', include: [{ association: 'permission' }]
+      }]
     }).then(model => !!model ? model.get({ plain: true }) : null);
   }
 

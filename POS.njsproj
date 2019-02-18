@@ -80,6 +80,7 @@
     <Content Include="src\app\widgets\typeahead\typeahead.component.scss" />
     <Content Include="src\assets\customer.svg" />
     <Content Include="src\assets\data.svg" />
+    <Content Include="src\assets\exit.svg" />
     <Content Include="src\assets\report.svg" />
     <Content Include="src\assets\product.svg" />
     <Content Include="src\assets\shopping-cart.svg" />

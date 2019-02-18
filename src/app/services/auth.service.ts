@@ -1,18 +1,54 @@
 import HttpService from "./http.service";
-import { Observable } from "rxjs";
+import { Observable, of, BehaviorSubject } from "rxjs";
 import User from "../models/user";
 import { Injectable } from "@angular/core";
+import { switchMap, tap } from "rxjs/operators";
+import Permission from "../models/permission";
 
 @Injectable({
   providedIn: 'root',
 })
 export default class AuthService extends HttpService {
-  authenticate(username, password): Observable<string> {
-    return super._post('auth', { username, password });
+  private _user: User;
+  private _permissions: Permission[] = [];
+
+  isAuthenticated$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
+  authenticate(username, password): Observable<boolean> {
+    return super._post('auth', { username, password }).pipe(
+      tap((result: any) => {
+        if (result.valid) {
+          sessionStorage.setItem('auth-token', result.token);
+          this.isAuthenticated$.next(result.valid);
+          this._user = result.user;
+          this._permissions = result.permissions;
+          this.isAuthenticated$.next(result.valid);
+        }        
+      }),
+      switchMap((result: any) => of(result.valid)));
   }
 
-  authorise(permission): Observable<boolean> {    
-    let token = sessionStorage.getItem('auth-token');
-    return super._get<User>('auth', { token });
+  authenticateByToken(token): Observable<boolean> {
+    return super._post('auth', { token }).pipe(
+      tap((result: any) => {
+        if (result.valid) {
+          sessionStorage.setItem('auth-token', token);
+          this._user = result.user;
+          this._permissions = result.permissions;
+          this.isAuthenticated$.next(result.valid);
+        }        
+      }),
+      switchMap((result: any) => of(result.valid)));
+  }
+
+  authorise(permission): boolean {
+    return this._permissions.some(x => x == permission);
+  }
+
+  signout() {
+    sessionStorage.removeItem('auth-token');
+    this._user = null;
+    this._permissions = [];    
+    this.isAuthenticated$.next(false);
   }
 }
