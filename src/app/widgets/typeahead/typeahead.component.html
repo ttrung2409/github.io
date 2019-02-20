@@ -12,8 +12,8 @@
           (show)="onShow()"
           (hide)="onHide()"
           [itemTemplate]="itemTemplate"
-          (onKeydown)="handleKeydown($event)"
-          (onSelect)="handleSelect($event)"
+          (keydown)="onKeydown($event)"
+          (select)="onSelect($event)"
           [requestForOption]="requestForOption"
           (focus)="onFocus()"
           (blur)="onBlur()">   

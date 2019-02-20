@@ -36,10 +36,10 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
   @Input() requestForOption: (value) => Observable<any>;
   @Input() clearable: boolean = true;
 
-  @Output() onKeydown = new EventEmitter();
-  @Output() show = new EventEmitter();
-  @Output() hide = new EventEmitter();
-  @Output() onSelect = new EventEmitter();
+  @Output('keydown') onKeydown = new EventEmitter();
+  @Output('show') onShow = new EventEmitter();
+  @Output('hide') onHide = new EventEmitter();
+  @Output('select') onSelect = new EventEmitter();
   @Output('focus') onFocus = new EventEmitter();
   @Output('blur') onBlur = new EventEmitter();
 
@@ -113,7 +113,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
         _this._global.lockHotkeys = true;
         $(_this.el.nativeElement).find('.mat-form-field').addClass('mat-form-field-should-float');
         $(_this.el.nativeElement).find('.mat-form-field-underline').addClass('highlight');
-        _this.show.emit();
+        _this.onShow.emit();
       },
       onHide: function () {
         if (!_this.model) {
@@ -124,14 +124,14 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
 
         setTimeout(() => {          
           _this._global.lockHotkeys = false
-          _this.hide.emit();
+          _this.onHide.emit();
         });
       },
       onChange(value) {
         if (!!_this._shouldHandleOnChange) {
           _this.model = value || undefined;
           _this.onSelect.emit(_this.model);
-          _this.close();
+          _this.hide();
         }
       }   
     });
@@ -163,7 +163,11 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
     this.$dropdown.find('input.search').focus();
   }
 
-  close() {
+  show() {
+    this.$dropdown.dropdown('show');
+  }
+
+  hide() {
     this.$dropdown.dropdown('hide');
   }
 

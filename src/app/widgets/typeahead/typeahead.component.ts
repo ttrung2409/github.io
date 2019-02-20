@@ -35,10 +35,10 @@ export class TypeaheadComponent extends BindableComponent implements OnInit, OnD
   @Input() requestForOption: (value) => Observable<any>;
 
   @Output() search = new EventEmitter();
-  @Output() onKeydown = new EventEmitter();
-  @Output() show = new EventEmitter();
-  @Output() hide = new EventEmitter();
-  @Output() onSelect = new EventEmitter();
+  @Output('keydown') keydownEvent = new EventEmitter();
+  @Output('show') showEvent = new EventEmitter();
+  @Output('hide') hideEvent = new EventEmitter();
+  @Output('select') selectEvent = new EventEmitter();
   @Output('focus') focusEvent = new EventEmitter();
   @Output() blur = new EventEmitter();
 
@@ -64,12 +64,12 @@ export class TypeaheadComponent extends BindableComponent implements OnInit, OnD
     this._subscription.unsubscribe();
   }
 
-  handleKeydown(event) {
-    this.onKeydown.emit(event);
+  onKeydown(event) {
+    this.keydownEvent.emit(event);
   }
 
-  handleSelect(event) {
-    this.onSelect.emit(event);
+  onSelect(event) {
+    this.selectEvent.emit(event);
   }
 
   clear() {
@@ -80,12 +80,20 @@ export class TypeaheadComponent extends BindableComponent implements OnInit, OnD
     this.dropdown.focus();
   }
 
+  show() {
+    this.dropdown.show();
+  }
+
+  hide() {
+    this.dropdown.hide();
+  }
+
   onShow() {
-    this.show.emit();
+    this.showEvent.emit();
   }
 
   onHide() {
-    this.hide.emit();
+    this.hideEvent.emit();
   }
 
   onFocus() {

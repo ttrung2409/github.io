@@ -27,8 +27,8 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
   
   @Input() direction: string = 'auto';
   @Input() clearOnSelect: boolean = false;
-  @Output() onSelect = new EventEmitter();
-  @Output() onKeydown = new EventEmitter();
+  @Output('select') selectEvent = new EventEmitter();
+  @Output('keydown') keydownEvent = new EventEmitter();
 
   @ViewChild('typeahead') typeahead: TypeaheadComponent;
 
@@ -52,7 +52,7 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
     if (this._lastKey == Key.Enter) {
       this._subscriptionForScanner.add(this.productService.lookup(query).subscribe((products: Product[]) => {
         this.isLoading = false;
-        this.onSelect.emit(products.length > 0 ? products[0] : null);        
+        this.selectEvent.emit(products.length > 0 ? products[0] : null);        
       }));
     }
     else {
@@ -67,7 +67,7 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
     }    
   }
   
-  handleKeydown(event) {        
+  onKeydown(event) {        
     this._lastKey = event.keyCode;
     if (event.keyCode == Key.Enter) {
       setTimeout(() => {      
@@ -86,13 +86,13 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
       || event.keyCode == Key.DownArrow
       || event.keyCode == Key.Enter
       || event.keyCode == Key.Delete)) {
-      this.onKeydown.emit(event); 
+      this.keydownEvent.emit(event); 
     }    
   }
 
-  handleSelect(value) {
+  onSelect(value) {
     if (this.products.some(x => x.id == value)) {
-      this.onSelect.emit(this.products.find(x => x.id == value));
+      this.selectEvent.emit(this.products.find(x => x.id == value));
     }
   }
 

@@ -10,8 +10,8 @@
                    [displayMember]="'no'"
                    [label]="'Nhập mã hóa đơn, hoặc mã KH, tên KH, SĐT, email để tìm'"                   
                    [itemTemplate]="itemTemplate"
-                   (onSelect)="onSearchSelect($event)"
-                   (onKeydown)="onSearchKeydown($event)"
+                   (select)="onSearchSelect($event)"
+                   (keydown)="onSearchKeydown($event)"
                    (blur)="endSearch()">
           <ng-template #itemTemplate let-item="item">
             <div class="search-item">
@@ -61,7 +61,7 @@
     <div class="sixteen wide column">
       <product-lookup #productLookup
                       [(model)]="selectedProductId"
-                      (onSelect)="addItem($event)"
+                      (select)="addItem($event)"
                       [clearOnSelect]="true">
       </product-lookup>
     </div>
