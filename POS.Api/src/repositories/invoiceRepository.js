@@ -20,11 +20,13 @@ export default class InvoiceRepository extends RepositoryBase {
         {
           association: 'items',
           include: [{
-            association: 'product', include: [{association: 'childItem'}]
-          }],          
+            association: 'product',
+            paranoid: false,
+            include: [{ association: 'childItem', paranoid: false }]
+          }],
         },
         { association: 'payments' },
-        { association: 'customer' }
+        { association: 'customer', paranoid: false }
       ],
       order: [[{ model: InvoiceItem, as: 'items' }, 'id', 'asc']]
     }).then(model => {
@@ -56,7 +58,7 @@ export default class InvoiceRepository extends RepositoryBase {
     return this.modelDef.findAll({
       where: recent ? {} : where,
       limit: 10,
-      include: [{ association: 'customer' }],
+      include: [{ association: 'customer', paranoid: false }],
       order: [['no', 'desc']],     
     }).then(invoices => invoices.map(x => x.get({ plain: true })));
   }  

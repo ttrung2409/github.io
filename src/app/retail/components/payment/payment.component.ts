@@ -10,6 +10,7 @@ import Payment, { PaymentMethod } from '../../../models/payment';
 import UtilsService from '../../../services/utils.service';
 import { APP_GLOBAL } from 'src/app/app.global';
 import { CustomerLookupComponent } from 'src/app/widgets/customer-lookup/customer-lookup.component';
+import v8n from 'v8n'
 
 @Component({
   selector: 'payment',
@@ -32,6 +33,7 @@ export class PaymentComponent implements OnInit, OnChanges {
   @ViewChild(CustomerLookupComponent) customerLookup: CustomerLookupComponent;
 
   payment: Payment = new Payment();
+  errors: Map<string, string> = new Map();
 
   @HostListener('keydown', ['$event']) onKeydown(e: KeyboardEvent) {
     if (!this._global.lockHotkeys) {
@@ -43,7 +45,7 @@ export class PaymentComponent implements OnInit, OnChanges {
           this.doCommit();
           break;
       }
-    }    
+    }
   }
 
   ngOnInit() {
@@ -55,20 +57,34 @@ export class PaymentComponent implements OnInit, OnChanges {
         invoiceId: this.invoice.id,
         customerId: this.invoice.customerId,
         method: PaymentMethod.Cash,
-        amount: this.invoice.computedTotal        
-      });      
+        amount: this.invoice.computedTotal
+      });
     }
-  }    
+  }
 
   focus() {
     this.customerLookup.focus();
   }
 
   doCancel() {
-    this.cancel.emit();    
+    this.cancel.emit();
   }
 
   doCommit() {
-    this.commit.emit(this.payment);    
+    if (!this.validate()) return;
+    this.commit.emit(this.payment);
+  }
+
+  validate() {
+    this.errors.clear();
+    if (!this.payment.customerId) {
+      this.errors.set('customer', 'Vui lòng nhập khách hàng');
+    }
+
+    if (v8n().empty().test(this.payment.amount || '')) {
+      this.errors.set('amount', 'Vui lòng nhập tiền mặt');
+    }
+
+    return this.errors.size == 0;
   }
 }

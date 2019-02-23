@@ -2,6 +2,7 @@
   <div class="ui grid">
     <div class="sixteen wide column">
       <customer-lookup [(model)]="payment.customerId"></customer-lookup>
+      <div class="error" *ngIf="errors.has('customer')">{{errors.get('customer')}}</div>
     </div>    
     <div class="sixteen wide column">
       <mat-form-field>
@@ -10,8 +11,9 @@
     </div>
     <div class="sixteen wide column">
       <mat-form-field>
-        <input matInput placeholder="Tiền mặt" number [(model)]="payment.amount">
+        <input matInput placeholder="Tiền mặt" number [(model)]="payment.amount" required>
       </mat-form-field>
+      <div class="error" *ngIf="errors.has('amount')">{{errors.get('amount')}}</div>
     </div>
     <div class="sixteen wide column">
       <mat-form-field>

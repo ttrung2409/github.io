@@ -25,7 +25,7 @@ export default class ReportRepository {
 
       return Invoice.findAll({        
         where,
-        include: [{ association: 'customer' }]      
+        include: [{ association: 'customer', paranoid: false }]      
       }).then(invoices => invoices.map(x => x.get({plain: true})));
     });
   }
