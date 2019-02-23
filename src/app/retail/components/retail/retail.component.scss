@@ -5,6 +5,10 @@
 
   .toolbar {
     .mat-toolbar {
+      &.new {
+        border-left: 8px solid #f2da3e !important;
+      }
+
       &.paid {
         border-left: 8px solid lightgreen;
       }
@@ -12,9 +16,13 @@
       &.cancelled {
         border-left: 8px solid red;
       }
-    }   
+    }
 
     .dropdown .item {
+      &.new {
+        border-left: 4px solid #f2da3e !important;
+      }
+
       &.paid {
         border-left: 4px solid lightgreen !important;
       }
@@ -69,6 +77,12 @@
 
     &:not(:last-child) {
       margin-bottom: 8px;
+    }
+  }
+
+  &.dirty {
+    .save-button {
+      color: yellow;
     }
   }
 }

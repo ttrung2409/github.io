@@ -36,8 +36,8 @@ import DialogResult from 'src/app/valueObjects/DialogResult';
 export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoCheck {
   private _subscription: Subscription = new Subscription();
   private _searchSubscription: Subscription = new Subscription();
-  private _collectionDiffer: IterableDiffer<any>;
-  private _objectDiffer: KeyValueDiffer<string, any>;
+  private _itemsDiffer: IterableDiffer<any>;
+  private _invoiceDiffer: KeyValueDiffer<string, any>;
 
   constructor(
     private invoiceService: InvoiceService,
@@ -48,10 +48,8 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
     private route: ActivatedRoute,
     private router: Router,
     private notifier: NotifierService,
-    private objectDiffer: KeyValueDiffers,
-    private collectionDiffer: IterableDiffers) {
-    this._collectionDiffer = collectionDiffer.find([]).create(null);
-    this._objectDiffer = objectDiffer.find({}).create();
+    private invoiceDifferFactory: KeyValueDiffers,
+    private itemsDifferFactory: IterableDiffers) {    
   }
 
   @ViewChild('flyout') flyout: FlyoutComponent;
@@ -94,18 +92,19 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
   }
 
   ngDoCheck() {
-    this.dirty = false;
-    let changes = this._objectDiffer.diff(this.invoice);
-    if (!!changes) {
-      console.log(changes);
-      this.dirty = true;  
+    if (!!this._invoiceDiffer) {
+      let changes = this._invoiceDiffer.diff(this.invoice);
+      if (!!changes) {
+        this.dirty = true;
+      }
     }
-
-    let itemChanges = this._collectionDiffer.diff(this.invoice.items);
-    if (!!itemChanges) {
-      console.log(itemChanges);
-      this.dirty = true;
-    }    
+    
+    if (!!this._itemsDiffer) {
+      let itemChanges = this._itemsDiffer.diff(this.invoice.items);
+      if (!!itemChanges) {
+        this.dirty = true;
+      }
+    }        
   }
 
   ngOnInit() {
@@ -126,6 +125,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
       }))
       .subscribe(invoice => {
         this.invoice = Invoice.from(invoice);
+        this.reset();
         if (this.invoice.items.length > 0) {
           this.selectedIndex = 0;
         }
@@ -207,18 +207,21 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
     switch (e.key) {
       case '+':
         this.invoice.items[this.selectedIndex].qty++;
+        this.invoice.items[this.selectedIndex] = InvoiceItem.from(this.invoice.items[this.selectedIndex]);
         break;
       case '-':
         this.invoice.items[this.selectedIndex].qty = Math.max(0, this.invoice.items[this.selectedIndex].qty - 1);
+        this.invoice.items[this.selectedIndex] = InvoiceItem.from(this.invoice.items[this.selectedIndex]);
         break;
     }
   }
 
   addItem(product: Product) {
     if (!!product) {
-      let item = this.invoice.items.find(x => x.productId == product.id);
-      if (!!item) {
-        item.qty++;
+      let index = this.invoice.items.findIndex(x => x.productId == product.id);
+      if (index > -1) {
+        this.invoice.items[index].qty++;
+        this.invoice.items[index] = InvoiceItem.from(this.invoice.items[index]);
       }
       else {
         this.invoice.items.push(new InvoiceItem({
@@ -284,14 +287,40 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
   }
 
   new() {
-    this.invoice = new Invoice({
-      customerId: 1,
-      status: InvoiceStatus.New,
-      date: moment().format()
-    });
+    if (this.dirty) {
+      this.grid.disableHotkeys();
+      this.dialog.open(ConfirmDialogComponent,
+        { data: { msg: 'Bạn vừa thay đổi đơn hàng. Bạn có chắc chắn hủy thay đổi và tiếp tục?' } })
+        .afterClosed()
+        .subscribe(result => {
+          this.grid.enableHotkeys();
+          this.productLookup.focus();
+          if (result == DialogResult.OK) {
+            doNew.call(this);
+          }
+        });
+    }
+    else {
+      doNew.call(this);
+    }
 
-    this.router.navigateByUrl('/retail');
-    this.productLookup.focus();
+    function doNew () {
+      this.invoice = new Invoice({
+        customerId: 1,
+        status: InvoiceStatus.New,
+        date: moment().format()
+      });
+
+      this.router.navigateByUrl('/retail');
+      this.productLookup.focus();
+      this.reset();
+    }    
+  }
+
+  reset() {    
+    this._invoiceDiffer = this.invoiceDifferFactory.find(this.invoice).create();
+    this._itemsDiffer = this.itemsDifferFactory.find(this.invoice.items).create();
+    setTimeout(() => this.dirty = false);
   }
 
   onFlyoutShow() {
@@ -357,11 +386,32 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
     }
   }
 
-  onSearchSelect(invoiceId) {
-    this.invoiceService.get(invoiceId).subscribe(invoice => {
-      this.invoice = Invoice.from(invoice);
-      this.selectedIndex = this.invoice.items.length > 0 ? 0 : -1;
-    });
+  load(invoiceId) {
+    if (this.dirty) {
+      this.grid.disableHotkeys();
+      this.dialog.open(ConfirmDialogComponent,
+        { data: { msg: 'Bạn vừa thay đổi đơn hàng. Bạn có chắc chắn hủy thay đổi và tiếp tục?' } })
+        .afterClosed()
+        .subscribe(result => {
+          this.grid.enableHotkeys();
+          this.productLookup.focus();
+          if (result == DialogResult.OK) {
+            load.call(this);
+          }
+        });
+    }
+    else {
+      load.call(this);
+    }
+
+    function load() {
+      this.invoiceService.get(invoiceId).subscribe(invoice => {
+        this.invoice = Invoice.from(invoice);
+        this.selectedIndex = this.invoice.items.length > 0 ? 0 : -1;
+        this.reset();
+      });
+    }
+    
   }
 
   save(payment?: Payment) {
@@ -405,6 +455,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
           this.invoiceService.cancel(this.invoice.id).subscribe(invoice => {
             this.notifier.notify('success', 'Đơn hàng đã hủy');
             this.invoice = Invoice.from(invoice);
+            this.reset();
           });
         }
 

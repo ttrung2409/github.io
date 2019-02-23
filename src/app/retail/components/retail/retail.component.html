@@ -1,8 +1,7 @@
-<div class="retail">
+<div class="retail" [class.dirty]="dirty">
   <toolbar [class]="invoice.status.toLowerCase()">
     <toolbar-title>
         Bán lẻ {{invoice.no}} - {{invoice.date | date:'dd/MM/yyyy'}}
-      <span *ngIf="dirty">*</span>
     </toolbar-title>
     <right>
       <div class="toolbar-search">
@@ -14,7 +13,7 @@
                    [displayMember]="'no'"
                    [label]="'Nhập mã hóa đơn, hoặc mã KH, tên KH, SĐT, email để tìm'"                   
                    [itemTemplate]="itemTemplate"
-                   (select)="onSearchSelect($event)"
+                   (select)="load($event)"
                    (keydown)="onSearchKeydown($event)"
                    (blur)="endSearch()"
                    [minChars]="1">
@@ -43,7 +42,7 @@
         <mat-icon>attach_money</mat-icon>
         (F4)
       </button>
-      <button mat-button (click)="save()" [disabled]="!canSave">
+      <button mat-button (click)="save()" [disabled]="!canSave" class="save-button">
         <mat-icon>save</mat-icon>
         (F9)
       </button>
