@@ -3,8 +3,10 @@ export default class RepositoryBase {
     this.modelDef = modelDef;
   }
 
-  get(id) {
-    return this.modelDef.findById(id).then(model => {
+  get(id, { includeDeleted } = {}) {
+    return this.modelDef.findById(id, {
+      paranoid: includeDeleted ? false : true
+    }).then(model => {
       return !!model ? model.get({ plain: true }) : null;
     });
   }

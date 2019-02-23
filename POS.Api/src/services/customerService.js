@@ -18,7 +18,7 @@ export default class CustomerService {
   }
 
   get(id) {
-    return customerRepository.get(id);
+    return customerRepository.get(id, { includeDeleted: true });
   }
 
   save(customer) {

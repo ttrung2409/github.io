@@ -21,7 +21,7 @@ export default class ProductService {
   }
 
   get(id) {
-    return productRepository.get(id);
+    return productRepository.get(id, { includeDeleted: true });
   }
 
   allCategories() {
