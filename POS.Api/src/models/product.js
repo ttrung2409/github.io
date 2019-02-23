@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 import context from '../dbContext';
 
-export default context.define('Product', {  
+let Product = context.define('Product', {  
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
@@ -21,3 +21,9 @@ export default context.define('Product', {
   childItemQty: Sequelize.DECIMAL,
   notes: Sequelize.TEXT
 }, { tableName: 'Product', timestamps: true, paranoid: true });
+
+Product.associate = function (models) {
+  Product.belongsTo(models.Product, { foreignKey: 'childItemId', as: 'childItem' });  
+}
+
+export default Product

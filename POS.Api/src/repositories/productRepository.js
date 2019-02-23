@@ -69,7 +69,7 @@ export default class ProductRepository extends RepositoryBase {
           }
         },        
         {
-          name: Sequelize.where(Sequelize.fn('unaccent', Sequelize.col('name')), {
+          name: Sequelize.where(Sequelize.fn('unaccent', Sequelize.col('Product.name')), {
             [Op.iLike]: `%${query}%`
           })
         },
@@ -83,6 +83,7 @@ export default class ProductRepository extends RepositoryBase {
 
     return this.modelDef.findAll({
       where,
+      include: [{association: 'childItem'}],
       limit: 10
     }).then(products => products.map(x => x.get({ plain: true })));
   }

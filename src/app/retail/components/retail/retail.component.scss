@@ -80,9 +80,23 @@
     }
   }
 
-  &.dirty {
-    .save-button {
-      color: yellow;
+  .item-desc {
+    padding-top: 8px;
+
+    p {
+      margin-bottom: 8px;
+    }
+
+    .spec {
+      color: green;
+      font-style: italic;
+      font-size: 12px;
+    }
+
+    .notes {
+      color: #ad4040;
+      font-style: italic;
+      font-size: 12px;
     }
   }
 }

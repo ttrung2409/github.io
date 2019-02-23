@@ -76,7 +76,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
   }
 
   get canSave() {
-    return this.invoice.items.length > 0 && this.invoice.status != InvoiceStatus.Cancelled;
+    return this.invoice.items.length > 0 && this.invoice.status != InvoiceStatus.Cancelled && this.dirty;
   }
 
   get canPrint() {
@@ -92,6 +92,8 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
   }
 
   ngDoCheck() {
+    if (this.invoice.status == InvoiceStatus.Cancelled) return;
+
     if (!!this._invoiceDiffer) {
       let changes = this._invoiceDiffer.diff(this.invoice);
       if (!!changes) {
@@ -150,7 +152,19 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
       }),
       new GridColumn({
         caption: 'Tên sản phẩm',
-        field: 'product.name'
+        field: 'product.name',
+        format: function (value, item) {
+          let html = `<div class='item-desc'><p>${value}</p>`;
+          if (!!item.product.childItem) {
+            html += `<p class='spec'>có ${this.utils.formatNumber(item.product.childItemQty)} ${item.product.childItem.name}</p>`;            
+          }
+
+          if (!!item.notes) {
+            html += `<p class='notes'>${item.notes}</p>`
+          }
+
+          return html + '</div>';
+        }.bind(this)
       }),
       new GridColumn({
         caption: 'ĐVT',
@@ -178,7 +192,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
         footer: function () {
           return this.utils.formatNumber(this.invoice.computedTotal);
         }.bind(this)
-      })
+      })     
     ];
   }
 
@@ -231,9 +245,11 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
           product: product,
           qty: 1,
           price: product.retailPrice,
-          cost: product.cost,
+          cost: product.cost,         
           index: this.invoice.items.length + 1,
-          isNew: true
+          isNew: true,
+          notes: product.notes,
+          childItem: product.childItem
         }));
 
         this.selectedIndex = this.invoice.items.length - 1;
@@ -387,6 +403,9 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
   }
 
   load(invoiceId) {
+    this.endSearch();
+    this.productLookup.focus();
+
     if (this.dirty) {
       this.grid.disableHotkeys();
       this.dialog.open(ConfirmDialogComponent,
@@ -410,8 +429,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
         this.selectedIndex = this.invoice.items.length > 0 ? 0 : -1;
         this.reset();
       });
-    }
-    
+    }    
   }
 
   save(payment?: Payment) {
@@ -434,6 +452,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
     this.invoiceService.save(invoice).subscribe((result: Invoice) => {
       this.notifier.notify('success', 'Lưu thành công');
       this.invoice = Invoice.from(result);
+      this.reset();
     });
   }
 
@@ -447,19 +466,20 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
   }
 
   cancel() {
+    this.grid.disableHotkeys();
     this.dialog.open(ConfirmDialogComponent,
       { data: { msg: 'Bạn có chắc chắn hủy đơn hàng này?' } })
       .afterClosed()
       .subscribe(result => {
+        this.grid.enableHotkeys();
+        this.productLookup.focus();
         if (result == DialogResult.OK) {
           this.invoiceService.cancel(this.invoice.id).subscribe(invoice => {
             this.notifier.notify('success', 'Đơn hàng đã hủy');
             this.invoice = Invoice.from(invoice);
             this.reset();
           });
-        }
-
-        this.productLookup.focus();
+        }        
       });
   }
 }

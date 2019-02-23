@@ -13,7 +13,8 @@ let InvoiceItem = context.define('InvoiceItem', {
   price: Sequelize.DECIMAL,
   cost: Sequelize.DECIMAL,
   discount: Sequelize.DECIMAL,
-  tax: Sequelize.DECIMAL,  
+  tax: Sequelize.DECIMAL,
+  notes: Sequelize.TEXT
 }, { tableName: 'InvoiceItem', timestamps: false });
 
 InvoiceItem.associate = function (models) {

@@ -19,7 +19,9 @@ export default class InvoiceRepository extends RepositoryBase {
       include: [
         {
           association: 'items',
-          include: [{ association: 'product' }],          
+          include: [{
+            association: 'product', include: [{association: 'childItem'}]
+          }],          
         },
         { association: 'payments' },
         { association: 'customer' }

@@ -11,17 +11,17 @@
     <div class="error" *ngIf="errors.has('name')">{{errors.get('name')}}</div>
   </div>
   <div class="eight wide column">
+    <mat-form-field>
+      <input matInput [(ngModel)]="customer.phone" placeholder="Số ĐT" />
+    </mat-form-field>
+  </div>
+  <div class="eight wide column">
     <dropdown [options]="customerTypes"
               [valueMember]="'id'"
               [displayMember]="'name'"
               [(model)]="customer.typeId"
               [label]="'Loại KH'">
     </dropdown>
-  </div>
-  <div class="eight wide column">
-    <mat-form-field>
-      <input matInput [(ngModel)]="customer.phone" placeholder="Số ĐT" />
-    </mat-form-field>
   </div>
   <div class="sixteen wide column">
     <mat-form-field>

@@ -15,4 +15,7 @@ export default class Product {
   public isContainer: boolean;
   public childItemId?: number;
   public childItemQty?: number;
+  public notes: string;
+
+  public childItem: Product;
 }

@@ -37,7 +37,15 @@ export class CustomerComponent implements OnInit {
   errors: Map<string, string> = new Map();
 
   ngOnInit() {
-    this.customerService.get(this.id).subscribe(customer => this.customer = customer);
+    if (this.id > 0) {
+      this.customerService.get(this.id).subscribe(customer => this.customer = customer);
+    }
+    else {
+      this.customer = new Customer({
+        typeId: 1
+      });
+    }
+    
     this.customerService.allTypes().subscribe(types => this.customerTypes = types);
   }
 

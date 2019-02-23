@@ -12,7 +12,7 @@
     </div>
     <div class="sixteen wide column">
       <mat-form-field>
-        <input matInput placeholder="Tên SP" [(ngModel)]="product.name" required>        
+        <input matInput placeholder="Tên SP" [(ngModel)]="product.name" required>
       </mat-form-field>
       <div class="error" *ngIf="errors.has('name')">{{errors.get('name')}}</div>
     </div>
@@ -38,12 +38,12 @@
     </div>
     <div class="eight wide column">
       <mat-form-field>
-        <input matInput placeholder="Giá lẻ" number [(model)]="product.retailPrice">
+        <input matInput placeholder="Giá sỉ" number [(model)]="product.wholesalePrice">
       </mat-form-field>
     </div>
     <div class="eight wide column">
       <mat-form-field>
-        <input matInput placeholder="Giá sỉ" number [(model)]="product.wholesalePrice">
+        <input matInput placeholder="Giá lẻ" number [(model)]="product.retailPrice">
       </mat-form-field>
     </div>
     <div class="eight wide column">
@@ -55,7 +55,7 @@
       <mat-form-field>
         <textarea matInput placeholder="Ghi chú" [(ngModel)]="product.notes"></textarea>
       </mat-form-field>
-    </div>    
+    </div>
     <div class="sixteen wide column">
       <mat-checkbox [(ngModel)]="product.isContainer">Có sản phẩm lẻ</mat-checkbox>
     </div>
@@ -65,7 +65,7 @@
       </div>
       <div class="four wide column">
         <mat-form-field [floatLabel]="'never'">
-          <input matInput placeholder="SL" [(model)]="product.childItemQty" number/>
+          <input matInput placeholder="SL" [(model)]="product.childItemQty" number />
         </mat-form-field>
       </div>
       <div class="twelve wide column">

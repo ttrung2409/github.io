@@ -15,6 +15,7 @@ export default class InvoiceItem {
   public tax?: number;
   public index?: number;
   public isNew: boolean;
+  public notes: string;
   
   get total(): number {
     return (this.qty * this.price) - (this.discount || 0) + (this.tax || 0);

@@ -4,6 +4,7 @@ import { Key } from 'ts-keycode-enum';
 import { Sort, MatSort } from '@angular/material';
 import { APP_GLOBAL } from 'src/app/app.global';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import UtilsService from 'src/app/services/utils.service';
 
 @Component({
   selector: 'grid',
@@ -18,7 +19,8 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
 
   constructor(private differs: IterableDiffers,
     @Inject(APP_GLOBAL) global,
-    private el: ElementRef) {
+    private el: ElementRef,
+    private utils: UtilsService) {
     this._differ = differs.find([]).create(null);
     this._global = global;
   }
@@ -141,7 +143,8 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
 
   getCellData(row: any, column: GridColumn) {
     let paths = column.field.split('.');
-    return paths.reduce((acc, value) => !!acc ? acc[value] : null, row);     
+    let value = paths.reduce((acc, value) => !!acc ? acc[value] : null, row);
+    return column.isNumber ? this.utils.formatNumber(value) : value;
   }  
 
   handleKeyEvent(event: KeyboardEvent) {
