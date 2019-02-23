@@ -11,7 +11,8 @@ export class ToolbarComponent implements OnInit, OnChanges {
 
   constructor() { }
 
-  @Input() showProgress: boolean;  
+  @Input() showProgress: boolean;
+  @Input() class: string;
 
   showProgressInternal: boolean;
 

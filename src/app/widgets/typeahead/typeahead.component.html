@@ -9,12 +9,13 @@
           [showOnFocus]="false"
           [showOnDown]="showOnDown"
           [preventKeys]="preventKeys"
-          (show)="onShow()"
-          (hide)="onHide()"
           [itemTemplate]="itemTemplate"
-          (keydown)="onKeydown($event)"
-          (select)="onSelect($event)"
+          [itemClass]="itemClass"
           [requestForOption]="requestForOption"
+          (show)="onShow()"
+          (hide)="onHide()"          
+          (onKeydown)="onKeydown($event)"
+          (select)="onSelect($event)"          
           (focus)="onFocus()"
           (blur)="onBlur()">   
 </dropdown>

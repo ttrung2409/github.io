@@ -18,5 +18,9 @@ export default class InvoiceService extends HttpService {
 
   lookup(query: string): Observable<Invoice[]> {
     return super._get<Invoice[]>('invoice/lookup', { query });
-  }  
+  }
+
+  cancel(id): Observable<any> {
+    return super._put('invoice/cancel', { id });
+  }
 }

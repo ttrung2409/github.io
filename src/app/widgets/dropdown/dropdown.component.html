@@ -7,7 +7,7 @@
       <div class="default text">{{floatLabel == 'never' ? label : ''}}</div>
       <div class="menu">
         <ng-container *ngFor="let option of bindingOptions">
-          <div class="item" *ngIf="!!option" [attr.data-value]="option[valueMember]" [attr.data-text]="option[displayMember]">
+          <div class="item" [ngClass]="!!itemClass ? option[itemClass].toLowerCase() : ''" *ngIf="!!option" [attr.data-value]="option[valueMember]" [attr.data-text]="option[displayMember]">
             <ng-template #defaultTemplate>{{option[displayMember]}}</ng-template>
             <ng-container *ngTemplateOutlet="itemTemplate || defaultTemplate; context: {item: option}"></ng-container>
           </div>

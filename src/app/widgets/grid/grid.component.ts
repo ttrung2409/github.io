@@ -33,6 +33,7 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
   @Input() height: string | Function;
   @Input() virtualScroll: boolean;
   @Input() rowHeight: number = 40;
+  @Input() rowClass: string;
 
   @Output() rowClick = new EventEmitter();
   @Output() selectedIndexChange = new EventEmitter();
@@ -205,5 +206,5 @@ export class GridColumn {
   public format: Function;
   public footer: any;
   public sortable: boolean;
-  public isNumber: boolean;
+  public isNumber: boolean;  
 }

@@ -83,6 +83,7 @@
     <Content Include="src\assets\exit.svg" />
     <Content Include="src\assets\report.svg" />
     <Content Include="src\assets\product.svg" />
+    <Content Include="src\assets\money-pig.svg" />
     <Content Include="src\assets\shopping-cart.svg" />
     <Content Include="src\assets\user.svg" />
     <Content Include="tsconfig.json" />

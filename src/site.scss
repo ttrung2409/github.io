@@ -103,4 +103,16 @@
   height: 8px !important;
 }
 
+.income-report {
+  .mat-row.cancelled {
+    td:first-child {
+      border-left: 4px solid red;
+    }
+  }
 
+  .mat-row.new {
+    td:first-child {
+      border-left: 4px solid yellow;
+    }
+  }
+}

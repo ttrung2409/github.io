@@ -43,6 +43,24 @@ export class IncomeByCustomerComponent implements OnInit {
         footer: function () {
           return this.utils.formatNumber(this.customers.reduce((acc, customer) => acc + customer.income, 0));
         }.bind(this)
+      }),      
+      new GridColumn({
+        caption: 'Giá vốn',
+        field: 'cost',
+        isNumber: true,
+        sortable: true,
+        footer: function () {
+          return this.utils.formatNumber(this.customers.reduce((acc, customer) => acc + customer.cost, 0));
+        }.bind(this)
+      }),
+      new GridColumn({
+        caption: 'Lợi nhuận',
+        field: 'profit',
+        isNumber: true,
+        sortable: true,
+        footer: function () {
+          return this.utils.formatNumber(this.customers.reduce((acc, customer) => acc + customer.profit, 0));
+        }.bind(this)
       }),
       new GridColumn({
         caption: 'Thanh toán',
@@ -61,24 +79,6 @@ export class IncomeByCustomerComponent implements OnInit {
           return this.utils.formatNumber(this.customers.reduce((acc, customer) => acc + customer.balance, 0));
         }.bind(this),
         sortable: true
-      }),
-      new GridColumn({
-        caption: 'Giá vốn',
-        field: 'cost',
-        isNumber: true,
-        sortable: true,
-        footer: function () {
-          return this.utils.formatNumber(this.customers.reduce((acc, customer) => acc + customer.cost, 0));
-        }.bind(this)
-      }),
-      new GridColumn({
-        caption: 'Lợi nhuận',
-        field: 'profit',
-        isNumber: true,
-        sortable: true,
-        footer: function () {
-          return this.utils.formatNumber(this.customers.reduce((acc, customer) => acc + customer.profit, 0));
-        }.bind(this)
       })
     ];
   }

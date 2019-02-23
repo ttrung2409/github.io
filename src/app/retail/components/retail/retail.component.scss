@@ -3,6 +3,34 @@
     padding-bottom: 4px !important;
   }
 
+  .toolbar {
+    .mat-toolbar {
+      &.paid {
+        border-left: 8px solid lightgreen;
+      }
+
+      &.cancelled {
+        border-left: 8px solid red;
+      }
+    }   
+
+    .dropdown .item {
+      &.paid {
+        border-left: 4px solid lightgreen !important;
+      }
+
+      &.cancelled {
+        border-left: 4px solid red !important;
+      }
+
+      .search-item {
+        div:not(:first-child) {
+          margin-top: 16px;
+        }
+      }
+    }
+  }
+
   .toolbar-search {
     color: white;
     font-size: 12px;
@@ -25,12 +53,6 @@
       .mat-form-field-underline.highlight {
         border-bottom: initial;
       }
-    }
-  }
-
-  .search-item {
-    div:not(:first-child) {
-      margin-top: 16px;
     }
   }
 

@@ -27,7 +27,7 @@ export class IncomeByInvoiceComponent implements OnInit {
       new GridColumn({
         caption: 'Mã HĐ',
         field: 'no',
-        sortable: true,        
+        sortable: true
       }),
       new GridColumn({
         caption: 'Ngày',
@@ -52,6 +52,24 @@ export class IncomeByInvoiceComponent implements OnInit {
           return this.utils.formatNumber(this.invoices.reduce((acc, invoice) => acc + invoice.total, 0));
         }.bind(this),
         sortable: true
+      }),      
+      new GridColumn({
+        caption: 'Giá vốn',
+        field: 'totalCost',
+        isNumber: true,
+        footer: function () {          
+          return this.utils.formatNumber(this.invoices.reduce((acc, invoice) => acc + invoice.totalCost, 0));
+        }.bind(this),
+        sortable: true
+      }),
+      new GridColumn({
+        caption: 'Lợi nhuận',
+        field: 'profit',
+        isNumber: true,
+        footer: function () {
+          return this.utils.formatNumber(this.invoices.reduce((acc, invoice) => acc + invoice.profit, 0));
+        }.bind(this),
+        sortable: true
       }),
       new GridColumn({
         caption: 'Thanh toán',
@@ -70,25 +88,7 @@ export class IncomeByInvoiceComponent implements OnInit {
           return this.utils.formatNumber(this.invoices.reduce((acc, invoice) => acc + invoice.balance, 0));
         }.bind(this),
         sortable: true
-      }),
-      new GridColumn({
-        caption: 'Giá vốn',
-        field: 'totalCost',
-        isNumber: true,
-        footer: function () {          
-          return this.utils.formatNumber(this.invoices.reduce((acc, invoice) => acc + invoice.totalCost, 0));
-        }.bind(this),
-        sortable: true
-      }),
-      new GridColumn({
-        caption: 'Lợi nhuận',
-        field: 'profit',
-        isNumber: true,
-        footer: function () {
-          return this.utils.formatNumber(this.invoices.reduce((acc, invoice) => acc + invoice.profit, 0));
-        }.bind(this),
-        sortable: true
-      })      
+      })
     ];
   }
 

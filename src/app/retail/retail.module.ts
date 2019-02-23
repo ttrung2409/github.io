@@ -10,6 +10,7 @@ import { QtyEditorComponent } from './components/qty-editor/qty-editor.component
 import { NoProductFoundDialog } from './components/no-product-found-dialog/no-product-found-dialog.component';
 import { AddCustomerDialog } from './components/add-customer-dialog/add-customer-dialog.component';
 import { OverviewComponent } from './components/overview/overview.component';
+import { ConfirmDialogComponent } from '../widgets/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { OverviewComponent } from './components/overview/overview.component';
   providers: [DecimalPipe],
   entryComponents: [
     NoProductFoundDialog,
-    AddCustomerDialog
+    AddCustomerDialog,
+    ConfirmDialogComponent
   ],
   schemas: [NO_ERRORS_SCHEMA]
 })

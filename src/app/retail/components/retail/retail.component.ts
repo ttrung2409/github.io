@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ViewEncapsulation, ElementRef, ChangeDetectorRef, AfterViewInit} from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ViewEncapsulation, ElementRef, ChangeDetectorRef, AfterViewInit, IterableDiffer, KeyValueDiffer, KeyValueDiffers, IterableDiffers, DoCheck} from '@angular/core';
 import { GridColumn, GridComponent } from '../../../widgets/grid/grid.component';
 import Invoice, { InvoiceStatus } from '../../../models/invoice';
 import InvoiceItem from '../../../models/invoiceItem';
@@ -11,7 +11,7 @@ import { ProductLookupComponent } from '../../../widgets/product-lookup/product-
 import { QtyEditorComponent } from '../qty-editor/qty-editor.component';
 import { PaymentComponent } from '../payment/payment.component';
 import UtilsService from '../../../services/utils.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatButton } from '@angular/material';
 import { NoProductFoundDialog } from '../no-product-found-dialog/no-product-found-dialog.component';
 import InvoiceService from '../../../services/invoice.service';
 import { AddCustomerDialog } from '../add-customer-dialog/add-customer-dialog.component';
@@ -24,6 +24,8 @@ import * as $ from 'jquery'
 import { NotifierService } from 'angular-notifier';
 import Payment, { PaymentMethod } from 'src/app/models/payment';
 import CustomerService from 'src/app/services/customer.service';
+import { ConfirmDialogComponent } from 'src/app/widgets/confirm-dialog/confirm-dialog.component';
+import DialogResult from 'src/app/valueObjects/DialogResult';
 
 @Component({
   selector: 'retail',
@@ -31,9 +33,11 @@ import CustomerService from 'src/app/services/customer.service';
   styleUrls: ['./retail.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
+export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoCheck {
   private _subscription: Subscription = new Subscription();
   private _searchSubscription: Subscription = new Subscription();
+  private _collectionDiffer: IterableDiffer<any>;
+  private _objectDiffer: KeyValueDiffer<string, any>;
 
   constructor(
     private invoiceService: InvoiceService,
@@ -43,7 +47,11 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
     private el: ElementRef,
     private route: ActivatedRoute,
     private router: Router,
-    private notifier: NotifierService) {
+    private notifier: NotifierService,
+    private objectDiffer: KeyValueDiffers,
+    private collectionDiffer: IterableDiffers) {
+    this._collectionDiffer = collectionDiffer.find([]).create(null);
+    this._objectDiffer = objectDiffer.find({}).create();
   }
 
   @ViewChild('flyout') flyout: FlyoutComponent;
@@ -62,32 +70,52 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
   searching: boolean = false;
   lockHotkeys: boolean = false;
   isLoading: boolean = false;
-  invoices: Invoice[] = [];  
-
-  get canSave() {
-    return this.invoice.items.length > 0;
-  }
+  invoices: Invoice[] = [];
+  dirty: boolean;
 
   get canView() {
     return this.invoice.id > 0;
   }
 
+  get canSave() {
+    return this.invoice.items.length > 0 && this.invoice.status != InvoiceStatus.Cancelled;
+  }
+
   get canPrint() {
-    return this.invoice.id > 0;
+    return this.invoice.id > 0 && this.invoice.status != InvoiceStatus.Cancelled;
   }
 
   get canPay() {
-    return this.invoice.items.length > 0;
+    return this.invoice.items.length > 0 && this.invoice.status != InvoiceStatus.Cancelled;
+  }
+
+  get canCancel() {
+    return this.invoice.id > 0 && this.invoice.status != InvoiceStatus.Cancelled;
+  }
+
+  ngDoCheck() {
+    this.dirty = false;
+    let changes = this._objectDiffer.diff(this.invoice);
+    if (!!changes) {
+      console.log(changes);
+      this.dirty = true;  
+    }
+
+    let itemChanges = this._collectionDiffer.diff(this.invoice.items);
+    if (!!itemChanges) {
+      console.log(itemChanges);
+      this.dirty = true;
+    }    
   }
 
   ngOnInit() {
     this.initColumns();
     this._subscription = fromEvent(document, 'keydown').subscribe((e: KeyboardEvent) => {
       if (!this.lockHotkeys) {
-        this.handleHotkey(e);  
+        this.handleHotkey(e);
       }
     });
-    
+
     this.route.params
       .pipe(switchMap((params: Params) => {
         return params.id > 0 ? this.invoiceService.get(params.id) : of(new Invoice({
@@ -105,7 +133,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.productLookup.focus();    
+    this.productLookup.focus();
   }
 
   ngOnDestroy() {
@@ -140,12 +168,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
         field: 'price',
         width: '20%',
         isNumber: true,
-        footer: function () {
-          return this.invoice.status == InvoiceStatus.New ? `<div>Tổng</div>`
-            : `<div>Tổng</div>
-              <div>Thanh toán</div>
-              <div class="balance">Còn lại</div>`
-        }.bind(this)
+        footer: 'Tổng'
       }),
       new GridColumn({
         caption: 'Thành tiền',
@@ -153,10 +176,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
         width: '20%',
         isNumber: true,
         footer: function () {
-          return this.invoice.status == InvoiceStatus.New ? `<div>${ this.utils.formatNumber(this.invoice.computedTotal)}</div>`
-            : `<div>${this.utils.formatNumber(this.invoice.computedTotal)}</div>                  
-                <div>${this.utils.formatNumber(Math.min(this.invoice.computedTotal, this.invoice.computedAmountPaid))}</div>
-                <div class="balance">${this.utils.formatNumber(Math.max(this.invoice.computedTotal - this.invoice.computedAmountPaid, 0))}</div>`
+          return this.utils.formatNumber(this.invoice.computedTotal);
         }.bind(this)
       })
     ];
@@ -168,7 +188,10 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this.new();
         break;
       case Key.F4:
-        this.pay();
+        if (this.canPay) {
+          this.pay();
+        }
+
         break;
       case Key.F7:
         this.beginSearch();
@@ -177,7 +200,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.canSave) {
           this.save();
         }
-        
+
         break;
     }
 
@@ -191,21 +214,27 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  addItem(product: Product) {    
+  addItem(product: Product) {
     if (!!product) {
-      this.invoice.items.push(new InvoiceItem({
-        id: Guid.create().toString(),
-        invoiceId: this.invoice.id,
-        productId: product.id,
-        product: product,
-        qty: 1,
-        price: product.retailPrice,
-        cost: product.cost,
-        index: this.invoice.items.length + 1,
-        isNew: true
-      }));
+      let item = this.invoice.items.find(x => x.productId == product.id);
+      if (!!item) {
+        item.qty++;
+      }
+      else {
+        this.invoice.items.push(new InvoiceItem({
+          id: Guid.create().toString(),
+          invoiceId: this.invoice.id,
+          productId: product.id,
+          product: product,
+          qty: 1,
+          price: product.retailPrice,
+          cost: product.cost,
+          index: this.invoice.items.length + 1,
+          isNew: true
+        }));
 
-      this.selectedIndex = this.invoice.items.length - 1;
+        this.selectedIndex = this.invoice.items.length - 1;
+      }
     }
     else {
       this.lockHotkeys = true;
@@ -213,7 +242,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
       this.dialog.open(NoProductFoundDialog).afterClosed().subscribe(() => {
         this.grid.enableHotkeys();
         this.lockHotkeys = false;
-      });              
+      });
     }
   }
 
@@ -224,7 +253,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
       this.flyout.show().then(() => {
         this.qtyEditor.focus();
       });
-    }   
+    }
   }
 
   onDelete(item: InvoiceItem) {
@@ -234,8 +263,8 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
       item.index = index++;
     }
 
-    this.selectedIndex = Math.min(this.invoice.items.length - 1, this.selectedIndex);    
-  }  
+    this.selectedIndex = Math.min(this.invoice.items.length - 1, this.selectedIndex);
+  }
 
   pay() {
     this.flyoutView = 'payment';
@@ -244,14 +273,14 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  onItemChange(item) {    
-    this.flyout.hide();    
-    this.invoice.items = this.invoice.items.map(x => x.id == item.id ? item : x);              
+  onItemChange(item) {
+    this.flyout.hide();
+    this.invoice.items = this.invoice.items.map(x => x.id == item.id ? item : x);
   }
 
-  onPaymentCommit(payment: Payment) {    
+  onPaymentCommit(payment: Payment) {
     this.flyout.hide();
-    this.save(payment);    
+    this.save(payment);
   }
 
   new() {
@@ -284,6 +313,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dialog.open(AddCustomerDialog).afterClosed().subscribe(() => {
       this.grid.enableHotkeys();
       this.lockHotkeys = false;
+      this.productLookup.focus();
     });
   }
 
@@ -295,13 +325,15 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
         $(_this.el.nativeElement).find('.toolbar-search .dropdown-container').fadeIn(100, function () {
           _this.searchInput.focus();
         });
-      });          
-    });    
+      });
+    });
   }
 
   endSearch() {
-    this.searching = false;
-    $(this.el.nativeElement).find('.actions').fadeIn(100);
+    setTimeout(() => {
+      this.searching = false;
+      $(this.el.nativeElement).find('.actions').fadeIn(100);
+    }, 300);
   }
 
   onSearch(query) {
@@ -313,6 +345,9 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this._searchSubscription = this.invoiceService.lookup(query).subscribe((invoices: Invoice[]) => {
       this.invoices = invoices;
       this.isLoading = false;
+      if (query.startsWith('$')) {
+        this.searchInput.show();
+      }
     });
   }
 
@@ -346,16 +381,9 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
 
-    this.invoiceService.save(invoice).subscribe((result: Invoice) => {      
+    this.invoiceService.save(invoice).subscribe((result: Invoice) => {
       this.notifier.notify('success', 'Lưu thành công');
-
       this.invoice = Invoice.from(result);
-      //if (!invoice.id) {
-      //  this.router.navigateByUrl(`/retail/${result.id}`);
-      //}
-      //else {
-      //  this.invoice = Invoice.from(result);
-      //}
     });
   }
 
@@ -366,5 +394,21 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   height() {
     return $(window).height() - $('.mat-toolbar').outerHeight(true) - $('.dropdown-container').outerHeight();
+  }
+
+  cancel() {
+    this.dialog.open(ConfirmDialogComponent,
+      { data: { msg: 'Bạn có chắc chắn hủy đơn hàng này?' } })
+      .afterClosed()
+      .subscribe(result => {
+        if (result == DialogResult.OK) {
+          this.invoiceService.cancel(this.invoice.id).subscribe(invoice => {
+            this.notifier.notify('success', 'Đơn hàng đã hủy');
+            this.invoice = Invoice.from(invoice);
+          });
+        }
+
+        this.productLookup.focus();
+      });
   }
 }

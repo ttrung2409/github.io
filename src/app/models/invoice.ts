@@ -14,10 +14,10 @@ export default class Invoice {
   public createdAt: string;
   public updatedAt: string;  
   public customerId: number;
-  public discount: number;
-  public tax: number;
-  public freight: number;
-  public fee: number;
+  public discount: number | any;
+  public tax: number | any;
+  public freight: number | any;
+  public fee: number | any;
   public subTotal: number;
   public totalCost: number;
   public total: number;
@@ -32,7 +32,11 @@ export default class Invoice {
   }  
 
   get computedTotal(): number {
-    return this.computedSubTotal - (this.discount || 0) + (this.tax || 0) + (this.freight || 0) + (this.fee || 0);
+    return this.computedSubTotal
+      - parseFloat(this.discount || 0)
+      + parseFloat(this.tax || 0)
+      + parseFloat(this.freight || 0)
+      + parseFloat(this.fee || 0);
   }
 
   get computedTotalCost(): number {
@@ -60,5 +64,6 @@ export default class Invoice {
 
 export enum InvoiceStatus {
   New = "New",
-  Paid = "Paid"
+  Paid = "Paid",
+  Cancelled = "Cancelled"
 }

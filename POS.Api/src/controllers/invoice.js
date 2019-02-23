@@ -21,6 +21,10 @@ router.post('/', function (req, res) {
   });
 });
 
+router.put('/cancel', function (req, res) {
+  invoiceService.cancel(req.body.id).then(invoice => res.send(invoice));
+});
+
 router.put('/', function (req, res) {
   invoiceService.save(req.body).then(invoice => {
     res.send(invoice);

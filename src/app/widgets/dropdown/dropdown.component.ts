@@ -35,8 +35,9 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
   @Input() itemTemplate: TemplateRef<any>;
   @Input() requestForOption: (value) => Observable<any>;
   @Input() clearable: boolean = true;
+  @Input() itemClass: string;
 
-  @Output('keydown') onKeydown = new EventEmitter();
+  @Output() onKeydown = new EventEmitter();
   @Output('show') onShow = new EventEmitter();
   @Output('hide') onHide = new EventEmitter();
   @Output('select') onSelect = new EventEmitter();

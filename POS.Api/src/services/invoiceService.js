@@ -46,10 +46,28 @@ export default class InvoiceService {
   }  
 
   lookup(query) {
+    if (query.startsWith('$')) {
+      return invoiceRepository.lookup(query, { recent: true });
+    }
+
     return invoiceRepository.lookup(query);
   }
 
   delete(id) {
     return invoiceRepository.delete(id);
-  }  
+  }
+
+  cancel(id) {
+    return invoiceRepository.updateOne({
+      status: 'Cancelled',
+      subTotal: 0,
+      total: 0,
+      totalCost: 0,
+      amountPaid: 0,
+      freight: 0,
+      fee: 0,
+      tax: 0,
+      discount: 0      
+    }, { id }).then(() => invoiceRepository.getFull(id));
+  }
 }

@@ -9,7 +9,7 @@ const Op = Sequelize.Op;
 export default class InvoiceRepository extends RepositoryBase {
   constructor() {
     super(Invoice);
-  } 
+  }  
 
   getFull(id) {
     return this.modelDef.findOne({
@@ -30,7 +30,7 @@ export default class InvoiceRepository extends RepositoryBase {
     });
   }
 
-  lookup(query) {
+  lookup(query, { recent } = {}) {
     let where = {
       [Op.or]: {
         no: {
@@ -52,12 +52,12 @@ export default class InvoiceRepository extends RepositoryBase {
     };
 
     return this.modelDef.findAll({
-      where,
+      where: recent ? {} : where,
       limit: 10,
       include: [{ association: 'customer' }],
-      order: [['date', 'desc']],     
+      order: [['no', 'desc']],     
     }).then(invoices => invoices.map(x => x.get({ plain: true })));
-  }
+  }  
 
   create(invoice, { transaction } = {}) {
     let _this = this;
@@ -124,7 +124,7 @@ export default class InvoiceRepository extends RepositoryBase {
         return Promise.all(promises).then(() => invoice);
       });  
     }      
-  }
+  }  
 
   delete(id) {
     return this.modelDef.destroy({

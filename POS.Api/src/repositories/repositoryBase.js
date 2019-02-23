@@ -26,6 +26,13 @@ export default class RepositoryBase {
     }); 
   }
 
+  updateOne(plainModel, where, { transaction } = {}) {
+    return this.modelDef.update(plainModel, {
+      where,
+      transaction
+    });
+  }
+
   delete(where, { transaction } = {}) {
     return this.modelDef.destroy(where, {
       transaction
