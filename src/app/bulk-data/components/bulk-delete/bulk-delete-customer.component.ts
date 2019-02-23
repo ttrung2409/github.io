@@ -20,7 +20,7 @@ export class BulkDeleteCustomerComponent implements OnInit {
   }
 
   initGridColumn() {
-    this.columns = [
+    this.columns = [     
       new GridColumn({
         caption: 'Mã KH',
         field: 'no',

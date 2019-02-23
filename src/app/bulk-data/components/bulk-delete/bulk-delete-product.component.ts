@@ -20,7 +20,7 @@ export class BulkDeleteProductComponent implements OnInit {
   }
 
   initGridColumn() {
-    this.columns = [
+    this.columns = [      
       new GridColumn({
         caption: 'Mã SP',
         field: 'no',

@@ -18,4 +18,5 @@ export default class Product {
   public notes: string;
 
   public childItem: Product;
+  public selected: boolean;
 }

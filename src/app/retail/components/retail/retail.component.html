@@ -1,7 +1,7 @@
 <div class="retail" [class.dirty]="dirty">
   <toolbar [class]="invoice.status.toLowerCase()">
     <toolbar-title>
-        Bán lẻ {{invoice.no}} - {{invoice.date | date:'dd/MM/yyyy'}}
+        Bán lẻ {{invoice.no}} - {{invoice.date | date:'dd/MM/yyyy'}} - {{customerName}}
     </toolbar-title>
     <right>
       <div class="toolbar-search">

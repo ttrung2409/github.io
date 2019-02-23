@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, DoCheck, IterableDiffers, OnDestroy, IterableDiffer, SimpleChanges, OnChanges, ViewChild, HostListener, ElementRef, Inject } from '@angular/core';
 import { Subscription, fromEvent } from 'rxjs';
 import { Key } from 'ts-keycode-enum';
-import { Sort, MatSort } from '@angular/material';
+import { Sort, MatSort, MatCheckboxChange } from '@angular/material';
 import { APP_GLOBAL } from 'src/app/app.global';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import UtilsService from 'src/app/services/utils.service';
@@ -36,6 +36,7 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
   @Input() virtualScroll: boolean;
   @Input() rowHeight: number = 40;
   @Input() rowClass: string;
+  @Input() selectable: boolean;
 
   @Output() rowClick = new EventEmitter();
   @Output() selectedIndexChange = new EventEmitter();
@@ -47,7 +48,11 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
   @ViewChild(CdkVirtualScrollViewport) viewport;
   @ViewChild('container') container: ElementRef;
 
-  bindingDataSource: any[];
+  get allSelected() {
+    return this.bindingSource.length > 0 && this.bindingSource.every(x => x.selected);
+  }
+
+  bindingSource: any[] = [];
 
   get displayedColumns() {
     return this.columns.map(x => x.field);
@@ -56,6 +61,10 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
   ngOnInit() {    
     for (let column of this.columns) {
       column.format = column.format || ((value, item) => value);      
+    }
+
+    if (this.selectable) {
+      this.columns.unshift(new GridColumn({ selectable: true }));
     }
 
     this.enableHotkeys();
@@ -99,7 +108,7 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
 
   ngDoCheck() {    
     if (!!this._differ.diff(this.dataSource)) {      
-      this.bindingDataSource = [...this.dataSource];     
+      this.bindingSource = [...this.dataSource];     
     }    
   }
 
@@ -196,6 +205,12 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
   disableHotkeys() {
     this._hotkeySubscription.unsubscribe();    
   }
+
+  toggleAll(change: MatCheckboxChange) {
+    for (let row of this.bindingSource) {
+      row.selected = change.checked;
+    }
+  }
 }
 
 export class GridColumn {
@@ -209,5 +224,6 @@ export class GridColumn {
   public format: Function;
   public footer: any;
   public sortable: boolean;
-  public isNumber: boolean;  
+  public isNumber: boolean;
+  public selectable: boolean;
 }

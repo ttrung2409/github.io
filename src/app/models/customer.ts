@@ -13,6 +13,7 @@ export default class Customer {
   public isActive: boolean = true;
 
   public type: CustomerType;
+  public selected: boolean;
 }
 
 export class CustomerType {

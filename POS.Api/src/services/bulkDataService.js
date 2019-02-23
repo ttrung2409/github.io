@@ -18,4 +18,12 @@ export default class BulkDataService {
   deleteCustomersWithIncomeBetween(params) {
     return repo.deleteCustomersWithIncomeBetween(params);
   }
+
+  deleteProducts(ids) {
+    return repo.deleteProducts(ids);
+  }
+
+  deleteCustomers(ids) {
+    return repo.deleteCustomers(ids);
+  }
 }

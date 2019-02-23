@@ -69,17 +69,24 @@ export class BulkDeleteComponent implements OnInit {
         if (result == DialogResult.OK) {
           switch (this.viewBy) {
             case 'product':
-              this.bulkDataService.deleteProductsWithIncomeBetween(_.pickBy(this.params, x => x !== null)).subscribe(() => {
-                this.notifier.notify('success', 'Xóa thành công');
-                this.products = [];
-              });
+              let selectedProducts = this.products.filter(x => x.selected);
+              if (selectedProducts.length > 0) {
+                this.bulkDataService.deleteProducts(selectedProducts.map(x => x.id).join(',')).subscribe(() => {
+                  this.notifier.notify('success', 'Xóa thành công');
+                  this.products = this.products.filter(x => !x.selected);
+                });
+              }
+              
 
               break;
             case 'customer':
-              this.bulkDataService.deleteCustomersWithIncomeBetween(_.pickBy(this.params, x => x !== null)).subscribe(() => {
-                this.notifier.notify('success', 'Xóa thành công');
-                this.customers = [];
-              });
+              let selectedCustomers = this.customers.filter(x => x.selected);
+              if (selectedCustomers.length > 0) {
+                this.bulkDataService.deleteCustomers(selectedCustomers.map(x => x.id).join(',')).subscribe(() => {
+                  this.notifier.notify('success', 'Xóa thành công');
+                  this.customers = this.customers.filter(x => !x.selected);
+                });
+              }
 
               break;           
           }

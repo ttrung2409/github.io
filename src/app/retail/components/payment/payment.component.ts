@@ -54,7 +54,8 @@ export class PaymentComponent implements OnInit, OnChanges {
       this.payment = this.invoice.payments.length > 0 ? this.invoice.payments[0] : new Payment({
         invoiceId: this.invoice.id,
         customerId: this.invoice.customerId,
-        method: PaymentMethod.Cash
+        method: PaymentMethod.Cash,
+        amount: this.invoice.computedTotal        
       });      
     }
   }    

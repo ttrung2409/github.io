@@ -1,5 +1,5 @@
 <div #container class="grid-container autoflow">
-  <table mat-table [dataSource]="bindingDataSource" matSort
+  <table mat-table [dataSource]="bindingSource" matSort
          [matSortDisableClear]="true"
          [matSortActive]="defaultSearch.orderBy"
          [matSortDirection]="defaultSearch.isDesc ? 'desc' : 'asc'"
@@ -33,34 +33,40 @@
          [matSortDisableClear]="true"
          [matSortActive]="defaultSearch.orderBy"
          [matSortDirection]="defaultSearch.isDesc ? 'desc' : 'asc'"
-         (matSortChange)="onSortChange($event)">
-    <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.field">
-      <th mat-header-cell *matHeaderCellDef
-          [mat-sort-header]="column.field"
-          [disabled]="!column.sortable"
-          [style.width]="column.width || 'auto'">
-        {{column.caption}}
-      </th>
-      <ng-container *ngIf="showFooter">
-        <td mat-footer-cell *matFooterCellDef>{{getFooterValue(column.footer)}}</td>
+         (matSortChange)="onSortChange($event)">    
+      <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.field">
+        <ng-container *ngIf="column.selectable">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox [ngModel]="allSelected" (change)="toggleAll($event)"></mat-checkbox>
+          </th>
+        </ng-container>
+        <ng-container *ngIf="!column.selectable">
+          <th mat-header-cell *matHeaderCellDef
+              [mat-sort-header]="column.field"
+              [disabled]="!column.sortable"
+              [style.width]="column.width || 'auto'">
+            {{column.caption}}
+          </th>
+        </ng-container>        
+        <ng-container *ngIf="showFooter">
+          <td mat-footer-cell *matFooterCellDef>{{getFooterValue(column.footer)}}</td>
+        </ng-container>
       </ng-container>
-    </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: isHeaderSticky"></tr>  
   </table>
   <cdk-virtual-scroll-viewport [itemSize]="rowHeight" class="virtual-scroll-viewport">
     <table class="mat-table">
-      <tr *cdkVirtualFor="let row of bindingDataSource"
+      <tr *cdkVirtualFor="let row of bindingSource"
           [style.height]="rowHeight + 'px'"
           class="mat-row"
-          [ngClass]="!!rowClass ? row[rowClass].toLowerCase() : ''">
-        <td *ngFor="let column of columns" [style.width]="column.width || 'auto'">
-          <ng-template [ngIf]="!!column.isNumber" [ngIfElse]="elseBlock">
-            {{column.format(getCellData(row, column), row) | number}}
-          </ng-template>
-          <ng-template #elseBlock>
-            {{column.format(getCellData(row, column), row)}}
-          </ng-template>
-        </td>
+          [ngClass]="!!rowClass ? row[rowClass].toLowerCase() : ''">        
+        <ng-container *ngFor="let column of columns">
+          <td *ngIf="column.selectable">
+            <mat-checkbox [(ngModel)]="row.selected"></mat-checkbox>
+          </td>
+          <td *ngIf="!column.selectable" [style.width]="column.width || 'auto'"
+              [innerHtml]="column.format(getCellData(row, column), row)"></td>
+        </ng-container>        
       </tr>
     </table>
   </cdk-virtual-scroll-viewport>

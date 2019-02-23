@@ -1,5 +1,8 @@
 import context from '../dbContext'
 import Sequelize from 'sequelize'
+import { Product, Customer } from '../models'
+
+const Op = Sequelize.Op;
 
 export default class BulkDataRepository {
   getCustomersWithIncomeBetween(params) {
@@ -25,6 +28,26 @@ export default class BulkDataRepository {
   deleteCustomersWithIncomeBetween(params) {
     return context.query('call "deleteCustomersWithIncomeBetween"(:fromDate, :toDate, :fromAmount, :toAmount)', {
       replacements: params
+    });
+  }
+
+  deleteProducts(ids) {
+    return Product.destroy({
+      where: {
+        id: {
+          [Op.in]: ids
+        }
+      }
+    });
+  }
+
+  deleteCustomers(ids) {
+    return Customer.destroy({
+      where: {
+        id: {
+          [Op.in]: ids
+        }
+      }
     });
   }
 }

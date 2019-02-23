@@ -9,7 +9,7 @@ export default class UtilsService {
   formatNumber(numberIn, prefix = '') {    
     if (numberIn === undefined || numberIn === null || numberIn === '') return '';
 
-    let number = numberIn.toString().replace(/\.\d\d$/, '');
+    let number = numberIn.toString().replace(/\.\d*$/, '');
     let thousandSeparator = ',';
     let decimalSeparator = '.';
     let regex = new RegExp('[^' + decimalSeparator + '\\d]', 'g');

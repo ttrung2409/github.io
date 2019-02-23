@@ -91,6 +91,10 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
     return this.invoice.id > 0 && this.invoice.status != InvoiceStatus.Cancelled;
   }
 
+  get customerName() {
+    return this.invoice.id > 0 && !!this.invoice.customer ? this.invoice.customer.name : 'Khách lẻ';
+  }
+
   ngDoCheck() {
     if (this.invoice.status == InvoiceStatus.Cancelled) return;
 
@@ -231,7 +235,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
   }
 
   addItem(product: Product) {
-    if (!!product) {
+    if (!!product && product.id > 0) {
       let index = this.invoice.items.findIndex(x => x.productId == product.id);
       if (index > -1) {
         this.invoice.items[index].qty++;
@@ -248,8 +252,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
           cost: product.cost,         
           index: this.invoice.items.length + 1,
           isNew: true,
-          notes: product.notes,
-          childItem: product.childItem
+          notes: product.notes
         }));
 
         this.selectedIndex = this.invoice.items.length - 1;
@@ -403,26 +406,28 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
   }
 
   load(invoiceId) {
-    this.endSearch();
-    this.productLookup.focus();
+    if (invoiceId > 0) {
+      this.endSearch();
+      this.productLookup.focus();
 
-    if (this.dirty) {
-      this.grid.disableHotkeys();
-      this.dialog.open(ConfirmDialogComponent,
-        { data: { msg: 'Bạn vừa thay đổi đơn hàng. Bạn có chắc chắn hủy thay đổi và tiếp tục?' } })
-        .afterClosed()
-        .subscribe(result => {
-          this.grid.enableHotkeys();
-          this.productLookup.focus();
-          if (result == DialogResult.OK) {
-            load.call(this);
-          }
-        });
+      if (this.dirty) {
+        this.grid.disableHotkeys();
+        this.dialog.open(ConfirmDialogComponent,
+          { data: { msg: 'Bạn vừa thay đổi đơn hàng. Bạn có chắc chắn hủy thay đổi và tiếp tục?' } })
+          .afterClosed()
+          .subscribe(result => {
+            this.grid.enableHotkeys();
+            this.productLookup.focus();
+            if (result == DialogResult.OK) {
+              load.call(this);
+            }
+          });
+      }
+      else {
+        load.call(this);
+      }
     }
-    else {
-      load.call(this);
-    }
-
+    
     function load() {
       this.invoiceService.get(invoiceId).subscribe(invoice => {
         this.invoice = Invoice.from(invoice);
