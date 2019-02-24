@@ -59,9 +59,9 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
       case Key.DownArrow:      
         this._down = true;
         break;
-    }
+    }   
 
-    if (this.preventKeys.some(x => x == event.key)) {
+    if (this.preventKeys.some(x => typeof x === 'string' ? x == event.key : x == event.keyCode)) {
       event.preventDefault();
     }
 
@@ -83,7 +83,10 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
       });
          
       setTimeout(() => {
-        this.$dropdown.find('.menu > .message').css('display', this.bindingOptions.length > 0 ? 'none' : 'block');
+        if (this.bindingOptions.length > 0) {
+          this.show();
+        }
+
         if (!this.$dropdown.find('input.search').val()) {
           this.setSelected(this.model);
         }        
@@ -110,6 +113,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
       direction: this.direction,
       showOnFocus: this.showOnFocus,
       fullTextSearch: 'exact',
+      showNoResults: this.showNoResults,
       onShow: function () {
         if (!_this.showOnDown && _this._down) {
           _this._down = false;
@@ -139,8 +143,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
           _this.onSelect.emit(_this.model);
           _this.hide();
         }
-      },
-      ...(!this.showNoResults ? { onNoResults: function (search) { } } : {})
+      }      
     });
 
     this.$dropdown.find('input.search').off('focus');

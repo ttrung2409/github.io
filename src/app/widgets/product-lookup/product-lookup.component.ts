@@ -28,6 +28,7 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
   @Input() direction: string = 'auto';
   @Input() clearOnSelect: boolean = false;
   @Input() showNoResults: boolean = true;
+  @Input() preventKeys: string[] = [];
   @Output('select') selectEvent = new EventEmitter();
   @Output('keydown') keydownEvent = new EventEmitter();
 
@@ -63,7 +64,7 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
 
       this._subscription = this.productService.lookup(query).subscribe((products: Product[]) => {
         this.products = products;
-        this.isLoading = false;       
+        this.isLoading = false;      
       });
     }    
   }

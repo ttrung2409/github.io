@@ -10,7 +10,7 @@
            (keydown)="onKeydown($event)"
            (select)="onSelect($event)"
            [showOnDown]="false"
-           [preventKeys]="['+', '-']"
+           [preventKeys]="preventKeys"
            (show)="onShow()"
            (hide)="onHide()"
            [requestForOption]="requestForProduct.bind(this)"

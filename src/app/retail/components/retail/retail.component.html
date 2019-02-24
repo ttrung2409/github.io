@@ -70,7 +70,8 @@
                       [(model)]="selectedProductId"
                       (select)="addItem($event)"
                       [clearOnSelect]="true"
-                      [showNoResults]="false">
+                      [showNoResults]="false"
+                      [preventKeys]="['+','-']">
       </product-lookup>
     </div>
     <div class="sixteen wide column">
@@ -82,8 +83,8 @@
             (delete)="onDelete($event)"
             [isHeaderSticky]="false"
             [showFooter]="true"
-            [height]="height"
-            [selectOnEnter]="false">
+            [height]="height"            
+            [useShift]="true">
       </grid>
     </div>
   </div>  

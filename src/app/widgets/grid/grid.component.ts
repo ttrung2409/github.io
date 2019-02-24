@@ -38,6 +38,7 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
   @Input() rowClass: string;
   @Input() selectable: boolean;
   @Input() selectOnEnter: boolean = true;
+  @Input() useShift: boolean;
 
   @Output() rowClick = new EventEmitter();
   @Output() selectedIndexChange = new EventEmitter();
@@ -168,15 +169,17 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
         this.selectedIndexChange.emit(this.selectedIndex);
         break;
       case Key.Enter:
+        if (this.useShift && !event.shiftKey) return;
         if (this.selectedIndex > -1 && this.selectOnEnter) {
           this.select.emit(this.dataSource[this.selectedIndex]);
         }
         
         break;
-      case Key.Delete:        
+      case Key.Delete:
+        if (this.useShift && !event.shiftKey) return;
         if (this.selectedIndex > -1) {
           this.delete.emit(this.dataSource[this.selectedIndex]);
-        }
+        }      
         
         break;
     }
