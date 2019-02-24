@@ -69,7 +69,8 @@
       <product-lookup #productLookup
                       [(model)]="selectedProductId"
                       (select)="addItem($event)"
-                      [clearOnSelect]="true">
+                      [clearOnSelect]="true"
+                      [showNoResults]="false">
       </product-lookup>
     </div>
     <div class="sixteen wide column">
@@ -81,7 +82,8 @@
             (delete)="onDelete($event)"
             [isHeaderSticky]="false"
             [showFooter]="true"
-            [height]="height">
+            [height]="height"
+            [selectOnEnter]="false">
       </grid>
     </div>
   </div>  

@@ -34,6 +34,7 @@ export class TypeaheadComponent extends BindableComponent implements OnInit, OnD
   @Input() itemTemplate: TemplateRef<any>;
   @Input() requestForOption: (value) => Observable<any>;
   @Input() itemClass: string;
+  @Input() showNoResults: boolean = true;
 
   @Output() search = new EventEmitter();
   @Output('keydown') keydownEvent = new EventEmitter();

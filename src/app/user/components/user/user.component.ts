@@ -37,14 +37,20 @@ export class UserComponent implements OnInit, OnChanges {
   }
 
   new() {
-    this.user = new User();
-    this.form.resetForm();
+    this.reset();
+    this.user = new User();    
   }
 
   load(id) {
+    this.reset();
     this.userService.get(id).subscribe(user => {
-      this.user = user;
+      this.user = user;      
     });
+  }
+
+  reset() {
+    this.form.resetForm();
+    this.errors.clear();
   }
   
   save() {

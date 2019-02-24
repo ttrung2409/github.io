@@ -37,6 +37,7 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
   @Input() rowHeight: number = 40;
   @Input() rowClass: string;
   @Input() selectable: boolean;
+  @Input() selectOnEnter: boolean = true;
 
   @Output() rowClick = new EventEmitter();
   @Output() selectedIndexChange = new EventEmitter();
@@ -167,7 +168,7 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
         this.selectedIndexChange.emit(this.selectedIndex);
         break;
       case Key.Enter:
-        if (this.selectedIndex > -1) {
+        if (this.selectedIndex > -1 && this.selectOnEnter) {
           this.select.emit(this.dataSource[this.selectedIndex]);
         }
         
@@ -194,6 +195,7 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
   }
 
   enableHotkeys() {
+    this.disableHotkeys();    
     this._hotkeySubscription = new Subscription();
     this._hotkeySubscription.add(fromEvent(document, 'keydown').subscribe((event: KeyboardEvent) => {
       if (!this._global.lockHotkeys) {
@@ -203,7 +205,10 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
   }
 
   disableHotkeys() {
-    this._hotkeySubscription.unsubscribe();    
+    if (!!this._hotkeySubscription) {
+      this._hotkeySubscription.unsubscribe();
+      this._hotkeySubscription = null;
+    }    
   }
 
   toggleAll(change: MatCheckboxChange) {

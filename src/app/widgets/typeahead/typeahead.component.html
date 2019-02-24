@@ -15,7 +15,8 @@
           (show)="onShow()"
           (hide)="onHide()"          
           (onKeydown)="onKeydown($event)"
-          (select)="onSelect($event)"          
+          (onSelect)="onSelect($event)"          
           (focus)="onFocus()"
-          (blur)="onBlur()">   
+          (blur)="onBlur()"
+          [showNoResults]="showNoResults">   
 </dropdown>

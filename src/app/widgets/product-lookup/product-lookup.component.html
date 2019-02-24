@@ -14,7 +14,8 @@
            (show)="onShow()"
            (hide)="onHide()"
            [requestForOption]="requestForProduct.bind(this)"
-           [itemTemplate]="itemTemplate">
+           [itemTemplate]="itemTemplate"
+           [showNoResults]="showNoResults">
   <ng-template #itemTemplate let-item="item">
     <div *ngIf="!!item.uom">{{item.name}} ({{item.uom}})</div>
     <div *ngIf="!item.uom">{{item.name}}</div>

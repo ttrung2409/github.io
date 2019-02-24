@@ -27,6 +27,7 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
   
   @Input() direction: string = 'auto';
   @Input() clearOnSelect: boolean = false;
+  @Input() showNoResults: boolean = true;
   @Output('select') selectEvent = new EventEmitter();
   @Output('keydown') keydownEvent = new EventEmitter();
 

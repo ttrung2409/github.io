@@ -1,12 +1,12 @@
 <div class="ui container fluid" id="app" [class.login-container]="!isAuthenticated">
   <div class="ui vertical left very thin sidebar menu visible" *ngIf="isAuthenticated">
-    <a routerLink="/retail" routerLinkActive="active" class="item" *ngIf="authorise('retail')"><img src="assets/shopping-cart.svg" /></a>
-    <a routerLink="/product" routerLinkActive="active" class="item" *ngIf="authorise('product')"><img src="assets/product.svg" /></a>
-    <a routerLink="/customer" routerLinkActive="active" class="item" *ngIf="authorise('customer')"><img src="assets/customer.svg" /></a>
-    <a routerLink="/report" routerLinkActive="active" class="item" *ngIf="authorise('report')"><img src="assets/report.svg" /></a>
-    <a routerLink="/bulk-data" routerLinkActive="active" class="item" *ngIf="authorise('bulk-delete')"><img src="assets/data.svg" /></a>
-    <a routerLink="/user" routerLinkActive="active" class="item" *ngIf="authorise('user')"><img src="assets/user.svg" /></a>
-    <a class="item" (click)="signout()"><img src="assets/exit.svg" /></a>
+    <a routerLink="/retail" routerLinkActive="active" class="item" *ngIf="authorise('retail')" title="Bán lẻ"><img src="assets/shopping-cart.svg" /></a>
+    <a routerLink="/product" routerLinkActive="active" class="item" *ngIf="authorise('product')" title="Quản lý sản phẩm"><img src="assets/product.svg" /></a>
+    <a routerLink="/customer" routerLinkActive="active" class="item" *ngIf="authorise('customer')" title="Quản lý khách hàng"><img src="assets/customer.svg" /></a>
+    <a routerLink="/report" routerLinkActive="active" class="item" *ngIf="authorise('report')" title="Báo cáo"><img src="assets/report.svg" /></a>
+    <a routerLink="/bulk-data" routerLinkActive="active" class="item" *ngIf="authorise('bulk-delete')" title="Xóa dữ liệu"><img src="assets/data.svg" /></a>
+    <a routerLink="/user" routerLinkActive="active" class="item" *ngIf="authorise('user')" title="Quản lý người dùng"><img src="assets/user.svg" /></a>
+    <a class="item" (click)="signout()" title="Thoát"><img src="assets/exit.svg" /></a>
   </div>  
   <div class="pusher content">    
     <router-outlet></router-outlet>

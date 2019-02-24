@@ -36,17 +36,18 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
   @Input() requestForOption: (value) => Observable<any>;
   @Input() clearable: boolean = true;
   @Input() itemClass: string;
+  @Input() showNoResults: boolean = true;
 
   @Output() onKeydown = new EventEmitter();
+  @Output() onSelect = new EventEmitter();
   @Output('show') onShow = new EventEmitter();
-  @Output('hide') onHide = new EventEmitter();
-  @Output('select') onSelect = new EventEmitter();
+  @Output('hide') onHide = new EventEmitter();  
   @Output('focus') onFocus = new EventEmitter();
   @Output('blur') onBlur = new EventEmitter();
 
   bindingOptions = [];
 
-  @HostListener('keydown', ['$event']) keydown(event) {
+  @HostListener('keydown', ['$event']) handleKeydown(event) {
     switch (event.keyCode) {
       case Key.Backspace:
       case Key.Delete:
@@ -65,6 +66,10 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
     }
 
     this.onKeydown.emit(event);
+  }
+
+  @HostListener('select', ['$event']) handleSelect(event) {
+    event.stopPropagation();
   }
 
   ngOnInit() {
@@ -105,12 +110,12 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
       direction: this.direction,
       showOnFocus: this.showOnFocus,
       fullTextSearch: 'exact',
-      onShow: function () {                             
+      onShow: function () {
         if (!_this.showOnDown && _this._down) {
           _this._down = false;
           return false;
         }
-        
+
         _this._global.lockHotkeys = true;
         $(_this.el.nativeElement).find('.mat-form-field').addClass('mat-form-field-should-float');
         $(_this.el.nativeElement).find('.mat-form-field-underline').addClass('highlight');
@@ -123,7 +128,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
 
         $(_this.el.nativeElement).find('.mat-form-field-underline').removeClass('highlight');
 
-        setTimeout(() => {          
+        setTimeout(() => {
           _this._global.lockHotkeys = false
           _this.onHide.emit();
         });
@@ -134,14 +139,15 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
           _this.onSelect.emit(_this.model);
           _this.hide();
         }
-      }   
+      },
+      ...(!this.showNoResults ? { onNoResults: function (search) { } } : {})
     });
 
     this.$dropdown.find('input.search').off('focus');
     this.$dropdown.find('input.search').off('blur');
     this.$dropdown.find('input.search').on('focus', () => {
       this.onFocus.emit();
-    });
+    });   
 
     this.$dropdown.find('input.search').on('blur', () => {
       this.onBlur.emit();
