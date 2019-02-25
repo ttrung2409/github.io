@@ -83,7 +83,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
       });
          
       setTimeout(() => {
-        if (this.bindingOptions.length > 0) {
+        if (this.$dropdown.find('input.search').is(':focus') && this.bindingOptions.length > 0) {
           this.show();
         }
 

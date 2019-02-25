@@ -440,11 +440,12 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
       subTotal: this.invoice.computedSubTotal,
       total: this.invoice.computedTotal,
       totalCost: this.invoice.computedTotalCost,
-      amountPaid: Math.min(!!payment ? payment.amount : (this.invoice.amountPaid || 0), this.invoice.computedTotal),
-      status: !!payment ? InvoiceStatus.Paid : this.invoice.status,
+      amountPaid: Math.min(!!payment ? payment.amount : (this.invoice.amountPaid || 0), this.invoice.computedTotal),      
       customerId: !!payment ? payment.customerId : this.invoice.customerId,
       payments: !!payment ? [payment] : undefined
     });
+
+    invoice.status = invoice.total - invoice.amountPaid == 0 ? InvoiceStatus.Paid : this.invoice.status;
 
     for (let item of invoice.items) {
       if (item.isNew) {

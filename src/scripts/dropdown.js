@@ -468,11 +468,13 @@ $.fn.dropdown = function(parameters) {
             module.debug('No API results retrieved, searching before show');
             module.queryRemote(module.get.query(), module.show);
           }
+
+          if (module.has.message() && !(module.has.maxSelections() || module.has.allResultsFiltered())) {
+            module.remove.message();
+          }
+
           if( module.can.show() && !module.is.active() ) {
-            module.debug('Showing dropdown');
-            if(module.has.message() && !(module.has.maxSelections() || module.has.allResultsFiltered()) ) {
-              module.remove.message();
-            }
+            module.debug('Showing dropdown');          
             if(module.is.allFiltered()) {
               return true;
             }
