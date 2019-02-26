@@ -9,10 +9,10 @@ import Permission from "../models/permission";
   providedIn: 'root',
 })
 export default class AuthService extends HttpService {
-  private _user: User;
   private _permissions: Permission[] = [];
 
   isAuthenticated$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  user: User;
 
   authenticate(username, password): Observable<boolean> {
     return super._post('auth', { username, password }).pipe(
@@ -20,7 +20,7 @@ export default class AuthService extends HttpService {
         if (result.valid) {
           sessionStorage.setItem('auth-token', result.token);
           this.isAuthenticated$.next(result.valid);
-          this._user = result.user;
+          this.user = result.user;
           this._permissions = result.permissions;
           this.isAuthenticated$.next(result.valid);
         }        
@@ -33,7 +33,7 @@ export default class AuthService extends HttpService {
       tap((result: any) => {
         if (result.valid) {
           sessionStorage.setItem('auth-token', token);
-          this._user = result.user;
+          this.user = result.user;
           this._permissions = result.permissions;
           this.isAuthenticated$.next(result.valid);
         }        
@@ -47,7 +47,7 @@ export default class AuthService extends HttpService {
 
   signout() {
     sessionStorage.removeItem('auth-token');
-    this._user = null;
+    this.user = null;
     this._permissions = [];    
     this.isAuthenticated$.next(false);
   }

@@ -85,17 +85,17 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
         sortable: true
       }),
       new GridColumn({
-        caption: 'Giá lẻ',
-        field: 'retailPrice',
-        isNumber: true,
-        sortable: true
-      }),
-      new GridColumn({
         caption: 'Giá sỉ',
         field: 'wholesalePrice',
         isNumber: true,
         sortable: true
       }),
+      new GridColumn({
+        caption: 'Giá lẻ',
+        field: 'retailPrice',
+        isNumber: true,
+        sortable: true
+      }),     
       new GridColumn({
         caption: 'Giá khuyến mãi',
         field: 'discountPrice',

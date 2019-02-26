@@ -19,7 +19,13 @@ export class NumberDirective implements OnInit, OnChanges {
   }  
   
   @HostListener('keydown', ['$event']) onKeyDown(event: KeyboardEvent) {
-    if (event.keyCode == Key.Tab || event.keyCode == Key.Backspace || event.keyCode == Key.Home) return;
+    if (event.shiftKey) return;
+    if (event.keyCode == Key.Tab
+      || event.keyCode == Key.Backspace
+      || event.keyCode == Key.Home
+      || event.keyCode == Key.Delete
+      || event.keyCode == Key.Home
+      || event.keyCode == Key.End) return;
     if (!/[0-9]/.test(event.key)) event.preventDefault();    
   }
 

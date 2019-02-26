@@ -49,7 +49,7 @@
       <button mat-button (click)="view()" [disabled]="!canView">
         <mat-icon>info</mat-icon>
       </button>
-      <button mat-button [disabled]="!canPrint">
+      <button mat-button [disabled]="!canPrint" (click)="print()">
         <mat-icon>print</mat-icon>
       </button>
       <button mat-button (click)="addCustomer()">
@@ -102,5 +102,6 @@
       </payment>
       <overview *ngIf="flyoutView == 'overview'" [invoice]="invoice"></overview>
     </content>
-  </flyout>  
+  </flyout>
+  <print [invoice]="invoice" style="display: none"></print>  
 </div>

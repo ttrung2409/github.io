@@ -13,6 +13,17 @@ export class ConfirmDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<ConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
+  @HostListener('keydown', ['$event']) onKeydown(e: KeyboardEvent) {
+    switch (e.keyCode) {
+      case Key.Y:
+        this.ok();
+        break;
+      case Key.N:
+        this.close();
+        break;
+    }
+  }
+
   ngOnInit() {
   }
 

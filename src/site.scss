@@ -110,7 +110,7 @@
     }
   }
 
-  .mat-row.new {
+  .mat-row.new, .mat-row.partial {
     td:first-child {
       border-left: 4px solid #f2da3e;
     }

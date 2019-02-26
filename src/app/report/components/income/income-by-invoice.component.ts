@@ -97,7 +97,7 @@ export class IncomeByInvoiceComponent implements OnInit {
       this.invoices = invoices.map((x: any) => {
         return Object.assign(x, {
           total: parseFloat(x.total || 0),
-          totalCost: parseFloat(x.total || 0),
+          totalCost: parseFloat(x.totalCost || 0),
           profit: x.total - x.totalCost,
           amountPaid: parseFloat(x.amountPaid || 0),
           balance: x.total - x.amountPaid

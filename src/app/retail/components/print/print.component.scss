@@ -1,0 +1,31 @@
+.print {
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+
+  p {
+    margin-bottom: 8px;
+  }
+
+  .section {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    border-top: 1px dashed grey;
+
+    &.total {
+      padding-bottom: 0;
+    }
+
+    &.shop-info {
+      padding-top: 12px;
+    }
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  div.flex {
+    margin-bottom: 8px;
+  }
+}

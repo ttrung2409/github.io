@@ -26,6 +26,7 @@ import Payment, { PaymentMethod } from 'src/app/models/payment';
 import CustomerService from 'src/app/services/customer.service';
 import { ConfirmDialogComponent } from 'src/app/widgets/confirm-dialog/confirm-dialog.component';
 import DialogResult from 'src/app/valueObjects/DialogResult';
+import { PrintComponent } from '../print/print.component';
 
 @Component({
   selector: 'retail',
@@ -58,6 +59,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
   @ViewChild('grid') grid: GridComponent;
   @ViewChild('paymentView') paymentView: PaymentComponent;
   @ViewChild('searchInput') searchInput: TypeaheadComponent;
+  @ViewChild(PrintComponent) printComponent;
 
   columns: GridColumn[];
   invoice: Invoice = new Invoice();
@@ -445,7 +447,8 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
       payments: !!payment ? [payment] : undefined
     });
 
-    invoice.status = invoice.total - invoice.amountPaid == 0 ? InvoiceStatus.Paid : this.invoice.status;
+    invoice.status = invoice.amountPaid >= invoice.total ? InvoiceStatus.Paid
+      : invoice.amountPaid > 0 ? InvoiceStatus.Partial : InvoiceStatus.New;
 
     for (let item of invoice.items) {
       if (item.isNew) {
@@ -485,5 +488,9 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
           });
         }        
       });
+  }
+
+  print() {    
+    this.printComponent.print(); 
   }
 }

@@ -17,8 +17,7 @@ export default class AuthService {
             user: { id: user.id, name: user.name },
             permissions: user.permissions.map(x => x.permission.code) },
             config.jwt.privateKey,
-            {
-              expiresIn: '24h',
+            {              
               issuer: config.jwt.issuer,
               audience: config.jwt.audience
             }).then(token => {

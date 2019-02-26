@@ -11,6 +11,7 @@ import { NoProductFoundDialog } from './components/no-product-found-dialog/no-pr
 import { AddCustomerDialog } from './components/add-customer-dialog/add-customer-dialog.component';
 import { OverviewComponent } from './components/overview/overview.component';
 import { ConfirmDialogComponent } from '../widgets/confirm-dialog/confirm-dialog.component';
+import { PrintComponent } from './components/print/print.component';
 
 @NgModule({
   imports: [
@@ -25,7 +26,8 @@ import { ConfirmDialogComponent } from '../widgets/confirm-dialog/confirm-dialog
     QtyEditorComponent,
     NoProductFoundDialog,
     AddCustomerDialog,
-    OverviewComponent
+    OverviewComponent,
+    PrintComponent
   ],
   providers: [DecimalPipe],
   entryComponents: [

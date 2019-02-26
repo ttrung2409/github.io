@@ -5,7 +5,7 @@
 
   .toolbar {
     .mat-toolbar {
-      &.new {
+      &.new, &.partial {
         border-left: 8px solid #f2da3e !important;
       }
 
@@ -19,7 +19,7 @@
     }
 
     .dropdown .item {
-      &.new {
+      &.new, &.partial {
         border-left: 4px solid #f2da3e !important;
       }
 

@@ -65,5 +65,6 @@ export default class Invoice {
 export enum InvoiceStatus {
   New = "New",
   Paid = "Paid",
-  Cancelled = "Cancelled"
+  Cancelled = "Cancelled",
+  Partial = "Partial"
 }
