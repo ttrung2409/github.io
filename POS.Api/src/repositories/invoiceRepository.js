@@ -22,7 +22,10 @@ export default class InvoiceRepository extends RepositoryBase {
           include: [{
             association: 'product',
             paranoid: false,
-            include: [{ association: 'childItem', paranoid: false }]
+            include: [{
+              association: 'spec',
+              include: [{ association: 'uom' }]
+            }]
           }],
         },
         { association: 'payments' },

@@ -161,8 +161,8 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
         field: 'product.name',
         format: function (value, item) {
           let html = `<div class='item-desc'><p>${value}</p>`;
-          if (!!item.product.childItem) {
-            html += `<p class='spec'>có ${this.utils.formatNumber(item.product.childItemQty)} ${item.product.childItem.name}</p>`;            
+          if (!!item.product.spec) {
+            html += `<p class='spec'>1 ${item.product.spec.uom.name}: ${this.utils.formatNumber(item.product.spec.qty)} ${item.product.uom}</p>`;            
           }
 
           if (!!item.notes) {

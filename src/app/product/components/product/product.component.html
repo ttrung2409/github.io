@@ -57,21 +57,20 @@
       </mat-form-field>
     </div>
     <div class="sixteen wide column">
-      <mat-checkbox [(ngModel)]="product.isContainer">Có sản phẩm lẻ</mat-checkbox>
-    </div>
-    <div class="row" *ngIf="product.isContainer">
-      <div class="sixteen wide column">
-        <label>1 {{product.uom}} {{product.name}} có:</label>
-      </div>
-      <div class="four wide column">
-        <mat-form-field [floatLabel]="'never'">
-          <input matInput placeholder="SL" [(model)]="product.childItemQty" number />
+      <div class="section">Quy cách</div>
+      <div style="display: flex; justify-content: space-between">
+        <dropdown [options]="uoms"
+                  [label]="'ĐVT'"
+                  [floatLabel]="'never'"
+                  [(model)]="product.spec.uomId"
+                  [valueMember]="'id'"
+                  [displayMember]="'name'">
+        </dropdown>
+        <mat-form-field [floatLabel]="'never'" style="margin-left: 24px">
+          <input matInput placeholder="SL" [(model)]="product.spec.qty" number />
         </mat-form-field>
-      </div>
-      <div class="twelve wide column">
-        <product-lookup [(model)]="product.childItemId" [direction]="'upward'"></product-lookup>
-      </div>
-    </div>
+      </div>      
+    </div>   
   </div>
   <div class="actions">
     <button mat-flat-button color="primary" (click)="save()">Lưu (F9)</button>

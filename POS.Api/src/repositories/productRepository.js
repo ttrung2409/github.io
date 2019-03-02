@@ -1,4 +1,4 @@
-import { Product } from '../models'
+import { Product, ProductSpec } from '../models'
 import Sequelize from 'sequelize'
 import RepositoryBase from './repositoryBase';
 import * as _ from 'lodash'
@@ -11,6 +11,14 @@ export default class ProductRepository extends RepositoryBase {
     super(Product);
   }
 
+  get(id, { includeDeleted } = {}) {
+    return Product.findOne({
+      where: { id },
+      paranoid: includeDeleted ? false : true,
+      include: [{ association: 'spec' }],
+    }).then(model => model.get({ plain: true }));
+  }
+
   create(product) {
     let _this = this;
     return context.transaction(function (t) {
@@ -21,11 +29,41 @@ export default class ProductRepository extends RepositoryBase {
         paranoid: false,
       }, { transaction: t }).then(model => {
         product.no = !!model ? `SP${parseFloat(model.no.replace(/^SP/, '')) + 1}` : 'SP10000';
-        return _this.modelDef.create(product, { transaction: t }).then(model => {
+        return _this.modelDef.create(product, {
+          transaction: t,
+          include: [{ association: 'spec' }]
+        }).then(model => {
           return model.get({ plain: true });
-        });    
+        });
       });
     });
+  }
+
+  update(product) {
+    let _this = this;
+    return context.transaction(function (t) {
+      return _this.modelDef.findOne({
+        where: { id: product.id },
+        include: [{ association: 'spec' }]
+      }).then(model => {
+        if (!model) return;
+
+        let promises = [];
+        promises.push(model.update(product, { transaction: t }));
+
+        if (!!product.spec) {
+          if (model.spec.id > 0) {
+            promises.push(model.spec.update(product.spec, { transaction: t }));
+          }
+          else {
+            product.spec.productId = product.id;
+            promises.push(ProductSpec.create(product.spec, { transaction: t }));
+          }
+        }
+
+        return Promise.all(promises).then(() => _this.get(product.id));
+      });
+    });    
   }
 
   search(params) {
@@ -83,7 +121,10 @@ export default class ProductRepository extends RepositoryBase {
 
     return this.modelDef.findAll({
       where,
-      include: [{association: 'childItem'}],
+      include: [{
+        association: 'spec',
+        include: [{association: 'uom'}]
+      }],
       limit: 10
     }).then(products => products.map(x => x.get({ plain: true })));
   }

@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 import context from '../dbContext';
 
-export default context.define('Uom', {
+let Uom = context.define('Uom', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -9,4 +9,12 @@ export default context.define('Uom', {
   },
   name: Sequelize.STRING
 }, { tableName: 'Uom', timestamps: false });
+
+Uom.associate = function (models) {
+  Uom.hasMany(models.ProductSpec, { foreignKey: 'uomId' });
+}
+
+export default Uom
+
+
 

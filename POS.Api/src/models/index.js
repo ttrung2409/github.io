@@ -9,6 +9,7 @@ import Payment from './payment'
 import User from './user'
 import Permission from './permission'
 import UserPermission from './userPermission'
+import ProductSpec from './productSpec'
 
 const models = {
   Category,
@@ -21,7 +22,8 @@ const models = {
   Payment,
   User,
   Permission,
-  UserPermission
+  UserPermission,
+  ProductSpec
 }
 
 for (let key of Object.keys(models)) {

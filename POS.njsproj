@@ -136,6 +136,7 @@
     <TypeScriptCompile Include="src\app\models\invoiceItem.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="src\app\models\productSpec.ts" />
     <TypeScriptCompile Include="src\app\models\search.ts" />
     <TypeScriptCompile Include="src\app\models\user.ts" />
     <TypeScriptCompile Include="src\app\pipes\number.pipe.ts" />

@@ -1,3 +1,5 @@
+import ProductSpec from "./productSpec";
+
 export default class Product {
   public constructor(init?: Partial<Product>) {
     Object.assign(this, init);
@@ -12,11 +14,9 @@ export default class Product {
   public wholesalePrice?: number;
   public discountPrice?: number;
   public cost: number;  
-  public isContainer: boolean;
-  public childItemId?: number;
-  public childItemQty?: number;
+  public isContainer: boolean;  
   public notes: string;
 
-  public childItem: Product;
+  public spec: ProductSpec = new ProductSpec();
   public selected: boolean;
 }

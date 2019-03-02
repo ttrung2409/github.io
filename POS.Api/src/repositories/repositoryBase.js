@@ -25,6 +25,8 @@ export default class RepositoryBase {
     return this.modelDef.update(plainModel, {
       where,
       transaction
+    }).then(() => {
+      return this.modelDef.findOne({ where }).then(model => model.get({ plain: true }));
     }); 
   }
 
@@ -32,6 +34,8 @@ export default class RepositoryBase {
     return this.modelDef.update(plainModel, {
       where,
       transaction
+    }).then(() => {
+      return this.modelDef.findOne({ where }).then(model => model.get({ plain: true }));
     });
   }
 

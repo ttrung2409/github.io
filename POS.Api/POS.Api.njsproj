@@ -52,6 +52,7 @@
     <Compile Include="src\models\index.js" />
     <Compile Include="src\models\permission.js" />
     <Compile Include="src\models\product.js" />
+    <Compile Include="src\models\productSpec.js" />
     <Compile Include="src\models\uom.js" />
     <Compile Include="src\models\user.js" />
     <Compile Include="src\models\userPermission.js" />

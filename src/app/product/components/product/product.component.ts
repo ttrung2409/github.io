@@ -7,6 +7,7 @@ import UtilsService from '../../../services/utils.service';
 import v8n from "v8n";
 import { APP_GLOBAL } from 'src/app/app.global';
 import { NotifierService } from 'angular-notifier';
+import ProductSpec from 'src/app/models/productSpec';
 
 declare var $: any;
 
@@ -60,6 +61,7 @@ export class ProductComponent implements OnInit, OnChanges {
       let id = changes.id.currentValue;
       if (id > 0) {
         this.productService.get(id).subscribe(x => {
+          x.spec = x.spec || new ProductSpec();
           this.product = x;
         });
       }
@@ -70,7 +72,7 @@ export class ProductComponent implements OnInit, OnChanges {
   }  
 
   save() {
-    if (this.validate()) {
+    if (this.validate()) {      
       this.productService.save(this.product).subscribe(() => {
         this.notifier.notify('success', 'Lưu thành công');
         this.commit.emit();

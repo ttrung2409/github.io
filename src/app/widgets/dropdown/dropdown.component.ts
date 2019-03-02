@@ -107,7 +107,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
     let _this = this;
     this.$dropdown = $(this.el.nativeElement).find('.ui.dropdown');
     this.$dropdown.dropdown({
-      forceSelection: false,
+      forceSelection: true,
       clearable: this.clearable,
       selectOnKeydown: false,
       direction: this.direction,

@@ -15,15 +15,12 @@ let Product = context.define('Product', {
   cost: Sequelize.DECIMAL,
   retailPrice: Sequelize.DECIMAL,
   wholesalePrice: Sequelize.DECIMAL,
-  discountPrice: Sequelize.DECIMAL,  
-  isContainer: Sequelize.BOOLEAN,
-  childItemId: Sequelize.INTEGER,
-  childItemQty: Sequelize.DECIMAL,
+  discountPrice: Sequelize.DECIMAL,    
   notes: Sequelize.TEXT
 }, { tableName: 'Product', timestamps: true, paranoid: true });
 
-Product.associate = function (models) {
-  Product.belongsTo(models.Product, { foreignKey: 'childItemId', as: 'childItem' });  
+Product.associate = function (models) {  
+  Product.hasOne(models.ProductSpec, { foreignKey: 'productId', as: 'spec' });
 }
 
 export default Product
