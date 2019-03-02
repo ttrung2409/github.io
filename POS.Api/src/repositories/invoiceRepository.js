@@ -25,7 +25,7 @@ export default class InvoiceRepository extends RepositoryBase {
             include: [{
               association: 'spec',
               include: [{ association: 'uom' }]
-            }]
+            }, { association: 'uom' }]
           }],
         },
         { association: 'payments' },

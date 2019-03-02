@@ -9,8 +9,8 @@ let Product = context.define('Product', {
   },
   no: Sequelize.STRING,
   name: Sequelize.STRING,
-  uom: Sequelize.STRING,
   barcode: Sequelize.STRING,
+  uomId: Sequelize.INTEGER,  
   categoryId: Sequelize.INTEGER,
   cost: Sequelize.DECIMAL,
   retailPrice: Sequelize.DECIMAL,
@@ -21,6 +21,7 @@ let Product = context.define('Product', {
 
 Product.associate = function (models) {  
   Product.hasOne(models.ProductSpec, { foreignKey: 'productId', as: 'spec' });
+  Product.belongsTo(models.Uom, { foreignKey: 'uomId', as: 'uom' });
 }
 
 export default Product

@@ -117,13 +117,25 @@
   }
 }
 
-.sidebar .section {
-  font-size: 16px;
-  font-weight: 600;
-  padding: 8px;
-  padding-left: 22px;
-  background-color: whitesmoke;
-  margin-left: -22px;
-  margin-right: -22px;
-  margin-bottom: 8px;
+.sidebar {
+  .section {
+    margin-bottom: 16px;
+
+    .title {
+      font-size: 16px;
+      font-weight: 600;
+      padding: 8px;
+      padding-left: 20px;
+      background-color: whitesmoke;
+      margin-left: -24px;
+      margin-right: -24px;
+      margin-bottom: 8px;
+      color: #3678c4;
+    }
+  }
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
 }

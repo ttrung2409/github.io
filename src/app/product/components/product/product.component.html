@@ -26,8 +26,8 @@
     <div class="eight wide column">
       <dropdown [options]="uoms"
                 [label]="'ĐVT'"
-                [(model)]="product.uom"
-                [valueMember]="'name'"
+                [(model)]="product.uomId"
+                [valueMember]="'id'"
                 [displayMember]="'name'">
       </dropdown>
     </div>
@@ -57,18 +57,20 @@
       </mat-form-field>
     </div>
     <div class="sixteen wide column">
-      <div class="section">Quy cách</div>
-      <div style="display: flex; justify-content: space-between">
-        <dropdown [options]="uoms"
-                  [label]="'ĐVT'"
-                  [floatLabel]="'never'"
-                  [(model)]="product.spec.uomId"
-                  [valueMember]="'id'"
-                  [displayMember]="'name'">
-        </dropdown>
-        <mat-form-field [floatLabel]="'never'" style="margin-left: 24px">
-          <input matInput placeholder="SL" [(model)]="product.spec.qty" number />
-        </mat-form-field>
+      <div class="section">
+        <div class="title">Quy cách</div>
+        <div class="flex">
+          <dropdown [options]="uoms"
+                    [label]="'ĐVT'"
+                    [floatLabel]="'never'"
+                    [(model)]="product.spec.uomId"
+                    [valueMember]="'id'"
+                    [displayMember]="'name'">
+          </dropdown>
+          <mat-form-field [floatLabel]="'never'" style="margin-left: 24px">
+            <input matInput placeholder="SL" [(model)]="product.spec.qty" number />
+          </mat-form-field>
+        </div>
       </div>      
     </div>   
   </div>

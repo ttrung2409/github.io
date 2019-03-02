@@ -11,7 +11,8 @@ let Uom = context.define('Uom', {
 }, { tableName: 'Uom', timestamps: false });
 
 Uom.associate = function (models) {
-  Uom.hasMany(models.ProductSpec, { foreignKey: 'uomId' });
+  Uom.hasMany(models.Product, { foreignKey: 'uomId' });
+  Uom.hasMany(models.ProductSpec, { foreignKey: 'uomId' });  
 }
 
 export default Uom

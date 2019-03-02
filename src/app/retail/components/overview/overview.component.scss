@@ -1,23 +1,9 @@
 .overview {
-  padding: 16px;
+  padding: 28px 16px 16px 16px;
 
   .section {
-    margin-bottom: 16px;
-
-    div {
-      margin-bottom: 16px;
+    div.flex {
+      margin-bottom: 8px;
     }
-  }
-
-  .sub-title {
-    width: 100%;
-    border-bottom: 1px solid lightgrey;
-    font-weight: 600;
-    color: #5D96BA;
-  }
-
-  .flex {
-    display: flex;
-    justify-content: space-between;
   }
 }

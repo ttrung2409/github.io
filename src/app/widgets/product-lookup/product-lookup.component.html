@@ -17,7 +17,7 @@
            [itemTemplate]="itemTemplate"
            [showNoResults]="showNoResults">
   <ng-template #itemTemplate let-item="item">
-    <div *ngIf="!!item.uom">{{item.name}} ({{item.uom}})</div>
+    <div *ngIf="!!item.uom">{{item.name}} ({{item.uom.name}})</div>
     <div *ngIf="!item.uom">{{item.name}}</div>
     <div style="color: grey; margin-top: 8px">{{item.no}}</div>
   </ng-template>  

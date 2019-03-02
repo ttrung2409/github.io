@@ -74,7 +74,7 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
       }),
       new GridColumn({
         caption: 'ĐVT',
-        field: 'uom',
+        field: 'uom.name',
         width: '10%',
         sortable: true
       }),

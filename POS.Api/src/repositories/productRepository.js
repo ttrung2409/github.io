@@ -15,7 +15,7 @@ export default class ProductRepository extends RepositoryBase {
     return Product.findOne({
       where: { id },
       paranoid: includeDeleted ? false : true,
-      include: [{ association: 'spec' }],
+      include: [{ association: 'spec' }, { association: 'uom' }],
     }).then(model => model.get({ plain: true }));
   }
 
@@ -32,16 +32,14 @@ export default class ProductRepository extends RepositoryBase {
         return _this.modelDef.create(product, {
           transaction: t,
           include: [{ association: 'spec' }]
-        }).then(model => {
-          return model.get({ plain: true });
-        });
+        }).then(model => model.get({ plain: true }));
       });
     });
   }
 
   update(product) {
     let _this = this;
-    return context.transaction(function (t) {
+    return context.transaction(function(t) {
       return _this.modelDef.findOne({
         where: { id: product.id },
         include: [{ association: 'spec' }]
@@ -61,7 +59,7 @@ export default class ProductRepository extends RepositoryBase {
           }
         }
 
-        return Promise.all(promises).then(() => _this.get(product.id));
+        return Promise.all(promises).then(() => product);
       });
     });    
   }
@@ -88,6 +86,7 @@ export default class ProductRepository extends RepositoryBase {
        
     return this.modelDef.findAndCountAll({
       where,
+      include: [{ association: 'uom' }],
       order: [[params.orderBy, !!params.isDesc ? 'desc' : 'asc']],
       offset: (params.index - 1) * params.size,
       limit: params.size,
@@ -124,7 +123,7 @@ export default class ProductRepository extends RepositoryBase {
       include: [{
         association: 'spec',
         include: [{association: 'uom'}]
-      }],
+      }, { association: 'uom' }],
       limit: 10
     }).then(products => products.map(x => x.get({ plain: true })));
   }

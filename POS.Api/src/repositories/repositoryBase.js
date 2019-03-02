@@ -25,18 +25,14 @@ export default class RepositoryBase {
     return this.modelDef.update(plainModel, {
       where,
       transaction
-    }).then(() => {
-      return this.modelDef.findOne({ where }).then(model => model.get({ plain: true }));
-    }); 
+    }).then(() => plainModel); 
   }
 
   updateOne(plainModel, where, { transaction } = {}) {
     return this.modelDef.update(plainModel, {
       where,
       transaction
-    }).then(() => {
-      return this.modelDef.findOne({ where }).then(model => model.get({ plain: true }));
-    });
+    }).then(() => plainModel);
   }
 
   delete(where, { transaction } = {}) {

@@ -72,7 +72,11 @@ export class ProductComponent implements OnInit, OnChanges {
   }  
 
   save() {
-    if (this.validate()) {      
+    if (this.validate()) {
+      if (!(this.product.spec.uomId > 0 && this.product.spec.qty > 0)) {
+        delete this.product.spec;
+      }
+
       this.productService.save(this.product).subscribe(() => {
         this.notifier.notify('success', 'Lưu thành công');
         this.commit.emit();

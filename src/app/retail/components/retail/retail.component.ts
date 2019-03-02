@@ -162,7 +162,8 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
         format: function (value, item) {
           let html = `<div class='item-desc'><p>${value}</p>`;
           if (!!item.product.spec) {
-            html += `<p class='spec'>1 ${item.product.spec.uom.name}: ${this.utils.formatNumber(item.product.spec.qty)} ${item.product.uom}</p>`;            
+            html += `<p class='spec'>1 ${item.product.spec.uom.name}: ${this.utils.formatNumber(item.product.spec.qty)}
+                    ${!!item.product.uom ? item.product.uom.name : ''}</p>`;            
           }
 
           if (!!item.notes) {
@@ -174,7 +175,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
       }),
       new GridColumn({
         caption: 'ĐVT',
-        field: 'product.uom',
+        field: 'product.uom.name',
         width: '10%'
       }),
       new GridColumn({

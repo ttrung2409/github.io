@@ -1,17 +1,9 @@
 .container {
   height: 100%;
 
-  .sidebar {
-    background-color: whitesmoke;
-  }
+  .sidebar.nav {
+    background-color: whitesmoke !important;
 
-  .content {
-    height: 100%;
-    padding: 0px;
-    padding-right: 60px;
-  }
-
-  .sidebar {
     .item {
       height: 50px;
     }
@@ -20,6 +12,12 @@
       font-size: 30px;
     }
   }
+
+  .content {
+    height: 100%;
+    padding: 0px;
+    padding-right: 60px;
+  }  
 }
 
 .login-container {
