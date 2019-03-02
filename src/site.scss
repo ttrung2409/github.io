@@ -110,7 +110,7 @@
     }
   }
 
-  .mat-row.new, .mat-row.partial {
+  .mat-row.new, .mat-row.partial {  
     td:first-child {
       border-left: 4px solid #f2da3e;
     }
@@ -125,4 +125,5 @@
   background-color: whitesmoke;
   margin-left: -22px;
   margin-right: -22px;
+  margin-bottom: 8px;
 }
