@@ -381,9 +381,10 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
   }
 
   endSearch() {
+    this.invoices = [];
     setTimeout(() => {
       this.searching = false;
-      $(this.el.nativeElement).find('.actions').fadeIn(100);
+      $(this.el.nativeElement).find('.actions').fadeIn(100);      
     }, 300);
   }
 

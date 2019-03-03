@@ -24,8 +24,9 @@
                 <label>{{item.date | date:'dd/MM/yyyy'}}</label>
               </div>
               <div class="flex">
-                <label>{{item.customer.name}}</label>
-                <label *ngIf="!!item.customer.phone">{{item.customer.phone}}</label>
+                <div>
+                  {{item.customer.name}}<span *ngIf="!!item.customer.phone"> - {{item.customer.phone}}</span>
+                </div>                
                 <label>{{item.customer.no}}</label>
               </div>
             </div>            

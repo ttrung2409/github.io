@@ -47,8 +47,16 @@
       width: 400px;
 
       .icon {
-        display: none;
-      }
+        color: white;
+
+        &:before {
+          border-color: rgba(255, 255, 255, 0.5) !important;
+        }
+
+        &:after {
+          border-color: white transparent transparent !important;
+        }
+      }     
 
       .text {
         color: white !important;

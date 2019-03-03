@@ -38,32 +38,30 @@ export default class InvoiceRepository extends RepositoryBase {
   }
 
   lookup(query, { recent } = {}) {
-    let where = {
-      [Op.or]: {
-        no: {
-          [Op.iLike]: `%${query}%`
+    if (recent) {
+      return this.modelDef.findAll({
+        limit: 10,
+        include: [{ association: 'customer', paranoid: false }],
+        order: [['no', 'desc']],
+      }).then(invoices => invoices.map(x => x.get({ plain: true })));
+    }
+    else {
+      return context.query('select * from "lookupInvoices"(:query, :take)', {
+        replacements: {
+          query,
+          take: 10,
         },
-        '$customer.no$': {
-          [Op.iLike]: `%${query}%`
-        },
-        '$customer.name$': Sequelize.where(Sequelize.fn('unaccent', Sequelize.col('customer.name')), {
-          [Op.iLike]: `%${query}%`
-        }),
-        '$customer.phone$': {
-          [Op.iLike]: `%${query}%`
-        },
-        '$customer.email$': {
-          [Op.iLike]: `%${query}%`
+        type: Sequelize.QueryTypes.SELECT
+      }).then(invoices => invoices.map(x => Object.assign(x, {
+        customer: {
+          id: x.customerId,
+          no: x.customerNo,
+          name: x.customerName,
+          phone: x.customerPhone,
+          email: x.customerEmail
         }
-      }
-    };
-
-    return this.modelDef.findAll({
-      where: recent ? {} : where,
-      limit: 10,
-      include: [{ association: 'customer', paranoid: false }],
-      order: [['no', 'desc']],     
-    }).then(invoices => invoices.map(x => x.get({ plain: true })));
+      })));
+    }
   }  
 
   create(invoice, { transaction } = {}) {

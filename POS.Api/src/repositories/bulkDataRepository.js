@@ -19,18 +19,6 @@ export default class BulkDataRepository {
     });    
   }
 
-  deleteProductsWithIncomeBetween(params) {
-    return context.query('call "deleteProductsWithIncomeBetween"(:fromDate, :toDate, :fromAmount, :toAmount)', {
-      replacements: params
-    });
-  }
-
-  deleteCustomersWithIncomeBetween(params) {
-    return context.query('call "deleteCustomersWithIncomeBetween"(:fromDate, :toDate, :fromAmount, :toAmount)', {
-      replacements: params
-    });
-  }
-
   deleteProducts(ids) {
     return Product.destroy({
       where: {
