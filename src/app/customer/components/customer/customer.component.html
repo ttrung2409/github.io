@@ -33,6 +33,11 @@
       <input matInput [(ngModel)]="customer.address" placeholder="Địa chỉ" />
     </mat-form-field>
   </div>
+  <div class="sixteen wide column">
+    <mat-form-field>
+      <textarea matInput [(ngModel)]="customer.notes" placeholder="Ghi chú"></textarea>
+    </mat-form-field>
+  </div>
   <div class="actions">
     <button mat-flat-button color="primary" (click)="save()">Lưu (F9)</button>
   </div>

@@ -11,6 +11,7 @@ export default class Customer {
   public dob?: string;
   public typeId: number;  
   public isActive: boolean = true;
+  public notes: string;
 
   public type: CustomerType;
   public selected: boolean;

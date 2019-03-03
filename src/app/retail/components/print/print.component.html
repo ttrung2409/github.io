@@ -2,7 +2,7 @@
   <div style="text-align: center;" class="shop-info center">
     <div style="margin-bottom: 4px">BÁCH HÓA TỔNG HỢP KIM NGÂN</div>
     <div style="margin-bottom: 4px">5/1 KP 3, P.Tân Biên, TP. Biên Hòa, Đồng Nai</div>
-    <div style="margin-bottom: 4px">ĐT: 0258 388 13 91</div>
+    <div style="margin-bottom: 4px">ĐT: 02513 881 391</div>
   </div>
   <div style="padding-top: 8px; border-top: 2px solid grey;" class="section overview">
     <div style="margin-bottom: 4px; text-align: center; font-weight: 600" class="center">HÓA ĐƠN THANH TOÁN</div>
@@ -11,10 +11,13 @@
       <span>HĐ: {{invoice.no}}</span>
     </div>
     <div style="margin-bottom: 4px">NV: {{staffName}}</div>
-    <div style="margin-bottom: 4px">KH: {{invoice.customer.name}}</div>
+    <div style="margin-bottom: 4px; display: flex; justify-content: space-between">
+      <div>KH: {{invoice.customer.name}}</div>
+      <div>ĐT: {{invoice.customer.phone}}</div>
+    </div>    
   </div>
   <div style="padding-top: 8px;padding-bottom: 4px;border-top: 2px solid grey;" class="section items">
-    <div style="display: flex; justify-content: space-around; font-weight: 600; margin-bottom: 8px" class="flex header">
+    <div style="display: flex; justify-content: space-between; font-weight: 600; margin-bottom: 8px" class="flex header">
       <div style="width: 25%">Mặt hàng</div>
       <div style="width: 25%; text-align: right">Đơn giá</div>
       <div style="width: 25%; text-align: right">SL</div>

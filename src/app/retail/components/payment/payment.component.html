@@ -3,7 +3,7 @@
     <div class="sixteen wide column">
       <customer-lookup [(model)]="payment.customerId"></customer-lookup>
       <div class="error" *ngIf="errors.has('customer')">{{errors.get('customer')}}</div>
-    </div>    
+    </div>
     <div class="sixteen wide column">
       <mat-form-field>
         <input matInput placeholder="Tổng" number [model]="invoice.computedTotal" [readonly]="true" required>
@@ -22,8 +22,14 @@
                [readonly]="true">
       </mat-form-field>
     </div>
+    <div class="sixteen wide column">
+      <mat-form-field>
+        <textarea matInput placeholder="Ghi chú" [(ngModel)]="invoice.notes"></textarea>
+      </mat-form-field>
+    </div>
   </div>  
   <div class="actions">
-    <button mat-flat-button color="primary" (click)="doCommit()">Thanh toán (F9)</button>
+    <button mat-flat-button (click)="doCommit()">Lưu</button>
+    <button mat-flat-button color="primary" (click)="doCommit(true)">Lưu & In (F9)</button>
   </div>
 </div>

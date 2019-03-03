@@ -42,7 +42,7 @@ export class PaymentComponent implements OnInit, OnChanges {
           this.doCancel();
           break;
         case Key.F9:
-          this.doCommit();
+          this.doCommit(true);
           break;
       }
     }
@@ -70,9 +70,9 @@ export class PaymentComponent implements OnInit, OnChanges {
     this.cancel.emit();
   }
 
-  doCommit() {
+  doCommit(print) {
     if (!this.validate()) return;
-    this.commit.emit(this.payment);
+    this.commit.emit(Object.assign(this.payment, { print }));
   }
 
   validate() {

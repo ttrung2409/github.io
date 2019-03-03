@@ -80,10 +80,13 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
       sortable: true
     }),
     new GridColumn({
-      caption: 'Email',
-      field: 'email',
-      sortable: true
-    })    
+      caption: 'Địa chỉ',
+      field: 'address'      
+    }),
+    new GridColumn({
+      caption: 'Ghi chú',
+      field: 'notes'
+    })
   ];
 
   ngOnInit() {

@@ -79,9 +79,13 @@ export default class ProductRepository extends RepositoryBase {
     }
 
     if (!!params.name) {
-      where.name = Sequelize.where(Sequelize.fn('unaccent', Sequelize.col('name')), {
+      where.name = Sequelize.where(Sequelize.fn('unaccent', Sequelize.col('Product.name')), {
         [Op.iLike]: `%${params.name}%`
       });
+    }
+
+    if (params.categoryId > 0) {
+      where.categoryId = params.categoryId;
     }
        
     return this.modelDef.findAndCountAll({

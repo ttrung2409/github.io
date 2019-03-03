@@ -13,7 +13,8 @@ let Customer = context.define('Customer', {
   email: Sequelize.STRING,
   address: Sequelize.STRING,
   dob: Sequelize.DATEONLY,
-  typeId: Sequelize.INTEGER  
+  typeId: Sequelize.INTEGER,
+  notes: Sequelize.TEXT
 }, { tableName: 'Customer', timestamps: true, paranoid: true });
 
 Customer.associate = function (models) {

@@ -33,7 +33,7 @@ export class BulkDeleteProductComponent implements OnInit {
       }),
       new GridColumn({
         caption: 'ĐVT',
-        field: 'uom.name',
+        field: 'uom',
         width: '10%',
       }),
       new GridColumn({

@@ -461,6 +461,9 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
       this.notifier.notify('success', 'Lưu thành công');
       this.invoice = Invoice.from(result);
       this.reset();
+      if (!!payment && payment.print) {
+        setTimeout(() => this.printComponent.print());        
+      }
     });
   }
 

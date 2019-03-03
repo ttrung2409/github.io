@@ -7,7 +7,8 @@ export default class Payment {
   public customerId: number;
   public invoiceId: number;
   public amount: number;
-  public method: string;  
+  public method: string;
+  public print: boolean;
 }
 
 export enum PaymentMethod {

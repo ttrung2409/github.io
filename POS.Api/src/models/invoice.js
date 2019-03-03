@@ -18,7 +18,8 @@ let Invoice = context.define('Invoice', {
   subTotal: Sequelize.DECIMAL,
   total: Sequelize.DECIMAL,
   totalCost: Sequelize.DECIMAL,
-  amountPaid: Sequelize.DECIMAL
+  amountPaid: Sequelize.DECIMAL,
+  notes: Sequelize.TEXT
 }, { tableName: 'Invoice', timestamps: true, paranoid: true });
 
 Invoice.associate = function (models) {
