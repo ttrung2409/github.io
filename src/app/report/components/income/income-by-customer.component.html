@@ -3,8 +3,9 @@
       [showFooter]="true"
       [isHeaderSticky]="true"
       [isFooterSticky]="true"
-      [defaultSort]="{orderBy: 'income', isDesc: true}"
+      [defaultSort]="{orderBy: 'no', isDesc: true}"
       (sortChange)="onSortChange($event)"
       [height]="height"
       [virtualScroll]="true">
 </grid>
+<mat-paginator [showFirstLastButtons]="true" [length]="summary.count" [pageIndex]="params.index - 1" [pageSize]="1000" (page)="onPageChanged($event)"></mat-paginator>

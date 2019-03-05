@@ -5,6 +5,7 @@ import { GridColumn } from "src/app/widgets/grid/grid.component";
 import * as moment from 'moment'
 import * as _ from 'lodash'
 import Customer from "src/app/models/customer";
+import { PageEvent } from "@angular/material";
 
 @Component({
   selector: 'income-by-customer',
@@ -16,6 +17,8 @@ export class IncomeByCustomerComponent implements OnInit {
 
   columns: GridColumn[] = [];
   customers: Customer[] = [];
+  params: any = { orderBy: 'no', isDesc: true, size: 1000, index: 1 };
+  summary: any = {};
 
   ngOnInit() {
     this.initGridColumns();
@@ -41,7 +44,7 @@ export class IncomeByCustomerComponent implements OnInit {
         isNumber: true,
         sortable: true,
         footer: function () {
-          return this.utils.formatNumber(this.customers.reduce((acc, customer) => acc + customer.income, 0));
+          return this.utils.formatNumber(this.summary.income);
         }.bind(this)
       }),      
       new GridColumn({
@@ -50,7 +53,7 @@ export class IncomeByCustomerComponent implements OnInit {
         isNumber: true,
         sortable: true,
         footer: function () {
-          return this.utils.formatNumber(this.customers.reduce((acc, customer) => acc + customer.cost, 0));
+          return this.utils.formatNumber(this.summary.cost);
         }.bind(this)
       }),
       new GridColumn({
@@ -59,7 +62,7 @@ export class IncomeByCustomerComponent implements OnInit {
         isNumber: true,
         sortable: true,
         footer: function () {
-          return this.utils.formatNumber(this.customers.reduce((acc, customer) => acc + customer.profit, 0));
+          return this.utils.formatNumber(this.summary.profit);
         }.bind(this)
       }),
       new GridColumn({
@@ -67,7 +70,7 @@ export class IncomeByCustomerComponent implements OnInit {
         field: 'amountPaid',
         isNumber: true,
         footer: function () {
-          return this.utils.formatNumber(this.customers.reduce((acc, customer) => acc + customer.amountPaid, 0));
+          return this.utils.formatNumber(this.summary.amountPaid);
         }.bind(this),
         sortable: true
       }),
@@ -76,32 +79,41 @@ export class IncomeByCustomerComponent implements OnInit {
         field: 'balance',
         isNumber: true,
         footer: function () {
-          return this.utils.formatNumber(this.customers.reduce((acc, customer) => acc + customer.balance, 0));
+          return this.utils.formatNumber(this.summary.balance);
         }.bind(this),
         sortable: true
       })
     ];
   }
 
-  generateReport({ customerId, fromDate, toDate }) {
-    this.reportService.getIncomeByCustomer({ customerId, fromDate, toDate }).subscribe(customers => {
-      customers = customers.map((x: any) => Object.assign(x, {
-        income: parseFloat(x.income || 0),
-        cost: parseFloat(x.cost || 0),
-        profit: parseFloat(x.profit || 0),
-        amountPaid: parseFloat(x.amountPaid || 0),
-        balance: parseFloat(x.balance || 0)
-      }));
+  generateReport(params) {
+    return new Promise(resolve => {
+      this.params = Object.assign(this.params, params, { index: 1 });
+      this.reportService.getIncomeByCustomer(this.params).subscribe(customers => {
+        this.customers = customers;
+        resolve();
+      });
 
-      this.customers = _.orderBy(customers, 'income', 'desc');
+      this.reportService.getIncomeSummaryByCustomer(this.params).subscribe(summary => this.summary = summary);
+    });
+  }
+
+  getIncomeByCustomer(params) {
+    this.params = Object.assign(this.params, params);
+    this.reportService.getIncomeByCustomer(this.params).subscribe(customers => {
+      this.customers = customers;
     });
   }
 
   onSortChange({ orderBy, isDesc }) {
-    this.customers = _.orderBy(this.customers, orderBy, isDesc ? 'desc' : 'asc');
+    this.getIncomeByCustomer(Object.assign(this.params, { orderBy, isDesc }));
+  }
+
+  onPageChanged(event: PageEvent) {
+    this.getIncomeByCustomer(Object.assign(this.params, { index: event.pageIndex + 1 }));
   }
 
   height() {
-    return $(window).height() - $('.toolbar').outerHeight(true);
+    return $(window).height() - $('.toolbar').outerHeight(true) - $('.mat-paginator').outerHeight(true);
   }
 }

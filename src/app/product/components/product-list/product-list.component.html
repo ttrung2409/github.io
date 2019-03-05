@@ -23,7 +23,7 @@
     </grid>
   </div>
   
-  <mat-paginator [showFirstLastButtons]="true" [length]="total" [pageIndex]="searchModel.index" [pageSize]="config.size" (page)="onPageChanged($event)"></mat-paginator>
+  <mat-paginator [showFirstLastButtons]="true" [length]="total" [pageIndex]="searchModel.index - 1" [pageSize]="config.size" (page)="onPageChanged($event)"></mat-paginator>
   <flyout #flyout [closable]="false"
           [containerSelector]="'.product-list'"
           (onHide)="onFlyoutHide()"

@@ -10,7 +10,7 @@ import PagedResult from "../models/pagedResult";
   providedIn: 'root'
 })
 export default class ReportService extends HttpService {
-  getIncomeByInvoice(params): Observable<any> {
+  getIncomeByInvoice(params): Observable<Invoice[]> {
     return super._post('report/incomeByInvoice', params);
   }
 
@@ -18,7 +18,11 @@ export default class ReportService extends HttpService {
     return super._post('report/incomeByInvoice/summary', params);
   }
 
-  getIncomeByCustomer(params): Observable<PagedResult<Customer>> {
+  getIncomeByCustomer(params): Observable<Customer[]> {
     return super._post('report/incomeByCustomer', params);
-  }  
+  }
+
+  getIncomeSummaryByCustomer(params): Observable<any> {
+    return super._post('report/incomeByCustomer/summary', params);
+  }
 }

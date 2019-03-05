@@ -10,5 +10,5 @@
         [virtualScroll]="true"
         [rowClass]="'status'">
   </grid>
-  <mat-paginator [showFirstLastButtons]="true" [length]="summary.count" [pageIndex]="params.index" [pageSize]="1000" (page)="onPageChanged($event)"></mat-paginator>
+  <mat-paginator [showFirstLastButtons]="true" [length]="summary.count" [pageIndex]="params.index - 1" [pageSize]="1000" (page)="onPageChanged($event)"></mat-paginator>
 </div>

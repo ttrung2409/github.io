@@ -19,7 +19,7 @@ export class IncomeByInvoiceComponent implements OnInit {
 
   columns: GridColumn[] = [];
   invoices: Invoice[] = [];  
-  params: SearchModel = {};
+  params: any = { orderBy: 'no', isDesc: true, size: 1000, index: 1 };
   summary: any = {};
 
   ngOnInit() {
@@ -98,7 +98,7 @@ export class IncomeByInvoiceComponent implements OnInit {
 
   generateReport(params) {
     return new Promise((resolve, reject) => {
-      this.params = Object.assign(new SearchModel({ orderBy: 'no', isDesc: true, index: 1, size: 1000 }), params);
+      this.params = Object.assign(this.params, params, { index: 1 });
       this.reportService.getIncomeByInvoice(this.params).subscribe(invoices => {
         this.invoices = invoices;
         resolve();

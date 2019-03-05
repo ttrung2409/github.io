@@ -8,12 +8,11 @@ import * as moment from 'moment'
 export default class UtilsService {
   formatNumber(numberIn, prefix = '') {    
     if (numberIn === undefined || numberIn === null || numberIn === '') return '';
-
-    let number = numberIn.toString().replace(/\.\d*$/, '');
+    let isNegative = numberIn < 0;
+    let number = numberIn.toString().replace(/\.\d*$/, '');    
     let thousandSeparator = ',';
-    let decimalSeparator = '.';
-    let regex = new RegExp('[^' + decimalSeparator + '\\d]', 'g');
-    let numberString = !!number ? number.toString().replace(regex, '') : '';
+    let decimalSeparator = '.';    
+    let numberString = !!number ? number.toString().replace(/[^.\d]/g, '') : '';
     let split = numberString.split(decimalSeparator);
     let rest = split[0].length % 3;
     let result = split[0].substr(0, rest);
@@ -25,7 +24,8 @@ export default class UtilsService {
     }
 
     result = split[1] != undefined ? result + decimalSeparator + split[1] : result;
-    return prefix == undefined ? result : (result ? prefix + result : '');
+    result = prefix == undefined ? result : (result ? prefix + result : '');
+    return isNegative ? `-${result}` : result;
   };
 
   random(min: number = 0, max: number = Math.pow(2, 31) - 1) {

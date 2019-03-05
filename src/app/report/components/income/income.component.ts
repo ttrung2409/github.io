@@ -78,11 +78,12 @@ export class IncomeComponent implements OnInit, AfterViewInit, OnDestroy {
         }).then(() => this.isLoading = false);
         break;
       case 'customer':
+        this.isLoading = true;
         this.incomeByCustomer.generateReport({
           customerId: this.customerId,
           fromDate: this.utils.toDbDate(this.fromDate),
           toDate: this.utils.toDbDate(this.toDate),
-        });
+        }).then(() => this.isLoading = false);
 
         break;
     }

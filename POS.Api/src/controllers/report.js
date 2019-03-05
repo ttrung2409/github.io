@@ -17,6 +17,10 @@ router.post('/incomeByInvoice', function (req, res) {
   });
 });
 
+router.post('/incomeByCustomer/summary', function (req, res) {
+  reportService.getIncomeSummaryByCustomer(req.body).then(summary => res.send(summary));
+});
+
 router.post('/incomeByCustomer', function (req, res) {
   reportService.getIncomeByCustomer(req.body).then(customers => {
     res.send(customers);
