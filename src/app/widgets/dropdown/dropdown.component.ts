@@ -137,7 +137,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
           _this.onHide.emit();
         });
       },
-      onChange(value) {
+      onChange(value) {        
         if (!!_this._shouldHandleOnChange) {
           _this.model = value || undefined;
           _this.onSelect.emit(_this.model);
@@ -182,11 +182,12 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
   }
 
   private setSelected(value) {
+    debugger;
     this._shouldHandleOnChange = false;
     if (this.bindingOptions.some(x => x[this.valueMember] == value)) {
       this.$dropdown.dropdown('set selected', value);
     }
-    else if (value !== undefined && value !== null) {
+    else if (value !== undefined && value !== null && value !== '') {
       if (typeof this.requestForOption === 'function') {
         this.requestForOption(value).subscribe(option => {
           this.bindingOptions.push(option);

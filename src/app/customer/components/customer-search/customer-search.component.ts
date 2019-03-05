@@ -50,7 +50,7 @@ export class CustomerSearchComponent implements OnInit {
   }
 
   clear() {
-    let { index, orderBy, isDesc } = this.model;
-    this.model = Object.assign(this.utils.empty(this.model), _.pickBy({ index, orderBy, isDesc }, value => value !== undefined));
+    let { index, size, orderBy, isDesc } = this.model;
+    this.model = Object.assign(this.utils.empty(this.model), _.pickBy({ index, size, orderBy, isDesc }, value => value !== undefined));
   }
 }
