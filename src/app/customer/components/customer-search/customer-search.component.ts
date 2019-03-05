@@ -46,7 +46,7 @@ export class CustomerSearchComponent implements OnInit {
   }
 
   doSearch() {
-    this.search.emit(this.model);
+    this.search.emit(Object.assign(this.model, { index: 1 }));
   }
 
   clear() {

@@ -32,15 +32,13 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
     private el: ElementRef,
     private dialog: MatDialog,
     private notifier: NotifierService) {
-    this.config = config;
-    this.defaultSearch = new SearchModel({
+    this.config = config;    
+    this.searchModel = new SearchModel({
       orderBy: 'no',
       isDesc: true,
       index: 1,
       size: config.size
     });
-
-    this.searchModel = new SearchModel(this.defaultSearch);
   }
 
   columns: GridColumn[];
@@ -48,8 +46,7 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
   selectedProduct: Product = new Product();
   flyoutView: string;
   total: number;
-  isLoading: boolean;
-  defaultSearch: SearchModel = new SearchModel();
+  isLoading: boolean; 
   searchModel: SearchModel = new SearchModel();
   config: any;
   
@@ -183,11 +180,11 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   search(searchModel) {
-    this.isLoading = true;
+    this.isLoading = true;        
     this._subscription.add(this.productService.search(searchModel).subscribe(result => {
       this.isLoading = false;
       this.total = result.total;
-      this.products = result.items;
+      this.products = result.items;      
     }));
   }
 

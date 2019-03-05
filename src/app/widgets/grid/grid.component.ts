@@ -31,7 +31,7 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
   @Input() showFooter: boolean;
   @Input() isHeaderSticky: boolean = true;
   @Input() isFooterSticky: boolean;
-  @Input() defaultSearch: any = {};
+  @Input() defaultSort: any = {};
   @Input() height: string | Function;
   @Input() virtualScroll: boolean;
   @Input() rowHeight: number = 40;

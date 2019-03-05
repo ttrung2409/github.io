@@ -6,6 +6,8 @@ import * as moment from 'moment'
 import Invoice from "src/app/models/invoice";
 import * as _ from 'lodash'
 import * as $ from 'jquery'
+import SearchModel from "src/app/models/search";
+import { PageEvent } from "@angular/material";
 
 @Component({
   selector: 'income-by-invoice',
@@ -16,7 +18,9 @@ export class IncomeByInvoiceComponent implements OnInit {
   }
 
   columns: GridColumn[] = [];
-  invoices: Invoice[] = [];
+  invoices: Invoice[] = [];  
+  params: SearchModel = {};
+  summary: any = {};
 
   ngOnInit() {
     this.initGridColumns();
@@ -39,7 +43,7 @@ export class IncomeByInvoiceComponent implements OnInit {
       }),
       new GridColumn({
         caption: 'Khách hàng',
-        field: 'customer.name',
+        field: 'customerName',
         width: '25%',
         footer: 'Tổng',
         sortable: true
@@ -49,7 +53,7 @@ export class IncomeByInvoiceComponent implements OnInit {
         field: 'total',
         isNumber: true,
         footer: function () {
-          return this.utils.formatNumber(this.invoices.reduce((acc, invoice) => acc + invoice.total, 0));
+          return this.utils.formatNumber(this.summary.total);
         }.bind(this),
         sortable: true
       }),      
@@ -58,7 +62,7 @@ export class IncomeByInvoiceComponent implements OnInit {
         field: 'totalCost',
         isNumber: true,
         footer: function () {          
-          return this.utils.formatNumber(this.invoices.reduce((acc, invoice) => acc + invoice.totalCost, 0));
+          return this.utils.formatNumber(this.summary.totalCost);
         }.bind(this),
         sortable: true
       }),
@@ -67,7 +71,7 @@ export class IncomeByInvoiceComponent implements OnInit {
         field: 'profit',
         isNumber: true,
         footer: function () {
-          return this.utils.formatNumber(this.invoices.reduce((acc, invoice) => acc + invoice.profit, 0));
+          return this.utils.formatNumber(this.summary.profit);
         }.bind(this),
         sortable: true
       }),
@@ -76,7 +80,7 @@ export class IncomeByInvoiceComponent implements OnInit {
         field: 'amountPaid',
         isNumber: true,
         footer: function () {
-          return this.utils.formatNumber(this.invoices.reduce((acc, invoice) => acc + invoice.amountPaid, 0));
+          return this.utils.formatNumber(this.summary.amountPaid);
         }.bind(this),
         sortable: true
       }),
@@ -85,34 +89,41 @@ export class IncomeByInvoiceComponent implements OnInit {
         field: 'balance',
         isNumber: true,
         footer: function () {
-          return this.utils.formatNumber(this.invoices.reduce((acc, invoice) => acc + invoice.balance, 0));
+          return this.utils.formatNumber(this.summary.balance);
         }.bind(this),
         sortable: true
       })
     ];
   }
 
-  generateReport({ customerId, fromDate, toDate }) {
-    this.reportService.getIncomeByInvoice({ customerId, fromDate, toDate }).subscribe(invoices => {
-      this.invoices = invoices.map((x: any) => {
-        return Object.assign(x, {
-          total: parseFloat(x.total || 0),
-          totalCost: parseFloat(x.totalCost || 0),
-          profit: x.total - x.totalCost,
-          amountPaid: parseFloat(x.amountPaid || 0),
-          balance: x.total - x.amountPaid
-        });
+  generateReport(params) {
+    return new Promise((resolve, reject) => {
+      this.params = Object.assign(new SearchModel({ orderBy: 'no', isDesc: true, index: 1, size: 1000 }), params);
+      this.reportService.getIncomeByInvoice(this.params).subscribe(invoices => {
+        this.invoices = invoices;
+        resolve();
       });
 
-      this.invoices = _.orderBy(this.invoices, 'no', 'desc');      
+      this.reportService.getIncomeSummaryByInvoice(this.params).subscribe(summary => this.summary = summary);
+    });
+  }
+
+  getIncomeByInvoice(params) {
+    this.params = Object.assign(this.params, params);
+    this.reportService.getIncomeByInvoice(this.params).subscribe(invoices => {
+      this.invoices = invoices;
     });
   }
 
   onSortChange({ orderBy, isDesc }) {
-    this.invoices = _.orderBy(this.invoices, orderBy, isDesc ? 'desc' : 'asc');
+    this.getIncomeByInvoice(Object.assign(this.params, { orderBy, isDesc }));
   }
 
-  height() {    
-    return $(window).height() - $('.toolbar').outerHeight(true);
+  height() {
+    return $(window).height() - $('.toolbar').outerHeight(true) - $('.mat-paginator').outerHeight(true);
+  }
+
+  onPageChanged(event: PageEvent) {
+    this.getIncomeByInvoice(Object.assign(this.params, { index: event.pageIndex + 1 }));
   }
 }

@@ -38,6 +38,7 @@ export class IncomeComponent implements OnInit, AfterViewInit, OnDestroy {
   fromDate: string = moment().format();
   toDate: string = moment().format();
   errors: Map<string, string> = new Map();
+  isLoading: boolean;
 
   ngOnInit() {    
     this._subscription.add(fromEvent(document, 'keydown').subscribe((e: KeyboardEvent) => {
@@ -69,12 +70,12 @@ export class IncomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.flyout.hide();
     switch (this.viewBy) {
       case 'invoice':
+        this.isLoading = true;
         this.incomeByInvoice.generateReport({
           customerId: this.customerId,
           fromDate: this.utils.toDbDate(this.fromDate),
           toDate: this.utils.toDbDate(this.toDate),
-        });
-
+        }).then(() => this.isLoading = false);
         break;
       case 'customer':
         this.incomeByCustomer.generateReport({

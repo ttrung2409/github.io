@@ -14,7 +14,7 @@
   <div class="autoflow">
     <grid #grid [columns]="columns"
           [dataSource]="products"
-          [defaultSearch]="defaultSearch"
+          [defaultSort]="{ orderBy: 'no', isDesc: true }"
           (rowClick)="onSelect($event)"
           (select)="onSelect($event)"
           (delete)="onDelete($event)"
@@ -23,7 +23,7 @@
     </grid>
   </div>
   
-  <mat-paginator [showFirstLastButtons]="true" [length]="total" [size]="config.size" (page)="onPageChanged($event)"></mat-paginator>
+  <mat-paginator [showFirstLastButtons]="true" [length]="total" [pageIndex]="searchModel.index" [pageSize]="config.size" (page)="onPageChanged($event)"></mat-paginator>
   <flyout #flyout [closable]="false"
           [containerSelector]="'.product-list'"
           (onHide)="onFlyoutHide()"

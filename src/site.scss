@@ -139,3 +139,8 @@
   display: flex;
   justify-content: space-between;
 }
+
+.mat-paginator-container {
+  min-height: 48px !important;
+  border-top: 1px solid lightgrey;
+}

@@ -1,14 +1,14 @@
 <div #container class="grid-container autoflow">
   <table mat-table [dataSource]="bindingSource" matSort
          [matSortDisableClear]="true"
-         [matSortActive]="defaultSearch.orderBy"
-         [matSortDirection]="defaultSearch.isDesc ? 'desc' : 'asc'"
+         [matSortActive]="defaultSort.orderBy"
+         [matSortDirection]="defaultSort.isDesc ? 'desc' : 'asc'"
          (matSortChange)="onSortChange($event)"
          class="mat-elevation-z1"
          *ngIf="!virtualScroll">
     <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.field">
       <th mat-header-cell *matHeaderCellDef
-          [mat-sort-header]="column.field"          
+          [mat-sort-header]="column.field"
           [disabled]="!column.sortable"
           [style.width]="column.width || 'auto'">
         {{column.caption}}
@@ -22,18 +22,17 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: isHeaderSticky"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" (click)="onRowClick(row, i)"
         [class.highlighted]="selectedIndex == i"
-        [ngClass]="!!rowClass ? row[rowClass].toLowerCase() : ''">
-    </tr>
+        [ngClass]="!!rowClass ? row[rowClass].toLowerCase() : ''"></tr>
     <ng-container *ngIf="showFooter">
       <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: isFooterSticky"></tr>
     </ng-container>
   </table>
   <div *ngIf="virtualScroll">
     <table mat-table [dataSource]="[]" matSort
-         [matSortDisableClear]="true"
-         [matSortActive]="defaultSearch.orderBy"
-         [matSortDirection]="defaultSearch.isDesc ? 'desc' : 'asc'"
-         (matSortChange)="onSortChange($event)">    
+           [matSortDisableClear]="true"
+           [matSortActive]="defaultSort.orderBy"
+           [matSortDirection]="defaultSort.isDesc ? 'desc' : 'asc'"
+           (matSortChange)="onSortChange($event)">
       <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.field">
         <ng-container *ngIf="column.selectable">
           <th mat-header-cell *matHeaderCellDef>
@@ -47,37 +46,36 @@
               [style.width]="column.width || 'auto'">
             {{column.caption}}
           </th>
-        </ng-container>        
+        </ng-container>
         <ng-container *ngIf="showFooter">
           <td mat-footer-cell *matFooterCellDef>{{getFooterValue(column.footer)}}</td>
         </ng-container>
       </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: isHeaderSticky"></tr>  
-  </table>
-  <cdk-virtual-scroll-viewport [itemSize]="rowHeight" class="virtual-scroll-viewport">
-    <table class="mat-table">
-      <tr *cdkVirtualFor="let row of bindingSource"
-          [style.height]="rowHeight + 'px'"
-          class="mat-row"
-          [ngClass]="!!rowClass ? row[rowClass].toLowerCase() : ''">        
-        <ng-container *ngFor="let column of columns">
-          <td *ngIf="column.selectable">
-            <mat-checkbox [(ngModel)]="row.selected"></mat-checkbox>
-          </td>
-          <td *ngIf="!column.selectable" [style.width]="column.width || 'auto'"
-              [innerHtml]="column.format(getCellData(row, column), row)"></td>
-        </ng-container>        
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: isHeaderSticky"></tr>
+    </table>
+    <cdk-virtual-scroll-viewport [itemSize]="rowHeight" class="virtual-scroll-viewport">
+      <table class="mat-table">
+        <tr *cdkVirtualFor="let row of bindingSource"
+            [style.height]="rowHeight + 'px'"
+            class="mat-row"
+            [ngClass]="!!rowClass ? row[rowClass].toLowerCase() : ''">
+          <ng-container *ngFor="let column of columns">
+            <td *ngIf="column.selectable">
+              <mat-checkbox [(ngModel)]="row.selected"></mat-checkbox>
+            </td>
+            <td *ngIf="!column.selectable" [style.width]="column.width || 'auto'"
+                [innerHtml]="column.format(getCellData(row, column), row)"></td>
+          </ng-container>
+        </tr>
+      </table>
+    </cdk-virtual-scroll-viewport>
+    <table *ngIf="showFooter" class="mat-table mat-elevation-z1 footer">
+      <tr class="mat-footer-row">
+        <td class="mat-footer-cell" *ngFor="let column of columns"
+            [style.width]="column.width || 'auto'"
+            [innerHtml]="getFooterValue(column.footer)"></td>
       </tr>
     </table>
-  </cdk-virtual-scroll-viewport>
-  <table *ngIf="showFooter" class="mat-table mat-elevation-z1 footer">
-    <tr class="mat-footer-row">
-      <td class="mat-footer-cell" *ngFor="let column of columns"
-          [style.width]="column.width || 'auto'"
-          [innerHtml]="getFooterValue(column.footer)">        
-      </td>
-    </tr>
-  </table>
-  </div>
+  </div>  
 </div>
 

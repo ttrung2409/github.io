@@ -30,14 +30,13 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
     @Inject(APP_CONFIG) config,
     private el: ElementRef,
     private notifier: NotifierService) {
-    this.defaultSearch = new SearchModel({
+    this.searchModel = new SearchModel({
       orderBy: 'no',
       isDesc: true,
       index: 1,
       size: config.size
     });
 
-    this.searchModel = new SearchModel(this.defaultSearch);
     this.config = config;
   }
 
@@ -49,7 +48,6 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   customers: Customer[]; 
   selectedCustomer: Customer = new Customer();
   flyoutView: string;
-  defaultSearch: SearchModel = new SearchModel();
   searchModel: SearchModel = new SearchModel();
   isLoading: boolean;
   config: any;
@@ -149,7 +147,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
     this._subscription.add(this.customerService.search(searchModel).subscribe(result => {
       this.isLoading = false;
       this.total = result.total;
-      this.customers = result.items;
+      this.customers = result.items;      
     }));
   }
 

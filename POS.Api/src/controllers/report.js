@@ -5,6 +5,12 @@ var router = express.Router();
 
 let reportService = new ReportService();
 
+router.post('/incomeByInvoice/summary', function (req, res) {
+  reportService.getIncomeSummaryByInvoice(req.body).then(summary => {
+    res.send(summary);
+  });
+});
+
 router.post('/incomeByInvoice', function (req, res) {
   reportService.getIncomeByInvoice(req.body).then(invoices => {
     res.send(invoices);

@@ -1,4 +1,4 @@
-import { Product, ProductSpec } from '../models'
+import { Product, ProductSpec, Uom } from '../models'
 import Sequelize from 'sequelize'
 import RepositoryBase from './repositoryBase';
 import * as _ from 'lodash'
@@ -87,11 +87,16 @@ export default class ProductRepository extends RepositoryBase {
     if (params.categoryId > 0) {
       where.categoryId = params.categoryId;
     }
-       
+
+    let order = [params.orderBy, !!params.isDesc ? 'desc' : 'asc'];
+    if (params.orderBy == 'uom.name') {
+      order = [{ model: Uom, as: 'uom' }, 'name', !!params.isDesc ? 'desc' : 'asc'];
+    }
+
     return this.modelDef.findAndCountAll({
       where,
       include: [{ association: 'uom' }],
-      order: [[params.orderBy, !!params.isDesc ? 'desc' : 'asc']],
+      order: [order],
       offset: (params.index - 1) * params.size,
       limit: params.size,
       paranoid: params.includeDeleted ? false : true,

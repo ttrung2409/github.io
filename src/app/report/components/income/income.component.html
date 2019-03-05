@@ -1,5 +1,5 @@
 <div class="income-report">
-  <toolbar>
+  <toolbar [showProgress]="isLoading">
     <toolbar-title>Báo cáo doanh thu / công nợ</toolbar-title>
     <actions>
       <button mat-button (click)="flyout.show()">

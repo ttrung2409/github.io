@@ -1,11 +1,14 @@
-<grid [columns]="columns"
-      [dataSource]="invoices"
-      [showFooter]="true"
-      [isHeaderSticky]="true"
-      [isFooterSticky]="true"
-      [defaultSearch]="{orderBy: 'no', isDesc: true}"
-      (sortChange)="onSortChange($event)"
-      [height]="height"
-      [virtualScroll]="true"
-      [rowClass]="'status'">
-</grid>
+<div>
+  <grid [columns]="columns"
+        [dataSource]="invoices"
+        [showFooter]="true"
+        [isHeaderSticky]="true"
+        [isFooterSticky]="true"
+        [defaultSort]="{orderBy: 'no', isDesc: true}"
+        (sortChange)="onSortChange($event)"
+        [height]="height"
+        [virtualScroll]="true"
+        [rowClass]="'status'">
+  </grid>
+  <mat-paginator [showFirstLastButtons]="true" [length]="summary.count" [pageIndex]="params.index" [pageSize]="1000" (page)="onPageChanged($event)"></mat-paginator>
+</div>

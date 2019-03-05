@@ -7,6 +7,10 @@ export default class ReportService {
     return reportRepository.getIncomeByInvoice(params);  
   }
 
+  getIncomeSummaryByInvoice(params) {
+    return reportRepository.getIncomeSummaryByInvoice(params);
+  }
+
   getIncomeByCustomer(params) {
     return reportRepository.getIncomeByCustomer(params);
   }
