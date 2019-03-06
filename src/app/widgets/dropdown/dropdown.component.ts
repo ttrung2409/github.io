@@ -181,8 +181,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
     this.$dropdown.dropdown('hide');
   }
 
-  private setSelected(value) {
-    debugger;
+  private setSelected(value) {    
     this._shouldHandleOnChange = false;
     if (this.bindingOptions.some(x => x[this.valueMember] == value)) {
       this.$dropdown.dropdown('set selected', value);

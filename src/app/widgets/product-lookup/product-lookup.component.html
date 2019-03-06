@@ -17,8 +17,6 @@
            [itemTemplate]="itemTemplate"
            [showNoResults]="showNoResults">
   <ng-template #itemTemplate let-item="item">
-    <div *ngIf="!!item.uom">{{item.name}} ({{item.uom.name}})</div>
-    <div *ngIf="!item.uom">{{item.name}}</div>
-    <div style="color: grey; margin-top: 8px">{{item.no}}</div>
+    <div style="padding-top: 3px">{{item.name}} - <span style="color: grey;">{{item.no}}</span></div>    
   </ng-template>  
 </typeahead>
