@@ -31,6 +31,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="install.js" />
     <Compile Include="src\config.js" />
     <Compile Include="src\app.js" />
     <Compile Include="src\controllers\auth.js" />
@@ -74,6 +75,8 @@
     <Compile Include="src\services\reportService.js" />
     <Compile Include="src\services\userService.js" />
     <Compile Include="src\transaction.js" />
+    <Compile Include="uninstall.js" />
+    <Compile Include="webpack.config.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
     <Content Include="src\repositories\customerRepository.js" />

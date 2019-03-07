@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ElementRef } from '@angular/core';
 import Invoice from 'src/app/models/invoice';
 import Payment from 'src/app/models/payment';
 import AuthService from 'src/app/services/auth.service';
+import * as moment from 'moment'
 
 @Component({
   selector: 'print',
@@ -17,6 +18,10 @@ export class PrintComponent implements OnInit {
 
   get staffName() {
     return this.authService.user.name;
+  }
+
+  get createdAt() {
+    return moment(this.invoice.createdAt).local();
   }
 
   ngOnInit() {

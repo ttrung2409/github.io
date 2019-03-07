@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "build:webpack": "webpack --config webpack.config.js",
+    "build": "npm run build:webpack",
     "start": "nodemon -e js -w ./src -x npm run watch:serve",
     "watch:serve": "babel-node --inspect src/app.js"
   },
@@ -24,7 +26,11 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.7.0",
-    "nodemon": "^1.18.9"
+    "nodemon": "^1.18.9",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3"
   }
 }
