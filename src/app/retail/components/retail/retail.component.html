@@ -54,6 +54,9 @@
       <button mat-button (click)="cancel()" [disabled]="!canCancel">
         <mat-icon>cancel</mat-icon>
       </button>
+      <button mat-button (click)="lookupProduct()">
+        <mat-icon>info</mat-icon>
+      </button>
       <button mat-button (click)="addCustomer()">
         <mat-icon>person_add</mat-icon>
       </button>
@@ -82,7 +85,10 @@
       </div>      
     </div>
     <div class="six wide column" style="padding-left: 12px !important;">
-      <customer-lookup [(model)]="invoice.customerId"></customer-lookup>
+      <customer-lookup [(model)]="invoice.customerId"
+                       (select)="onCustomerSelect($event)"
+                       [preventKeys]="['+','-']">
+      </customer-lookup>
     </div>
     <div class="sixteen wide column">
       <grid #grid [columns]="columns"

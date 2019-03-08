@@ -12,6 +12,7 @@ import { AddCustomerDialog } from './components/add-customer-dialog/add-customer
 import { OverviewComponent } from './components/overview/overview.component';
 import { ConfirmDialogComponent } from '../widgets/confirm-dialog/confirm-dialog.component';
 import { PrintComponent } from './components/print/print.component';
+import { ProductLookupDialogComponent } from './components/product-lookup-dialog/product-lookup-dialog.component';
 
 @NgModule({
   imports: [
@@ -27,13 +28,15 @@ import { PrintComponent } from './components/print/print.component';
     NoProductFoundDialog,
     AddCustomerDialog,
     OverviewComponent,
-    PrintComponent
+    PrintComponent,
+    ProductLookupDialogComponent
   ],
   providers: [DecimalPipe],
   entryComponents: [
     NoProductFoundDialog,
     AddCustomerDialog,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    ProductLookupDialogComponent
   ],
   schemas: [NO_ERRORS_SCHEMA]
 })

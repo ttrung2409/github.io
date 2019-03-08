@@ -27,6 +27,9 @@ import CustomerService from 'src/app/services/customer.service';
 import { ConfirmDialogComponent } from 'src/app/widgets/confirm-dialog/confirm-dialog.component';
 import DialogResult from 'src/app/valueObjects/DialogResult';
 import { PrintComponent } from '../print/print.component';
+import Customer from 'src/app/models/customer';
+import v8n from 'v8n'
+import { ProductLookupDialogComponent } from '../product-lookup-dialog/product-lookup-dialog.component';
 
 @Component({
   selector: 'retail',
@@ -72,7 +75,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
   isLoading: boolean = false;
   invoices: Invoice[] = [];
   dirty: boolean;
-  selectedPrice: string = 'retail';
+  selectedPrice: string = 'retail';  
 
   get canView() {
     return this.invoice.id > 0;
@@ -95,7 +98,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
   }
 
   get customerName() {
-    return this.invoice.id > 0 && !!this.invoice.customer ? this.invoice.customer.name : 'Khách lẻ';
+    return !!this.invoice.customer && !!this.invoice.customer.name ? this.invoice.customer.name : 'Khách lẻ';
   }
 
   ngDoCheck() {
@@ -104,8 +107,12 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
     if (!!this._invoiceDiffer) {
       let changes = this._invoiceDiffer.diff(this.invoice);
       if (!!changes) {
-        this.dirty = true;
-      }
+        changes.forEachChangedItem(x => {
+          if (x.currentValue != x.previousValue && typeof (x.currentValue) !== 'object') {
+            this.dirty = true;
+          }
+        });
+      }      
     }
     
     if (!!this._itemsDiffer) {
@@ -295,8 +302,14 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
   }
 
   pay() {
-    this.save(new Payment() {
+    let payment = this.invoice.payments.length > 0 ? this.invoice.payments[0] : new Payment({
+      invoiceId: this.invoice.id,
+      customerId: this.invoice.customerId,
+      method: PaymentMethod.Cash,      
     });
+    
+    payment.amount = this.invoice.computedTotal;
+    this.save(payment, { print: true });
   }
 
   onItemChange(item) {
@@ -446,7 +459,9 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
     }    
   }
 
-  save(payment?: Payment) {
+  save(payment?: Payment, { print = false } = {}) {
+    if (!this.validate()) return;
+
     let invoice = Object.assign(_.cloneDeep(this.invoice), {
       subTotal: this.invoice.computedSubTotal,
       total: this.invoice.computedTotal,
@@ -469,10 +484,19 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
       this.notifier.notify('success', 'Lưu thành công');
       this.invoice = Invoice.from(result);
       this.reset();
-      if (!!payment && payment.print) {
+      if (!!payment && print) {
         setTimeout(() => this.printComponent.print());        
       }
     });
+  }
+
+  validate() {
+    if (v8n().empty().test(this.invoice.customerId || '')) {
+      this.notifier.notify('error', 'Vui lòng nhập khách hàng');
+      return false;
+    }
+
+    return true;
   }
 
   view() {
@@ -504,5 +528,17 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
 
   print() {    
     this.printComponent.print(); 
+  }
+
+  onCustomerSelect(customer: Customer) {    
+    this.invoice.customer = customer;
+  }
+
+  lookupProduct() {
+    this.grid.disableHotkeys();
+    this.dialog.open(ProductLookupDialogComponent, { disableClose: true }).afterClosed().subscribe(() => {
+      this.grid.enableHotkeys();
+      this.productLookup.focus();
+    });
   }
 }

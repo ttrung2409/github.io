@@ -41,7 +41,7 @@ export default class InvoiceRepository extends RepositoryBase {
   lookup(query, { recent } = {}) {
     if (recent) {
       return this.modelDef.findAll({
-        limit: config.lookupLimit,
+        limit: 50,
         include: [{ association: 'customer', paranoid: false }],
         order: [['no', 'desc']],
       }).then(invoices => invoices.map(x => x.get({ plain: true })));

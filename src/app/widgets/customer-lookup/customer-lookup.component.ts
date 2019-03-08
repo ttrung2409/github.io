@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 import CustomerService from 'src/app/services/customer.service';
 import { Subscription, Observable } from 'rxjs';
 import Customer from 'src/app/models/customer';
@@ -16,6 +16,9 @@ export class CustomerLookupComponent extends BindableComponent implements OnInit
   constructor(private customerService: CustomerService) {
     super();
   }
+
+  @Input() preventKeys: string[] = [];
+  @Output('select') selectEvent = new EventEmitter();
 
   @ViewChild(TypeaheadComponent) typeahead: TypeaheadComponent;
 
@@ -44,5 +47,11 @@ export class CustomerLookupComponent extends BindableComponent implements OnInit
 
   focus() {
     this.typeahead.focus();
+  }
+
+  onSelect(value) {
+    if (this.customers.some(x => x.id == value)) {
+      this.selectEvent.emit(this.customers.find(x => x.id == value));
+    }
   }
 }

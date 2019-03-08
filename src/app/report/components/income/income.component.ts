@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ElementRef, OnDestroy, HostListener, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, OnDestroy, HostListener, ViewChild, ViewEncapsulation } from '@angular/core';
 import { GridColumn } from '../../../widgets/grid/grid.component';
 import Invoice from '../../../models/invoice';
 import Customer from '../../../models/customer';
@@ -20,7 +20,8 @@ declare var $: any;
 @Component({
   selector: 'income',
   templateUrl: './income.component.html',
-  styleUrls: ['./income.component.scss']
+  styleUrls: ['./income.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class IncomeComponent implements OnInit, AfterViewInit, OnDestroy {
   private _subscription: Subscription = new Subscription();

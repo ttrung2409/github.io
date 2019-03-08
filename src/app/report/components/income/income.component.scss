@@ -1,5 +1,17 @@
 .income-report {
   .content {
     overflow: auto;
-  }  
+  }
+
+  .mat-row.cancelled {
+    td:first-child {
+      border-left: 4px solid red;
+    }
+  }
+
+  .mat-row.new, .mat-row.partial {
+    td:first-child {
+      border-left: 4px solid #f2da3e;
+    }
+  }
 }

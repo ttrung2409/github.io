@@ -37,15 +37,7 @@
     <div style="margin-bottom: 8px;display: flex;justify-content: space-between" class="flex">
       <span>TỔNG HÓA ĐƠN</span>
       <span>{{invoice.total | number}}</span>
-    </div>
-    <div style="margin-bottom: 8px;display: flex;justify-content: space-between" class="flex">
-      <span>TIỀN KHÁCH TRẢ</span>
-      <span>{{(invoice.payments.length > 0 ? invoice.payments[0].amount : 0) | number}}</span>
-    </div>
-    <div style="margin-bottom: 8px;display: flex;justify-content: space-between" class="flex">
-      <span>TIỀN TRẢ LẠI</span>
-      <span>{{(invoice.payments.length > 0 ? invoice.payments[0].amount - invoice.total : 0) | number}}</span>
-    </div>
+    </div>    
   </div>
   <div style="padding-top: 8px; border-top: 2px solid grey;text-align:center" class="section bye center">
     <div style="margin-bottom: 4px">CẢM ƠN QUÝ KHÁCH VÀ HẸN GẶP LẠI</div>    

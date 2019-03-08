@@ -1,0 +1,53 @@
+<div class="product-lookup-dialog">
+<h3 mat-dialog-title>
+  Xem giá
+  <mat-icon class="icon close" (click)="close()">clear</mat-icon>
+</h3>
+<div mat-dialog-content>
+  <div>
+    <product-lookup (select)="onSelect($event)"
+                    [clearOnSelect]="true"
+                    [showNoResults]="false"
+                    [payload]="{priceType: selectedPrice}">
+    </product-lookup>
+    <div class="price-tag">
+      <mat-chip-list matSuffix>
+        <mat-chip (click)="onPriceTagClick('retail')" [selected]="selectedPrice == 'retail'">LẺ</mat-chip>
+        <mat-chip (click)="onPriceTagClick('wholesale')" [selected]="selectedPrice == 'wholesale'">SỈ</mat-chip>
+        <mat-chip (click)="onPriceTagClick('discount')" [selected]="selectedPrice == 'discount'">KHUYẾN MÃI</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+  <div class="ui form product" *ngIf="product.id > 0">
+    <div class="three fields">
+      <div class="field">
+        <label>Mã SP</label>
+        <span>{{product.no}}</span>
+      </div>
+      <div class="field">
+        <label>Tên SP</label>
+        <span>{{product.name}}</span>
+      </div>
+      <div class="field">
+        <label>ĐVT</label>
+        <span *ngIf="!!product.uom">{{product.uom.name}}</span>
+      </div>
+    </div>
+    <div class="three fields">
+      <div class="field">
+        <label>Giá lẻ</label>
+        <span>{{product.retailPrice | number}}</span>
+      </div>
+      <div class="field">
+        <label>Giá sỉ</label>
+        <span>{{product.wholesalePrice | number}}</span>
+      </div>
+      <div class="field">
+        <label>Giá khuyến mãi</label>
+        <span>{{product.discountPrice | number}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+

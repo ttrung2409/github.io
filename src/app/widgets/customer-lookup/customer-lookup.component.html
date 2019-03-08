@@ -1,6 +1,7 @@
 <typeahead #customerLookup [options]="customers"
            [(model)]="model"
            (search)="onSearch($event)"
+           (select)="onSelect($event)"
            [isLoading]="isLoading"
            [valueMember]="'id'"
            [displayMember]="'name'"
@@ -8,7 +9,8 @@
            [floatLabel]="'never'"
            [showOnDown]="false"
            [requestForOption]="requestForCustomer.bind(this)"
-           [itemTemplate]="itemTemplate">
+           [itemTemplate]="itemTemplate"
+           [preventKeys]="preventKeys">
   <ng-template #itemTemplate let-item="item">
     <div class="dropdown-item">
       <div class="flex">

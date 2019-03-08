@@ -190,7 +190,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
       if (typeof this.requestForOption === 'function') {
         this.requestForOption(value).subscribe(option => {
           this.bindingOptions.push(option);
-          this.$dropdown.dropdown('set selected', value);
+          setTimeout(() => this.$dropdown.dropdown('set selected', value));
         });
       }
     }
