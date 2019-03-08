@@ -5,6 +5,7 @@ import { Sort, MatSort, MatCheckboxChange } from '@angular/material';
 import { APP_GLOBAL } from 'src/app/app.global';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import UtilsService from 'src/app/services/utils.service';
+import * as $ from 'jquery'
 
 @Component({
   selector: 'grid',
@@ -218,6 +219,10 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
     for (let row of this.bindingSource) {
       row.selected = change.checked;
     }
+  }
+
+  scrollToBottom() {
+    $('.grid-container').scrollTop($('.grid-container')[0].scrollHeight);
   }
 }
 

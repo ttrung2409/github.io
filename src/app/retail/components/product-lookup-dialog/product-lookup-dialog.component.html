@@ -18,7 +18,7 @@
       </mat-chip-list>
     </div>
   </div>
-  <div class="ui form product" *ngIf="product.id > 0">
+  <div class="ui form product" *ngIf="!!product && product.id > 0">
     <div class="three fields">
       <div class="field">
         <label>Mã SP</label>

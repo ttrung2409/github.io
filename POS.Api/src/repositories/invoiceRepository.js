@@ -41,9 +41,13 @@ export default class InvoiceRepository extends RepositoryBase {
   lookup(query, { recent } = {}) {
     if (recent) {
       return this.modelDef.findAll({
-        limit: 50,
+        where: {
+          date: { [Op.gte]: new Date() },
+          status: { [Op.or]: ['Partial', 'Paid']}
+        },
+        limit: config.lookupLimit,
         include: [{ association: 'customer', paranoid: false }],
-        order: [['no', 'desc']],
+        order: [['status', 'desc'], ['no', 'desc']],
       }).then(invoices => invoices.map(x => x.get({ plain: true })));
     }
     else {
