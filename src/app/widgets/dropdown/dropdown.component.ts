@@ -174,7 +174,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
   }
 
   show() {
-    this.$dropdown.dropdown('show');
+    this.$dropdown.dropdown('show');    
   }
 
   hide() {

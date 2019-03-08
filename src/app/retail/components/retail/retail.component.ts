@@ -72,6 +72,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
   isLoading: boolean = false;
   invoices: Invoice[] = [];
   dirty: boolean;
+  selectedPrice: string = 'retail';
 
   get canView() {
     return this.invoice.id > 0;
@@ -251,7 +252,9 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
           productId: product.id,
           product: product,
           qty: 1,
-          price: product.retailPrice,
+          price: this.selectedPrice == 'retail' ? product.retailPrice
+            : this.selectedPrice == 'wholesale' ? product.wholesalePrice
+              : this.selectedPrice == 'discount' ? product.discountPrice : product.retailPrice,
           cost: product.cost,         
           index: this.invoice.items.length + 1,
           isNew: true,
@@ -292,9 +295,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
   }
 
   pay() {
-    this.flyoutView = 'payment';
-    this.flyout.show().then(() => {
-      this.paymentView.focus();
+    this.save(new Payment() {
     });
   }
 
@@ -306,6 +307,11 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
   onPaymentCommit(payment: Payment) {
     this.flyout.hide();
     this.save(payment);
+  }
+
+  onPriceTagClick(selectedPrice: string) {    
+    this.selectedPrice = selectedPrice;
+    this.productLookup.clear();
   }
 
   new() {
@@ -326,7 +332,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
       doNew.call(this);
     }
 
-    function doNew () {
+    function doNew() {      
       this.invoice = new Invoice({
         customerId: 1,
         status: InvoiceStatus.New,
@@ -335,14 +341,15 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
 
       this.router.navigateByUrl('/retail');
       this.productLookup.focus();
-      this.reset();
+      this.selectedPrice = 'retail';
+      this.reset();      
     }    
   }
 
   reset() {    
     this._invoiceDiffer = this.invoiceDifferFactory.find(this.invoice).create();
     this._itemsDiffer = this.itemsDifferFactory.find(this.invoice.items).create();
-    setTimeout(() => this.dirty = false);
+    setTimeout(() => this.dirty = false);    
   }
 
   onFlyoutShow() {

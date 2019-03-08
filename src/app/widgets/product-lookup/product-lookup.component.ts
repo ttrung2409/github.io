@@ -7,6 +7,7 @@ import { catchError } from 'rxjs/operators';
 import { Key } from 'ts-keycode-enum';
 import { TypeaheadComponent } from '../typeahead/typeahead.component';
 import * as _ from 'lodash'
+import UtilsService from 'src/app/services/utils.service';
 
 declare var $: any;
 
@@ -21,7 +22,7 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
   private _subscriptionForScanner: Subscription = new Subscription();
   private _showing: boolean;
 
-  constructor(private el: ElementRef, private productService: ProductService) {
+  constructor(private el: ElementRef, private productService: ProductService, private utils: UtilsService) {
     super();
   }
   
@@ -29,6 +30,7 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
   @Input() clearOnSelect: boolean = false;
   @Input() showNoResults: boolean = true;
   @Input() preventKeys: string[] = [];
+  @Input() payload: any = {priceType: 'retail'};
   @Output('select') selectEvent = new EventEmitter();
   @Output('keydown') keydownEvent = new EventEmitter();
 
@@ -62,9 +64,10 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
         this._subscription.unsubscribe();        
       }
 
-      this._subscription = this.productService.lookup(query).subscribe((products: Product[]) => {
+      this._subscription = this.productService.lookup(query, this.payload).subscribe((products: Product[]) => {
         this.products = products;
-        this.isLoading = false;      
+        this.isLoading = false;
+        setTimeout(() => this.show());
       });
     }    
   }
@@ -106,15 +109,30 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
     this.typeahead.clear();
   }
 
+  show() {
+    this.typeahead.show();
+  }
+
+  hide() {
+    this.typeahead.hide();
+  }
+
   onShow() {
     this._showing = true;
   }
 
   onHide() {
     this._showing = false;
+    this.products = [];
   }
 
   requestForProduct(id): Observable<any> {
     return this.productService.get(id);
+  }
+
+  getPrice(item) {
+    return this.utils.formatNumber(this.payload.priceType == 'retail' ? item.retailPrice
+      : this.payload.priceType == 'wholesale' ? item.wholesalePrice
+        : this.payload.priceType == 'discount' ? item.discountPrice : item.retailPrice);
   }
 }

@@ -1,4 +1,8 @@
 .retail {
+  .grid.item-container .column {
+    padding: 0 !important;
+  }
+
   .mat-form-field-suffix {
     padding-bottom: 4px !important;
   }
@@ -56,7 +60,7 @@
         &:after {
           border-color: white transparent transparent !important;
         }
-      }     
+      }
 
       .text {
         color: white !important;
@@ -106,5 +110,11 @@
       font-style: italic;
       font-size: 12px;
     }
+  }
+
+  .price-tag {
+    position: absolute;
+    right: 30px;
+    top: 4px;
   }
 }

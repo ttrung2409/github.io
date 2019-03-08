@@ -12,13 +12,11 @@
   <ng-template #itemTemplate let-item="item">
     <div class="dropdown-item">
       <div class="flex">
-        <label>{{item.name}}</label>
-        <label>{{item.no}}</label>
+        <div>{{item.name}}<span *ngIf="!!item.phone"> - {{item.phone}}</span></div>
+        <div>{{item.no}}</div>
       </div>
-      <div class="flex" *ngIf="!!item.phone || !!item.email">
-        <label>{{item.phone}}</label>
-        <label>{{item.email}}</label>
-      </div>
+      <div *ngIf="!!item.address">{{item.address}}</div>
+      <div *ngIf="!!item.email">{{item.email}}</div>      
     </div>
   </ng-template>
 </typeahead>

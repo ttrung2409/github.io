@@ -15,10 +15,6 @@ router.get('/allUoms', function (req, res) {
   productService.allUoms().then(uoms => res.send(uoms));
 });
 
-router.get('/lookup', function (req, res) {
-  productService.lookup(req.query.query).then(products => res.send(products));
-});
-
 router.get('/:id', function (req, res) {
   productService.get(req.params.id).then(product => {
     if (!product) {
@@ -29,6 +25,10 @@ router.get('/:id', function (req, res) {
       res.send(product);
     }
   });
+});
+
+router.post('/lookup', function (req, res) {
+  productService.lookup(req.body.query, { priceType: req.body.priceType }).then(products => res.send(products));
 });
 
 router.post('/search', function (req, res) {

@@ -27,8 +27,8 @@ export default class ProductService extends HttpService {
     return super._get<string[]>('product/allUoms');    
   }
 
-  lookup(query: string): Observable<Product[]> {
-    return super._get<Product[]>('product/lookup', { query });   
+  lookup(query: string, payload: any = {}): Observable<Product[]> {
+    return super._post<Product[]>('product/lookup', { query, ...payload });   
   }
 
   save(product: Product): Observable<Product> {

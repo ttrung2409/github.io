@@ -26,6 +26,10 @@
         font-size: 13px;
         padding: 12px;
         border-top: 1px solid whitesmoke !important;
+
+        &.selected {
+          background-color: palegoldenrod;
+        }
       }
     }
 
@@ -40,6 +44,12 @@
 
     .text {
       top: 10px !important;
+    }
+
+    @media only screen and (min-width: 768px) {
+      .menu {
+        max-height: 400px !important;
+      }
     }
   }
 

@@ -3,6 +3,7 @@ import context from '../dbContext';
 import { Invoice, InvoiceItem, Product, Customer } from '../models';
 import Sequelize from 'sequelize'
 import * as _ from 'lodash'
+import config from '../config';
 
 const Op = Sequelize.Op;
 
@@ -40,7 +41,7 @@ export default class InvoiceRepository extends RepositoryBase {
   lookup(query, { recent } = {}) {
     if (recent) {
       return this.modelDef.findAll({
-        limit: 10,
+        limit: config.lookupLimit,
         include: [{ association: 'customer', paranoid: false }],
         order: [['no', 'desc']],
       }).then(invoices => invoices.map(x => x.get({ plain: true })));
@@ -49,7 +50,7 @@ export default class InvoiceRepository extends RepositoryBase {
       return context.query('select * from "lookupInvoices"(:query, :take)', {
         replacements: {
           query,
-          take: 10,
+          take: config.lookupLimit,
         },
         type: Sequelize.QueryTypes.SELECT
       }).then(invoices => invoices.map(x => Object.assign(x, {

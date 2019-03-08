@@ -29,6 +29,7 @@
                 </div>                
                 <label>{{item.customer.no}}</label>
               </div>
+              <div *ngIf="!!item.customer.address">{{item.customer.address}}</div>
             </div>            
           </ng-template>
         </typeahead>
@@ -39,25 +40,22 @@
         <mat-icon>add</mat-icon>
         (F2)
       </button>
-      <button mat-button (click)="pay()" [disabled]="!canPay">
-        <mat-icon>attach_money</mat-icon>
-        (F4)
-      </button>
       <button mat-button (click)="save()" [disabled]="!canSave" class="save-button">
         <mat-icon>save</mat-icon>
         (F9)
       </button>
-      <button mat-button (click)="view()" [disabled]="!canView">
-        <mat-icon>info</mat-icon>
+      <button mat-button (click)="pay()" [disabled]="!canPay">
+        <mat-icon>attach_money</mat-icon>
+        (F4)
       </button>
       <button mat-button [disabled]="!canPrint" (click)="print()">
         <mat-icon>print</mat-icon>
       </button>
-      <button mat-button (click)="addCustomer()">
-        <mat-icon>person_add</mat-icon>
-      </button>
       <button mat-button (click)="cancel()" [disabled]="!canCancel">
         <mat-icon>cancel</mat-icon>
+      </button>
+      <button mat-button (click)="addCustomer()">
+        <mat-icon>person_add</mat-icon>
       </button>
       <button mat-button (click)="beginSearch()">
         <mat-icon>search</mat-icon>
@@ -65,15 +63,26 @@
       </button>
     </actions>
   </toolbar>  
-  <div class="row">
-    <div class="sixteen wide column">
+  <div class="ui grid item-container">
+    <div class="ten wide column">
       <product-lookup #productLookup
                       [(model)]="selectedProductId"
                       (select)="addItem($event)"
                       [clearOnSelect]="true"
                       [showNoResults]="false"
-                      [preventKeys]="['+','-']">
+                      [preventKeys]="['+','-']"
+                      [payload]="{priceType: selectedPrice}">
       </product-lookup>
+      <div class="price-tag">
+        <mat-chip-list matSuffix>
+          <mat-chip (click)="onPriceTagClick('retail')" [selected]="selectedPrice == 'retail'">LẺ</mat-chip>
+          <mat-chip (click)="onPriceTagClick('wholesale')" [selected]="selectedPrice == 'wholesale'">SỈ</mat-chip>
+          <mat-chip (click)="onPriceTagClick('discount')" [selected]="selectedPrice == 'discount'">KHUYẾN MÃI</mat-chip>
+        </mat-chip-list>
+      </div>      
+    </div>
+    <div class="six wide column" style="padding-left: 12px !important;">
+      <customer-lookup [(model)]="invoice.customerId"></customer-lookup>
     </div>
     <div class="sixteen wide column">
       <grid #grid [columns]="columns"

@@ -2,6 +2,7 @@ import RepositoryBase from './repositoryBase';
 import context from '../dbContext';
 import { Customer, CustomerType } from '../models';
 import Sequelize from 'sequelize'
+import config from '../config';
 
 const Op = Sequelize.Op;
 
@@ -89,7 +90,7 @@ export default class CustomerRepository extends RepositoryBase {
 
     return this.modelDef.findAll({
       where,
-      limit: 10
+      limit: config.lookupLimit
     }).then(customers => customers.map(x => x.get({ plain: true })));
   }
 

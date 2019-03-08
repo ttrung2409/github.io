@@ -3,6 +3,7 @@ import Sequelize from 'sequelize'
 import RepositoryBase from './repositoryBase';
 import * as _ from 'lodash'
 import context from '../dbContext';
+import config from '../config';
 
 const Op = Sequelize.Op;
 
@@ -78,7 +79,7 @@ export default class ProductRepository extends RepositoryBase {
       }
     }
 
-    if (!!params.name) {
+    if (!!params.name) {            
       where.name = Sequelize.where(Sequelize.fn('unaccent', Sequelize.col('Product.name')), {
         [Op.iLike]: `%${params.name}%`
       });
@@ -106,7 +107,17 @@ export default class ProductRepository extends RepositoryBase {
     });
   }
 
-  lookup(query) {
+  lookup(query, { priceType = 'retail' } = {}) {
+    let words = query.split(' ');
+    let nameShouldBe = [];
+    for (let word of words) {
+      nameShouldBe.push({
+        name: Sequelize.where(Sequelize.fn('unaccent', Sequelize.col('Product.name')), {
+          [Op.iLike]: `%${word}%`
+        })
+      });
+    }
+
     let where = {
       [Op.or]: [
         {
@@ -115,9 +126,7 @@ export default class ProductRepository extends RepositoryBase {
           }
         },        
         {
-          name: Sequelize.where(Sequelize.fn('unaccent', Sequelize.col('Product.name')), {
-            [Op.iLike]: `%${query}%`
-          })
+          [Op.and]: nameShouldBe          
         },
         {
           barcode: {
@@ -127,13 +136,18 @@ export default class ProductRepository extends RepositoryBase {
       ]
     };
 
+    let order = ['retailPrice', 'asc'];
+    order = priceType == 'wholesale' ? ['wholesalePrice', 'asc']
+      : priceType == 'discount' ? ['discountPrice', 'asc'] : order;
+    
     return this.modelDef.findAll({
       where,
+      order: [order],
       include: [{
         association: 'spec',
         include: [{association: 'uom'}]
       }, { association: 'uom' }],
-      limit: 10
+      limit: config.lookupLimit
     }).then(products => products.map(x => x.get({ plain: true })));
   }
 

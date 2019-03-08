@@ -32,8 +32,8 @@ export default class ProductService {
     return uomRepository.all();
   }
 
-  lookup(query) {
-    return productRepository.lookup(query);
+  lookup(query, { priceType }) {
+    return productRepository.lookup(query, { priceType });
   }
 
   delete(id) {

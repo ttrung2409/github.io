@@ -7,7 +7,7 @@
       height: 40px !important;
 
       &.highlighted {
-        background-color: whitesmoke;
+        background-color: palegoldenrod;
       }
 
       &:hover {
@@ -20,7 +20,7 @@
       .mat-footer-cell {
         color: grey;
         font-weight: bold !important;
-        padding: 8px 0;        
+        padding: 8px 0;
       }
     }
   }
@@ -33,7 +33,7 @@
         border-bottom: 1px solid rgba(0,0,0,.12);
 
         &:first-child {
-          padding-left: 24px;        
+          padding-left: 24px;
         }
       }
     }
