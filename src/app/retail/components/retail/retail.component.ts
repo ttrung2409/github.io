@@ -149,7 +149,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
   }
 
   ngAfterViewInit() {
-    this.productLookup.focus();
+    this.new();
   }
 
   ngOnDestroy() {
@@ -325,6 +325,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
 
   onPriceTagClick(selectedPrice: string) {    
     this.selectedPrice = selectedPrice;
+    this.productLookup.focus();
     this.productLookup.clear();
   }
 
@@ -349,12 +350,11 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
     function doNew() {      
       this.invoice = new Invoice({
         customerId: 1,
-        status: InvoiceStatus.New,
+        status: InvoiceStatus.Draft,
         date: moment().format()
       });
 
-      this.router.navigateByUrl('/retail');
-      this.productLookup.focus();
+      this.router.navigateByUrl('/retail');      
       this.selectedPrice = 'retail';
       this.reset();      
     }    
@@ -363,7 +363,9 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
   reset() {    
     this._invoiceDiffer = this.invoiceDifferFactory.find(this.invoice).create();
     this._itemsDiffer = this.itemsDifferFactory.find(this.invoice.items).create();
-    setTimeout(() => this.dirty = false);    
+    setTimeout(() => this.dirty = false);
+    this.productLookup.focus();
+    this.productLookup.clear();
   }
 
   onFlyoutShow() {
@@ -405,7 +407,8 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
     setTimeout(() => {
       this.invoices = [];
       this.searching = false;
-      $(this.el.nativeElement).find('.actions').fadeIn(100);      
+      $(this.el.nativeElement).find('.actions').fadeIn(100);
+      this.productLookup.focus();
     }, 300);
   }
 
@@ -432,8 +435,6 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
 
   load(invoiceId) {    
     this.endSearch();
-    this.productLookup.focus();
-
     if (this.dirty) {
       this.grid.disableHotkeys();
       this.dialog.open(ConfirmDialogComponent,
@@ -467,14 +468,14 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
       subTotal: this.invoice.computedSubTotal,
       total: this.invoice.computedTotal,
       totalCost: this.invoice.computedTotalCost,
-      amountPaid: Math.min(!!payment ? payment.amount : (this.invoice.amountPaid || 0), this.invoice.computedTotal),      
-      customerId: !!payment ? payment.customerId : this.invoice.customerId,
+      amountPaid: !!payment ? Math.min(payment.amount, this.invoice.computedTotal)
+        : this.invoice.status == InvoiceStatus.Paid ? this.invoice.computedTotal : (this.invoice.amountPaid || 0),      
       payments: !!payment ? [payment] : undefined
     });
 
-    invoice.status = invoice.amountPaid >= invoice.total ? InvoiceStatus.Paid
-      : invoice.amountPaid > 0 ? InvoiceStatus.Partial : InvoiceStatus.New;
-
+    invoice.status = !!payment ? InvoiceStatus.Paid
+      : invoice.status == InvoiceStatus.Draft ? InvoiceStatus.New : invoice.status;
+        
     for (let item of invoice.items) {
       if (item.isNew) {
         delete item.id;

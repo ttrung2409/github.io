@@ -9,7 +9,11 @@
 
   .toolbar {
     .mat-toolbar {
-      &.new, &.partial {
+      &.draft {
+        border-left: 8px solid #f442cb !important;
+      }
+
+      &.new {
         border-left: 8px solid #f2da3e !important;
       }
 
@@ -22,8 +26,8 @@
       }
     }
 
-    .dropdown .item {
-      &.new, &.partial {
+    .dropdown .item {      
+      &.new {
         border-left: 4px solid #f2da3e !important;
       }
 
