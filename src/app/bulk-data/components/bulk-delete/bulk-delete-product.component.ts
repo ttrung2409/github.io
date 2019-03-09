@@ -30,11 +30,14 @@ export class BulkDeleteProductComponent implements OnInit {
         caption: 'Tên SP',
         field: 'name',
         width: '30%',
+        footer: function () {
+          return `Có tất cả ${this.products.length} sản phẩm`
+        }.bind(this)
       }),
       new GridColumn({
         caption: 'ĐVT',
         field: 'uom',
-        width: '10%',
+        width: '10%'        
       }),
       new GridColumn({
         caption: 'SL',

@@ -30,6 +30,9 @@ export class BulkDeleteCustomerComponent implements OnInit {
         caption: 'Tên KH',
         field: 'name',
         width: '30%',
+        footer: function () {
+          return `Có tất cả ${this.customers.length} khách hàng`;
+        }.bind(this)
       }),
       new GridColumn({
         caption: 'SĐT',

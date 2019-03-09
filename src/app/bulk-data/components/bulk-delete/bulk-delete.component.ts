@@ -11,6 +11,7 @@ import Product from 'src/app/models/product';
 import * as _ from 'lodash'
 import Customer from 'src/app/models/customer';
 import { NotifierService } from 'angular-notifier';
+import ScreenLocker from 'src/app/services/screen-locker';
 
 @Component({
   selector: 'bulk-delete',
@@ -22,7 +23,8 @@ export class BulkDeleteComponent implements OnInit {
   constructor(private bulkDataService: BulkDataService,
     private utils: UtilsService,
     private dialog: MatDialog,
-    private notifier: NotifierService) { }
+    private notifier: NotifierService,
+    private screenLocker: ScreenLocker) { }
 
   @ViewChild(FlyoutComponent) flyout;
   
@@ -32,6 +34,7 @@ export class BulkDeleteComponent implements OnInit {
   amountSearch: any = { by: 'no', from: null, to: null };
   products: Product[] = [];
   customers: Customer[] = [];
+  showProgress: boolean = false;
 
   get params() {
     return {
@@ -51,12 +54,21 @@ export class BulkDeleteComponent implements OnInit {
 
   search() {
     this.flyout.hide();
+    this.showProgress = true;
     switch (this.viewBy) {
       case 'product':
-        this.bulkDataService.findProductsWithIncomeBetween(this.params).subscribe(products => this.products = products);
+        this.bulkDataService.findProductsWithIncomeBetween(this.params).subscribe(products => {          
+          this.products = products;
+          this.showProgress = false;
+        });
+
         break;
       case 'customer':
-        this.bulkDataService.findCustomersWithIncomeBetween(this.params).subscribe(customers => this.customers = customers);
+        this.bulkDataService.findCustomersWithIncomeBetween(this.params).subscribe(customers => {
+          this.customers = customers;
+          this.showProgress = false;
+        });
+
         break;
     }
   }
@@ -66,13 +78,13 @@ export class BulkDeleteComponent implements OnInit {
       { data: { msg: 'Bạn có chắc chắn xóa?' } })
       .afterClosed()
       .subscribe(result => {
-        if (result == DialogResult.OK) {
+        if (result == DialogResult.OK) {          
           switch (this.viewBy) {
             case 'product':
               let selectedProducts = this.products.filter(x => x.selected);
               if (selectedProducts.length > 0) {
                 this.bulkDataService.deleteProducts(selectedProducts.map(x => x.id).join(',')).subscribe(() => {
-                  this.notifier.notify('success', 'Xóa thành công');
+                  this.notifier.notify('success', 'Xóa thành công');                  
                   this.products = this.products.filter(x => !x.selected);
                 });
               }
@@ -83,7 +95,7 @@ export class BulkDeleteComponent implements OnInit {
               let selectedCustomers = this.customers.filter(x => x.selected);
               if (selectedCustomers.length > 0) {
                 this.bulkDataService.deleteCustomers(selectedCustomers.map(x => x.id).join(',')).subscribe(() => {
-                  this.notifier.notify('success', 'Xóa thành công');
+                  this.notifier.notify('success', 'Xóa thành công');                  
                   this.customers = this.customers.filter(x => !x.selected);
                 });
               }

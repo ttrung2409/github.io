@@ -17,30 +17,12 @@ router.post('/product/get-with-income-between', function (req, res) {
   });
 });
 
-router.delete('/product/delete-with-income-between', function (req, res) {
-  service.deleteProductsWithIncomeBetween({
-    fromDate: req.query.fromDate || null,
-    toDate: req.query.toDate || null,
-    fromAmount: req.query.fromAmount !== undefined ? parseFloat(req.query.fromAmount) : null,
-    toAmount: req.query.toAmount !== undefined ? parseFloat(req.query.toAmount) : null
-  }).then(() => res.end());
+router.post('/product/delete', function (req, res) {
+  service.deleteProducts(req.body.ids.split(',')).then(() => res.end());
 });
 
-router.delete('/customer/delete-with-income-between', function (req, res) {
-  service.deleteCustomersWithIncomeBetween({
-    fromDate: req.query.fromDate || null,
-    toDate: req.query.toDate || null,
-    fromAmount: req.query.fromAmount !== undefined ? parseFloat(req.query.fromAmount) : null,
-    toAmount: req.query.toAmount !== undefined ? parseFloat(req.query.toAmount) : null
-  }).then(() => res.end());
-});
-
-router.delete('/product', function (req, res) {
-  service.deleteProducts(req.query.ids.split(',')).then(() => res.end());
-});
-
-router.delete('/customer', function (req, res) {
-  service.deleteCustomers(req.query.ids.split(',')).then(() => res.end());
+router.post('/customer/delete', function (req, res) {
+  service.deleteCustomers(req.body.ids.split(',')).then(() => res.end());
 });
 
 module.exports = router;

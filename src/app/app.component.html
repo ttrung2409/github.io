@@ -7,10 +7,14 @@
     <a routerLink="/bulk-data" routerLinkActive="active" class="item" *ngIf="authorise('bulk-delete')" title="Xóa dữ liệu"><img src="assets/data.svg" /></a>
     <a routerLink="/user" routerLinkActive="active" class="item" *ngIf="authorise('user')" title="Quản lý người dùng"><img src="assets/user.svg" /></a>
     <a class="item" (click)="signout()" title="Thoát"><img src="assets/exit.svg" /></a>
-  </div>  
-  <div class="pusher content">    
+  </div>
+  <div class="pusher content">
     <router-outlet></router-outlet>
+  </div>
+  <div class="screen-locker" style="display: none">
+    <div class="msg">{{msg}}</div>
   </div>
 </div>
 <notifier-container></notifier-container>
+
 

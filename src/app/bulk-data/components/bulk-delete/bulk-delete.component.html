@@ -1,5 +1,5 @@
-<div class="bulk-delete">
-  <toolbar>
+<div class="bulk-delete"> 
+  <toolbar [showProgress]="showProgress">
     <toolbar-title>Xóa dữ liệu</toolbar-title>
     <actions>
       <button mat-button (click)="delete()" [disabled]="!canDelete">
@@ -48,7 +48,7 @@
         </div>
         <div class="eight wide column" *ngIf="amountSearch.by == 'in-range'">
           <mat-form-field>
-            <input matInput [(model)]="amountSearch.from" placeholder="Từ" number/>
+            <input matInput [(model)]="amountSearch.from" placeholder="Từ" number />
           </mat-form-field>
         </div>
         <div class="eight wide column" *ngIf="amountSearch.by == 'in-range'">
@@ -60,6 +60,6 @@
       <div class="actions">
         <button mat-flat-button color="primary" (click)="search()">Tìm</button>
       </div>
-    </content>    
+    </content>
   </flyout>
 </div>

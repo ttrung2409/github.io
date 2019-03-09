@@ -175,6 +175,7 @@
     <TypeScriptCompile Include="src\app\services\invoice.service.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="src\app\services\screen-locker.ts" />
     <TypeScriptCompile Include="src\app\services\user.service.ts" />
     <TypeScriptCompile Include="src\app\services\utils.service.ts" />
     <TypeScriptCompile Include="src\app\app.config.ts">
