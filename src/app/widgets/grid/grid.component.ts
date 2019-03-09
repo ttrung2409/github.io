@@ -221,8 +221,8 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
     }
   }
 
-  scrollToBottom() {
-    $('.grid-container').scrollTop($('.grid-container')[0].scrollHeight);
+  scrollTo(pos) {
+    $('.grid-container').scrollTop(pos);
   }
 }
 

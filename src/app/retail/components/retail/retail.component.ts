@@ -251,6 +251,8 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
       if (index > -1) {
         this.invoice.items[index].qty++;
         this.invoice.items[index] = InvoiceItem.from(this.invoice.items[index]);
+        this.selectedIndex = index;
+        this.grid.scrollTo(Math.max(0, (index - 1) * 60));
       }
       else {
         this.invoice.items.push(new InvoiceItem({
@@ -269,7 +271,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
         }));
 
         this.selectedIndex = this.invoice.items.length - 1;
-        this.grid.scrollToBottom();
+        setTimeout(() => this.grid.scrollTo(Math.max(0, (this.selectedIndex - 3) * 60)));
       }
     }
     else {
