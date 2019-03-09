@@ -30,6 +30,7 @@ import { PrintComponent } from '../print/print.component';
 import Customer from 'src/app/models/customer';
 import v8n from 'v8n'
 import { ProductLookupDialogComponent } from '../product-lookup-dialog/product-lookup-dialog.component';
+import { CustomerLookupComponent } from 'src/app/widgets/customer-lookup/customer-lookup.component';
 
 @Component({
   selector: 'retail',
@@ -63,6 +64,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
   @ViewChild('paymentView') paymentView: PaymentComponent;
   @ViewChild('searchInput') searchInput: TypeaheadComponent;
   @ViewChild(PrintComponent) printComponent;
+  @ViewChild(CustomerLookupComponent) customerLookup; 
 
   columns: GridColumn[];
   invoice: Invoice = new Invoice();
@@ -349,7 +351,11 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
       doNew.call(this);
     }
 
-    function doNew() {      
+    function doNew() {
+      if (!!this.invoice && this.invoice.customerId > 1) {
+        this.customerLookup.clear();
+      }
+
       this.invoice = new Invoice({
         customerId: 1,
         status: InvoiceStatus.Draft,

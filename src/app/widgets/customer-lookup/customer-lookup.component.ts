@@ -49,6 +49,10 @@ export class CustomerLookupComponent extends BindableComponent implements OnInit
     this.typeahead.focus();
   }
 
+  clear() {
+    this.typeahead.clear();
+  }
+
   onSelect(value) {
     if (this.customers.some(x => x.id == value)) {
       this.selectEvent.emit(this.customers.find(x => x.id == value));
