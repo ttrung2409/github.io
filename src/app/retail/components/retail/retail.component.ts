@@ -314,7 +314,10 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
     });
     
     payment.amount = this.invoice.computedTotal;
-    this.save(payment, { print: true });
+    this.save(payment).then(() => {
+      setTimeout(() => this.printComponent.print());
+      setTimeout(() => this.new());
+    });
   }
 
   onItemChange(item) {
@@ -471,8 +474,8 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
     }    
   }
 
-  save(payment?: Payment, { print = false } = {}) {
-    if (!this.validate()) return;
+  save(payment?: Payment) {
+    if (!this.validate()) return Promise.reject('Validation failed');
 
     let invoice = Object.assign(_.cloneDeep(this.invoice), {
       subTotal: this.invoice.computedSubTotal,
@@ -492,14 +495,14 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
       }
     }
 
-    this.invoiceService.save(invoice).subscribe((result: Invoice) => {
-      this.notifier.notify('success', 'Lưu thành công');
-      this.invoice = Invoice.from(result);
-      this.reset();
-      if (!!payment && print) {
-        setTimeout(() => this.printComponent.print());        
-      }
-    });
+    return new Promise(resolve => {
+      this.invoiceService.save(invoice).subscribe((result: Invoice) => {
+        this.notifier.notify('success', 'Lưu thành công');
+        this.invoice = Invoice.from(result);
+        this.reset();
+        resolve();
+      });
+    });    
   }
 
   validate() {
