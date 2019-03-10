@@ -107,7 +107,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
     let _this = this;
     this.$dropdown = $(this.el.nativeElement).find('.ui.dropdown');
     this.$dropdown.dropdown({
-      forceSelection: true,
+      forceSelection: false,
       clearable: this.clearable,
       selectOnKeydown: false,
       direction: this.direction,
@@ -137,8 +137,8 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
           _this.onHide.emit();
         });
       },
-      onChange(value) {
-        if (!!_this._shouldHandleOnChange && value !== _this.model) {          
+      onChange(value) {        
+        if (!!_this._shouldHandleOnChange && value !== _this.model) {
           _this.model = value || undefined;
           _this.onSelect.emit(_this.model);
           _this.hide();

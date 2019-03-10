@@ -14,7 +14,7 @@
   <ng-template #itemTemplate let-item="item">
     <div class="dropdown-item">
       <div class="flex">
-        <div>{{item.name}}<span *ngIf="!!item.phone"> - {{item.phone}}</span></div>
+        <div>{{item.name}}<span *ngIf="!!item.phone" class="pipe">{{item.phone}}</span></div>
         <div>{{item.no}}</div>
       </div>
       <div *ngIf="!!item.address">{{item.address}}</div>

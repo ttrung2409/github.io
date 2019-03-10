@@ -20,13 +20,16 @@
           <ng-template #itemTemplate let-item="item">
             <div class="search-item">
               <div class="flex row">
-                <div>{{item.no}}</div>                
-                <div>{{item.date | date:'dd/MM/yyyy'}}</div>
+                <div>
+                  <span style="font-weight: 600; color: #cc0263;">{{item.no}}</span>
+                  <span class="pipe">{{item.date | date:'dd/MM/yyyy'}}</span>
+                </div>                
                 <div style="font-weight: 600; color: #cc0263;">{{item.total | number}}</div>
               </div>
               <div class="flex row">
-                <div>{{item.customer.name}}</div>
-                <div>{{item.customer.phone}}</div>
+                <div>{{item.customer.name}}
+                  <span *ngIf="!!item.customer.phone" class="pipe">{{item.customer.phone}}</span>
+                </div>
                 <div>{{item.customer.no}}</div>
               </div>
               <div class="row" *ngIf="!!item.customer.address" style="color: grey; font-style:italic">{{item.customer.address}}</div>

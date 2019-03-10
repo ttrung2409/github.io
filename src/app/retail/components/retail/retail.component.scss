@@ -42,22 +42,7 @@
       .search-item {
         .row:not(:first-child) {
           margin-top: 12px;
-        }
-
-        .row {
-          > div:first-child {
-            width: 200px;
-          }
-
-          > div:nth-child(2) {
-            width: 100px;           
-          }
-
-          > div:last-child {
-            width: 100px;
-            text-align: end;
-          }
-        }
+        }      
       }
     }
   }
@@ -67,7 +52,7 @@
     font-size: 12px;
 
     .dropdown-container {
-      width: 500px;
+      width: 400px;
 
       .icon {
         color: white;
@@ -101,7 +86,7 @@
   }
 
   .mat-footer-cell {
-    font-size: 16px;
+    font-size: 18px;
   }
 
   .item-desc {
