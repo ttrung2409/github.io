@@ -34,8 +34,10 @@
     </div>
   </form>
   <div class="subtitle mat-elevation-z1">Quyền truy cập</div>
- <mat-selection-list [disableRipple]="true">
+ <mat-selection-list [disableRipple]="true" *ngIf="showPermissions">
    <mat-list-option *ngFor="let permission of allPermissions"
-                    [checkboxPosition]="'before'" [value]="permission.id" [selected]="hasPermission(permission.id)">{{permission.name}}</mat-list-option>
+                    [checkboxPosition]="'before'"
+                    [value]="permission.id"
+                    [selected]="hasPermission(permission.id)">{{permission.name}}</mat-list-option>
  </mat-selection-list>
 </div>

@@ -28,6 +28,7 @@ export class UserComponent implements OnInit, OnChanges {
   user: User = new User();
   errors: Map<string, string> = new Map();
   allPermissions: Permission[] = [];
+  showPermissions: boolean = true;
   
   ngOnInit() {
     this.userService.allPermissions().subscribe(permissions => this.allPermissions = permissions);
@@ -44,13 +45,15 @@ export class UserComponent implements OnInit, OnChanges {
   load(id) {
     this.reset();
     this.userService.get(id).subscribe(user => {
-      this.user = user;      
+      this.user = user;
     });
   }
 
   reset() {
     this.form.resetForm();
     this.errors.clear();
+    this.showPermissions = false;
+    setTimeout(() => this.showPermissions = true);
   }
   
   save() {
@@ -66,8 +69,8 @@ export class UserComponent implements OnInit, OnChanges {
       this.userService.save(user).subscribe(user => {
         this.notifier.notify('success', 'Lưu thành công');
         this.user = user;
-        this.user.confirmPassword = '';
-        resolve(_.cloneDeep(user));
+        this.user.confirmPassword = '';        
+        resolve(_.cloneDeep(user));        
       }, err => this.notifier.notify('error', err.error));
     });
   }
