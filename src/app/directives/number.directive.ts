@@ -37,7 +37,7 @@ export class NumberDirective implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (!!changes.model) {
-      $(this.el.nativeElement).val(this.utils.formatNumber(this.model));
+      $(this.el.nativeElement).val(this.utils.formatNumber(this.model, { allowDecimal: this.allowDecimal }));
     }
   }
 }

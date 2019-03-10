@@ -12,7 +12,7 @@ export default class UtilsService {
     let isNegative = numberIn < 0;
     let matches = numberIn.toString().match(/^([\d,]+)(\.?\d*)$/);    
     let number = matches[1];
-    let decimal = matches[2];    
+    let decimal = parseFloat(`0${matches[2]}`) > 0 ? matches[2] : null;    
     let thousandSeparator = ',';
     let decimalSeparator = '.';    
     let numberString = !!number ? number.toString().replace(/[^.\d]/g, '') : '';

@@ -9,6 +9,6 @@ export class FormatNumberPipe implements PipeTransform {
   }
 
   transform(val) {    
-    return this.utils.formatNumber(val, '');
+    return this.utils.formatNumber(val);
   }  
 }
