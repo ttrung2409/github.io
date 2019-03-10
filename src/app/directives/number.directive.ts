@@ -14,8 +14,8 @@ export class NumberDirective implements OnInit, OnChanges {
   @Output() modelChange = new EventEmitter();
 
   @HostListener('input', ['$event']) onInput(event) {    
-    event.target.value = this.utils.formatNumber(event.target.value);
-    this.modelChange.emit(!!event.target.value ? parseFloat(event.target.value.replace(/,/g, '')) : null);
+    let value = this.utils.formatNumber(event.target.value);
+    this.modelChange.emit(!!value ? parseFloat(value.replace(/,/g, '')) : null);
   }  
   
   @HostListener('keydown', ['$event']) onKeyDown(event: KeyboardEvent) {
@@ -26,7 +26,7 @@ export class NumberDirective implements OnInit, OnChanges {
       || event.keyCode == Key.Delete
       || event.keyCode == Key.Home
       || event.keyCode == Key.End) return;
-    if (!/[0-9]/.test(event.key)) event.preventDefault();    
+    if (!/[0-9\.]/.test(event.key)) event.preventDefault();    
   }
 
   ngOnInit(){

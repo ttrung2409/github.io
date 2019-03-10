@@ -6,8 +6,10 @@ import * as moment from 'moment'
   providedIn: 'root'
 })
 export default class UtilsService {
-  formatNumber(numberIn, prefix = '') {    
+  formatNumber(numberIn, prefix = '') {
     if (numberIn === undefined || numberIn === null || numberIn === '') return '';
+    if (/^[\d,]+\./.test(numberIn.toString())) return numberIn;
+
     let isNegative = numberIn < 0;
     let number = numberIn.toString().replace(/\.\d*$/, '');    
     let thousandSeparator = ',';
