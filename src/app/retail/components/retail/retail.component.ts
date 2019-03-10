@@ -441,23 +441,25 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
     }
   }
 
-  load(invoiceId) {    
-    this.endSearch();
-    if (this.dirty) {
-      this.grid.disableHotkeys();
-      this.dialog.open(ConfirmDialogComponent,
-        { data: { msg: 'Bạn vừa thay đổi đơn hàng. Bạn có chắc chắn hủy thay đổi và tiếp tục?' } })
-        .afterClosed()
-        .subscribe(result => {
-          this.grid.enableHotkeys();
-          this.productLookup.focus();
-          if (result == DialogResult.OK) {
-            load.call(this);
-          }
-        });
-    }
-    else {
-      load.call(this);
+  load(invoiceId) {
+    if (invoiceId > 0) {
+      this.endSearch();
+      if (this.dirty) {
+        this.grid.disableHotkeys();
+        this.dialog.open(ConfirmDialogComponent,
+          { data: { msg: 'Bạn vừa thay đổi đơn hàng. Bạn có chắc chắn hủy thay đổi và tiếp tục?' } })
+          .afterClosed()
+          .subscribe(result => {
+            this.grid.enableHotkeys();
+            this.productLookup.focus();
+            if (result == DialogResult.OK) {
+              load.call(this);
+            }
+          });
+      }
+      else {
+        load.call(this);
+      }
     }
     
     function load() {      
