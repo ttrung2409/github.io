@@ -315,9 +315,11 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
     });
     
     payment.amount = this.invoice.computedTotal;
-    this.save(payment).then(() => {
-      setTimeout(() => this.printComponent.print());
-      setTimeout(() => this.new());
+    this.save(payment).then(ok => {
+      if (ok) {
+        setTimeout(() => this.printComponent.print());
+        setTimeout(() => this.new());
+      }      
     });
   }
 
@@ -476,7 +478,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
   }
 
   save(payment?: Payment) {
-    if (!this.validate()) return Promise.reject('Validation failed');
+    if (!this.validate()) return Promise.resolve(false);
 
     let invoice = Object.assign(_.cloneDeep(this.invoice), {
       subTotal: this.invoice.computedSubTotal,
@@ -501,7 +503,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
         this.notifier.notify('success', 'Lưu thành công');
         this.invoice = Invoice.from(result);
         this.reset();
-        resolve();
+        resolve(true);
       });
     });    
   }

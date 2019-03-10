@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, OnChanges, SimpleChanges } from '@angular/core';
 import Invoice from 'src/app/models/invoice';
 import Payment from 'src/app/models/payment';
 import AuthService from 'src/app/services/auth.service';
@@ -9,22 +9,27 @@ import * as moment from 'moment'
   templateUrl: './print.component.html',
   styleUrls: ['./print.component.scss']
 })
-export class PrintComponent implements OnInit {
+export class PrintComponent implements OnInit, OnChanges {
 
   constructor(private authService: AuthService, private el: ElementRef) { }
 
   @Input() invoice: Invoice = new Invoice();
   @Input() payment: Payment = new Payment();
 
+  invoiceDate: string;
+
   get staffName() {
     return this.authService.user.name;
   }
 
   get createdAt() {
-    return moment(this.invoice.createdAt).local();
+    return moment(this.invoice.createdAt).add(7, 'h').format('DD/MM/YYYY HH:mm');
   }
 
   ngOnInit() {
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
   }
 
   print() {

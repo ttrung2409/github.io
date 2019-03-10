@@ -22,6 +22,8 @@ export default class Invoice {
   public totalCost: number;
   public total: number;
   public amountPaid: number;
+  public createdBy: number;
+  public updatedBy: number;
 
   public customer: Customer = new Customer();
   public items: InvoiceItem[] = [];
