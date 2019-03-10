@@ -11,10 +11,11 @@ export class NumberDirective implements OnInit, OnChanges {
   }
 
   @Input() model: any;
+  @Input() allowDecimal: boolean;
   @Output() modelChange = new EventEmitter();
 
-  @HostListener('input', ['$event']) onInput(event) {    
-    let value = this.utils.formatNumber(event.target.value);
+  @HostListener('input', ['$event']) onInput(event) {
+    let value = this.utils.formatNumber(event.target.value, { allowDecimal: this.allowDecimal });
     this.modelChange.emit(!!value ? parseFloat(value.replace(/,/g, '')) : null);
   }  
   
@@ -26,7 +27,9 @@ export class NumberDirective implements OnInit, OnChanges {
       || event.keyCode == Key.Delete
       || event.keyCode == Key.Home
       || event.keyCode == Key.End) return;
-    if (!/[0-9\.]/.test(event.key)) event.preventDefault();    
+
+    let pattern = this.allowDecimal ? new RegExp('[0-9\\.]') : new RegExp('[0-9]');
+    if (!pattern.test(event.key)) event.preventDefault();    
   }
 
   ngOnInit(){

@@ -192,7 +192,8 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
         caption: 'SL',
         field: 'qty',
         width: '10%',
-        isNumber: true
+        isNumber: true,
+        allowDecimal: true
       }),
       new GridColumn({
         caption: 'Giá',

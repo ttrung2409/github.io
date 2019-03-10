@@ -6,12 +6,13 @@ import * as moment from 'moment'
   providedIn: 'root'
 })
 export default class UtilsService {
-  formatNumber(numberIn, prefix = '') {
-    if (numberIn === undefined || numberIn === null || numberIn === '') return '';
-    if (/^[\d,]+\./.test(numberIn.toString())) return numberIn;
+  formatNumber(numberIn, { allowDecimal = false } = {}) {
+    if (numberIn === undefined || numberIn === null || numberIn === '') return '';    
 
     let isNegative = numberIn < 0;
-    let number = numberIn.toString().replace(/\.\d*$/, '');    
+    let matches = numberIn.toString().match(/^([\d,]+)(\.?\d*)$/);    
+    let number = matches[1];
+    let decimal = matches[2];    
     let thousandSeparator = ',';
     let decimalSeparator = '.';    
     let numberString = !!number ? number.toString().replace(/[^.\d]/g, '') : '';
@@ -26,7 +27,7 @@ export default class UtilsService {
     }
 
     result = split[1] != undefined ? result + decimalSeparator + split[1] : result;
-    result = prefix == undefined ? result : (result ? prefix + result : '');
+    result = allowDecimal ? `${result}${decimal || ''}` : result;
     return isNegative ? `-${result}` : result;
   };
 

@@ -2,7 +2,7 @@
   <div class="ui grid">
     <div class="sixteen wide column">
       <mat-form-field>
-        <input #qtyInput matInput placeholder="SL" number [(model)]="item.qty" required>
+        <input #qtyInput matInput placeholder="SL" number [allowDecimal]="true" [(model)]="item.qty" required>
       </mat-form-field>
       <div class="error" *ngIf="errors.has('qty')">{{errors.get('qty')}}</div>
     </div>

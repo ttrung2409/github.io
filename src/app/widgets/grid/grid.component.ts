@@ -156,7 +156,7 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
   getCellData(row: any, column: GridColumn) {
     let paths = column.field.split('.');
     let value = paths.reduce((acc, value) => !!acc ? acc[value] : null, row);
-    return column.isNumber ? this.utils.formatNumber(value) : value;
+    return column.isNumber ? this.utils.formatNumber(value, { allowDecimal: column.allowDecimal }) : value;
   }  
 
   handleKeyEvent(event: KeyboardEvent) {
@@ -239,4 +239,5 @@ export class GridColumn {
   public sortable: boolean;
   public isNumber: boolean;
   public selectable: boolean;
+  public allowDecimal: boolean;
 }
