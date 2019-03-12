@@ -106,7 +106,7 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
       });       
     }
 
-    this.setColumnWidth();
+    this.setColumnWidth();    
   }
 
   ngDoCheck() {    
@@ -162,12 +162,10 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
   handleKeyEvent(event: KeyboardEvent) {
     switch (event.keyCode) {
       case Key.UpArrow:
-        this.selectedIndex = Math.max(0, this.selectedIndex - 1);
-        this.selectedIndexChange.emit(this.selectedIndex);
+        this.up();        
         break;
       case Key.DownArrow:
-        this.selectedIndex = Math.min(this.dataSource.length - 1, this.selectedIndex + 1);
-        this.selectedIndexChange.emit(this.selectedIndex);
+        this.down();
         break;
       case Key.Enter:
         if (this.useShift && !event.shiftKey) return;
@@ -223,6 +221,42 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
 
   scrollTo(pos) {
     $('.grid-container').scrollTop(pos);
+  }
+
+  up() {
+    this.selectedIndex = Math.max(0, this.selectedIndex - 1);
+    this.selectedIndexChange.emit(this.selectedIndex);
+
+    let grid = $(this.el.nativeElement).find('.grid-container')[0];
+    let row = $(this.el.nativeElement).find('.mat-row:first')[0];    
+    let gridHeight = grid.offsetHeight - $(this.el.nativeElement).find('.mat-header-row').height();
+    let rowHeight = this.rowHeight;
+
+    const prevIndexScrollTop = rowHeight * this.selectedIndex;
+    const currentPage = Math.ceil((grid.scrollTop + 1) / gridHeight)
+    const itemPage = Math.floor((prevIndexScrollTop + rowHeight / 2) / gridHeight)
+
+    if (currentPage != itemPage) {
+      grid.scrollTop = itemPage * gridHeight;
+    }
+  }
+
+  down() {
+    this.selectedIndex = Math.min(this.dataSource.length - 1, this.selectedIndex + 1);
+    this.selectedIndexChange.emit(this.selectedIndex);
+
+    let grid = $(this.el.nativeElement).find('.grid-container')[0];
+    let row = $(this.el.nativeElement).find('.mat-row:first')[0];
+    let gridHeight = grid.offsetHeight - $(this.el.nativeElement).find('.mat-header-row').height();
+    let rowHeight = this.rowHeight;
+
+    const nextIndexScrollTop = rowHeight * this.selectedIndex;
+    const currentPage = Math.ceil((grid.scrollTop + 1) / gridHeight)
+    const itemPage = Math.ceil((nextIndexScrollTop + rowHeight / 2) / gridHeight)
+
+    if (currentPage != itemPage) {
+      grid.scrollTop = (itemPage - 1) * gridHeight;
+    }
   }
 }
 

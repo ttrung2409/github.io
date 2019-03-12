@@ -128,6 +128,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   onFlyoutHide() {
     this.flyoutView = '';
     this.grid.enableHotkeys();
+    $(this.el.nativeElement).find('.customer-list').focus();
   }
 
   onCommit() {

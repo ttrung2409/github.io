@@ -112,7 +112,7 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
     }));    
   }
 
-  ngAfterViewInit() {    
+  ngAfterViewInit() {  
   }
 
   ngOnDestroy() {
@@ -168,6 +168,7 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
   onFlyoutHide() {
     this.flyoutView = '';
     this.grid.enableHotkeys();
+    $(this.el.nativeElement).find('.product-list').focus();
   }
 
   onCommit() {

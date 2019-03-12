@@ -274,7 +274,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
         }));
 
         this.selectedIndex = this.invoice.items.length - 1;
-        setTimeout(() => this.grid.scrollTo(Math.max(0, (this.selectedIndex - 3) * 60)));
+        setTimeout(() => this.grid.scrollTo(Math.max(0, (this.selectedIndex - 1) * 60)));
       }
     }
     else {
