@@ -107,7 +107,10 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
       switch (event.keyCode) {
         case Key.F2:
           this.add();          
-          break;        
+          break;
+        case Key.F7:
+          this.showSearchView();
+          break;
       }
     }));    
   }
@@ -145,7 +148,7 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onSearch(params?: any) {    
     this.search(Object.assign(this.searchModel, params, { index: 1 }));
-    this.flyout.hide();
+    this.flyout.hide();    
   }
 
   add() {

@@ -21,14 +21,14 @@ export class ProductSearchComponent implements OnInit {
   
   categories: Category[];  
 
-  @ViewChild('productNoInput') productNoInput: ElementRef;
+  @ViewChild('barcodeInput') barcodeInput: ElementRef;
 
   @HostListener('keydown', ['$event']) onKeydown(e: KeyboardEvent) {
     switch (e.keyCode) {
       case Key.Escape:
         this.doCancel();
         break;
-      case Key.F9:
+      case Key.Enter:
         this.doSearch();
         break;
     }
@@ -38,8 +38,9 @@ export class ProductSearchComponent implements OnInit {
     this.productService.allCategories().subscribe(categories => this.categories = categories);    
   }
 
-  doSearch() {
+  doSearch() {    
     this.search.emit(Object.assign(this.model, { index: 1 }));
+    this.clear();
   }
 
   doCancel() {    
@@ -47,7 +48,7 @@ export class ProductSearchComponent implements OnInit {
   }
 
   focus() {
-    $(this.productNoInput.nativeElement).focus();
+    $(this.barcodeInput.nativeElement).focus();
   }
 
   clear() {

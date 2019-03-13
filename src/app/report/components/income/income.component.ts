@@ -59,9 +59,9 @@ export class IncomeComponent implements OnInit, AfterViewInit, OnDestroy {
       case Key.Escape:
         this.flyout.hide();
         break;
-      case Key.F2:
+      case Key.F7:
         this.flyout.show();
-        break;
+        break;     
     }    
   }
   

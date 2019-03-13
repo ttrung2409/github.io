@@ -31,6 +31,9 @@ export class QtyEditorComponent implements OnInit {
       case Key.F9:
         this.save();
         break;
+      case Key.Enter:
+        this.save();
+        break;
     }
 
     switch (e.key) {

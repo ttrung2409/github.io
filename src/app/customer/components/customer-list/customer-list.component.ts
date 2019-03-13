@@ -91,6 +91,9 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
         case Key.F2:
           this.add();
           break;
+        case Key.F7:
+          this.showSearchView();
+          break;
       }
     }));  
   }

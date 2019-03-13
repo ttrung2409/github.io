@@ -183,6 +183,7 @@ export class DropdownComponent extends BindableComponent implements OnInit, OnCh
 
   private setSelected(value) {    
     this._shouldHandleOnChange = false;
+    this.$dropdown.find('input.search').val('');
     if (this.bindingOptions.some(x => x[this.valueMember] == value)) {
       this.$dropdown.dropdown('set selected', value);
     }

@@ -26,7 +26,9 @@ export class NumberDirective implements OnInit, OnChanges {
       || event.keyCode == Key.Home
       || event.keyCode == Key.Delete
       || event.keyCode == Key.Home
-      || event.keyCode == Key.End) return;
+      || event.keyCode == Key.End
+      || event.keyCode == Key.LeftArrow
+      || event.keyCode == Key.RightArrow) return;
 
     let pattern = this.allowDecimal ? new RegExp('[0-9\\.]') : new RegExp('[0-9]');
     if (!pattern.test(event.key)) event.preventDefault();    

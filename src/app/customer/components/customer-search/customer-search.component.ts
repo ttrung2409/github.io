@@ -25,7 +25,7 @@ export class CustomerSearchComponent implements OnInit {
       case Key.Escape:
         this.doCancel();
         break;
-      case Key.F9:
+      case Key.Enter:
         this.doSearch();
         break;
     }
@@ -47,6 +47,7 @@ export class CustomerSearchComponent implements OnInit {
 
   doSearch() {
     this.search.emit(Object.assign(this.model, { index: 1 }));
+    this.clear();
   }
 
   clear() {

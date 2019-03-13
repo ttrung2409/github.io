@@ -2,17 +2,17 @@
   <div class="ui grid">
     <div class="sixteen wide column">
       <mat-form-field>
-        <input #productNoInput matInput placeholder="Mã SP" [(ngModel)]="model.no">
-      </mat-form-field>
-    </div>
-    <div class="sixteen wide column">
-      <mat-form-field>
-        <input matInput placeholder="Mã vạch" [(ngModel)]="model.barcode">
+        <input #barcodeInput matInput placeholder="Mã vạch" [(ngModel)]="model.barcode">
       </mat-form-field>
     </div>
     <div class="sixteen wide column">
       <mat-form-field>
         <input matInput placeholder="Tên SP" [(ngModel)]="model.name">
+      </mat-form-field>
+    </div>
+    <div class="sixteen wide column">
+      <mat-form-field>
+        <input matInput placeholder="Mã SP" [(ngModel)]="model.no">
       </mat-form-field>
     </div>
     <div class="sixteen wide column">
@@ -29,6 +29,6 @@
   </div>
   <div class="actions">
     <button mat-flat-button (click)="clear()">Xóa</button>
-    <button mat-flat-button color="primary" (click)="doSearch()">Tìm (F9)</button>
+    <button mat-flat-button color="primary" (click)="doSearch()">Tìm (Enter)</button>
   </div>
 </div>

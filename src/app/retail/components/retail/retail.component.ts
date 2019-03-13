@@ -234,6 +234,27 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
         }
 
         break;
+      case Key.L:
+        if (e.shiftKey) {
+          this.onPriceTagClick('retail');
+          e.preventDefault();
+        }
+
+        break;
+      case Key.S:
+        if (e.shiftKey) {
+          this.onPriceTagClick('wholesale');
+          e.preventDefault();
+        }
+
+        break;
+      case Key.K:
+        if (e.shiftKey) {
+          this.onPriceTagClick('discount');
+          e.preventDefault();
+        }
+
+        break;
     }
 
     switch (e.key) {

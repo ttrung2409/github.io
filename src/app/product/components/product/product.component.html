@@ -16,6 +16,32 @@
       </mat-form-field>
       <div class="error" *ngIf="errors.has('name')">{{errors.get('name')}}</div>
     </div>
+    <div class="eight wide column">
+      <mat-form-field>
+        <input matInput placeholder="Giá nhập" number [(model)]="product.cost">
+      </mat-form-field>
+    </div>
+    <div class="eight wide column">
+      <mat-form-field>
+        <input matInput placeholder="Giá sỉ" number [(model)]="product.wholesalePrice">
+      </mat-form-field>
+    </div>
+    <div class="eight wide column">
+      <mat-form-field>
+        <input matInput placeholder="Giá khuyến mãi" number [(model)]="product.discountPrice">
+      </mat-form-field>
+    </div>
+    <div class="eight wide column">
+      <mat-form-field>
+        <input matInput placeholder="Giá lẻ" number [(model)]="product.retailPrice">
+      </mat-form-field>
+    </div>
+    <div class="sixteen wide column">
+      <mat-form-field>
+        <textarea matInput placeholder="Ghi chú" [(ngModel)]="product.notes"></textarea>
+      </mat-form-field>
+    </div>
+    <div class="subtitle">Quy cách</div>
     <div class="ten wide column">
       <dropdown [(model)]="product.categoryId"
                 [options]="categories"
@@ -31,48 +57,19 @@
                 [displayMember]="'name'">
       </dropdown>
     </div>
-    <div class="eight wide column">
+    <div class="ten wide column">
+      <dropdown [options]="uoms"
+                [label]="'ĐVT sỉ'"                
+                [(model)]="product.spec.uomId"
+                [valueMember]="'id'"
+                [displayMember]="'name'">
+      </dropdown>
+    </div>
+    <div class="six wide column">
       <mat-form-field>
-        <input matInput placeholder="Giá nhập" number [(model)]="product.cost">
+        <input matInput placeholder="SL" [(model)]="product.spec.qty" number />
       </mat-form-field>
     </div>
-    <div class="eight wide column">
-      <mat-form-field>
-        <input matInput placeholder="Giá sỉ" number [(model)]="product.wholesalePrice">
-      </mat-form-field>
-    </div>
-    <div class="eight wide column">
-      <mat-form-field>
-        <input matInput placeholder="Giá lẻ" number [(model)]="product.retailPrice">
-      </mat-form-field>
-    </div>
-    <div class="eight wide column">
-      <mat-form-field>
-        <input matInput placeholder="Giá khuyến mãi" number [(model)]="product.discountPrice">
-      </mat-form-field>
-    </div>
-    <div class="sixteen wide column">
-      <mat-form-field>
-        <textarea matInput placeholder="Ghi chú" [(ngModel)]="product.notes"></textarea>
-      </mat-form-field>
-    </div>
-    <div class="sixteen wide column">
-      <div class="section">
-        <div class="title">Quy cách</div>
-        <div class="flex">
-          <dropdown [options]="uoms"
-                    [label]="'ĐVT'"
-                    [floatLabel]="'never'"
-                    [(model)]="product.spec.uomId"
-                    [valueMember]="'id'"
-                    [displayMember]="'name'">
-          </dropdown>
-          <mat-form-field [floatLabel]="'never'" style="margin-left: 24px">
-            <input matInput placeholder="SL" [(model)]="product.spec.qty" number />
-          </mat-form-field>
-        </div>
-      </div>      
-    </div>   
   </div>
   <div class="actions">
     <button mat-flat-button color="primary" (click)="save()">Lưu (F9)</button>
