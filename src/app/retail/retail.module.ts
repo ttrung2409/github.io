@@ -9,7 +9,6 @@ import { PaymentComponent } from './components/payment/payment.component';
 import { QtyEditorComponent } from './components/qty-editor/qty-editor.component';
 import { NoProductFoundDialog } from './components/no-product-found-dialog/no-product-found-dialog.component';
 import { AddCustomerDialog } from './components/add-customer-dialog/add-customer-dialog.component';
-import { OverviewComponent } from './components/overview/overview.component';
 import { ConfirmDialogComponent } from '../widgets/confirm-dialog/confirm-dialog.component';
 import { PrintComponent } from './components/print/print.component';
 import { ProductLookupDialogComponent } from './components/product-lookup-dialog/product-lookup-dialog.component';
@@ -26,8 +25,7 @@ import { ProductLookupDialogComponent } from './components/product-lookup-dialog
     PaymentComponent,
     QtyEditorComponent,
     NoProductFoundDialog,
-    AddCustomerDialog,
-    OverviewComponent,
+    AddCustomerDialog,    
     PrintComponent,
     ProductLookupDialogComponent
   ],

@@ -36,17 +36,22 @@ export class QtyEditorComponent implements OnInit {
         break;
     }
 
-    switch (e.key) {
-      case 'l':
-        this.item.price = this.item.product.retailPrice;
-        break;
-      case 's':
-        this.item.price = this.item.product.wholesalePrice;
-        break;
-      case 'k':
-        this.item.price = this.item.product.discountPrice;
-        break;
-    }
+    if (e.shiftKey) {
+      switch (e.keyCode) {
+        case Key.L:
+          this.onPriceTagClick('retail');
+          e.preventDefault();
+          break;
+        case Key.S:
+          this.onPriceTagClick('wholesale');
+          e.preventDefault();
+          break;
+        case Key.K:
+          this.onPriceTagClick('discount');
+          e.preventDefault();
+          break;
+      }
+    }    
   };
 
   ngOnInit() {

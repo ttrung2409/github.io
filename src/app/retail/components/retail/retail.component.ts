@@ -260,11 +260,12 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
     switch (e.key) {
       case '+':
         this.invoice.items[this.selectedIndex].qty++;
-        this.invoice.items[this.selectedIndex] = InvoiceItem.from(this.invoice.items[this.selectedIndex]);
+        this.invoice.items[this.selectedIndex] = Object.assign(InvoiceItem.from(this.invoice.items[this.selectedIndex]), { class: '' });
+
         break;
       case '-':
         this.invoice.items[this.selectedIndex].qty = Math.max(1, this.invoice.items[this.selectedIndex].qty - 1);
-        this.invoice.items[this.selectedIndex] = InvoiceItem.from(this.invoice.items[this.selectedIndex]);
+        this.invoice.items[this.selectedIndex] = Object.assign(InvoiceItem.from(this.invoice.items[this.selectedIndex]), { class: 'pink' });
         break;
     }
   }
@@ -346,7 +347,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
 
   onItemChange(item) {
     this.flyout.hide();
-    this.invoice.items = this.invoice.items.map(x => x.id == item.id ? item : x);
+    this.invoice.items = this.invoice.items.map(x => x.id == item.id ? Object.assign(item, { class: '' }) : x);
   }
 
   onPaymentCommit(payment: Payment) {
@@ -536,12 +537,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
     }
 
     return true;
-  }
-
-  view() {
-    this.flyoutView = 'overview';
-    this.flyout.show();
-  }
+  } 
 
   height() {
     return $(window).height() - $('.mat-toolbar').outerHeight(true) - $('.dropdown-container').outerHeight();
@@ -574,10 +570,12 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
   }
 
   lookupProduct() {
+    this.lockHotkeys = true;
     this.grid.disableHotkeys();
     this.dialog.open(ProductLookupDialogComponent, { disableClose: true }).afterClosed().subscribe(() => {
       this.grid.enableHotkeys();
       this.productLookup.focus();
+      this.lockHotkeys = false;
     });
   }
 }

@@ -83,7 +83,7 @@
         <mat-chip-list matSuffix>
           <mat-chip (click)="onPriceTagClick('retail')" [selected]="selectedPrice == 'retail'">LẺ (L)</mat-chip>
           <mat-chip (click)="onPriceTagClick('wholesale')" [selected]="selectedPrice == 'wholesale'">SỈ (S)</mat-chip>
-          <mat-chip (click)="onPriceTagClick('discount')" [selected]="selectedPrice == 'discount'">KHUYẾN MÃI (K)</mat-chip>
+          <mat-chip (click)="onPriceTagClick('discount')" [selected]="selectedPrice == 'discount'">KM (K)</mat-chip>
         </mat-chip-list>
       </div>      
     </div>
@@ -104,7 +104,8 @@
             [showFooter]="true"
             [height]="height"            
             [useShift]="true"
-            [rowHeight]="60">
+            [rowHeight]="60"
+            [rowClass]="'class'">
       </grid>
     </div>
   </div>  

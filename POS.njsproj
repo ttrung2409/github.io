@@ -48,8 +48,6 @@
     <Content Include="src\app\retail\components\add-customer-dialog\add-customer-dialog.component.scss" />
     <Content Include="src\app\retail\components\no-product-found-dialog\no-product-found-dialog.component.html" />
     <Content Include="src\app\retail\components\no-product-found-dialog\no-product-found-dialog.component.scss" />
-    <Content Include="src\app\retail\components\overview\overview.component.html" />
-    <Content Include="src\app\retail\components\overview\overview.component.scss" />
     <Content Include="src\app\retail\components\print\print.component.html" />
     <Content Include="src\app\retail\components\print\print.component.scss" />
     <Content Include="src\app\retail\components\product-lookup-dialog\product-lookup-dialog.component.html" />
@@ -153,7 +151,6 @@
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\app\retail\components\add-customer-dialog\add-customer-dialog.component.ts" />
     <TypeScriptCompile Include="src\app\retail\components\no-product-found-dialog\no-product-found-dialog.component.ts" />
-    <TypeScriptCompile Include="src\app\retail\components\overview\overview.component.ts" />
     <TypeScriptCompile Include="src\app\retail\components\print\print.component.ts" />
     <TypeScriptCompile Include="src\app\retail\components\product-lookup-dialog\product-lookup-dialog.component.ts" />
     <TypeScriptCompile Include="src\app\retail\components\retail\retail.component.ts" />
@@ -241,7 +238,6 @@
     <Folder Include="src\app\login\login\" />
     <Folder Include="src\app\models\" />
     <Folder Include="src\app\directives\" />
-    <Folder Include="src\app\retail\components\overview\" />
     <Folder Include="src\app\retail\components\print\" />
     <Folder Include="src\app\retail\components\product-lookup-dialog\" />
     <Folder Include="src\app\user\" />

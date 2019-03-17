@@ -115,4 +115,20 @@
     right: 30px;
     top: 4px;
   }
+
+  .mat-row.pink {
+    background-color: pink !important;
+
+    &:hover {
+      background-color: pink !important;
+      transition: none !important;
+    }
+
+    &.highlighted {
+      background-color: pink !important;
+      td:first-child {
+        border-left: 4px solid red;
+      }
+    }
+  }
 }

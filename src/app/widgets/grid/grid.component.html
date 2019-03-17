@@ -22,7 +22,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: isHeaderSticky"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" (click)="onRowClick(row, i)"
         [class.highlighted]="selectedIndex == i"
-        [ngClass]="!!rowClass ? row[rowClass].toLowerCase() : ''"></tr>
+        [ngClass]="!!rowClass && !!row[rowClass] ? row[rowClass].toLowerCase() : ''"></tr>
     <ng-container *ngIf="showFooter">
       <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: isFooterSticky"></tr>
     </ng-container>
@@ -58,7 +58,7 @@
         <tr *cdkVirtualFor="let row of bindingSource"
             [style.height]="rowHeight + 'px'"
             class="mat-row"
-            [ngClass]="!!rowClass ? row[rowClass].toLowerCase() : ''">
+            [ngClass]="!!rowClass && !!row[rowClass] ? row[rowClass].toLowerCase() : ''">
           <ng-container *ngFor="let column of columns">
             <td *ngIf="column.selectable">
               <mat-checkbox [(ngModel)]="row.selected"></mat-checkbox>
