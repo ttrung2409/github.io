@@ -3,24 +3,34 @@
     cursor: pointer;
     width: 100%;
 
+    .mat-header-cell {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
     .mat-row {
       height: 40px !important;
 
       &.highlighted {
-        background-color: palegoldenrod;
+        background-color: yellow;
       }
 
       &:hover {
         background-color: #F1F1F1 !important;
         transition: background 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
       }
+
+      .mat-cell {
+        font-size: 16px;
+      }
     }
 
     .mat-footer-row {
       .mat-footer-cell {
-        color: grey;
         font-weight: bold !important;
         padding: 8px 0;
+        font-size: 18px;
+        color: #d63737;
       }
     }
   }
@@ -31,6 +41,7 @@
     table {
       tr td {
         border-bottom: 1px solid rgba(0,0,0,.12);
+        font-size: 16px;
 
         &:first-child {
           padding-left: 24px;

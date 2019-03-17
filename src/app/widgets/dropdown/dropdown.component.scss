@@ -28,7 +28,7 @@
         border-top: 1px solid whitesmoke !important;
 
         &.selected {
-          background-color: palegoldenrod;
+          background-color: yellow;
         }
       }
     }
@@ -44,6 +44,7 @@
 
     .text {
       top: 10px !important;
+      font-size: 16px;
     }
 
     @media only screen and (min-width: 768px) {
@@ -53,8 +54,12 @@
     }
   }
 
+  .mat-form-field-label-wrapper {
+    top: -20px !important;
+  }
+
   .mat-form-field-label {
-    top: 25px !important;
+    top: 32px !important;
   }
 
   .mat-form-field-type-mat-native-select .mat-form-field-infix::after {

@@ -42,7 +42,7 @@
       .search-item {
         .row:not(:first-child) {
           margin-top: 12px;
-        }      
+        }
       }
     }
   }
@@ -86,7 +86,8 @@
   }
 
   .mat-footer-cell {
-    font-size: 18px;
+    font-size: 22px !important;
+    color: #d63737 !important;
   }
 
   .item-desc {
@@ -99,13 +100,13 @@
     .spec {
       color: green;
       font-style: italic;
-      font-size: 12px;
+      font-size: 14px;
     }
 
     .notes {
       color: #ad4040;
       font-style: italic;
-      font-size: 12px;
+      font-size: 14px;
     }
   }
 

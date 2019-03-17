@@ -47,7 +47,7 @@ export default class InvoiceRepository extends RepositoryBase {
         },
         limit: config.lookupLimit,
         include: [{ association: 'customer', paranoid: false }],
-        order: [['status', 'asc'], ['no', 'desc']],
+        order: [['no', 'desc']],
       }).then(invoices => invoices.map(x => x.get({ plain: true })));
     }
     else {

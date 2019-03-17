@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build:webpack": "webpack --config webpack.config.js",
-    "build": "npm run build:webpack",
+    "build": "rimraf dist && babel src --out-dir dist --source-maps",
     "start": "nodemon -e js -w ./src -x npm run watch:serve",
     "watch:serve": "babel-node --inspect src/app.js"
   },

@@ -18,7 +18,7 @@
            [showNoResults]="showNoResults">
   <ng-template #itemTemplate let-item="item">
     <div class="flex">
-      <div style="padding-top: 3px">{{item.name}} - <span style="color: grey;">{{item.no}}</span></div>
+      <div style="padding-top: 3px">{{item.name}}<span class="pipe" style="color: grey;">{{item.no}}</span></div>
       <div>{{getPrice(item)}}</div>
     </div>    
   </ng-template>  

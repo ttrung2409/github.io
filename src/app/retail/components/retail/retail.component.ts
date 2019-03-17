@@ -263,7 +263,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
         this.invoice.items[this.selectedIndex] = InvoiceItem.from(this.invoice.items[this.selectedIndex]);
         break;
       case '-':
-        this.invoice.items[this.selectedIndex].qty = Math.max(0, this.invoice.items[this.selectedIndex].qty - 1);
+        this.invoice.items[this.selectedIndex].qty = Math.max(1, this.invoice.items[this.selectedIndex].qty - 1);
         this.invoice.items[this.selectedIndex] = InvoiceItem.from(this.invoice.items[this.selectedIndex]);
         break;
     }
@@ -364,7 +364,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
     if (this.dirty) {
       this.grid.disableHotkeys();
       this.dialog.open(ConfirmDialogComponent,
-        { data: { msg: 'Bạn vừa thay đổi đơn hàng. Bạn có chắc chắn hủy thay đổi và tiếp tục?' } })
+        { data: { msg: 'Bạn vừa thay đổi đơn hàng. Bạn có chắc chắn hủy thay đổi?' } })
         .afterClosed()
         .subscribe(result => {
           this.grid.enableHotkeys();

@@ -208,6 +208,10 @@
     <TypeScriptCompile Include="src\app\widgets\toolbar\toolbar.component.ts" />
     <TypeScriptCompile Include="src\app\widgets\typeahead\typeahead.component.ts" />
     <TypeScriptCompile Include="src\app\widgets\widget.module.ts" />
+    <TypeScriptCompile Include="src\environments\environment.hmr.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\hmr.ts" />
     <TypeScriptCompile Include="src\main.ts" />
     <TypeScriptCompile Include="src\polyfills.ts" />
     <TypeScriptCompile Include="src\test.ts" />
