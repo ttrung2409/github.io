@@ -37,7 +37,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       else {
         this.isAuthenticated = true;        
-        //this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/');
       }
     }));
  

@@ -29,8 +29,7 @@
           (onShow)="onFlyoutShow()">
     <content>
       <customer-search #searchView
-                       *ngIf="flyoutView == 'search'"
-                       [model]="searchModel"
+                       *ngIf="flyoutView == 'search'"                       
                        (search)="onSearch($event)"
                        (cancel)="flyout.hide()">
       </customer-search>

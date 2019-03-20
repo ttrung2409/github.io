@@ -15,10 +15,10 @@ declare var $: any;
 export class ProductSearchComponent implements OnInit {
   constructor(private productService: ProductService, private utils: UtilsService) { }
 
-  @Input() model: any = {};
   @Output() search = new EventEmitter();
   @Output() cancel = new EventEmitter();
-  
+
+  model: any = {no: null, barcode: null, name: null, categoryId: null, includeDeleted: false};
   categories: Category[];  
 
   @ViewChild('barcodeInput') barcodeInput: ElementRef;
@@ -39,8 +39,7 @@ export class ProductSearchComponent implements OnInit {
   }
 
   doSearch() {    
-    this.search.emit(Object.assign(this.model, { index: 1 }));
-    this.clear();
+    this.search.emit(this.model);    
   }
 
   doCancel() {    
@@ -51,8 +50,7 @@ export class ProductSearchComponent implements OnInit {
     $(this.barcodeInput.nativeElement).focus();
   }
 
-  clear() {
-    let { index, size, orderBy, isDesc } = this.model;
-    this.model = Object.assign(this.utils.empty(this.model), _.pickBy({ index, size, orderBy, isDesc }, value => value !== undefined));
+  clear() {    
+    this.model = this.utils.empty(this.model);
   }
 }

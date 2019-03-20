@@ -35,8 +35,7 @@
                (cancel)="flyout.hide()"
                (commit)="onCommit()">
       </product>
-      <product-search #productSearchView *ngIf="flyoutView == 'search'"
-                      [model]="searchModel"
+      <product-search #productSearchView *ngIf="flyoutView == 'search'"                      
                       (search)="onSearch($event)"
                       (cancel)="flyout.hide()"></product-search>
     </content>

@@ -14,7 +14,6 @@ export class CustomerSearchComponent implements OnInit {
 
   constructor(private customerService: CustomerService, private utils: UtilsService) { }
 
-  @Input() model: any = {};
   @Output() cancel = new EventEmitter();
   @Output() search = new EventEmitter();
 
@@ -31,6 +30,7 @@ export class CustomerSearchComponent implements OnInit {
     }
   }
 
+  model: any = { no: null, name: null, phone: null, typeId: null, email: null, includeDeleted: false };
   customerTypes: any[];
 
   ngOnInit() {
@@ -46,12 +46,10 @@ export class CustomerSearchComponent implements OnInit {
   }
 
   doSearch() {
-    this.search.emit(Object.assign(this.model, { index: 1 }));
-    this.clear();
+    this.search.emit(this.model);
   }
 
   clear() {
-    let { index, size, orderBy, isDesc } = this.model;
-    this.model = Object.assign(this.utils.empty(this.model), _.pickBy({ index, size, orderBy, isDesc }, value => value !== undefined));
+    this.model = this.utils.empty(this.model);
   }
 }
