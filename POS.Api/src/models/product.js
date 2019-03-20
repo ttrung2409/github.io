@@ -16,7 +16,8 @@ let Product = context.define('Product', {
   retailPrice: Sequelize.DECIMAL,
   wholesalePrice: Sequelize.DECIMAL,
   discountPrice: Sequelize.DECIMAL,    
-  notes: Sequelize.TEXT
+  notes: Sequelize.TEXT,
+  deletedAt: Sequelize.DATE
 }, { tableName: 'Product', timestamps: true, paranoid: true });
 
 Product.associate = function (models) {  

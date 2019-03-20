@@ -20,7 +20,8 @@
           (select)="onSelect($event)"
           (delete)="onDelete($event)"
           (sortChange)="onSortChange($event)"
-          [height]="height">
+          [height]="height"
+          [rowClass]="getRowClass">
     </grid>
   </div>  
   <mat-paginator [showFirstLastButtons]="true" [length]="total" [pageIndex]="searchModel.index - 1" [pageSize]="config.size" (page)="onPageChanged($event)"></mat-paginator>

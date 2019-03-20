@@ -20,7 +20,8 @@
           (select)="onSelect($event)"
           (delete)="onDelete($event)"
           (sortChange)="onSortChange($event)"
-          [height]="height">
+          [height]="height"
+          [rowClass]="getRowClass">
     </grid>
   </div>
   

@@ -36,7 +36,7 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
   @Input() height: string | Function;
   @Input() virtualScroll: boolean;
   @Input() rowHeight: number = 40;
-  @Input() rowClass: string;
+  @Input() rowClass: string | Function;
   @Input() selectable: boolean;
   @Input() selectOnEnter: boolean = true;
   @Input() useShift: boolean;
@@ -257,6 +257,11 @@ export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {
     if (currentPage != itemPage) {
       grid.scrollTop = (itemPage - 1) * gridHeight;
     }
+  }
+
+  getRowClass(row) {
+    return typeof (this.rowClass) === 'function' ? this.rowClass(row)
+      : !!this.rowClass && !!row[this.rowClass] ? row[this.rowClass].toLowerCase() : '';
   }
 }
 

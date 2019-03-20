@@ -182,4 +182,8 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   height() {
     return $(window).height() - $('.toolbar').outerHeight(true) - $('.mat-paginator-container').outerHeight(true);
   }
+
+  getRowClass(customer) {
+    return !!customer.deletedAt ? 'deleted' : '';
+  }
 }

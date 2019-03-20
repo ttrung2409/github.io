@@ -199,4 +199,8 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
   height() {
     return $(window).height() - $('.toolbar').outerHeight(true) - $('.mat-paginator-container').outerHeight(true);
   }
+
+  getRowClass(product) {
+    return !!product.deletedAt ? 'deleted' : '';
+  }
 }

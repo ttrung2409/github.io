@@ -166,3 +166,9 @@
     font-size: 18px !important;
   }
 }
+
+.mat-row.deleted {
+  td:first-child {
+    border-left: 4px solid red;
+  }
+}
