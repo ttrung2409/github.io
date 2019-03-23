@@ -79,10 +79,18 @@ export default class ProductRepository extends RepositoryBase {
       }
     }
 
-    if (!!params.name) {            
-      where.name = Sequelize.where(Sequelize.fn('unaccent', Sequelize.col('Product.name')), {
-        [Op.iLike]: `%${params.name}%`
-      });
+    if (!!params.name) {
+      let words = params.name.split(' ');
+      let nameShouldBe = [];
+      for (let word of words) {
+        nameShouldBe.push({
+          name: Sequelize.where(Sequelize.fn('unaccent', Sequelize.col('Product.name')), {
+            [Op.iLike]: `%${word}%`
+          })
+        });
+      }
+
+      where = Object.assign(where, { [Op.and]: nameShouldBe });
     }
 
     if (params.categoryId > 0) {

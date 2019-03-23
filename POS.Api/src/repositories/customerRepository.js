@@ -20,9 +20,17 @@ export default class CustomerRepository extends RepositoryBase {
     }
 
     if (!!params.name) {
-      where.name = Sequelize.where(Sequelize.fn('unaccent', Sequelize.col('Customer.name')), {
-        [Op.iLike]: `%${params.name}%`
-      });
+      let words = params.name.split(' ');
+      let nameShouldBe = [];
+      for (let word of words) {
+        nameShouldBe.push({
+          name: Sequelize.where(Sequelize.fn('unaccent', Sequelize.col('Customer.name')), {
+            [Op.iLike]: `%${word}%`
+          })
+        });
+      }
+
+      where = Object.assign(where, { [Op.and]: nameShouldBe });
     }
 
     if (!!params.phone) {
@@ -63,6 +71,16 @@ export default class CustomerRepository extends RepositoryBase {
   }
 
   lookup(query) {
+    let words = query.split(' ');
+    let nameShouldBe = [];
+    for (let word of words) {
+      nameShouldBe.push({
+        name: Sequelize.where(Sequelize.fn('unaccent', Sequelize.col('Customer.name')), {
+          [Op.iLike]: `%${word}%`
+        })
+      });
+    }
+
     let where = {
       [Op.or]: [
         {
@@ -71,9 +89,7 @@ export default class CustomerRepository extends RepositoryBase {
           }
         },
         {
-          name: Sequelize.where(Sequelize.fn('unaccent', Sequelize.col('name')), {
-            [Op.iLike]: `%${query}%`
-          })
+          [Op.and]: nameShouldBe          
         },
         {
           phone: {
