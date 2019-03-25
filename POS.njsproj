@@ -98,6 +98,7 @@
     <Content Include="src\tsconfig.app.json" />
     <Content Include="src\tsconfig.spec.json" />
     <Content Include="src\tslint.json" />
+    <Content Include="web.config" />
     <TypeScriptCompile Include="src\app\bulk-data\bulk-data.module.ts" />
     <TypeScriptCompile Include="src\app\bulk-data\bulk-data.routing.ts" />
     <TypeScriptCompile Include="src\app\bulk-data\components\bulk-delete\bulk-delete-customer.component.ts" />
