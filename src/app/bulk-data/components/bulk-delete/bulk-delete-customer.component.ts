@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { GridColumn } from 'src/app/widgets/grid/grid.component';
 import BulkDataService from 'src/app/services/bulk-data.service';
 import Customer from 'src/app/models/customer';
+import * as moment from 'moment'
 
 @Component({
   selector: 'bulk-delete-customer',
@@ -24,7 +25,15 @@ export class BulkDeleteCustomerComponent implements OnInit {
       new GridColumn({
         caption: 'Mã KH',
         field: 'no',
+        width: '10%',
+      }),
+      new GridColumn({
+        caption: 'Ngày tạo',
+        field: 'createdAt',
         width: '15%',
+        format: function (val) {
+          return moment(val).format('DD/MM/YYYY');
+        }
       }),
       new GridColumn({
         caption: 'Tên KH',

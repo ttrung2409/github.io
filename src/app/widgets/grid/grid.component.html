@@ -35,7 +35,7 @@
            (matSortChange)="onSortChange($event)">
       <ng-container *ngFor="let column of columns; let i = index" [matColumnDef]="column.field">
         <ng-container *ngIf="column.selectable">
-          <th mat-header-cell *matHeaderCellDef>
+          <th mat-header-cell *matHeaderCellDef style="width: 5%">
             <mat-checkbox [ngModel]="allSelected" (change)="toggleAll($event)"></mat-checkbox>
           </th>
         </ng-container>
@@ -60,7 +60,7 @@
             class="mat-row"
             [ngClass]="!!rowClass && !!row[rowClass] ? row[rowClass].toLowerCase() : ''">
           <ng-container *ngFor="let column of columns">
-            <td *ngIf="column.selectable">
+            <td *ngIf="column.selectable" style="width: 5%">
               <mat-checkbox [(ngModel)]="row.selected"></mat-checkbox>
             </td>
             <td *ngIf="!column.selectable" [style.width]="column.width || 'auto'"
@@ -71,9 +71,12 @@
     </cdk-virtual-scroll-viewport>
     <table *ngIf="showFooter" class="mat-table mat-elevation-z1 footer">
       <tr class="mat-footer-row">
-        <td class="mat-footer-cell" *ngFor="let column of columns"
-            [style.width]="column.width || 'auto'"
-            [innerHtml]="getFooterValue(column.footer)"></td>
+        <ng-container *ngFor="let column of columns">
+          <td *ngIf="column.selectable" style="width: 5%"></td>
+          <td *ngIf="!column.selectable" class="mat-footer-cell"
+              [style.width]="column.width || 'auto'"
+              [innerHtml]="getFooterValue(column.footer)"></td>
+        </ng-container>        
       </tr>
     </table>
   </div>  

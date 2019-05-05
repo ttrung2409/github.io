@@ -26,16 +26,9 @@
                     [clearable]="false">
           </dropdown>
         </div>
-        <div class="eight wide column">
+        <div class="sixteen wide column">
           <mat-form-field>
-            <input matInput [matDatepicker]="fromDatePicker" placeholder="Từ ngày" [(ngModel)]="fromDate">
-            <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
-            <mat-datepicker #fromDatePicker></mat-datepicker>
-          </mat-form-field>
-        </div>
-        <div class="eight wide column">
-          <mat-form-field>
-            <input matInput [matDatepicker]="toDatePicker" placeholder="Đến ngày" [(ngModel)]="toDate">
+            <input matInput [matDatepicker]="toDatePicker" placeholder="Tạo trước ngày" [(ngModel)]="toDate">
             <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
             <mat-datepicker #toDatePicker></mat-datepicker>
           </mat-form-field>
@@ -54,6 +47,13 @@
         <div class="eight wide column" *ngIf="amountSearch.by == 'in-range'">
           <mat-form-field>
             <input matInput [(model)]="amountSearch.to" placeholder="Đến" number />
+          </mat-form-field>
+        </div>
+        <div class="sixteen wide column">
+          <mat-form-field>
+            <input matInput [matDatepicker]="fromDatePicker" placeholder="Từ ngày" [(ngModel)]="fromDate">
+            <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #fromDatePicker></mat-datepicker>
           </mat-form-field>
         </div>
       </div>

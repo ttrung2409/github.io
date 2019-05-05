@@ -3,7 +3,7 @@
 
   .mat-toolbar {
     height: 40px !important;
-    background-color: #5d96ba;
+    background-color: #393939;
     justify-content: space-between;
     padding: 0 8px !important;
 
@@ -11,14 +11,14 @@
       display: flex;
       align-items: center;
     }
-    
+
     .title {
       color: white;
       font-size: 16px;
     }
 
     .actions {
-      color: white;     
+      color: white;
 
       .mat-button {
         min-width: 48px;

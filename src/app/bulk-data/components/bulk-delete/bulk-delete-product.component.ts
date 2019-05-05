@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { GridColumn } from 'src/app/widgets/grid/grid.component';
 import BulkDataService from 'src/app/services/bulk-data.service';
 import Product from 'src/app/models/product';
+import UtilsService from 'src/app/services/utils.service';
+import * as moment from 'moment'
 
 @Component({
   selector: 'bulk-delete-product',
@@ -9,7 +11,7 @@ import Product from 'src/app/models/product';
 })
 export class BulkDeleteProductComponent implements OnInit {
 
-  constructor(private bulkDataService: BulkDataService) { }
+  constructor(private bulkDataService: BulkDataService, private utils: UtilsService) { }
 
   @Input() products: Product[] = [];
 
@@ -24,7 +26,15 @@ export class BulkDeleteProductComponent implements OnInit {
       new GridColumn({
         caption: 'Mã SP',
         field: 'no',
+        width: '10%',
+      }),
+      new GridColumn({
+        caption: 'Ngày tạo',
+        field: 'createdAt',
         width: '15%',
+        format: function (val) {
+          return moment(val).format('DD/MM/YYYY');
+        }
       }),
       new GridColumn({
         caption: 'Tên SP',
