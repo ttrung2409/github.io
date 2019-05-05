@@ -3,6 +3,10 @@
     cursor: pointer;
     width: 100%;
 
+    thead {
+      background-color: #D3D3D3 !important;
+    }
+
     .mat-header-cell {
       font-size: 16px;
       font-weight: 600;

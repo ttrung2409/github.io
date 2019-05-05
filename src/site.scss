@@ -110,9 +110,9 @@
     font-weight: 600;
     padding: 8px;
     padding-left: 12px;
-    background-color: whitesmoke;
+    background-color: #7F8B8C;
     margin-bottom: 8px;
-    color: #3678c4;    
+    color: white;
   }
 }
 
@@ -174,5 +174,9 @@
 }
 
 .mat-chip.mat-standard-chip.mat-chip-selected.mat-primary {
-  background-color: #808080 !important;
+  background-color: #2a87c1;
+}
+
+.mat-flat-button.mat-primary {
+  background-color: #2a87c1 !important;
 }

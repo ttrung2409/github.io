@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, DoCheck, IterableDiffers, OnDestroy, IterableDiffer, SimpleChanges, OnChanges, ViewChild, HostListener, ElementRef, Inject } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, DoCheck, IterableDiffers, OnDestroy, IterableDiffer, SimpleChanges, OnChanges, ViewChild, HostListener, ElementRef, Inject, ViewEncapsulation } from '@angular/core';
 import { Subscription, fromEvent } from 'rxjs';
 import { Key } from 'ts-keycode-enum';
 import { Sort, MatSort, MatCheckboxChange } from '@angular/material';
@@ -10,7 +10,8 @@ import * as $ from 'jquery'
 @Component({
   selector: 'grid',
   templateUrl: './grid.component.html',
-  styleUrls: ['./grid.component.scss']  
+  styleUrls: ['./grid.component.scss'],
+  encapsulation: ViewEncapsulation.None;
 })
 export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {  
   private _differ: IterableDiffer<any>;
