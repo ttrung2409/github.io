@@ -35,16 +35,16 @@ export class IncomeByInvoiceComponent implements OnInit {
       }),
       new GridColumn({
         caption: 'Ngày',
-        field: 'date',
+        field: 'createdAt',
         format: (value) => {
-          return moment(value).format('DD/MM/YYYY');
+          return moment(value).format('DD/MM/YYYY HH:mm');
         },
         sortable: true
       }),
       new GridColumn({
         caption: 'Khách hàng',
         field: 'customerName',
-        width: '25%',
+        width: '20%',
         footer: 'Tổng',
         sortable: true
       }),

@@ -11,7 +11,7 @@ import * as $ from 'jquery'
   selector: 'grid',
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.scss'],
-  encapsulation: ViewEncapsulation.None;
+  encapsulation: ViewEncapsulation.None
 })
 export class GridComponent implements OnInit, DoCheck, OnDestroy, OnChanges {  
   private _differ: IterableDiffer<any>;

@@ -8,7 +8,7 @@
     <product-lookup (select)="onSelect($event)"
                     [clearOnSelect]="true"
                     [showNoResults]="false"
-                    [payload]="{priceType: selectedPrice}">
+                    [priceType]="selectedPrice">
     </product-lookup>
     <div class="price-tag">
       <mat-chip-list matSuffix>

@@ -30,7 +30,7 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
   @Input() clearOnSelect: boolean = false;
   @Input() showNoResults: boolean = true;
   @Input() preventKeys: string[] = [];
-  @Input() payload: any = {priceType: 'retail'};
+  @Input() priceType = 'retail';
   @Output('select') selectEvent = new EventEmitter();
   @Output('keydown') keydownEvent = new EventEmitter();
 
@@ -50,7 +50,7 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
     this._subscription.unsubscribe();
   }
 
-  onSearch(query) {
+  onSearch(query) {    
     this.isLoading = true;
     this.products = [];
     if (this._lastKey == Key.Enter) {
@@ -64,7 +64,7 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
         this._subscription.unsubscribe();        
       }
 
-      this._subscription = this.productService.lookup(query, this.payload).subscribe((products: Product[]) => {
+      this._subscription = this.productService.lookup(query, { priceType: this.priceType }).subscribe((products: Product[]) => {
         this.products = products;
         this.isLoading = false;
         setTimeout(() => this.show());
@@ -131,8 +131,8 @@ export class ProductLookupComponent extends BindableComponent implements OnInit,
   }
 
   getPrice(item) {
-    return this.utils.formatNumber(this.payload.priceType == 'retail' ? item.retailPrice
-      : this.payload.priceType == 'wholesale' ? item.wholesalePrice
-        : this.payload.priceType == 'discount' ? item.discountPrice : item.retailPrice);
+    return this.utils.formatNumber(this.priceType == 'retail' ? item.retailPrice
+      : this.priceType == 'wholesale' ? item.wholesalePrice
+        : this.priceType == 'discount' ? item.discountPrice : item.retailPrice);
   }
 }

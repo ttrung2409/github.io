@@ -357,8 +357,8 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
 
   onPriceTagClick(selectedPrice: string) {    
     this.selectedPrice = selectedPrice;
-    this.productLookup.focus();
-    this.productLookup.clear();
+    //this.productLookup.focus();
+    //this.productLookup.clear();
   }
 
   new() {

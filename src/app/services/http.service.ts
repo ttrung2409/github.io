@@ -19,12 +19,12 @@ export default class HttpService {
     return this.http.get<T>(`${baseUrl}/${url}`, { headers, params });
   }
 
-  _post<T>(url: string, model: T): Observable<T> {
-    return this.http.post<T>(`${baseUrl}/${url}`, model, { headers });
+  _post<T>(url: string, data: any): Observable<T> {
+    return this.http.post<T>(`${baseUrl}/${url}`, data, { headers });
   }  
 
-  _put<T>(url: string, model: T): Observable<T> {
-    return this.http.put<T>(`${baseUrl}/${url}`, model, { headers });
+  _put<T>(url: string, data: any): Observable<T> {
+    return this.http.put<T>(`${baseUrl}/${url}`, data, { headers });
   }
 
   _delete(url: string, params?: any): Observable<any> {
