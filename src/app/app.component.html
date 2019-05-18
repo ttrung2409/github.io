@@ -1,4 +1,5 @@
 <div class="ui container fluid" id="app" [class.login-container]="!isAuthenticated">
+  <div class="backdrop" *ngIf="!isAuthenticated"></div>
   <div class="ui vertical left very thin sidebar menu visible nav" *ngIf="isAuthenticated">
     <a routerLink="/retail" routerLinkActive="active" class="item" *ngIf="authorise('retail')" title="Bán lẻ"><img src="assets/shopping-cart.svg" /></a>
     <a routerLink="/product" routerLinkActive="active" class="item" *ngIf="authorise('product')" title="Quản lý sản phẩm"><img src="assets/product.svg" /></a>

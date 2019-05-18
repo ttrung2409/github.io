@@ -25,4 +25,12 @@ export default class ReportService extends HttpService {
   getIncomeSummaryByCustomer(params): Observable<any> {
     return super._post('report/incomeByCustomer/summary', params);
   }
+
+  exportIncomeByInvoice(params) {
+    return super._post('report/incomeByInvoice/export', params, { responseType: 'arraybuffer' as 'json'});
+  }
+
+  exportIncomeByCustomer(params) {
+    return super._post('report/incomeByCustomer/export', params, { responseType: 'arraybuffer' as 'json' });
+  }
 }

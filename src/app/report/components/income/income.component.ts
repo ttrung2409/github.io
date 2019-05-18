@@ -90,6 +90,42 @@ export class IncomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  export() {
+    let observable = null;
+    switch (this.viewBy) {
+      case 'invoice':
+        observable = this.reportService.exportIncomeByInvoice({
+          customerId: this.customerId,
+          fromDate: this.utils.toDbDate(this.fromDate),
+          toDate: this.utils.toDbDate(this.toDate),
+          orderBy: 'invoiceNo',
+          isDesc: true
+        });
+
+        break;
+      case 'customer':
+        observable = this.reportService.exportIncomeByCustomer({
+          customerId: this.customerId,
+          fromDate: this.utils.toDbDate(this.fromDate),
+          toDate: this.utils.toDbDate(this.toDate),
+          orderBy: 'no',
+          isDesc: true
+        });
+
+        break;
+    }
+
+    observable.subscribe(buffer => {
+      var blob = new Blob([buffer], { type: 'application/octet-stream' });
+      var link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "Báo cáo doanh thu-" + moment().format("DD/MM/YYYY") + ".xlsx";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    });
+  }
+
   validate() {
     this.errors.clear();
     if (v8n().empty().test(this.fromDate || '')) {

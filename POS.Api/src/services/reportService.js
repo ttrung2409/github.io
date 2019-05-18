@@ -17,5 +17,5 @@ export default class ReportService {
 
   getIncomeSummaryByCustomer(params) {
     return reportRepository.getIncomeSummaryByCustomer(params);
-  }
+  }  
 }
