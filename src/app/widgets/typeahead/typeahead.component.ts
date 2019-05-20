@@ -54,14 +54,17 @@ export class TypeaheadComponent extends BindableComponent implements OnInit, OnD
   ngAfterViewInit() {    
     let $input = $(this.el.nativeElement.querySelector('input.search'));
     this._subscription.add(fromEvent($input, 'keyup').pipe(debounceTime(300)).subscribe((event: any) => {
-      if (!event.shiftKey && event.keyCode != Key.UpArrow
-        && event.keyCode != Key.DownArrow
-        && event.keyCode != Key.Enter
-        && event.keyCode != Key.Escape
-        && event.keyCode != Key.Shift) {        
-        if (!!$input.val() && $input.val().length >= this.minChars) {
-          this.search.emit(this.utils.unaccent($input.val()));
-        }      
+      if ((event.shiftKey && event.key != '$')
+        || event.keyCode == Key.UpArrow
+        || event.keyCode == Key.DownArrow
+        || event.keyCode == Key.Enter
+        || event.keyCode == Key.Escape
+        || event.keyCode == Key.Shift) {
+        return;
+      }
+
+      if (!!$input.val() && $input.val().length >= this.minChars) {
+        this.search.emit(this.utils.unaccent($input.val()));
       }      
     }));
   }  

@@ -453,7 +453,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
     if (!!this._searchSubscription) {
       this._searchSubscription.unsubscribe();
     }
-
+    
     this._searchSubscription = this.invoiceService.lookup(query).subscribe((invoices: Invoice[]) => {
       this.invoices = invoices;
       this.isLoading = false;
@@ -501,6 +501,12 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
 
   save(payment?: Payment) {
     if (!this.validate()) return Promise.resolve(false);
+    
+    for (let item of this.invoice.items) {
+      if (item.product.barcode == 'NOBARCODE') {
+        item.cost = item.price;
+      }
+    }
 
     let invoice = Object.assign(_.cloneDeep(this.invoice), {
       subTotal: this.invoice.computedSubTotal,

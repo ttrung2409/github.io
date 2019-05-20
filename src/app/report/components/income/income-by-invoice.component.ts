@@ -37,7 +37,7 @@ export class IncomeByInvoiceComponent implements OnInit {
         caption: 'Ngày',
         field: 'createdAt',
         format: (value) => {
-          return moment(value).format('DD/MM/YYYY HH:mm');
+          return moment(value).add(7, 'h').format('DD/MM/YYYY HH:mm');
         },
         sortable: true
       }),

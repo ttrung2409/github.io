@@ -8,14 +8,14 @@ const headers = new HttpHeaders({
   'Content-Type': 'application/json'  
 });
 
-const baseUrl = 'http://localhost:3000/api';
+const baseUrl = 'http://kimngan.vn:3000/api';
 
 @Injectable()
 export default class HttpService {  
   constructor(private http: HttpClient) {
   }
 
-  _get<T>(url: string, params?: any): Observable<T> {
+  _get<T>(url: string, params?: any): Observable<T> {    
     return this.http.get<T>(`${baseUrl}/${url}`, { headers, params });
   }
 

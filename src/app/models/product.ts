@@ -16,6 +16,7 @@ export default class Product {
   public cost: number;  
   public isContainer: boolean;  
   public notes: string;
+  public barcode: string;
 
   public spec: ProductSpec = new ProductSpec();
   public selected: boolean;
