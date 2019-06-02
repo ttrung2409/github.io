@@ -6,6 +6,10 @@
         <mat-icon>add</mat-icon>
         (F2)
       </button>
+      <button mat-button (click)="copy()">
+        <mat-icon>file_copy</mat-icon>
+        (F4)
+      </button>
       <button mat-button (click)="showSearchView()">
         <mat-icon>filter_list</mat-icon>
         (F7)
@@ -21,7 +25,8 @@
           (delete)="onDelete($event)"
           (sortChange)="onSortChange($event)"
           [height]="height"
-          [rowClass]="getRowClass">
+          [rowClass]="getRowClass"
+          (selectedIndexChange)="onSelectedIndexChange($event)">
     </grid>
   </div>
   
@@ -29,10 +34,12 @@
   <flyout #flyout [closable]="false"
           [containerSelector]="'.product-list'"
           (onHide)="onFlyoutHide()"
-          (onShow)="onFlyoutShow()">
+          (onShow)="onFlyoutShow()"
+          [class]="flyoutView == 'product' ? 'x-wide' : ''">
     <content>
       <product #productView *ngIf="flyoutView == 'product'"
                [id]="selectedProduct.id"
+               [template]="copying ? selectedProduct : {}"
                (cancel)="flyout.hide()"
                (commit)="onCommit()">
       </product>

@@ -1,5 +1,7 @@
 .flyout {
   padding: 8px;
+  -webkit-transition: none !important;
+  transition: none !important;
 
   .content {
     display: block;
@@ -14,5 +16,9 @@
     button {
       margin-right: 8px;
     }
+  }
+
+  &.x-wide {
+    width: 800px !important;
   }
 }

@@ -10,7 +10,7 @@ declare var $: any;
   templateUrl: './customer-search.component.html',
   styleUrls: ['./customer-search.component.scss']
 })
-export class CustomerSearchComponent implements OnInit {
+export class CustomerSearchComponent implements OnInit, AfterViewInit {
 
   constructor(private customerService: CustomerService, private utils: UtilsService) { }
 
@@ -35,6 +35,10 @@ export class CustomerSearchComponent implements OnInit {
 
   ngOnInit() {
     this.customerService.allTypes().subscribe(types => this.customerTypes = types);
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => this.focus());
   }
 
   focus() {

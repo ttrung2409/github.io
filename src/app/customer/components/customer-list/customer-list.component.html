@@ -27,7 +27,8 @@
   <mat-paginator [showFirstLastButtons]="true" [length]="total" [pageIndex]="searchModel.index - 1" [pageSize]="config.size" (page)="onPageChanged($event)"></mat-paginator>
   <flyout #flyout [containerSelector]="'.customer-list'"
           (onHide)="onFlyoutHide()"
-          (onShow)="onFlyoutShow()">
+          (onShow)="onFlyoutShow()"
+          [class]="flyoutView == 'customer' ? 'x-wide' : ''">
     <content>
       <customer-search #searchView
                        *ngIf="flyoutView == 'search'"                       

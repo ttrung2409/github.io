@@ -16,7 +16,7 @@ declare var $: any;
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss']
 })
-export class ProductComponent implements OnInit, OnChanges {
+export class ProductComponent implements OnInit, OnChanges, AfterViewInit {
   private _global: any;
 
   constructor(
@@ -28,6 +28,7 @@ export class ProductComponent implements OnInit, OnChanges {
   }
 
   @Input() id: number;
+  @Input() template: Product;
   @ViewChild('productBarcodeInput') productBarcodeInput: ElementRef;
 
   @Output() cancel = new EventEmitter();
@@ -56,14 +57,21 @@ export class ProductComponent implements OnInit, OnChanges {
     this.productService.allUoms().subscribe(uoms => this.uoms = uoms);
   }
 
+  ngAfterViewInit() {
+    setTimeout(() => this.focus());
+  }
+
   ngOnChanges(changes: SimpleChanges) {
     if (!!changes.id) {
       let id = changes.id.currentValue;
       if (id > 0) {
         this.productService.get(id).subscribe(x => {
           x.spec = x.spec || new ProductSpec();
-          this.product = x;
+          this.product = x;          
         });
+      }
+      else if (!!this.template) {
+        this.product = this.template;
       }
       else {
         this.product = new Product();
@@ -88,6 +96,18 @@ export class ProductComponent implements OnInit, OnChanges {
     this.errors.clear();
     if (v8n().empty().test(this.product.name || '')) {
       this.errors.set('name', 'Vui lòng nhập tên sản phẩm');
+    }
+
+    if (this.product.wholesalePrice > 0 && this.product.wholesalePrice < this.product.cost) {
+      this.errors.set('wholesalePrice', 'Giá sỉ không được nhỏ hơn giá nhập');
+    }
+
+    if (this.product.discountPrice > 0 && this.product.discountPrice < this.product.cost) {
+      this.errors.set('discountPrice', 'Giá KM không được nhỏ hơn giá nhập');
+    }
+
+    if (this.product.retailPrice > 0 && this.product.retailPrice < this.product.cost) {
+      this.errors.set('retailPrice', 'Giá lẻ không được nhỏ hơn giá nhập');
     }
 
     return this.errors.size == 0;

@@ -313,9 +313,7 @@ export class RetailComponent implements OnInit, OnDestroy, AfterViewInit, DoChec
     if (!!item) {
       this.selectedItem = _.cloneDeep(item);
       this.flyoutView = 'qtyEditor';
-      this.flyout.show().then(() => {
-        this.qtyEditor.focus();
-      });
+      this.flyout.show();
     }
   }
 

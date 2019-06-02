@@ -13,7 +13,8 @@ export class FlyoutComponent implements OnInit, AfterViewInit {
   constructor(private el: ElementRef) { }
   
   @Input() direction?: string = 'right';
-  @Input() size?: string = 'very wide';  
+  @Input() size?: string = 'very wide';
+  @Input() class: string = '';
   @Input() closable: boolean = true;
   @Input() containerSelector: string;
   @Output() onShow = new EventEmitter();
@@ -33,7 +34,7 @@ export class FlyoutComponent implements OnInit, AfterViewInit {
         $('.pusher').addClass('dimmed');        
       },
       onShow: function () {
-        if (!!_this._resolve) _this._resolve();
+        if (!!_this._resolve) _this._resolve()
         _this.onShow.emit();
       },
       onHide: function () {

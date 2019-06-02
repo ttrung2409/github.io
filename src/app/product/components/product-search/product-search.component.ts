@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, OnDestroy, ElementRef, ViewChild, HostListener, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Output, EventEmitter, OnDestroy, ElementRef, ViewChild, HostListener, Input } from '@angular/core';
 import Category from '../../../models/category';
 import ProductService from '../../../services/product.service';
 import { Subscription, fromEvent } from 'rxjs';
@@ -12,7 +12,7 @@ declare var $: any;
   templateUrl: './product-search.component.html',
   styleUrls: ['./product-search.component.scss']
 })
-export class ProductSearchComponent implements OnInit {
+export class ProductSearchComponent implements OnInit, AfterViewInit {
   constructor(private productService: ProductService, private utils: UtilsService) { }
 
   @Output() search = new EventEmitter();
@@ -36,6 +36,10 @@ export class ProductSearchComponent implements OnInit {
 
   ngOnInit() {
     this.productService.allCategories().subscribe(categories => this.categories = categories);    
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => this.focus());
   }
 
   doSearch() {    

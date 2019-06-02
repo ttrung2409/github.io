@@ -20,16 +20,19 @@
       <mat-form-field>
         <input matInput placeholder="Giá sỉ" number [(model)]="product.wholesalePrice">
       </mat-form-field>
+      <div class="error" *ngIf="errors.has('wholesalePrice')">{{errors.get('wholesalePrice')}}</div>
     </div>
     <div class="eight wide column">
       <mat-form-field>
         <input matInput placeholder="Giá khuyến mãi" number [(model)]="product.discountPrice">
       </mat-form-field>
+      <div class="error" *ngIf="errors.has('discountPrice')">{{errors.get('discountPrice')}}</div>
     </div>
     <div class="eight wide column">
       <mat-form-field>
         <input matInput placeholder="Giá lẻ" number [(model)]="product.retailPrice">
       </mat-form-field>
+      <div class="error" *ngIf="errors.has('retailPrice')">{{errors.get('retailPrice')}}</div>
     </div>
     <div class="sixteen wide column">
       <mat-form-field>

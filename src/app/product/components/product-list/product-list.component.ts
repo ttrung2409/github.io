@@ -14,6 +14,7 @@ import { APP_CONFIG } from 'src/app/app.config';
 import { ConfirmDialogComponent } from 'src/app/widgets/confirm-dialog/confirm-dialog.component';
 import DialogResult from 'src/app/valueObjects/DialogResult';
 import { NotifierService } from 'angular-notifier';
+import * as _ from 'lodash'
 
 declare var $: any;
 
@@ -24,7 +25,8 @@ declare var $: any;
   encapsulation: ViewEncapsulation.None
 })
 export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
-  private _subscription: Subscription = new Subscription();  
+  private _subscription: Subscription = new Subscription();
+  private _selectedIndex: number = -1;
 
   constructor(
     private productService: ProductService,
@@ -49,6 +51,7 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
   isLoading: boolean; 
   searchModel: SearchModel = new SearchModel();
   config: any;
+  copying: boolean;
   
   @ViewChild(FlyoutComponent) flyout: FlyoutComponent;
   @ViewChild('productView') productView: ProductComponent;
@@ -125,9 +128,7 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
   onSelect(row) {    
     this.selectedProduct = row;
     this.flyoutView = 'product';
-    this.flyout.show().then(() => {
-      this.productView.focus();      
-    });    
+    this.flyout.show();
   }
 
   onDelete(product: Product) {
@@ -159,9 +160,7 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   showSearchView() {
     this.flyoutView = 'search';
-    this.flyout.show().then(() => {
-      this.productSearchView.focus();
-    });
+    this.flyout.show();
   }
 
   onFlyoutShow() {
@@ -172,6 +171,7 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.flyoutView = '';
     this.grid.enableHotkeys();
     $(this.el.nativeElement).find('.product-list').focus();
+    this.copying = false;
   }
 
   onCommit() {
@@ -202,5 +202,25 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   getRowClass(product) {
     return !!product.deletedAt ? 'deleted' : '';
+  }
+
+  copy() {
+    if (this._selectedIndex > -1) {
+      this.copying = true;
+      this.selectedProduct = new Product(this.products[this._selectedIndex]);
+      this.selectedProduct = Object.assign(this.selectedProduct, {
+        id: null,
+        no: null,
+        barcode: null,
+        spec: null
+      });
+
+      this.flyoutView = 'product';
+      this.flyout.show();
+    }
+  }
+
+  onSelectedIndexChange(index) {
+    this._selectedIndex = index;
   }
 }

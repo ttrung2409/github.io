@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, Output, EventEmitter, ElementRef, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter, ElementRef, ViewChild, HostListener, AfterViewInit } from '@angular/core';
 import { Subscription, fromEvent } from 'rxjs';
 import { Key } from 'ts-keycode-enum';
 import InvoiceItem from '../../../models/invoiceItem';
@@ -12,7 +12,7 @@ declare var $: any;
   templateUrl: './qty-editor.component.html',
   styleUrls: ['./qty-editor.component.scss']
 })
-export class QtyEditorComponent implements OnInit {
+export class QtyEditorComponent implements OnInit, AfterViewInit {
   constructor() { }
 
   @Input() item: InvoiceItem;
@@ -55,6 +55,10 @@ export class QtyEditorComponent implements OnInit {
   };
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => this.focus());
   }
 
   doCancel() {

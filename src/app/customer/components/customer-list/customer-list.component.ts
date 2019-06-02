@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, HostListener, Inject, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, HostListener, Inject, ElementRef, ViewEncapsulation } from '@angular/core';
 import Customer from '../../../models/customer';
 import { GridColumn, GridComponent } from '../../../widgets/grid/grid.component';
 import CustomerService from '../../../services/customer.service';
@@ -19,7 +19,8 @@ declare var $: any;
 @Component({
   selector: 'app-customer-list',
   templateUrl: './customer-list.component.html',
-  styleUrls: ['./customer-list.component.scss']
+  styleUrls: ['./customer-list.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
   private _subscription = new Subscription();
@@ -158,9 +159,7 @@ export class CustomerListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   showSearchView() {
     this.flyoutView = 'search';
-    this.flyout.show().then(() => {
-      this.searchView.focus();
-    });
+    this.flyout.show();
   }
 
   onDelete(customer) {

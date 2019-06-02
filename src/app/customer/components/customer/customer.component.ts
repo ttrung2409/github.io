@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Input, EventEmitter, HostListener, Output } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, EventEmitter, HostListener, Output, AfterViewInit } from '@angular/core';
 import Customer, { CustomerType } from '../../../models/customer';
 import CustomerService from '../../../services/customer.service';
 import { Key } from 'ts-keycode-enum';
@@ -12,7 +12,7 @@ declare var $: any;
   templateUrl: './customer.component.html',
   styleUrls: ['./customer.component.scss']
 })
-export class CustomerComponent implements OnInit {
+export class CustomerComponent implements OnInit, AfterViewInit {
   constructor(private customerService: CustomerService, private notifier: NotifierService) { }
 
   @Input() id: number;
@@ -38,7 +38,9 @@ export class CustomerComponent implements OnInit {
 
   ngOnInit() {
     if (this.id > 0) {
-      this.customerService.get(this.id).subscribe(customer => this.customer = customer);
+      this.customerService.get(this.id).subscribe(customer => {
+        this.customer = customer;
+      });
     }
     else {
       this.customer = new Customer({
@@ -47,6 +49,10 @@ export class CustomerComponent implements OnInit {
     }
     
     this.customerService.allTypes().subscribe(types => this.customerTypes = types);
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => this.focus());
   }
 
   focus() {
