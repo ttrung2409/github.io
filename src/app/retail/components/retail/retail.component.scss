@@ -130,9 +130,16 @@
 
     &.highlighted {
       background-color: pink !important;
+
       td:first-child {
         border-left: 4px solid red;
       }
+    }
+  }
+
+  @media only screen and (min-width: 768px) {
+    .dropdown-container .ui.dropdown .menu {
+      max-height: 400px !important;
     }
   }
 }

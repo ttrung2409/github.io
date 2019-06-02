@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, HostListener, EventEmitter, Output, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, HostListener, EventEmitter, Output, Input } from '@angular/core';
 import CustomerService from '../../../services/customer.service';
 import { Key } from 'ts-keycode-enum';
 import UtilsService from 'src/app/services/utils.service';

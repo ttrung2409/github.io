@@ -31,11 +31,11 @@ export class FlyoutComponent implements OnInit, AfterViewInit {
       closable: this.closable,
       exclusive: false,
       onVisible: function () {
-        $('.pusher').addClass('dimmed');        
-      },
-      onShow: function () {
-        if (!!_this._resolve) _this._resolve()
+        $('.pusher').addClass('dimmed');
+        if (!!_this._resolve) _this._resolve();
         _this.onShow.emit();
+      },
+      onShow: function () {        
       },
       onHide: function () {
         $('.pusher').removeClass('dimmed');

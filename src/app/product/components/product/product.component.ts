@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, SimpleChanges, OnChanges, ElementRef, ViewChild, Output, EventEmitter, AfterViewInit, OnDestroy, HostListener, Inject } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, OnChanges, ElementRef, ViewChild, Output, EventEmitter, AfterViewInit, OnDestroy, HostListener, Inject, ViewEncapsulation } from '@angular/core';
 import ProductService from '../../../services/product.service';
 import Product from '../../../models/product';
 import { Subscription, fromEvent } from 'rxjs';
@@ -14,7 +14,8 @@ declare var $: any;
 @Component({
   selector: 'product',
   templateUrl: './product.component.html',
-  styleUrls: ['./product.component.scss']
+  styleUrls: ['./product.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ProductComponent implements OnInit, OnChanges, AfterViewInit {
   private _global: any;
@@ -69,7 +70,7 @@ export class ProductComponent implements OnInit, OnChanges, AfterViewInit {
           x.spec = x.spec || new ProductSpec();
           this.product = x;          
         });
-      }
+      } 
       else if (!!this.template) {
         this.product = this.template;
       }
@@ -98,15 +99,15 @@ export class ProductComponent implements OnInit, OnChanges, AfterViewInit {
       this.errors.set('name', 'Vui lòng nhập tên sản phẩm');
     }
 
-    if (this.product.wholesalePrice > 0 && this.product.wholesalePrice < this.product.cost) {
+    if ((!!this.product.wholesalePrice || this.product.wholesalePrice === 0) && this.product.wholesalePrice < this.product.cost) {
       this.errors.set('wholesalePrice', 'Giá sỉ không được nhỏ hơn giá nhập');
     }
 
-    if (this.product.discountPrice > 0 && this.product.discountPrice < this.product.cost) {
+    if ((!!this.product.discountPrice || this.product.discountPrice === 0) && this.product.discountPrice < this.product.cost) {
       this.errors.set('discountPrice', 'Giá KM không được nhỏ hơn giá nhập');
     }
 
-    if (this.product.retailPrice > 0 && this.product.retailPrice < this.product.cost) {
+    if ((!!this.product.retailPrice || this.product.retailPrice === 0) && this.product.retailPrice < this.product.cost) {
       this.errors.set('retailPrice', 'Giá lẻ không được nhỏ hơn giá nhập');
     }
 

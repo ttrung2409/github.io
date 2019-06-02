@@ -39,7 +39,7 @@
     <content>
       <product #productView *ngIf="flyoutView == 'product'"
                [id]="selectedProduct.id"
-               [template]="copying ? selectedProduct : {}"
+               [template]="copying ? selectedProduct : null"
                (cancel)="flyout.hide()"
                (commit)="onCommit()">
       </product>

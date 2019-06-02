@@ -111,6 +111,9 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
         case Key.F2:
           this.add();          
           break;
+        case Key.F4:
+          this.copy();
+          break;
         case Key.F7:
           this.showSearchView();
           break;
@@ -163,7 +166,7 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.flyout.show();
   }
 
-  onFlyoutShow() {
+  onFlyoutShow() {    
     this.grid.disableHotkeys();
   }
 
@@ -212,7 +215,7 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
         id: null,
         no: null,
         barcode: null,
-        spec: null
+        spec: {}
       });
 
       this.flyoutView = 'product';
